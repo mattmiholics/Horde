@@ -47,7 +47,7 @@ public class PurchaseTroops : MonoBehaviour
     {
         if(PlayerStats.Instance.money >= 150)
         {
-            troop = Instantiate(troop1Prefab, spawnPoint, troopParent);
+            troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.position += new Vector3(speed * Time.deltaTime, 0, 0);
             PlayerStats.Instance.money -= 150;
         }
@@ -57,7 +57,7 @@ public class PurchaseTroops : MonoBehaviour
     {
         if (PlayerStats.Instance.money >= 200)
         {
-            troop = Instantiate(troop2Prefab, spawnPoint, troopParent);
+            troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.position += new Vector3(speed * Time.deltaTime, 0, 0);
             PlayerStats.Instance.money -= 200;
         }

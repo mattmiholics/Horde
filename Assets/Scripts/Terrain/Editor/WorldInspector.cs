@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(World))]
+//[CustomEditor(typeof(World))]
 public class WorldInspector : Editor
 {
     public override void OnInspectorGUI()

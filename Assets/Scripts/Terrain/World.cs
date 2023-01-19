@@ -38,7 +38,32 @@ public class World : MonoBehaviour
 
     public UnityEvent OnWorldCreated, OnNewChunksGenerated;
 
-    [NonSerialized, OdinSerialize, ShowInInspector]
+    [PropertySpace(15, 15)]
+    [Button(Name = "Generate World", Expanded = true)]
+    private void GenerateWorldButton()
+    {
+        GenerateWorld();
+    }
+
+    [ButtonGroup("SaveButtons")]
+    private void Save()
+    {
+        SaveWorld();
+    }
+
+    [ButtonGroup("SaveButtons")]
+    private void SaveAs()
+    {
+        SaveWorld(true);
+    }
+
+    [Button(Name = "Load World")]
+    private void LoadWorldButton()
+    {
+        LoadWorld(true);
+    }
+
+    [NonSerialized, OdinSerialize]
     public WorldData worldData;
 
     public bool IsWorldCreated { get; private set; }
@@ -564,20 +589,52 @@ public class World : MonoBehaviour
     private static string fileType = "txt";
 
     private static string defaultAssetFolder = "temp";
-    [SerializeField]
-    [HideInInspector]
+
+    [InfoBox("This is the current file path of the world data file")]
+    [OnInspectorInit("@inspectorPreviewAssetPath = UnityEngine.Application.dataPath + customAssetPath")]
+    [ShowInInspector]
+    [HideLabel]
+    [DisplayAsString(false)]
+    [PropertySpace(10)]
+    private string inspectorPreviewAssetPath;
+
+    [SerializeField, HideInInspector]
     private string customAssetPath; // This will get overwritten after saving
 
-    //SAVE and LOAD methods
-    public void SaveWorld(bool saveAs = false, bool saveTemp = false)
+    [SerializeField, HideInInspector]
+    private string runtimeAssetPath;
+
+    // SAVE and LOAD methods
+    public void SaveWorld(bool saveAs = false, bool saveTemp = false, bool saveToResources = true)
     {
-        if (saveAs)
+        string assetName = default;
+        string assetDir = default;
+
+        if (saveToResources)
         {
-            customAssetPath = StandaloneFileBrowser.SaveFilePanel("Create World Data", customAssetPath != "" ? Directory.GetParent(Path.GetDirectoryName(customAssetPath)).FullName : Application.dataPath + worldAssetPath, "", fileType);
+            if (saveAs)
+            {
+                customAssetPath = StandaloneFileBrowser.SaveFilePanel("Create World Data", Application.dataPath + worldAssetPath, "", fileType).Replace("\\", "/");
+
+                if (customAssetPath.StartsWith(Application.dataPath))
+                    customAssetPath = customAssetPath.Substring(Application.dataPath.Length);
+                else
+                    throw new Exception("Please keep world data contained within the Unity project data path");
+
+                inspectorPreviewAssetPath = Application.dataPath + customAssetPath;
+            }
+
+            if (!customAssetPath.Contains("Resources"))
+                throw new Exception("Please keep world data contained within the Unity project resources file structure");
+
+            assetName = saveTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
+            assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath) + (File.Exists(customAssetPath) ? "" : "/" + assetName);
+        }
+        else
+        {
+            // Logic for saving during runtime
         }
 
-        string assetName = saveTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
-        string assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Path.GetDirectoryName(customAssetPath) + (File.Exists(customAssetPath) ? "" : "/" + assetName);
         assetDir = assetDir.Replace("\\", "/");
         if (!Directory.Exists(assetDir))
             Directory.CreateDirectory(assetDir);
@@ -594,18 +651,39 @@ public class World : MonoBehaviour
         #endif
     }
 
-    public void LoadWorld(bool loadAs = false, bool loadTemp = false)
+    public void LoadWorld(bool loadAs = false, bool loadTemp = false, bool loadFromResources = true)
     {
-        if (loadAs)
+        string assetName = default;
+        string assetDir = default;
+
+        if (loadFromResources)
         {
-            customAssetPath = StandaloneFileBrowser.OpenFilePanel("Get World Data", Application.dataPath + worldAssetPath, fileType, false).FirstOrDefault();
+            if (loadAs)
+            {
+                customAssetPath = StandaloneFileBrowser.OpenFilePanel("Get World Data", Application.dataPath + worldAssetPath, fileType, false).FirstOrDefault().Replace("\\", "/");
+
+                if (customAssetPath.StartsWith(Application.dataPath))
+                    customAssetPath = customAssetPath.Substring(Application.dataPath.Length);
+                else
+                    throw new Exception("Please keep world data contained within the Unity project data path");
+
+                inspectorPreviewAssetPath = Application.dataPath + customAssetPath;
+            }
+
+            if (!customAssetPath.Contains("Resources"))
+                throw new Exception("Please keep world data contained within the Unity project resources file structure");
+
+            if (!File.Exists(Application.dataPath + customAssetPath))
+                throw new Exception("Missing world data files! No world was loaded!");
+
+            assetName = loadTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
+            assetDir = loadTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath);
+        }
+        else
+        {
+            // Logic for saving during runtime
         }
 
-        if (!File.Exists(customAssetPath))
-            throw new Exception("Missing world data files! No world was loaded!");
-
-        string assetName = loadTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
-        string assetDir = loadTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Path.GetDirectoryName(customAssetPath);
         assetDir = assetDir.Replace("\\", "/");
 
         assetDir = assetDir + "/";
