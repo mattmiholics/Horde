@@ -331,7 +331,7 @@ public class World : MonoBehaviour
         return WorldDataHelper.GetBlock(this, pos);
     }
 
-    internal bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
+    public bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
     {
         Vector3Int size = corner2 - corner1;
 
@@ -394,7 +394,7 @@ public class World : MonoBehaviour
         return true;
     }
 
-    internal bool SetBlockVolume(Vector3Int corner1, Vector3Int corner2, BlockType blockType)
+    public bool SetBlockVolume(Vector3Int corner1, Vector3Int corner2, BlockType blockType)
     {
         Vector3Int size = corner2 - corner1;
 

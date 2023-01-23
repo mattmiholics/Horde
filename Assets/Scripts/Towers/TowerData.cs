@@ -11,13 +11,18 @@ public class TowerData : MonoBehaviour
     [ReadOnly]
     public int id;
 
+    [Space]
+    public bool editable;
+    public bool placeBarriers = true;
     public int cost;
+    public int costToLvl = 350;
     public int lvl;
     [Space]
-    public int costToLvl = 350;
-    public string type = "Archer";
+    public string type;
     [Space]
     public Vector3Int size;
+    [ReadOnly]
+    public int rotation;
     public GameObject main;
     public GameObject proxy;
     [Space]

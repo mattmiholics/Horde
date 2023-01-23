@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using UnityEngine.InputSystem;
 public class TerrainEditor : MonoBehaviour
 {
     [SerializeField]
-    private LayerMask groundMask;
+    public LayerMask groundMask;
     [SerializeField]
     private List<BlockType> blockModifyBlacklist = new BlockType[] { BlockType.Bedrock, BlockType.Barrier }.ToList();
     public BlockType blockType = BlockType.Dirt;
@@ -16,17 +17,27 @@ public class TerrainEditor : MonoBehaviour
     public BlockType playModeBlockType;
 
     [Space]
+    [OnInspectorDispose("DisableBlockProxy")]
     public GameObject placeProxy;
     public GameObject removeProxy;
+    public GameObject modifiabilityProxy;
+
+    private void DisableBlockProxy()
+    {
+        placeProxy.SetActive(false);
+        removeProxy.SetActive(false);
+        modifiabilityProxy.SetActive(false);
+    }
 
     [Space]
     public int cost;
+    [ReadOnly]
+    public float costMultiplier;
 
     private PlayerInput _playerInput;
-    [Space]
     [Header("Controls")]
+    [PropertySpace(5, 5)]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string editingActionMap;
-    [Space]
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string clickControl;
     private InputAction _click;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string removeControl;
@@ -56,10 +67,15 @@ public class TerrainEditor : MonoBehaviour
             _instance = this;
         }
 
-        _playerInput = FindObjectOfType<PlayerInput>();
+        _playerInput = CameraHandler.Instance.playerInput;
 
         _click = _playerInput.actions[clickControl];
         _remove = _playerInput.actions[removeControl];
+
+        placeProxy.transform.position = Vector3.zero;
+        removeProxy.transform.position = Vector3.zero;
+        placeProxy.SetActive(false);
+        removeProxy.SetActive(false);
 
         editing = false;
     }
@@ -84,7 +100,9 @@ public class TerrainEditor : MonoBehaviour
             CameraHandler.Instance.disabledActionMaps = new InputActionMap[] { _playerInput.actions.FindActionMap(editingActionMap, true) };
         }
         else
+        {
             _playerInput.actions.FindActionMap(editingActionMap, true).Enable();
+        }
     }
     public void DisableTerrainEditing()
     {
@@ -96,7 +114,9 @@ public class TerrainEditor : MonoBehaviour
             CameraHandler.Instance.disabledActionMaps = EditButtons.Instance.popupHandler.disabledActionMaps;
         }
         else
+        {
             _playerInput.actions.FindActionMap(editingActionMap, true).Disable();
+        }
     }
 
     private IEnumerator Editing()
@@ -120,7 +140,7 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit);
                         removeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && cost <= PlayerStats.Instance.money) //removed
+                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //removed
                         {
                             StartCoroutine(PlacingTerrain(hit, BlockType.Air));
                             
@@ -134,7 +154,7 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit, true);
                         placeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && cost <= PlayerStats.Instance.money) //placed
+                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //placed
                         {
                             StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
                         }
@@ -151,6 +171,7 @@ public class TerrainEditor : MonoBehaviour
         }
     }
 
+    // This is the workaround to make sure the navmesh will bake to check if there are still valid paths !!!!!!!THIS SHOULD BE REWORKED AFTER PATHFINDING IS CHANGED
     private IEnumerator PlacingTerrain(RaycastHit hit, BlockType blockType, bool place = false)
     {
         //fill with dummy
@@ -167,12 +188,12 @@ public class TerrainEditor : MonoBehaviour
             bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
 
             //spawn tower
-            if (pathValid && cost <= PlayerStats.Instance.money)
+            if (pathValid && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money)
             {
                 ModifyTerrain(hit, blockType, place);
 
                 //remove money from player
-                PlayerStats.Instance.money -= cost; //update money
+                PlayerStats.Instance.money -= Mathf.RoundToInt(cost * costMultiplier); //update money
             }
             else //otherwise remove barriers
             {

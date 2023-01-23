@@ -4,41 +4,71 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
+using System.Linq;
+using UnityEditor;
+using Sirenix.Utilities;
 
 public class TowerEditor : MonoBehaviour
 {
     public World world;
     [SerializeField]
-    private LayerMask groundMask;
+    public LayerMask groundMask;
     [SerializeField]
-    private LayerMask towerMask;
+    public LayerMask towerMask;
     [Space]
     public Transform towerParent;
     public Transform towerProxyParent;
+    public Transform permanentTowerParent;
 
     [Space]
     public Material placeMaterial;
     public Material removeMaterial;
 
     [Space]
-    [Header("Controls")]
+    [Required]
+    public TowerDataManager towerDataManager;
+    [OnValueChanged("@NewSelectedTower(towerType)")]
+    [ValueDropdown("GetTowerTypes", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false, OnlyChangeValueOnConfirm = true)]
+    public GameObject towerType;
+
+    private IEnumerable GetTowerTypes()
+    {
+        return towerDataManager.idTowerPrefab.Select(keyval => new ValueDropdownItem(keyval.Value.GetComponent<TowerData>().type, keyval.Value)); // Just pull the string name because otherwise if we grab a copy it won't work
+    }
+
     private PlayerInput _playerInput;
+    [Header("Controls")]
+    [PropertySpace(5, 5)]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string editingActionMap;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string clickControl;
     private InputAction _click;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string removeControl;
     private InputAction _remove;
-    
+    [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string rotateControl;
+    private InputAction _rotate;
+
     [Space]
     [Header("Debug")]
-    [ReadOnly] public GameObject selectedTower;
-    private TowerData td;
+    [OnInspectorDispose("DisableSelectedTower")]
+    public GameObject selectedTower;
+
+    private void DisableSelectedTower()
+    {
+        if (selectedTower != null)
+            selectedTower.SetActive(false);
+    }
+
+    [HideInInspector]
+    public TowerData td;
 
     [HideInInspector]
     public List<TowerData> tdList;
-    private Renderer[] renderers;
-    private bool proxiesActive;
-    private bool materialActive;
+    [HideInInspector]
+    public Renderer[] renderers;
+    [HideInInspector]
+    public bool proxiesActive;
+    [HideInInspector]
+    public bool materialActive;
 
     [HideInInspector]
     public bool editing;
@@ -62,14 +92,32 @@ public class TowerEditor : MonoBehaviour
             _instance = this;
         }
 
-        _playerInput = FindObjectOfType<PlayerInput>();
+        _playerInput = CameraHandler.Instance.playerInput;
 
         _click = _playerInput.actions[clickControl];
         _remove = _playerInput.actions[removeControl];
+        _rotate = _playerInput.actions[rotateControl];
 
-        tdList = new List<TowerData>();
+        tdList = towerParent.GetComponentsInChildren<TowerData>(true).ToList();
 
         editing = false;
+    }
+
+
+    private void OnEnable()
+    {
+        _rotate.performed += RotateTower;
+    }
+
+    private void OnDisable()
+    {
+        _rotate.performed -= RotateTower;
+    }
+
+    private void RotateTower(InputAction.CallbackContext ctx)
+    {
+        td.rotation = td.rotation > 359 ? td.rotation - 270 : td.rotation + 90;
+        selectedTower.transform.localEulerAngles = new Vector3(0, td.rotation, 0);
     }
 
     public void EnableTowerEditing()
@@ -109,13 +157,21 @@ public class TowerEditor : MonoBehaviour
     public void NewSelectedTower(GameObject prefab)
     {
         if (selectedTower != null)
-            Destroy(selectedTower);
-        selectedTower = Instantiate(prefab, towerProxyParent);
+        {
+            if (Application.isPlaying)
+                Destroy(selectedTower);
+            else
+                DestroyImmediate(selectedTower);
+        }
+
+        selectedTower = Application.isPlaying ? Instantiate(prefab, towerProxyParent) : (GameObject)PrefabUtility.InstantiatePrefab(prefab, towerProxyParent);
         td = selectedTower.GetComponent<TowerData>();
+
         td.main.SetActive(false);
         td.proxy.SetActive(true);
         selectedTower.SetActive(false);
         materialActive = false;
+
         renderers = td.proxy.GetComponentsInChildren<Renderer>(true);
     }
 
@@ -123,101 +179,104 @@ public class TowerEditor : MonoBehaviour
     {
         for (; ; )
         {
-            if (selectedTower != null)
+            if (selectedTower == null)
             {
-                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-                RaycastHit hit;
+                yield return null;
+                continue;
+            }
 
-                if (_remove.IsPressed()) //removing towers section
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+
+            if (_remove.IsPressed()) //removing towers section
+            {
+                selectedTower.SetActive(false);
+
+                if (!proxiesActive) // acitvate proxies
                 {
-                    selectedTower.SetActive(false);
-
-                    if (!proxiesActive) // acitvate proxies
-                    {
-                        proxiesActive = true;
-                        foreach (TowerData m_td in tdList)
-                        {
-                            m_td.main.SetActive(false);
-                            m_td.proxy.SetActive(true);
-                        }
-                    }
-
-                    if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
-                    {
-                        //tower removal
-                        if (_click.WasPerformedThisFrame())
-                        {
-                            TowerData n_td = hit.transform.GetComponentInParent<TowerData>(true);
-
-                            //reimburse player
-                            PlayerStats.Instance.money += n_td.cost;
-
-                            tdList.Remove(n_td);
-                            //fill with air/remove barriers
-                            Vector3 center = n_td.transform.position + new Vector3(0, n_td.size.y / 2f, 0);
-                            Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)n_td.size / 2f - Vector3.one / 2f));
-                            Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)n_td.size / 2f - Vector3.one / 2f));
-                            world.SetBlockVolume(corner1, corner2, BlockType.Air);
-
-                            Destroy(n_td.gameObject);
-                        }
-                    }
+                    proxiesActive = true;
+                    tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
                 }
-                else //placing towers section
+
+                if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
                 {
-                    if (proxiesActive) //turn proxies back to normal towers if remove button released
+                    //tower removal
+                    if (_click.WasPerformedThisFrame())
                     {
-                        proxiesActive = false;
-                        foreach (TowerData m_td in tdList)
-                        {
-                            m_td.main.SetActive(true);
-                            m_td.proxy.SetActive(false);
-                        }
-                    }
-                    if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
-                    {
-                        selectedTower.SetActive(true);
-                        Vector3 pos = world.GetBlockPos(hit, true, new int[2]{td.size.z, td.size.z}) + new Vector3(0, -0.5f, 0);
-                        selectedTower.transform.position = pos;
-                        //check for valid placement
-                        TowerData m_td = selectedTower.GetComponent<TowerData>();
-                        //check valid ground first
-                        Vector3 g_center = pos + new Vector3(0, -0.5f, 0);
-                        Vector3Int g_corner1 = Vector3Int.RoundToInt(new Vector3(g_center.x - ((m_td.size.x / 2f) - 0.5f), g_center.y, g_center.z - ((m_td.size.x / 2f) - 0.5f)));
-                        Vector3Int g_corner2 = Vector3Int.RoundToInt(new Vector3(g_center.x + ((m_td.size.x / 2f) - 0.5f), g_center.y, g_center.z + ((m_td.size.x / 2f) - 0.5f)));
-                        //check valid empty space
-                        Vector3 center = pos + new Vector3(0, m_td.size.y / 2f, 0);
-                        Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)m_td.size / 2f - Vector3.one / 2f));
-                        Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)m_td.size / 2f - Vector3.one / 2f));
+                        TowerData n_td = hit.transform.GetComponentInParent<TowerData>(true);
 
-                        if (world.GetBlockVolume(g_corner1, g_corner2, false) && world.GetBlockVolume(corner1, corner2, true)) //check ground then empty
-                        {
-                            if (!materialActive)
-                            {
-                                foreach (Renderer r in renderers)//show place proxy material
-                                    r.material = placeMaterial;
-                                materialActive = true;
-                            }
+                        //reimburse player
+                        PlayerStats.Instance.money += n_td.cost;
 
-                            if (_click.WasPerformedThisFrame() && m_td.cost <= PlayerStats.Instance.money) //tower placed
-                            {
-                                StartCoroutine(PlacingTower(selectedTower, corner1, corner2, pos));
-                            }
-                        }
-                        else //if space is invalid show red proxy material
-                        {
-                            if (materialActive)
-                            {
-                                foreach (Renderer r in renderers)//show remove proxy material
-                                    r.material = removeMaterial;
-                                materialActive = false;
-                            }
-                        }
+                        tdList.Remove(n_td);
+
+                        int rotation = n_td.rotation;
+                        int width = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? n_td.size.z : n_td.size.x;
+                        int length = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? n_td.size.x : n_td.size.z;
+                        Vector3Int size = new Vector3Int(width, n_td.size.y, length);
+
+                        //fill with air/remove barriers
+                        Vector3 center = n_td.transform.position + new Vector3(0, size.y / 2f, 0);
+                        Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)size / 2f - Vector3.one / 2f));
+                        Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)size / 2f - Vector3.one / 2f));
+                        world.SetBlockVolume(corner1, corner2, BlockType.Air);
+
+                        Destroy(n_td.gameObject);
                     }
-                    else
-                        selectedTower.SetActive(false);
                 }
             }
+            else //placing towers section
+            {
+                if (proxiesActive) //turn proxies back to normal towers if remove button released
+                {
+                    proxiesActive = false;
+                    tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
+                }
+                if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
+                {
+                    selectedTower.SetActive(true);
+                    int rotation = td.rotation;
+                    int width = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? td.size.z : td.size.x;
+                    int length = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? td.size.x : td.size.z;
+                    Vector3Int size = new Vector3Int(width, td.size.y, length);
+                    //check for valid placement
+                    Vector3 pos = world.GetBlockPos(hit, true, new int[2] { size.x, size.z }) + new Vector3(0, -0.5f, 0);
+                    selectedTower.transform.position = pos;
+                    //check valid ground first
+                    Vector3 g_center = pos + new Vector3(0, -0.5f, 0);
+                    Vector3Int g_corner1 = Vector3Int.RoundToInt(new Vector3(g_center.x - ((size.x / 2f) - 0.5f), g_center.y, g_center.z - ((size.z / 2f) - 0.5f)));
+                    Vector3Int g_corner2 = Vector3Int.RoundToInt(new Vector3(g_center.x + ((size.x / 2f) - 0.5f), g_center.y, g_center.z + ((size.z / 2f) - 0.5f)));
+                    //check valid empty space
+                    Vector3 center = pos + new Vector3(0, size.y / 2f, 0);
+                    Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)size / 2f - Vector3.one / 2f));
+                    Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)size / 2f - Vector3.one / 2f));
+
+                    if (world.GetBlockVolume(g_corner1, g_corner2, false) && world.GetBlockVolume(corner1, corner2, true)) //check ground then empty
+                    {
+                        if (!materialActive)
+                        {
+                            renderers.ForEach(r => r.materials = r.materials.Select(m => m = placeMaterial).ToArray()); //show place proxy material
+                            materialActive = true;
+                        }
+
+                        if (_click.WasPerformedThisFrame() && td.cost <= PlayerStats.Instance.money) //tower placed
+                        {
+                            StartCoroutine(PlacingTower(selectedTower, corner1, corner2, pos));
+                        }
+                    }
+                    else //if space is invalid show red proxy material
+                    {
+                        if (materialActive)
+                        {
+                            renderers.ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray()); //show remove proxy material
+                            materialActive = false;
+                        }
+                    }
+                }
+                else
+                    selectedTower.SetActive(false);
+            }
+
             yield return null;
         }
     }
@@ -225,7 +284,7 @@ public class TowerEditor : MonoBehaviour
     private IEnumerator PlacingTower(GameObject selectedTower, Vector3Int corner1, Vector3Int corner2, Vector3 pos)
     {
         //instantiate tower
-        GameObject newTower = Instantiate(selectedTower, pos, Quaternion.identity, towerParent);
+        GameObject newTower = Instantiate(selectedTower, pos, selectedTower.transform.rotation, towerParent);
         TowerData n_td = newTower.GetComponent<TowerData>();
         n_td.main.SetActive(false);
         n_td.proxy.SetActive(false);
@@ -237,11 +296,11 @@ public class TowerEditor : MonoBehaviour
         //spawn tower
         if (pathValid && n_td.cost <= PlayerStats.Instance.money)
         {
-            world.SetBlockVolume(corner1, corner2, BlockType.Barrier); //spawn barriers
+            if (n_td.placeBarriers)
+                world.SetBlockVolume(corner1, corner2, BlockType.Barrier); //spawn barriers
 
             tdList.Add(n_td);
-            foreach (Renderer r in n_td.proxy.GetComponentsInChildren<Renderer>(true))
-                r.material = removeMaterial;
+            n_td.proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
             n_td.main.SetActive(true);
             n_td.proxy.SetActive(false);
 

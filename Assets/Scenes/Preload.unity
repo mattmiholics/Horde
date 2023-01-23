@@ -2845,7 +2845,7 @@ GameObject:
   - component: {fileID: 350710961}
   - component: {fileID: 350710960}
   m_Layer: 5
-  m_Name: MarketDesc
+  m_Name: BarrierDesc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3458,7 +3458,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Market Building
+  m_text: Barrier Building
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4647,7 +4647,7 @@ GameObject:
   - component: {fileID: 581945011}
   - component: {fileID: 581945010}
   m_Layer: 5
-  m_Name: MarketPreview
+  m_Name: BarrierPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5825,7 +5825,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $100
+  m_text: $cost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7032,7 +7032,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $100
+  m_text: $cost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7890,7 +7890,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $100
+  m_text: $cost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10573,7 +10573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $400
+  m_text: $cost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15853,7 +15853,7 @@ GameObject:
   - component: {fileID: 1506677139}
   - component: {fileID: 1506677138}
   m_Layer: 5
-  m_Name: MarketButton
+  m_Name: BarrierButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17936,7 +17936,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Damage: 0
 
-    Grants Money after Round'
+    Stops zombies in path'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18800,7 +18800,7 @@ MonoBehaviour:
     - {fileID: 6387314077730022355, guid: cb74d334800261c47990391d15c97fc1, type: 3}
     - {fileID: 6387314077730022355, guid: 974733cac0f31eb418c7ed5c3e912ac9, type: 3}
     - {fileID: 6387314077730022355, guid: 0ee02ea0467c6204b93fea78067b4d22, type: 3}
-    - {fileID: 2264250996321951398, guid: d4dd68b66bb39a94e90218cb934558e9, type: 3}
+    - {fileID: 1629769728814458253, guid: 2821b786de31a1f42b968f92b4875de3, type: 3}
 --- !u!114 &1874655188
 MonoBehaviour:
   m_ObjectHideFlags: 0

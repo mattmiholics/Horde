@@ -517,6 +517,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Rotate",
+                    "type": "Button",
+                    "id": "a11d118e-f968-4037-9dda-4b2d20842b74",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -561,6 +570,17 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Remove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27d6e166-ae32-46bc-bb3a-205ab7b28063",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
