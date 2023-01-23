@@ -877,7 +877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196596875750928915}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1581,7 +1581,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7661050811313969240
 Transform:
   m_ObjectHideFlags: 0
@@ -1627,7 +1627,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5003034519007561717}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.047000885, y: 2.1724186, z: -0.44750214}
+  m_LocalPosition: {x: 0.047000885, y: 2.07, z: -1.33}
   m_LocalScale: {x: 0.35, y: 0.35000008, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2489,11 +2489,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   editable: 1
+  placeBarriers: 1
   cost: 300
   costToLvl: 350
   lvl: 1
   type: Archer
   size: {x: 2, y: 3, z: 2}
+  rotation: 0
   main: {fileID: 4953947662352260004}
   proxy: {fileID: 2393908278401241128}
   lvl2Main: {fileID: 626151332578261127}

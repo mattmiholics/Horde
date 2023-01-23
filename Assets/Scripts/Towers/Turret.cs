@@ -12,6 +12,7 @@ public class Turret : MonoBehaviour
     public float fireReload = 0f;
     public float range = 15f;
     public int damage = 50;
+    public bool useLaser = false;
 
     [Header("Unity Setup Fields")]
 
@@ -22,6 +23,8 @@ public class Turret : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
 
+    public LineRenderer lr;
+
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,7 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
+        lr.enabled = false;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
@@ -51,6 +55,7 @@ public class Turret : MonoBehaviour
         }
         else
         {
+            lr.enabled = false;
             target = null;
         }
     }
@@ -59,7 +64,13 @@ public class Turret : MonoBehaviour
     void Update()
     {
         if (target == null)
+        {
+            if (!useLaser)
+            {
+                lr.enabled = false;
+            }
             return;
+        }
         //Target Locking
         Vector3 dir = target.transform.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
@@ -69,6 +80,10 @@ public class Turret : MonoBehaviour
         if(fireReload <= 0)
         {
             Shoot();
+            if (useLaser)
+            {
+                FireLaser();
+            }
             fireReload = 1 / fireRate;
         }
 
@@ -91,6 +106,13 @@ public class Turret : MonoBehaviour
         {
             cBullet.Seek(target, damage);
         }
+    }
+
+    private void FireLaser()
+    {
+        lr.enabled = true;
+        lr.SetPosition(0, gameObject.transform.position);
+        lr.SetPosition(1, target.position);
     }
 
     private void OnDrawGizmosSelected()
