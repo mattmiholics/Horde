@@ -94,12 +94,6 @@ public class TowerEditor : MonoBehaviour
             _instance = this;
         }
 
-        _playerInput = CameraHandler.Instance.playerInput;
-
-        _click = _playerInput.actions[clickControl];
-        _remove = _playerInput.actions[removeControl];
-        _rotate = _playerInput.actions[rotateControl];
-
         tdList = towerParent.GetComponentsInChildren<TowerData>(true).ToList();
 
         editing = false;
@@ -112,6 +106,12 @@ public class TowerEditor : MonoBehaviour
 
     private void OnEnable()
     {
+        _playerInput = CameraHandler.Instance.playerInput;
+
+        _click = _playerInput.actions[clickControl];
+        _remove = _playerInput.actions[removeControl];
+        _rotate = _playerInput.actions[rotateControl];
+
         _rotate.performed += RotateTower;
     }
 
@@ -221,7 +221,7 @@ public class TowerEditor : MonoBehaviour
 
                         OffsetRotation(n_td, n_td.rotation, out Vector3 offset);
                         // NOTE - I add half of the offset to the position to fix rounding issues
-                        GetTowerVolumeCorners(n_td, n_td.transform.position + (offset / 2), VolumeType.Main, n_td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
+                        GetTowerVolumeCorners(n_td, n_td.transform.position + (offset / 2) + (Vector3.up / 2), VolumeType.Main, n_td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
 
                         world.SetBlockVolume(corner1, corner2, BlockType.Air);
 

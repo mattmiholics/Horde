@@ -41,7 +41,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2311958208568334438}
-  - component: {fileID: 195789974199087867}
   - component: {fileID: 9029025577439302756}
   m_Layer: 8
   m_Name: BarrierTower
@@ -68,22 +67,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!208 &195789974199087867
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629769728814458253}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &9029025577439302756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +87,7 @@ MonoBehaviour:
   lvl: 1
   type: Barrier
   size: {x: 3, y: 2, z: 1}
-  useChecker: 0
+  useChecker: 1
   showCheckerGizmo: 0
   checkerSize: {x: 3, y: 2, z: 1}
   checkerOffset: {x: 0, y: 0, z: 0}
