@@ -12,7 +12,8 @@ public class Turret : MonoBehaviour
     public float fireReload = 0f;
     public float range = 15f;
     public int damage = 50;
-    public bool useLaser = false;
+    public int chainAmount = 0;
+    public int chainDamage = 0;
 
     [Header("Unity Setup Fields")]
 
@@ -23,9 +24,12 @@ public class Turret : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
 
+    [Header("Laser Settings")]
     public LineRenderer lr;
+    public bool useLaser = false;
+    public GameObject laserStart;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +108,7 @@ public class Turret : MonoBehaviour
         //If a new bullet script is created, update it here
         Bullet bulletS = bulltObj.GetComponent<Bullet>();
         CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
+        LBullet lBullet = bulltObj.GetComponent<LBullet>();
 
         if(bulletS != null)
         {
@@ -112,13 +117,16 @@ public class Turret : MonoBehaviour
         else if(cBullet != null)
         {
             cBullet.Seek(target, damage);
+        }else if(lBullet != null)
+        {
+            lBullet.Seek(target, damage, chainAmount, chainDamage);
         }
     }
 
     private void FireLaser()
     {
         lr.enabled = true;
-        lr.SetPosition(0, gameObject.transform.position);
+        lr.SetPosition(0, laserStart.transform.position);
         lr.SetPosition(1, target.position);
     }
 
