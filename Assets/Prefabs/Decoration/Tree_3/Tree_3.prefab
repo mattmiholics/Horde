@@ -143,11 +143,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   editable: 0
+  placeBarriers: 1
   cost: 300
   costToLvl: 350
   lvl: 1
   type: Tree_3
   size: {x: 2, y: 3, z: 2}
+  useChecker: 0
+  showCheckerGizmo: 0
+  checkerSize: {x: 0, y: 0, z: 0}
+  checkerOffset: {x: 0, y: 0, z: 0}
+  rotation: 0
   main: {fileID: 6186075403012120623}
   proxy: {fileID: 5276756334504307964}
   lvl2Main: {fileID: 0}
@@ -170,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8878612419633865683
 Transform:
   m_ObjectHideFlags: 0

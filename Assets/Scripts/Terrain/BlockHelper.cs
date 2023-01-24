@@ -16,7 +16,7 @@ public static class BlockHelper
 
     public static MeshData GetMeshData(World worldReference, ChunkData chunk, int x, int y, int z, MeshData meshData, BlockType blockType)
     {
-        if (blockType == BlockType.Air || blockType == BlockType.Nothing)
+        if (blockType == BlockType.Air || blockType == BlockType.Nothing || blockType == BlockType.Soft_Barrier)
             return meshData;
 
         bool unmodifiable = false;
@@ -36,7 +36,7 @@ public static class BlockHelper
 
                 if (blockType == BlockType.Barrier)
                 {
-                    if (neighbourBlockType == BlockType.Air || neighbourBlockType == BlockType.Nothing)
+                    if (neighbourBlockType == BlockType.Air || neighbourBlockType == BlockType.Soft_Barrier)
                     {
                         if (unmodifiable)
                             meshData.unmodifiableMesh = GetFaceDataIn(direction, chunk, x, y, z, meshData.unmodifiableMesh, blockType);

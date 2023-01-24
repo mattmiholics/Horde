@@ -21,6 +21,11 @@ public class TerrainEditor : MonoBehaviour
     public GameObject placeProxy;
     public GameObject removeProxy;
     public GameObject modifiabilityProxy;
+    [ColorUsage(false, true)]
+    public Color unableToEditColor;
+
+    private Color placeProxyColor;
+    private Color removeProxyColor;
 
     private void DisableBlockProxy()
     {
@@ -49,6 +54,8 @@ public class TerrainEditor : MonoBehaviour
     public bool editing;
 
     private Coroutine editCoroutine;
+    private Coroutine unableToPlaceCoroutine;
+    private Coroutine unableToRemoveCoroutine;
 
     private static TerrainEditor _instance;
     public static TerrainEditor Instance { get { return _instance; } }
@@ -74,6 +81,10 @@ public class TerrainEditor : MonoBehaviour
 
         placeProxy.transform.position = Vector3.zero;
         removeProxy.transform.position = Vector3.zero;
+
+        placeProxyColor = placeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
+        removeProxyColor = removeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
+
         placeProxy.SetActive(false);
         removeProxy.SetActive(false);
 
@@ -198,8 +209,43 @@ public class TerrainEditor : MonoBehaviour
             else //otherwise remove barriers
             {
                 ModifyTerrain(hit, origional, place);
+                if (unableToPlaceCoroutine != null)
+                    StopCoroutine(unableToPlaceCoroutine);
+                unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
+                if (unableToRemoveCoroutine != null)
+                    StopCoroutine(unableToRemoveCoroutine);
+                unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
             }
         }
+        else
+        {
+            if (unableToPlaceCoroutine != null)
+                StopCoroutine(unableToPlaceCoroutine);
+            unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
+            if (unableToRemoveCoroutine != null)
+                StopCoroutine(unableToRemoveCoroutine);
+            unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
+        }
         yield return null;
+    }
+
+    private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
+    {
+        Renderer r = proxy.GetComponent<Renderer>();
+
+        float currentTime = 0;
+
+        while (currentTime <= 0.5f)
+        {
+            r.material.SetColor("_EmissionColor", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
+
+            currentTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        r.material.SetColor("_EmissionColor", origColor);
+
+
     }
 }

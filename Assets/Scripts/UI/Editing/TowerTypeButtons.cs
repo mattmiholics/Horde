@@ -8,12 +8,31 @@ public class TowerTypeButtons : MonoBehaviour
     private TowerEditor towerEditor;
     public Toggle startToggleDefault;
     [SerializeField]
-    ButtonGameObjectDictionary serializableButtonGameObject;
+    public ButtonGameObjectDictionary serializableButtonGameObject;
     public IDictionary<Toggle, GameObject> buttonGameObject
     {
         get { return serializableButtonGameObject; }
         set { serializableButtonGameObject.CopyFrom(value); }
     }
+
+    private static TowerTypeButtons _instance;
+    public static TowerTypeButtons Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        // If an instance of this already exists and it isn't this one
+        if (_instance != null && _instance != this)
+        {
+            // We destroy this instance
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            // Make this the instance
+            _instance = this;
+        }
+    }
+
 
     private void OnEnable()
     {

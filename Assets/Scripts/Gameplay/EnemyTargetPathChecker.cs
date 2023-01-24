@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,10 @@ using UnityEngine.AI;
 public class EnemyTargetPathChecker : MonoBehaviour
 {
     private LineRenderer myLineRenderer;
-    private NavMeshAgent agent;
-    public GameObject enemySpawnPoint;
-    public GameObject enemyTarget;
+    [ReadOnly]
+    public Transform enemySpawnPoint;
+    [ReadOnly]
+    public Transform enemyTarget;
     private static bool hasAtLeastOnePath = true;
     private NavMeshPath pathToDraw;
     private static EnemyTargetPathChecker _instance;
@@ -26,15 +28,20 @@ public class EnemyTargetPathChecker : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+    }
+
+    private void Start()
+    {
+        enemySpawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
+        enemyTarget = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<MainHall>().target;
 
         myLineRenderer = enemyTarget.GetComponent<LineRenderer>();
         pathToDraw = new NavMeshPath();
-        agent = enemyTarget.GetComponent<NavMeshAgent>();
 
         myLineRenderer.startWidth = 0.15f;
         myLineRenderer.endWidth = 0.15f;
         myLineRenderer.positionCount = 0;
-        
+
         DrawPath();
     }
 
@@ -42,7 +49,8 @@ public class EnemyTargetPathChecker : MonoBehaviour
     {
         //var enemyUnits = GameObject.FindGameObjectsWithTag("Enemy");
         NavMeshPath path = new NavMeshPath();
-        bool validPath = NavMesh.CalculatePath(enemyTarget.transform.position, enemySpawnPoint.transform.position, NavMesh.AllAreas, path);
+        bool validPath = NavMesh.CalculatePath(enemyTarget.position, enemySpawnPoint.position, NavMesh.AllAreas, path);
+        Debug.DrawLine(enemyTarget.position, enemySpawnPoint.position, Color.red, 5);
         
         //Debug.Log("Calculate Path: " + NavMesh.CalculatePath(enemyTarget.transform.position, enemySpawnPoint.transform.position, NavMesh.AllAreas, path));
         if (validPath && path.status == NavMeshPathStatus.PathComplete)
@@ -80,7 +88,7 @@ public class EnemyTargetPathChecker : MonoBehaviour
         myLineRenderer.positionCount = pathToDraw.corners.Length;
         myLineRenderer.SetPositions(pathToDraw.corners);
 
-        Debug.Log(string.Join(", ", pathToDraw.corners));
+        //Debug.Log(string.Join(", ", pathToDraw.corners));
 
         if (pathToDraw.corners.Length < 2)
         {

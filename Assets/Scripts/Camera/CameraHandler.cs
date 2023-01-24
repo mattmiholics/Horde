@@ -449,8 +449,6 @@ public class CameraHandler : MonoBehaviour
             zoomTime = (5 / zoomDrag);
         }
 
-        Debug.DrawLine(transform.position, furthestPoint, Color.red);
-
         cameraZoom.localPosition = new Vector3(0, 0, Mathf.Lerp(zoomPosZ, zoomTarget, Mathf.SmoothStep(0f, 1f, Mathf.Pow(zoomTime / (5 / zoomDrag), 0.4f))));
     }
 

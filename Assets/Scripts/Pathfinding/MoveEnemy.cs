@@ -40,7 +40,8 @@ public class MoveEnemy : MonoBehaviour
 
     private void Awake()
     {
-        targetObject = GameObject.Find("END").transform;
+        // THIS NEEDS TO BE OPTIMIZED
+        targetObject = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<MainHall>().target;
         agent = GetComponent<NavMeshAgent>();
         myLineRenderer = GetComponent<LineRenderer>();
 

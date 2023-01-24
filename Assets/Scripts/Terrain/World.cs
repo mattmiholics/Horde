@@ -331,7 +331,7 @@ public class World : MonoBehaviour
         return WorldDataHelper.GetBlock(this, pos);
     }
 
-    public bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
+    public bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty, bool checkModifiability = true) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
     {
         Vector3Int size = corner2 - corner1;
 
@@ -341,7 +341,7 @@ public class World : MonoBehaviour
             {
                 for (int z = 0; (size.z > 0 ? z <= size.z : z >= size.z); z += (size.z > 0 ? 1 : -1))
                 {
-                    if (!IsBlockModifiable(new Vector3Int(corner1.x + x, corner1.y + y, corner1.z + z))) //check if column is unmodifiable
+                    if (checkModifiability && !IsBlockModifiable(new Vector3Int(corner1.x + x, corner1.y + y, corner1.z + z))) //check if column is unmodifiable
                         return false;
 
                     BlockType block = GetBlockFromChunkCoordinates(null, corner1.x + x, corner1.y + y, corner1.z + z);
@@ -628,7 +628,7 @@ public class World : MonoBehaviour
                 throw new Exception("Please keep world data contained within the Unity project resources file structure");
 
             assetName = saveTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
-            assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath) + (File.Exists(customAssetPath) ? "" : "/" + assetName);
+            assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath) + (File.Exists(Application.dataPath + customAssetPath) ? "" : "/" + assetName);
         }
         else
         {
@@ -699,13 +699,14 @@ public class World : MonoBehaviour
 
 
         // Set barrier blocks to air blocks so that tower/decoration placement can do that manually, just in case an id is switched intentionally
-        worldData.chunkDataDictionary.Values.ToList()
+        /*worldData.chunkDataDictionary.Values.ToList()
                                             .ForEach(cd => Chunk
                                             .LoopThroughTheBlocks(cd, (x, y, z) =>
                                             {
-                                                if (Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z) == BlockType.Barrier)
+                                                BlockType block = Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z);
+                                                if (block == BlockType.Barrier || block == BlockType.Soft_Barrier)
                                                     Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), BlockType.Air);
-                                            }));
+                                            }));*/
 
         chunkSize = worldData.chunkSize;
         chunkHeight = worldData.chunkHeight;

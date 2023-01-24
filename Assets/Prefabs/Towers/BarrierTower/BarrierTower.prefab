@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2624424022729743878
 Transform:
   m_ObjectHideFlags: 0
@@ -104,6 +104,10 @@ MonoBehaviour:
   lvl: 1
   type: Barrier
   size: {x: 3, y: 2, z: 1}
+  useChecker: 0
+  showCheckerGizmo: 0
+  checkerSize: {x: 3, y: 2, z: 1}
+  checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   main: {fileID: 758191915756330490}
   proxy: {fileID: 3688141010969223332}

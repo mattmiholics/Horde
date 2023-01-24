@@ -77,7 +77,7 @@ public class TowerEditorInspector : OdinEditor
         if (towerEditor.world == null)
             towerEditor.world = towerEditor.GetComponent<World>();
         
-        if (towerEditor.towerType == null)
+        if (towerEditor.selectedTower == null)
             throw new Exception("No tower is selected in the Tower Editor");
 
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition); ;
@@ -101,15 +101,10 @@ public class TowerEditorInspector : OdinEditor
                 {
                     TowerData n_td = hit.transform.GetComponentInParent<TowerData>(true);
 
-                    int rotation = n_td.rotation;
-                    int width = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? n_td.size.z : n_td.size.x;
-                    int length = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? n_td.size.x : n_td.size.z;
-                    Vector3Int size = new Vector3Int(width, n_td.size.y, length);
+                    towerEditor.OffsetRotation(n_td, n_td.rotation, out Vector3 offset);
+                    // NOTE - I add half of the offset and up to the position to fix rounding issues
+                    towerEditor.GetTowerVolumeCorners(n_td, n_td.transform.position + (offset/2) + (Vector3.up/2), VolumeType.Main, n_td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
 
-                    //fill with air/remove barriers
-                    Vector3 center = n_td.transform.position + new Vector3(0, size.y / 2f, 0);
-                    Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)size / 2f - Vector3.one / 2f));
-                    Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)size / 2f - Vector3.one / 2f));
                     towerEditor.world.SetBlockVolume(corner1, corner2, BlockType.Air);
 
                     DestroyImmediate(n_td.gameObject);
@@ -128,23 +123,15 @@ public class TowerEditorInspector : OdinEditor
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerEditor.groundMask))
             {
                 towerEditor.selectedTower.SetActive(true);
-                int rotation = towerEditor.td.rotation;
-                int width = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? towerEditor.td.size.z : towerEditor.td.size.x;
-                int length = (rotation > 45 && rotation < 135) || (rotation > 225 && rotation < 315) ? towerEditor.td.size.x : towerEditor.td.size.z;
-                Vector3Int size = new Vector3Int(width, towerEditor.td.size.y, length);
-                //check for valid placement
-                Vector3 pos = towerEditor.world.GetBlockPos(hit, true, new int[2] { size.x, size.z }) + new Vector3(0, -0.5f, 0);
-                towerEditor.selectedTower.transform.position = pos;
-                //check valid ground first
-                Vector3 g_center = pos + new Vector3(0, -0.5f, 0);
-                Vector3Int g_corner1 = Vector3Int.RoundToInt(new Vector3(g_center.x - ((size.x / 2f) - 0.5f), g_center.y, g_center.z - ((size.z / 2f) - 0.5f)));
-                Vector3Int g_corner2 = Vector3Int.RoundToInt(new Vector3(g_center.x + ((size.x / 2f) - 0.5f), g_center.y, g_center.z + ((size.z / 2f) - 0.5f)));
-                //check valid empty space
-                Vector3 center = pos + new Vector3(0, size.y / 2f, 0);
-                Vector3Int corner1 = Vector3Int.RoundToInt(center - ((Vector3)size / 2f - Vector3.one / 2f));
-                Vector3Int corner2 = Vector3Int.RoundToInt(center + ((Vector3)size / 2f - Vector3.one / 2f));
 
-                if (towerEditor.world.GetBlockVolume(g_corner1, g_corner2, false) && towerEditor.world.GetBlockVolume(corner1, corner2, true)) //check ground then empty
+                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Main, towerEditor.td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
+                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Main, false, out Vector3 m_basePosition, out Vector3 m_center, out Vector3Int m_corner1, out Vector3Int m_corner2);
+                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Ground, towerEditor.td.useChecker, out Vector3 g_basePosition, out Vector3 g_center, out Vector3Int g_corner1, out Vector3Int g_corner2);
+
+                towerEditor.selectedTower.transform.position = m_basePosition;
+                
+
+                if (towerEditor.world.GetBlockVolume(g_corner1, g_corner2, false, false) && towerEditor.world.GetBlockVolume(corner1, corner2, true, false)) //check ground then if empty
                 {
                     if (!towerEditor.materialActive)
                     {
@@ -154,12 +141,15 @@ public class TowerEditorInspector : OdinEditor
 
                     if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt) //tower placed
                     {
+                        if (towerEditor.td.useChecker)
+                            towerEditor.world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
+
                         //instantiate tower
-                        GameObject newTower = Instantiate(towerEditor.selectedTower, pos, towerEditor.selectedTower.transform.rotation, towerEditor.td.editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
+                        GameObject newTower = Instantiate(towerEditor.selectedTower, m_basePosition, towerEditor.selectedTower.transform.rotation, towerEditor.td.editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
                         TowerData n_td = newTower.GetComponent<TowerData>();
 
                         if (n_td.placeBarriers)
-                            towerEditor.world.SetBlockVolume(corner1, corner2, BlockType.Barrier); // Spawn barriers
+                            towerEditor.world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
 
                         n_td.proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
                         n_td.main.SetActive(true);

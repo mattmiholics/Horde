@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &861533491383474242
 Transform:
   m_ObjectHideFlags: 0
@@ -98,11 +98,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   editable: 0
+  placeBarriers: 1
   cost: 300
   costToLvl: 350
   lvl: 1
   type: Stump_1
   size: {x: 2, y: 1, z: 2}
+  useChecker: 0
+  showCheckerGizmo: 0
+  checkerSize: {x: 0, y: 0, z: 0}
+  checkerOffset: {x: 0, y: 0, z: 0}
+  rotation: 0
   main: {fileID: 2673651763373398974}
   proxy: {fileID: 7910144366508367094}
   lvl2Main: {fileID: 0}

@@ -95,11 +95,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   editable: 0
+  placeBarriers: 1
   cost: 400
   costToLvl: 400
   lvl: 1
   type: Market
   size: {x: 3, y: 2, z: 3}
+  useChecker: 0
+  showCheckerGizmo: 0
+  checkerSize: {x: 0, y: 0, z: 0}
+  checkerOffset: {x: 0, y: 0, z: 0}
+  rotation: 0
   main: {fileID: 5529824526244204144}
   proxy: {fileID: 2605459032533482908}
   lvl2Main: {fileID: 5529824526244204144}
@@ -217,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8806297901143651227
 Transform:
   m_ObjectHideFlags: 0

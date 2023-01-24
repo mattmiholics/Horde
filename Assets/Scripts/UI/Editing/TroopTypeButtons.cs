@@ -20,7 +20,6 @@ public class TroopTypeButtons : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene = default, LoadSceneMode mode = default)
     {
-        Debug.Log("Scene Loaded");
         purchaseTroops = PurchaseTroops.Instance;
     }
 

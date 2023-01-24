@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class NavMeshObstacleController : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         StartCoroutine(GetAllUnitsWithSameTag());
     }
@@ -24,7 +24,7 @@ public class NavMeshObstacleController : MonoBehaviour
     {
         foreach (TowerData towerData in TowerEditor.Instance.tdList)
         {
-            if (!towerData.transform.Find("Proxy").gameObject.activeSelf)
+            if (!towerData.proxy.activeSelf)
             {
                 towerData.GetComponent<NavMeshObstacle>().enabled = true;
             }

@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
     public Transform enemyPrefab;
     public Transform fastEnemyPrefab;
     public Transform slowEnemyPrefab;
-    public Transform spawnPoint;
+    private Transform spawnPoint;
     public Transform parent;
     public Transform effectParent;
 
@@ -77,6 +77,10 @@ public class WaveSpawner : MonoBehaviour
     }
     */
 
+    private void Start()
+    {
+        spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
+    }
     private void Update()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
