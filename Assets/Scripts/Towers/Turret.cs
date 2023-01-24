@@ -34,8 +34,10 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        //this was throwing an error in other prefabs
-        //lr.enabled = false;
+        if (useLaser == true)
+        {
+            lr.enabled = false;
+        }
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
@@ -57,7 +59,10 @@ public class Turret : MonoBehaviour
         else
         {
             //this was throwing an error in other prefabs
-            //lr.enabled = false;
+            if (useLaser == true)
+            {
+                lr.enabled = false;
+            }
             target = null;
         }
     }
@@ -67,10 +72,9 @@ public class Turret : MonoBehaviour
     {
         if (target == null)
         {
-            if (!useLaser)
+            if (useLaser)
             {
-                //this was throwing an error in other prefabs
-                //lr.enabled = false;
+                lr.enabled = false;
             }
             return;
         }
