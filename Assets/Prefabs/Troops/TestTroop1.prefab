@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 386663479654082279}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &386663479028136019
 MeshFilter:
@@ -134,6 +134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5094761782696308886}
   - {fileID: 386663479028136028}
   - {fileID: 8641179442993172763}
   m_Father: {fileID: 0}
@@ -154,7 +155,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386663479654082284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -271,11 +272,13 @@ MonoBehaviour:
   fireReload: 1
   range: 15
   damage: 80
+  useLaser: 0
   enemyTag: Enemy
   partToRotate: {fileID: 8641179442993172763}
   rotationSpeed: 7
   bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
   firePoint: {fileID: 8641179442993172763}
+  lr: {fileID: 0}
 --- !u!114 &8828899466651880112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,5 +321,92 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 386663479654082279}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4701339803002869629
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 386663479654082279}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.979
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+      propertyPath: m_Name
+      value: Erika Archer With Bow Arrow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+--- !u!4 &5094761782696308886 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+  m_PrefabInstance: {fileID: 4701339803002869629}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5620468651341195820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+  m_PrefabInstance: {fileID: 4701339803002869629}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &793427055596785475
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620468651341195820}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: cee148e68c2988946b0a476d6e671d51, type: 3}
+  m_Controller: {fileID: 9100000, guid: 36f7674a9a5d502489ad0e2efcb69c90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
