@@ -256,6 +256,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   health: 50
+  animator: {fileID: 793427055596785475}
   destinationControl: Unit/Destination
 --- !u!114 &741353762586387624
 MonoBehaviour:
