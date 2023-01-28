@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -101,13 +102,7 @@ public class TowerEditorInspector : OdinEditor
                 {
                     TowerData n_td = hit.transform.GetComponentInParent<TowerData>(true);
 
-                    towerEditor.OffsetRotation(n_td, n_td.rotation, out Vector3 offset);
-                    // NOTE - I add half of the offset and up to the position to fix rounding issues
-                    towerEditor.GetTowerVolumeCorners(n_td, n_td.transform.position + (offset/2) + (Vector3.up/2), VolumeType.Main, n_td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
-
-                    towerEditor.world.SetBlockVolume(corner1, corner2, BlockType.Air);
-
-                    DestroyImmediate(n_td.gameObject);
+                    towerEditor.RemoveTower(n_td);
                 }
             }
         }

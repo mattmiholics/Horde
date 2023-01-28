@@ -173,7 +173,13 @@ public class TowerEditor : MonoBehaviour
                 DestroyImmediate(selectedTower);
         }
 
-        selectedTower = Application.isPlaying ? Instantiate(prefab, towerProxyParent) : (GameObject)PrefabUtility.InstantiatePrefab(prefab, towerProxyParent);
+        selectedTower = Application.isPlaying ? Instantiate(prefab, towerProxyParent) :
+            #if UNITY_EDITOR 
+            (GameObject)PrefabUtility.InstantiatePrefab(prefab, towerProxyParent)
+            #else
+            null
+            #endif
+            ;
         td = selectedTower.GetComponent<TowerData>();
 
         td.main.SetActive(false);
@@ -204,6 +210,7 @@ public class TowerEditor : MonoBehaviour
                 if (!proxiesActive) // acitvate proxies
                 {
                     proxiesActive = true;
+                    tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
                     tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
                 }
 
@@ -217,15 +224,7 @@ public class TowerEditor : MonoBehaviour
                         //reimburse player
                         PlayerStats.Instance.money += n_td.cost;
 
-                        tdList.Remove(n_td);
-
-                        OffsetRotation(n_td, n_td.rotation, out Vector3 offset);
-                        // NOTE - I add half of the offset to the position to fix rounding issues
-                        GetTowerVolumeCorners(n_td, n_td.transform.position + (offset / 2) + (Vector3.up / 2), VolumeType.Main, n_td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
-
-                        world.SetBlockVolume(corner1, corner2, BlockType.Air);
-
-                        Destroy(n_td.gameObject);
+                        RemoveTower(n_td);
                     }
                 }
             }
@@ -234,6 +233,7 @@ public class TowerEditor : MonoBehaviour
                 if (proxiesActive) //turn proxies back to normal towers if remove button released
                 {
                     proxiesActive = false;
+                    tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
                     tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
                 }
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
@@ -360,6 +360,23 @@ public class TowerEditor : MonoBehaviour
                  (rotation >= 135 && rotation < 225) ? new Vector3(-towerData.checkerOffset.x, towerData.checkerOffset.y, -towerData.checkerOffset.z) :
                  (rotation >= 45 && rotation < 135) ? new Vector3(towerData.checkerOffset.z, towerData.checkerOffset.y, towerData.checkerOffset.x) :
                  towerData.checkerOffset;
+    }
+
+    public void RemoveTower(TowerData td)
+    {
+        try { tdList.Remove(td); }
+        catch { }
+
+        OffsetRotation(td, td.rotation, out Vector3 offset);
+        // NOTE - I add half of the offset to the position to fix rounding issues
+        GetTowerVolumeCorners(td, td.transform.position + (offset / 2) + (Vector3.up / 2), VolumeType.Main, td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
+
+        world.SetBlockVolume(corner1, corner2, BlockType.Air);
+
+        if (Application.isPlaying)
+            Destroy(td.gameObject);
+        else
+            DestroyImmediate(td.gameObject);
     }
 }
 

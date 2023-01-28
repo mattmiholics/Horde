@@ -40,7 +40,7 @@ public class Barrier : MonoBehaviour
             }
             TakeDamage();
         }
-        Debug.Log("Hit, Health is " + health);
+        //Debug.Log("Hit, Health is " + health);
     }
 
     void TakeDamage()

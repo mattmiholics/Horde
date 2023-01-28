@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 
 [ExecuteAlways]
@@ -72,6 +74,7 @@ public class TowerDataManager : SerializedMonoBehaviour
         return true;
     }
 
+#if UNITY_EDITOR
     public class DictionaryAssetModificationProcessor : AssetModificationProcessor
     {
         public static string[] OnWillSaveAssets(string[] paths)
@@ -99,6 +102,7 @@ public class TowerDataManager : SerializedMonoBehaviour
             return paths;
         }
     }
+#endif
 
     [Serializable]
     private class TowerPrefabInspectorClass
