@@ -173,7 +173,13 @@ public class TowerEditor : MonoBehaviour
                 DestroyImmediate(selectedTower);
         }
 
-        selectedTower = Application.isPlaying ? Instantiate(prefab, towerProxyParent) : (GameObject)PrefabUtility.InstantiatePrefab(prefab, towerProxyParent);
+        selectedTower = Application.isPlaying ? Instantiate(prefab, towerProxyParent) :
+            #if UNITY_EDITOR 
+            (GameObject)PrefabUtility.InstantiatePrefab(prefab, towerProxyParent)
+            #else
+            null
+            #endif
+            ;
         td = selectedTower.GetComponent<TowerData>();
 
         td.main.SetActive(false);
@@ -204,6 +210,7 @@ public class TowerEditor : MonoBehaviour
                 if (!proxiesActive) // acitvate proxies
                 {
                     proxiesActive = true;
+                    tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
                     tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
                 }
 
@@ -234,6 +241,7 @@ public class TowerEditor : MonoBehaviour
                 if (proxiesActive) //turn proxies back to normal towers if remove button released
                 {
                     proxiesActive = false;
+                    tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
                     tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
                 }
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))

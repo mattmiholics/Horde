@@ -673,15 +673,15 @@ public class World : MonoBehaviour
             if (!customAssetPath.Contains("Resources"))
                 throw new Exception("Please keep world data contained within the Unity project resources file structure");
 
-            if (!File.Exists(Application.dataPath + customAssetPath))
-                throw new Exception("Missing world data files! No world was loaded!");
-
             assetName = loadTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
             assetDir = loadTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath);
         }
         else
         {
             // Logic for saving during runtime
+
+            /*if (!File.Exists(Application.dataPath + customAssetPath))
+                throw new Exception("Missing world data files! No world was loaded!");*/
         }
 
         assetDir = assetDir.Replace("\\", "/");
