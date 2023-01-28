@@ -28,6 +28,7 @@ public class WaveSpawner : MonoBehaviour
     private static int waveNum = 1;
 
     private bool waveStarted;
+    private int activeCoRoutines = 0; 
 
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
@@ -112,13 +113,13 @@ public class WaveSpawner : MonoBehaviour
     private void Update()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies.Length >= 1 && !waveStarted) //wave started
+        if (enemies.Length > 0 && activeCoRoutines >= 1 && !waveStarted) //wave started
         {
             waveStarted = true;
             EditButtons.Instance.DisableButtons();
             startWave.Invoke();
         }
-        else if (enemies.Length == 0 && waveStarted) //wave ended
+        else if (enemies.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
             waveStarted = false;
             endWave.Invoke();
@@ -155,7 +156,6 @@ public class WaveSpawner : MonoBehaviour
         }
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
-
         spawnWave(currWave);
         waveNum++;
     }
@@ -164,8 +164,10 @@ public class WaveSpawner : MonoBehaviour
         List < SpawnData > spawnData = currWave.getSpawnData();
 
         foreach (SpawnData spawn_data in spawnData)
+        {
+            activeCoRoutines++;
             StartCoroutine(spawn(spawn_data));
-
+        }
     }
 
     IEnumerator spawn(SpawnData spawn)
@@ -181,6 +183,7 @@ public class WaveSpawner : MonoBehaviour
             spawnEnemy(spawn.enemyType);
             yield return new WaitForSeconds(interval);
         }
+        activeCoRoutines--;
     }
 
     // changed from game object to transform? can change back wasnt sure
