@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using System;
 
 public class WaveSpawner : MonoBehaviour
 {
-
     public Transform enemyPrefab;
     public Transform fastEnemyPrefab;
     public Transform slowEnemyPrefab;
@@ -29,6 +31,32 @@ public class WaveSpawner : MonoBehaviour
 
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
+
+    [SerializeField]
+    private List<WaveData> waveDataList;
+
+    [Serializable]
+    private class WaveData
+    {
+        [SerializeField]
+        [TableList(ShowIndexLabels = true)]
+        public List<SpawnData> spawnDataList;
+
+        public List<SpawnData> getSpawnData()
+        {
+            return spawnDataList;
+        }
+    }
+
+    [Serializable]
+    private class SpawnData
+    {
+        public float time;
+        public float duration;
+        public int enemyCount;
+        public GameObject enemyType;
+        public int spawn;
+    }
 
     private void Awake()
     {
@@ -118,6 +146,7 @@ public class WaveSpawner : MonoBehaviour
 
     public void SpawnNextWave()
     {
+        PlayerStats.Instance.rounds++;
         //Check for any MarketBuildings
         MarketBuilding[] markets = FindObjectsOfType(typeof(MarketBuilding)) as MarketBuilding[];
         foreach (MarketBuilding item in markets)
@@ -125,53 +154,37 @@ public class WaveSpawner : MonoBehaviour
             item.PayPlayer(item.buildingLevel);
         }
 
-        StartCoroutine(spawnWave());
-        if (waveNum > 3)
-        {
-            StartCoroutine(spawnWaveFast());
-        }
-        if (waveNum > 5)
-        {
-            StartCoroutine(spawnWaveSlow());
-        }
+        WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
 
+        spawnWave(currWave);
         waveNum++;
     }
-
-    IEnumerator spawnWave()
+    private void spawnWave(WaveData currWave)
     {
-        waveIndex++;
-        PlayerStats.Instance.rounds++;
+        List < SpawnData > spawnData = currWave.getSpawnData();
 
-        for (int i = 0; i < waveIndex; i++)
-        {
-            spawnEnemy(enemyPrefab);
-            yield return new WaitForSeconds(0.5f);
-        }
-        waveIndex++;
+        foreach (SpawnData spawn_data in spawnData)
+            StartCoroutine(spawn(spawn_data));
+
     }
 
-    IEnumerator spawnWaveFast()
+    IEnumerator spawn(SpawnData spawn)
     {
+        // wait until the given time to spawn
+        yield return new WaitForSeconds(spawn.time);
 
-        for (int i = 0; i < waveIndex / 2; i++)
+        // calculate the interval at which to spawn enemies so they will spawn over the duration
+        float interval = spawn.duration / spawn.enemyCount;
+
+        for (int enemy_count = 1; enemy_count <= spawn.enemyCount; enemy_count++)
         {
-            spawnEnemy(fastEnemyPrefab);
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-    IEnumerator spawnWaveSlow()
-    {
-
-        for (int i = 0; i < waveIndex / 5; i++)
-        {
-            spawnEnemy(slowEnemyPrefab);
-            yield return new WaitForSeconds(0.5f);
+            spawnEnemy(spawn.enemyType);
+            yield return new WaitForSeconds(interval);
         }
     }
 
-    void spawnEnemy(Transform prefab)
+    // changed from game object to transform? can change back wasnt sure
+    void spawnEnemy(GameObject prefab)
     {
         Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, parent);
     }
