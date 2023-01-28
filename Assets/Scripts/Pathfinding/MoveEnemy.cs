@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 public class MoveEnemy : MonoBehaviour
 {
@@ -16,8 +17,8 @@ public class MoveEnemy : MonoBehaviour
     //public Transform player;
     public Transform targetObject;
     //[SerializeField] private GameObject targetMarkerPrefab;
+    [PropertySpace(0, 10)]
     [SerializeField] private Transform visualObjectsParent;
-
     public LayerMask whatIsGround, whatIsPlayer;
 
     public float health;

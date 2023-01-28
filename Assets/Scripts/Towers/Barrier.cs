@@ -27,7 +27,7 @@ public class Barrier : MonoBehaviour
     {
         if (this.health <= 0)
         {
-            Destroy(BarrierTower);
+            TowerEditor.Instance.RemoveTower(BarrierTower.GetComponent<TowerData>());
         }
     }
     private void OnTriggerStay(Collider other) 
