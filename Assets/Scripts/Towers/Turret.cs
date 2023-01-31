@@ -12,8 +12,6 @@ public class Turret : MonoBehaviour
     public float fireReload = 0f;
     public float range = 15f;
     public int damage = 50;
-    public int chainAmount = 0;
-    public int chainDamage = 0;
 
     [Header("Unity Setup Fields")]
 
@@ -24,11 +22,6 @@ public class Turret : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
 
-    [Header("Laser Settings")]
-    public LineRenderer lr;
-    public bool useLaser = false;
-    public GameObject laserStart;
-
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +31,6 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        if (useLaser == true)
-        {
-            lr.enabled = false;
-        }
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
@@ -63,10 +52,6 @@ public class Turret : MonoBehaviour
         else
         {
             //this was throwing an error in other prefabs
-            if (useLaser == true)
-            {
-                lr.enabled = false;
-            }
             target = null;
         }
     }
@@ -76,10 +61,6 @@ public class Turret : MonoBehaviour
     {
         if (target == null)
         {
-            if (useLaser)
-            {
-                lr.enabled = false;
-            }
             return;
         }
         //Target Locking
@@ -91,10 +72,6 @@ public class Turret : MonoBehaviour
         if(fireReload <= 0)
         {
             Shoot();
-            if (useLaser)
-            {
-                FireLaser();
-            }
             fireReload = 1 / fireRate;
         }
 
@@ -117,17 +94,7 @@ public class Turret : MonoBehaviour
         else if(cBullet != null)
         {
             cBullet.Seek(target, damage);
-        }else if(lBullet != null)
-        {
-            lBullet.Seek(target, damage, chainAmount, chainDamage);
         }
-    }
-
-    private void FireLaser()
-    {
-        lr.enabled = true;
-        lr.SetPosition(0, laserStart.transform.position);
-        lr.SetPosition(1, target.position);
     }
 
     private void OnDrawGizmosSelected()
