@@ -59,39 +59,10 @@ public class LBullet : MonoBehaviour
             p.TakeDamage(damage);
         }
 
-        ChainTarget(this.chain, this.ChainDamage, target.gameObject, null);
         GameObject effectInst = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation, WaveSpawner.Instance.effectParent);
         Destroy(effectInst, 2f);
         Destroy(gameObject.gameObject);
         //Destroy(target.gameObject);
     }
 
-    private void ChainTarget(int chainAmount, int chainDamage, GameObject currentPos, GameObject prieviousPos)
-    {
-        float relativeDist = float.MaxValue;
-        GameObject currentTarget = null;
-        Collider[] targetsHit = Physics.OverlapSphere(target.transform.position, 10);
-        foreach (Collider hitCollider in targetsHit)
-        {
-            float storeVal = Vector3.Distance(target.position, hitCollider.gameObject.transform.position);
-            if (hitCollider.gameObject.tag == "Enemy" && storeVal < relativeDist && hitCollider.gameObject != currentPos && hitCollider.gameObject != prieviousPos)
-            {
-                relativeDist = storeVal;
-                currentTarget = hitCollider.gameObject;
-            }
-        }
-        chainAmount--;
-        if(currentTarget != null)
-        {
-            currentTarget.GetComponent<EnemyMovement>().TakeDamage(chainDamage);
-            if (chainAmount > 0)
-            {
-                ChainTarget(chainAmount, chainDamage, currentTarget, currentPos);
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
 }
