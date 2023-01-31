@@ -495,4 +495,19 @@ public class CameraHandler : MonoBehaviour
             _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
         }
     }
+
+    public void UpdateMovementSense(System.Single newSense)
+    {
+        movementSensetivity = newSense;
+    }
+
+    public void UpdateRotationSense(System.Single newSense)
+    {
+        rotationSensetivity = newSense;
+    }
+
+    public void UpdateZoomSense(System.Single newSense)
+    {
+        zoomSensetivity = newSense;
+    }
 }
