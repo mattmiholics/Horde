@@ -12,7 +12,7 @@ public class Barrier : MonoBehaviour
         3. Destroy itself when health is 0
     */
     [SerializeField]
-    private GameObject BarrierTower;
+    private GameObject barrierTower;
     [SerializeField]
     private float health;
     [SerializeField]
@@ -27,7 +27,7 @@ public class Barrier : MonoBehaviour
     {
         if (this.health <= 0)
         {
-            TowerEditor.Instance.RemoveTower(BarrierTower.GetComponent<TowerData>());
+            TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
         }
     }
     private void OnTriggerStay(Collider other) 
@@ -40,7 +40,6 @@ public class Barrier : MonoBehaviour
             }
             TakeDamage();
         }
-        //Debug.Log("Hit, Health is " + health);
     }
 
     void TakeDamage()

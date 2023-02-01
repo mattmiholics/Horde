@@ -66,8 +66,10 @@ public class TowerTypeButtons : MonoBehaviour
     {
         foreach (var entry in buttonGameObject)
         {
-            TowerData td = entry.Value.GetComponent<TowerData>();
-            ButtonData bd = entry.Key.GetComponent<ButtonData>();
+            if (entry.Value == null || !entry.Value.TryGetComponent<TowerData>(out TowerData td))
+                return;
+            if (entry.Key == null || !entry.Key.TryGetComponent<ButtonData>(out ButtonData bd))
+                return;
             bd.subText.text = string.Format("${0}", td.cost);
         }
     }

@@ -102,7 +102,7 @@ public class TowerEditorInspector : OdinEditor
                 {
                     TowerData n_td = hit.transform.GetComponentInParent<TowerData>(true);
 
-                    towerEditor.RemoveTower(n_td);
+                    TowerHelper.RemoveTower(towerEditor, n_td);
                 }
             }
         }
@@ -119,9 +119,9 @@ public class TowerEditorInspector : OdinEditor
             {
                 towerEditor.selectedTower.SetActive(true);
 
-                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Main, towerEditor.td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2);
-                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Main, false, out Vector3 m_basePosition, out Vector3 m_center, out Vector3Int m_corner1, out Vector3Int m_corner2);
-                towerEditor.GetTowerVolumeCorners(towerEditor.td, hit, VolumeType.Ground, towerEditor.td.useChecker, out Vector3 g_basePosition, out Vector3 g_center, out Vector3Int g_corner1, out Vector3Int g_corner2);
+                TowerHelper.GetTowerVolumeCorners(towerEditor.world, towerEditor.td, hit, VolumeType.Main, towerEditor.td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2); // Full volume check with optional checker
+                TowerHelper.GetTowerVolumeCorners(towerEditor.world, towerEditor.td, hit, VolumeType.Main, false, out Vector3 m_basePosition, out Vector3 m_center, out Vector3Int m_corner1, out Vector3Int m_corner2); // Full volume check without checker
+                TowerHelper.GetTowerVolumeCorners(towerEditor.world, towerEditor.td, hit, VolumeType.Ground, towerEditor.td.useChecker, out Vector3 g_basePosition, out Vector3 g_center, out Vector3Int g_corner1, out Vector3Int g_corner2); // Valid ground
 
                 towerEditor.selectedTower.transform.position = m_basePosition;
                 
@@ -136,19 +136,7 @@ public class TowerEditorInspector : OdinEditor
 
                     if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt) //tower placed
                     {
-                        if (towerEditor.td.useChecker)
-                            towerEditor.world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
-
-                        //instantiate tower
-                        GameObject newTower = Instantiate(towerEditor.selectedTower, m_basePosition, towerEditor.selectedTower.transform.rotation, towerEditor.td.editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
-                        TowerData n_td = newTower.GetComponent<TowerData>();
-
-                        if (n_td.placeBarriers)
-                            towerEditor.world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
-
-                        n_td.proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
-                        n_td.main.SetActive(true);
-                        n_td.proxy.SetActive(false);
+                        TowerHelper.PlaceTower(towerEditor, towerEditor.selectedTower, m_basePosition, towerEditor.td.rotation);
                     }
                 }
                 else //if space is invalid show red proxy material

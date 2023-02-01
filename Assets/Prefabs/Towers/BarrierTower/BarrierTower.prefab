@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 12
   editable: 1
   placeBarriers: 0
   cost: 300
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce544de9698535479a18ef1b909e9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BarrierTower: {fileID: 1629769728814458253}
+  barrierTower: {fileID: 0}
   health: 250
   enemyTag: Enemy
 --- !u!1 &7557614099578375319

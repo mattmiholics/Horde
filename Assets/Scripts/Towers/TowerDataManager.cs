@@ -48,7 +48,33 @@ public class TowerDataManager : SerializedMonoBehaviour
         if (!listDictError)
         {
             idTowerPrefab = new Dictionary<int, GameObject>();
-            towerPrefabInspectorClasses.ForEach(tpic => { idTowerPrefab.Add(tpic.id, tpic.towerPrefab); });
+            towerPrefabInspectorClasses.ForEach(tpic => 
+            { 
+                idTowerPrefab.Add(tpic.id, tpic.towerPrefab);
+
+                if (tpic.towerPrefab.GetComponent<TowerData>().id == tpic.id)
+                    return;
+
+                Debug.Log(AssetDatabase.GetAssetPath(tpic.towerPrefab));
+                string path = AssetDatabase.GetAssetPath(tpic.towerPrefab);
+                var root = PrefabUtility.LoadPrefabContents(path);
+
+                UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(root);
+                root.GetComponent<TowerData>().id = tpic.id;
+
+                // How do I get the thing to save?
+                // This doesn't do anything
+                //EditorUtility.SetDirty(root);
+                //EditorSceneManager.MarkSceneDirty(root.scene);
+
+                // This throws ArgumentException: Can't save a Prefab instance
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+
+                // This nullrefs; the root object doesn't have a prefab stage:
+                //EditorSceneManager.MarkSceneDirty(PrefabStageUtility.GetPrefabStage(root).scene);
+
+                PrefabUtility.UnloadPrefabContents(root);
+            });
         }
     }
 
@@ -74,35 +100,7 @@ public class TowerDataManager : SerializedMonoBehaviour
         return true;
     }
 
-#if UNITY_EDITOR
-    public class DictionaryAssetModificationProcessor : AssetModificationProcessor
-    {
-        public static string[] OnWillSaveAssets(string[] paths)
-        {
-            // Get the name of the scene to save.
-            string scenePath = string.Empty;
-            string sceneName = string.Empty;
 
-            foreach (string path in paths)
-            {
-                if (path.Contains(".unity"))
-                {
-                    scenePath = Path.GetDirectoryName(path);
-                    sceneName = Path.GetFileNameWithoutExtension(path);
-                }
-            }
-
-            if (sceneName.Length == 0)
-            {
-                return paths;
-            }
-
-            // do stuff
-
-            return paths;
-        }
-    }
-#endif
 
     [Serializable]
     private class TowerPrefabInspectorClass

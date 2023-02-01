@@ -877,7 +877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196596875750928915}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.19}
+  m_LocalPosition: {x: 0, y: 0, z: -0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2487,7 +2487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 5
   editable: 1
   placeBarriers: 1
   cost: 300
@@ -2495,6 +2495,10 @@ MonoBehaviour:
   lvl: 1
   type: Archer
   size: {x: 2, y: 3, z: 2}
+  useChecker: 0
+  showCheckerGizmo: 0
+  checkerSize: {x: 0, y: 0, z: 0}
+  checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   main: {fileID: 4953947662352260004}
   proxy: {fileID: 2393908278401241128}

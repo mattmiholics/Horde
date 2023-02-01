@@ -16,9 +16,10 @@ using Sirenix.OdinInspector;
 [ExecuteAlways]
 public class World : MonoBehaviour
 {
-    public delegate void WorldEvent();
-    public static event WorldEvent ChunkUpdated;
-    public static event WorldEvent WorldLoaded;
+    public static event Action<HashSet<ChunkRenderer>> ChunkUpdated;
+    public static event Action WorldCreated;
+    public static event Action<string, bool> WorldSaved;
+    public static event Action<string, bool> WorldLoaded;
 
     public int mapSizeInChunks = 6;
     public int chunkSize = 16, chunkHeight = 100;
@@ -35,6 +36,8 @@ public class World : MonoBehaviour
     public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
 
     CancellationTokenSource taskTokenSource = new CancellationTokenSource();
+    [HideInInspector]
+    public int progress;
 
     public UnityEvent OnWorldCreated, OnNewChunksGenerated;
 
@@ -154,6 +157,8 @@ public class World : MonoBehaviour
 
     private async Task GenerateWorld(Vector3Int position, bool loadOnly = false)
     {
+        progress = 0;
+
         WorldGenerationData worldGenerationData = await Task.Run(() => GetPositionsFromCenter(), taskTokenSource.Token);
 
         if (!loadOnly)
@@ -218,15 +223,16 @@ public class World : MonoBehaviour
         ConcurrentDictionary<Vector3Int, MeshData> dictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
         return Task.Run(() =>
         {
-
-            foreach (ChunkData data in dataToRender)
+            for (int i = 0; i < dataToRender.Count; i++)
             {
                 if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
-                MeshData meshData = Chunk.GetChunkMeshData(this, data);
-                dictionary.TryAdd(data.worldPosition, meshData);
+                MeshData meshData = Chunk.GetChunkMeshData(this, dataToRender[i]);
+                dictionary.TryAdd(dataToRender[i].worldPosition, meshData);
+
+                progress = Mathf.RoundToInt(((float)i / (dataToRender.Count - 1)) * 45);
             }
 
             return dictionary;
@@ -240,15 +246,17 @@ public class World : MonoBehaviour
 
         return Task.Run(() =>
         {
-            foreach (Vector3Int pos in chunkDataPositionsToCreate)
+            for (int i = 0; i < chunkDataPositionsToCreate.Count; i++)
             {
                 if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
-                ChunkData data = new ChunkData(chunkSize, chunkHeight, pos);
+                ChunkData data = new ChunkData(chunkSize, chunkHeight, chunkDataPositionsToCreate[i]);
                 ChunkData newData = terrainGenerator.GenerateChunkData(data, mapSeedOffset, worldData);
-                dictionary.TryAdd(pos, newData);
+                dictionary.TryAdd(chunkDataPositionsToCreate[i], newData);
+
+                progress = 45 + Mathf.RoundToInt(((float)i / (chunkDataPositionsToCreate.Count - 1)) * 45);
             }
             return dictionary;
         },
@@ -271,19 +279,17 @@ public class World : MonoBehaviour
 
     IEnumerator ChunkCreationCoroutine(ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary, bool loadOnly)
     {
-        foreach (var item in meshDataDictionary)
+        for (int i = 0; i < meshDataDictionary.Count; i++)
         {
-            CreateChunk(worldData, item.Key, item.Value, loadOnly);
+            CreateChunk(worldData, meshDataDictionary.Keys.ElementAtOrDefault(i), meshDataDictionary.Values.ElementAtOrDefault(i), loadOnly);
             yield return 0;
+            progress = 90 + Mathf.RoundToInt(((float)i / (meshDataDictionary.Count - 1)) * 10);
         }
         if (IsWorldCreated == false)
         {
             IsWorldCreated = true;
             OnWorldCreated?.Invoke();
-            if (ChunkUpdated != null)
-                ChunkUpdated();
-            if (WorldLoaded != null)
-                WorldLoaded();
+            WorldCreated?.Invoke();
         }
         Time.timeScale = 1;
         #if UNITY_EDITOR
@@ -389,8 +395,7 @@ public class World : MonoBehaviour
 
         foreach (ChunkRenderer cr in updateChunks)
             cr.UpdateChunk();
-        if (ChunkUpdated != null)
-            ChunkUpdated();
+        ChunkUpdated?.Invoke(updateChunks);
         return true;
     }
 
@@ -438,8 +443,7 @@ public class World : MonoBehaviour
         }
         foreach (ChunkRenderer cr in updateChunks)
             cr.UpdateChunk();
-        if (ChunkUpdated != null)
-            ChunkUpdated();
+        ChunkUpdated?.Invoke(updateChunks);
         return true;
     }
 
@@ -460,15 +464,13 @@ public class World : MonoBehaviour
             {
                 chunk.ChunkData.unmodifiableColumns.Remove(columnPos);
                 chunk.UpdateChunk();
-                if (ChunkUpdated != null)
-                    ChunkUpdated();
+                ChunkUpdated?.Invoke(new HashSet<ChunkRenderer> { chunk });
             }
             else if (!unlock)
             {
                 chunk.ChunkData.unmodifiableColumns.Add(columnPos);
                 chunk.UpdateChunk();
-                if (ChunkUpdated != null)
-                    ChunkUpdated();
+                ChunkUpdated?.Invoke(new HashSet<ChunkRenderer> { chunk });
             }
         }
     }
@@ -646,6 +648,8 @@ public class World : MonoBehaviour
         byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(worldData, DataFormat.Binary);
         File.WriteAllBytes(assetDir + assetName + "." + fileType, bytes);
 
+        WorldSaved?.Invoke(assetDir, saveToResources);
+
         #if UNITY_EDITOR
         AssetDatabase.Refresh();
         #endif
@@ -658,6 +662,8 @@ public class World : MonoBehaviour
 
         if (loadFromResources)
         {
+            Resources.UnloadUnusedAssets();
+
             if (loadAs)
             {
                 customAssetPath = StandaloneFileBrowser.OpenFilePanel("Get World Data", Application.dataPath + worldAssetPath, fileType, false).FirstOrDefault().Replace("\\", "/");
@@ -678,7 +684,7 @@ public class World : MonoBehaviour
         }
         else
         {
-            // Logic for saving during runtime
+            // Logic for loading during runtime
 
             /*if (!File.Exists(Application.dataPath + customAssetPath))
                 throw new Exception("Missing world data files! No world was loaded!");*/
@@ -712,6 +718,8 @@ public class World : MonoBehaviour
         chunkHeight = worldData.chunkHeight;
         mapSizeInChunks = worldData.mapSizeInChunks;
         mapSeedOffset = worldData.mapSeedOffset;
+
+        WorldLoaded?.Invoke(assetDir, loadFromResources);
 
         GenerateWorld(true);
     }
