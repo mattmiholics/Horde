@@ -40,10 +40,7 @@ public class LightningTower : MonoBehaviour
 
     void UpdateTarget()
     {
-        if (useLaser == true)
-        {
-            lr.enabled = false;
-        }
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
@@ -64,11 +61,7 @@ public class LightningTower : MonoBehaviour
         }
         else
         {
-            //this was throwing an error in other prefabs
-            if (useLaser == true)
-            {
-                lr.enabled = false;
-            }
+            //this was throwing an error in other prefab
             target = null;
         }
     }
@@ -141,6 +134,7 @@ public class LightningTower : MonoBehaviour
                 count++;
             }
         }
+        lr.enabled = false;
         resetEnemiesHit();
         
     }
@@ -173,7 +167,7 @@ public class LightningTower : MonoBehaviour
             if(currentTarget != null)
             {
                 currentTarget.GetComponent<EnemyMovement>().TakeDamage(chainDamage);
-                HitEnemiesWithLaser(count--, currentTarget.transform);
+                HitEnemiesWithLaser(count++, currentTarget.transform);
             }
         }
     }

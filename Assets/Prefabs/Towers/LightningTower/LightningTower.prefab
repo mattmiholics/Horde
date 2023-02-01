@@ -2344,7 +2344,7 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 100
+  damage: 50
   chainAmount: 9
   chainDamage: 50
   enemyTag: Enemy
@@ -3050,7 +3050,7 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 100
+  damage: 50
   chainAmount: 6
   chainDamage: 50
   enemyTag: Enemy
@@ -3577,7 +3577,7 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 100
+  damage: 50
   chainAmount: 3
   chainDamage: 50
   enemyTag: Enemy
