@@ -29,7 +29,7 @@ public class LightningTower : MonoBehaviour
     public bool useLaser = false;
     public GameObject laserStart;
 
-    private Transform[] enemiesHit = new Transform[10];
+    private List<GameObject> enemiesHit = new List<GameObject>();
 
 
     // Start is called before the first frame update
@@ -121,21 +121,21 @@ public class LightningTower : MonoBehaviour
 
     private void FireLaser()
     {
-        enemiesHit[0] = target;
-        HitEnemiesWithLaser(1, target);
+        enemiesHit.Add(target.gameObject);
+        HitEnemiesWithLaser(1);
         lr.enabled = true;
         lr.SetPosition(0, laserStart.transform.position);
         int count = 1;
-        foreach (Transform pos in enemiesHit)
+        foreach (GameObject pos in enemiesHit.ToArray())
         {
             if (pos != null)
             {
-                lr.SetPosition(count, pos.position);
+                lr.SetPosition(count/chainAmount, pos.transform.position);
                 count++;
             }
         }
         lr.enabled = false;
-        resetEnemiesHit();
+        enemiesHit.Clear();
         
     }
 
@@ -145,9 +145,39 @@ public class LightningTower : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, range);
     }
 
-    private void HitEnemiesWithLaser(int count, Transform previousTarget)
-    {    
-        if (count <= chainAmount)
+    private void HitEnemiesWithLaser(int count)
+    {
+        /*
+         *  Step 1: Find closeest enemy to the previousTarget
+         *  Step 2: Deal damage and find next closest enemy
+         *  Step 3: Repeat step 2 until chainAmount
+         */
+        GameObject prevTarget = target.gameObject;
+        while (count <= chainAmount)
+        {
+            float relativeDist = float.MaxValue;
+            GameObject currentTarget = null;
+            Collider[] targetsHit = Physics.OverlapSphere(prevTarget.transform.position, 10);
+
+            foreach (Collider hitCollider in targetsHit)
+            {
+                float storeVal = Vector3.Distance(prevTarget.transform.position, hitCollider.gameObject.transform.position);
+                if (hitCollider.gameObject.tag == "Enemy" && storeVal < relativeDist && hitCollider.gameObject != prevTarget && !enemiesHit.Contains(hitCollider.gameObject))
+                {
+                    relativeDist = storeVal;
+                    currentTarget = hitCollider.gameObject;
+                }
+            }
+            if (currentTarget != null)
+            {
+                currentTarget.GetComponent<EnemyMovement>().TakeDamage(chainDamage);
+                enemiesHit.Add(currentTarget);
+                prevTarget= currentTarget;
+            }
+            count++;
+        }
+
+        /*if (count <= chainAmount)
         {
             float relativeDist = float.MaxValue;
             GameObject currentTarget = null;
@@ -156,12 +186,16 @@ public class LightningTower : MonoBehaviour
             foreach (Collider hitCollider in targetsHit)
             {
                 float storeVal = Vector3.Distance(previousTarget.position, hitCollider.gameObject.transform.position);
-
+                int counter = 0;
                 if(hitCollider.gameObject.tag == "Enemy" && storeVal < relativeDist && hitCollider.transform != previousTarget && !enemyAlreadyHit(hitCollider.transform))
                 {
                     relativeDist = storeVal;
                     currentTarget = hitCollider.gameObject;
+                    counter++;
+                    Debug.Log("Count: " + counter);
                 }
+
+             
             }
 
             if(currentTarget != null)
@@ -170,26 +204,7 @@ public class LightningTower : MonoBehaviour
                 HitEnemiesWithLaser(count++, currentTarget.transform);
             }
         }
+        */
     }
-
-    private bool enemyAlreadyHit(Transform checkEnemy)
-    {
-        bool flag = false;
-        for(int i = 0; i < enemiesHit.Length; i++)
-        {
-            if(checkEnemy == enemiesHit[i])
-            {
-                flag = true;
-            }
-        }
-        return flag;
-    }
-
-    private void resetEnemiesHit()
-    {
-        for(int i = 0; i < enemiesHit.Length; i++)
-        {
-            enemiesHit[i] = null;
-        }
-    }
+    
 }
