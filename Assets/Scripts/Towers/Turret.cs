@@ -22,7 +22,7 @@ public class Turret : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +51,7 @@ public class Turret : MonoBehaviour
         }
         else
         {
+            //this was throwing an error in other prefabs
             target = null;
         }
     }
@@ -59,7 +60,9 @@ public class Turret : MonoBehaviour
     void Update()
     {
         if (target == null)
+        {
             return;
+        }
         //Target Locking
         Vector3 dir = target.transform.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
@@ -82,6 +85,7 @@ public class Turret : MonoBehaviour
         //If a new bullet script is created, update it here
         Bullet bulletS = bulltObj.GetComponent<Bullet>();
         CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
+        LBullet lBullet = bulltObj.GetComponent<LBullet>();
 
         if(bulletS != null)
         {

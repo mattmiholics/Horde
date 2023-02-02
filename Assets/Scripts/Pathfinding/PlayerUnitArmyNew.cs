@@ -16,14 +16,17 @@ public class PlayerUnitArmyNew : MonoBehaviour
     static Transform troopParent;
     Vector3 target;
 
-    private void Awake() {
-        parent = new GameObject("Unit Parent").transform;
-        unitParent = new GameObject("Selected Parent").transform;
-        troopParent = GameObject.Find("Troops").transform;
-        unitParent.transform.parent = troopParent;
-
+    private void Awake()
+    {
         playerInput = FindObjectOfType<PlayerInput>();
         destination = playerInput.actions[destinationControl];
+    }
+
+    private void Start() {
+        parent = new GameObject("Unit Parent").transform;
+        unitParent = new GameObject("Selected Parent").transform;
+        troopParent = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Barracks>().spawnPoint;
+        unitParent.transform.parent = troopParent;
     }
 
     public static void AddUnitToSelectedParent(GameObject unitToAdd)

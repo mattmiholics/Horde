@@ -14,5 +14,6 @@ public enum BlockType
     Sand,
     Bedrock,
     Barrier,
+    Soft_Barrier,
     Wood
 }

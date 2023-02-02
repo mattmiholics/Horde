@@ -16,9 +16,10 @@ using Sirenix.OdinInspector;
 [ExecuteAlways]
 public class World : MonoBehaviour
 {
-    public delegate void WorldEvent();
-    public static event WorldEvent ChunkUpdated;
-    public static event WorldEvent WorldLoaded;
+    public static event Action<HashSet<ChunkRenderer>> ChunkUpdated;
+    public static event Action WorldCreated;
+    public static event Action<string, bool> WorldSaved;
+    public static event Action<string, bool> WorldLoaded;
 
     public int mapSizeInChunks = 6;
     public int chunkSize = 16, chunkHeight = 100;
@@ -35,10 +36,37 @@ public class World : MonoBehaviour
     public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
 
     CancellationTokenSource taskTokenSource = new CancellationTokenSource();
+    [HideInInspector]
+    public int progress;
 
     public UnityEvent OnWorldCreated, OnNewChunksGenerated;
 
-    [NonSerialized, OdinSerialize, ShowInInspector]
+    [PropertySpace(15, 15)]
+    [Button(Name = "Generate World", Expanded = true)]
+    private void GenerateWorldButton()
+    {
+        GenerateWorld();
+    }
+
+    [ButtonGroup("SaveButtons")]
+    private void Save()
+    {
+        SaveWorld();
+    }
+
+    [ButtonGroup("SaveButtons")]
+    private void SaveAs()
+    {
+        SaveWorld(true);
+    }
+
+    [Button(Name = "Load World")]
+    private void LoadWorldButton()
+    {
+        LoadWorld(true);
+    }
+
+    [NonSerialized, OdinSerialize]
     public WorldData worldData;
 
     public bool IsWorldCreated { get; private set; }
@@ -129,6 +157,8 @@ public class World : MonoBehaviour
 
     private async Task GenerateWorld(Vector3Int position, bool loadOnly = false)
     {
+        progress = 0;
+
         WorldGenerationData worldGenerationData = await Task.Run(() => GetPositionsFromCenter(), taskTokenSource.Token);
 
         if (!loadOnly)
@@ -193,15 +223,16 @@ public class World : MonoBehaviour
         ConcurrentDictionary<Vector3Int, MeshData> dictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
         return Task.Run(() =>
         {
-
-            foreach (ChunkData data in dataToRender)
+            for (int i = 0; i < dataToRender.Count; i++)
             {
                 if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
-                MeshData meshData = Chunk.GetChunkMeshData(this, data);
-                dictionary.TryAdd(data.worldPosition, meshData);
+                MeshData meshData = Chunk.GetChunkMeshData(this, dataToRender[i]);
+                dictionary.TryAdd(dataToRender[i].worldPosition, meshData);
+
+                progress = Mathf.RoundToInt(((float)i / (dataToRender.Count - 1)) * 45);
             }
 
             return dictionary;
@@ -215,15 +246,17 @@ public class World : MonoBehaviour
 
         return Task.Run(() =>
         {
-            foreach (Vector3Int pos in chunkDataPositionsToCreate)
+            for (int i = 0; i < chunkDataPositionsToCreate.Count; i++)
             {
                 if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
-                ChunkData data = new ChunkData(chunkSize, chunkHeight, pos);
+                ChunkData data = new ChunkData(chunkSize, chunkHeight, chunkDataPositionsToCreate[i]);
                 ChunkData newData = terrainGenerator.GenerateChunkData(data, mapSeedOffset, worldData);
-                dictionary.TryAdd(pos, newData);
+                dictionary.TryAdd(chunkDataPositionsToCreate[i], newData);
+
+                progress = 45 + Mathf.RoundToInt(((float)i / (chunkDataPositionsToCreate.Count - 1)) * 45);
             }
             return dictionary;
         },
@@ -246,19 +279,17 @@ public class World : MonoBehaviour
 
     IEnumerator ChunkCreationCoroutine(ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary, bool loadOnly)
     {
-        foreach (var item in meshDataDictionary)
+        for (int i = 0; i < meshDataDictionary.Count; i++)
         {
-            CreateChunk(worldData, item.Key, item.Value, loadOnly);
+            CreateChunk(worldData, meshDataDictionary.Keys.ElementAtOrDefault(i), meshDataDictionary.Values.ElementAtOrDefault(i), loadOnly);
             yield return 0;
+            progress = 90 + Mathf.RoundToInt(((float)i / (meshDataDictionary.Count - 1)) * 10);
         }
         if (IsWorldCreated == false)
         {
             IsWorldCreated = true;
             OnWorldCreated?.Invoke();
-            if (ChunkUpdated != null)
-                ChunkUpdated();
-            if (WorldLoaded != null)
-                WorldLoaded();
+            WorldCreated?.Invoke();
         }
         Time.timeScale = 1;
         #if UNITY_EDITOR
@@ -306,7 +337,7 @@ public class World : MonoBehaviour
         return WorldDataHelper.GetBlock(this, pos);
     }
 
-    internal bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
+    public bool GetBlockVolume(Vector3Int corner1, Vector3Int corner2, bool checkEmpty, bool checkModifiability = true) //if it is checking empty: true if empty, false if any blocks || if checking filled: true if filled, false if any empty
     {
         Vector3Int size = corner2 - corner1;
 
@@ -316,7 +347,7 @@ public class World : MonoBehaviour
             {
                 for (int z = 0; (size.z > 0 ? z <= size.z : z >= size.z); z += (size.z > 0 ? 1 : -1))
                 {
-                    if (!IsBlockModifiable(new Vector3Int(corner1.x + x, corner1.y + y, corner1.z + z))) //check if column is unmodifiable
+                    if (checkModifiability && !IsBlockModifiable(new Vector3Int(corner1.x + x, corner1.y + y, corner1.z + z))) //check if column is unmodifiable
                         return false;
 
                     BlockType block = GetBlockFromChunkCoordinates(null, corner1.x + x, corner1.y + y, corner1.z + z);
@@ -364,12 +395,11 @@ public class World : MonoBehaviour
 
         foreach (ChunkRenderer cr in updateChunks)
             cr.UpdateChunk();
-        if (ChunkUpdated != null)
-            ChunkUpdated();
+        ChunkUpdated?.Invoke(updateChunks);
         return true;
     }
 
-    internal bool SetBlockVolume(Vector3Int corner1, Vector3Int corner2, BlockType blockType)
+    public bool SetBlockVolume(Vector3Int corner1, Vector3Int corner2, BlockType blockType)
     {
         Vector3Int size = corner2 - corner1;
 
@@ -413,8 +443,7 @@ public class World : MonoBehaviour
         }
         foreach (ChunkRenderer cr in updateChunks)
             cr.UpdateChunk();
-        if (ChunkUpdated != null)
-            ChunkUpdated();
+        ChunkUpdated?.Invoke(updateChunks);
         return true;
     }
 
@@ -435,15 +464,13 @@ public class World : MonoBehaviour
             {
                 chunk.ChunkData.unmodifiableColumns.Remove(columnPos);
                 chunk.UpdateChunk();
-                if (ChunkUpdated != null)
-                    ChunkUpdated();
+                ChunkUpdated?.Invoke(new HashSet<ChunkRenderer> { chunk });
             }
             else if (!unlock)
             {
                 chunk.ChunkData.unmodifiableColumns.Add(columnPos);
                 chunk.UpdateChunk();
-                if (ChunkUpdated != null)
-                    ChunkUpdated();
+                ChunkUpdated?.Invoke(new HashSet<ChunkRenderer> { chunk });
             }
         }
     }
@@ -564,20 +591,52 @@ public class World : MonoBehaviour
     private static string fileType = "txt";
 
     private static string defaultAssetFolder = "temp";
-    [SerializeField]
-    [HideInInspector]
+
+    [InfoBox("This is the current file path of the world data file")]
+    [OnInspectorInit("@inspectorPreviewAssetPath = UnityEngine.Application.dataPath + customAssetPath")]
+    [ShowInInspector]
+    [HideLabel]
+    [DisplayAsString(false)]
+    [PropertySpace(10)]
+    private string inspectorPreviewAssetPath;
+
+    [SerializeField, HideInInspector]
     private string customAssetPath; // This will get overwritten after saving
 
-    //SAVE and LOAD methods
-    public void SaveWorld(bool saveAs = false, bool saveTemp = false)
+    [SerializeField, HideInInspector]
+    private string runtimeAssetPath;
+
+    // SAVE and LOAD methods
+    public void SaveWorld(bool saveAs = false, bool saveTemp = false, bool saveToResources = true)
     {
-        if (saveAs)
+        string assetName = default;
+        string assetDir = default;
+
+        if (saveToResources)
         {
-            customAssetPath = StandaloneFileBrowser.SaveFilePanel("Create World Data", customAssetPath != "" ? Directory.GetParent(Path.GetDirectoryName(customAssetPath)).FullName : Application.dataPath + worldAssetPath, "", fileType);
+            if (saveAs)
+            {
+                customAssetPath = StandaloneFileBrowser.SaveFilePanel("Create World Data", Application.dataPath + worldAssetPath, "", fileType).Replace("\\", "/");
+
+                if (customAssetPath.StartsWith(Application.dataPath))
+                    customAssetPath = customAssetPath.Substring(Application.dataPath.Length);
+                else
+                    throw new Exception("Please keep world data contained within the Unity project data path");
+
+                inspectorPreviewAssetPath = Application.dataPath + customAssetPath;
+            }
+
+            if (!customAssetPath.Contains("Resources"))
+                throw new Exception("Please keep world data contained within the Unity project resources file structure");
+
+            assetName = saveTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
+            assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath) + (File.Exists(Application.dataPath + customAssetPath) ? "" : "/" + assetName);
+        }
+        else
+        {
+            // Logic for saving during runtime
         }
 
-        string assetName = saveTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
-        string assetDir = saveTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Path.GetDirectoryName(customAssetPath) + (File.Exists(customAssetPath) ? "" : "/" + assetName);
         assetDir = assetDir.Replace("\\", "/");
         if (!Directory.Exists(assetDir))
             Directory.CreateDirectory(assetDir);
@@ -589,23 +648,48 @@ public class World : MonoBehaviour
         byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(worldData, DataFormat.Binary);
         File.WriteAllBytes(assetDir + assetName + "." + fileType, bytes);
 
+        WorldSaved?.Invoke(assetDir, saveToResources);
+
         #if UNITY_EDITOR
         AssetDatabase.Refresh();
         #endif
     }
 
-    public void LoadWorld(bool loadAs = false, bool loadTemp = false)
+    public void LoadWorld(bool loadAs = false, bool loadTemp = false, bool loadFromResources = true)
     {
-        if (loadAs)
+        string assetName = default;
+        string assetDir = default;
+
+        if (loadFromResources)
         {
-            customAssetPath = StandaloneFileBrowser.OpenFilePanel("Get World Data", Application.dataPath + worldAssetPath, fileType, false).FirstOrDefault();
+            Resources.UnloadUnusedAssets();
+
+            if (loadAs)
+            {
+                customAssetPath = StandaloneFileBrowser.OpenFilePanel("Get World Data", Application.dataPath + worldAssetPath, fileType, false).FirstOrDefault().Replace("\\", "/");
+
+                if (customAssetPath.StartsWith(Application.dataPath))
+                    customAssetPath = customAssetPath.Substring(Application.dataPath.Length);
+                else
+                    throw new Exception("Please keep world data contained within the Unity project data path");
+
+                inspectorPreviewAssetPath = Application.dataPath + customAssetPath;
+            }
+
+            if (!customAssetPath.Contains("Resources"))
+                throw new Exception("Please keep world data contained within the Unity project resources file structure");
+
+            assetName = loadTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
+            assetDir = loadTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Application.dataPath + Path.GetDirectoryName(customAssetPath);
+        }
+        else
+        {
+            // Logic for loading during runtime
+
+            /*if (!File.Exists(Application.dataPath + customAssetPath))
+                throw new Exception("Missing world data files! No world was loaded!");*/
         }
 
-        if (!File.Exists(customAssetPath))
-            throw new Exception("Missing world data files! No world was loaded!");
-
-        string assetName = loadTemp ? defaultAssetFolder : Path.GetFileNameWithoutExtension(customAssetPath);
-        string assetDir = loadTemp ? Application.dataPath + worldAssetPath + defaultAssetFolder : Path.GetDirectoryName(customAssetPath);
         assetDir = assetDir.Replace("\\", "/");
 
         assetDir = assetDir + "/";
@@ -621,18 +705,21 @@ public class World : MonoBehaviour
 
 
         // Set barrier blocks to air blocks so that tower/decoration placement can do that manually, just in case an id is switched intentionally
-        worldData.chunkDataDictionary.Values.ToList()
+        /*worldData.chunkDataDictionary.Values.ToList()
                                             .ForEach(cd => Chunk
                                             .LoopThroughTheBlocks(cd, (x, y, z) =>
                                             {
-                                                if (Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z) == BlockType.Barrier)
+                                                BlockType block = Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z);
+                                                if (block == BlockType.Barrier || block == BlockType.Soft_Barrier)
                                                     Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), BlockType.Air);
-                                            }));
+                                            }));*/
 
         chunkSize = worldData.chunkSize;
         chunkHeight = worldData.chunkHeight;
         mapSizeInChunks = worldData.mapSizeInChunks;
         mapSeedOffset = worldData.mapSeedOffset;
+
+        WorldLoaded?.Invoke(assetDir, loadFromResources);
 
         GenerateWorld(true);
     }

@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using System;
 
 public class WaveSpawner : MonoBehaviour
 {
-
     public Transform enemyPrefab;
     public Transform fastEnemyPrefab;
     public Transform slowEnemyPrefab;
-    public Transform spawnPoint;
+    private Transform spawnPoint;
     public Transform parent;
     public Transform effectParent;
 
@@ -26,9 +28,36 @@ public class WaveSpawner : MonoBehaviour
     private static int waveNum = 1;
 
     private bool waveStarted;
+    private int activeCoRoutines = 0; 
 
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
+
+    [SerializeField]
+    private List<WaveData> waveDataList;
+
+    [Serializable]
+    private class WaveData
+    {
+        [SerializeField]
+        [TableList(ShowIndexLabels = true)]
+        public List<SpawnData> spawnDataList;
+
+        public List<SpawnData> getSpawnData()
+        {
+            return spawnDataList;
+        }
+    }
+
+    [Serializable]
+    private class SpawnData
+    {
+        public float time;
+        public float duration;
+        public int enemyCount;
+        public GameObject enemyType;
+        public int spawn;
+    }
 
     private void Awake()
     {
@@ -77,16 +106,20 @@ public class WaveSpawner : MonoBehaviour
     }
     */
 
+    private void Start()
+    {
+        spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
+    }
     private void Update()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies.Length >= 1 && !waveStarted) //wave started
+        if (enemies.Length > 0 && activeCoRoutines >= 1 && !waveStarted) //wave started
         {
             waveStarted = true;
             EditButtons.Instance.DisableButtons();
             startWave.Invoke();
         }
-        else if (enemies.Length == 0 && waveStarted) //wave ended
+        else if (enemies.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
             waveStarted = false;
             endWave.Invoke();
@@ -114,6 +147,7 @@ public class WaveSpawner : MonoBehaviour
 
     public void SpawnNextWave()
     {
+        PlayerStats.Instance.rounds++;
         //Check for any MarketBuildings
         MarketBuilding[] markets = FindObjectsOfType(typeof(MarketBuilding)) as MarketBuilding[];
         foreach (MarketBuilding item in markets)
@@ -121,53 +155,39 @@ public class WaveSpawner : MonoBehaviour
             item.PayPlayer(item.buildingLevel);
         }
 
-        StartCoroutine(spawnWave());
-        if (waveNum > 3)
-        {
-            StartCoroutine(spawnWaveFast());
-        }
-        if (waveNum > 5)
-        {
-            StartCoroutine(spawnWaveSlow());
-        }
-
+        WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
+        spawnWave(currWave);
         waveNum++;
     }
-
-    IEnumerator spawnWave()
+    private void spawnWave(WaveData currWave)
     {
-        waveIndex++;
-        PlayerStats.Instance.rounds++;
+        List < SpawnData > spawnData = currWave.getSpawnData();
 
-        for (int i = 0; i < waveIndex; i++)
+        foreach (SpawnData spawn_data in spawnData)
         {
-            spawnEnemy(enemyPrefab);
-            yield return new WaitForSeconds(0.5f);
-        }
-        waveIndex++;
-    }
-
-    IEnumerator spawnWaveFast()
-    {
-
-        for (int i = 0; i < waveIndex / 2; i++)
-        {
-            spawnEnemy(fastEnemyPrefab);
-            yield return new WaitForSeconds(0.5f);
+            activeCoRoutines++;
+            StartCoroutine(spawn(spawn_data));
         }
     }
 
-    IEnumerator spawnWaveSlow()
+    IEnumerator spawn(SpawnData spawn)
     {
+        // wait until the given time to spawn
+        yield return new WaitForSeconds(spawn.time);
 
-        for (int i = 0; i < waveIndex / 5; i++)
+        // calculate the interval at which to spawn enemies so they will spawn over the duration
+        float interval = spawn.duration / spawn.enemyCount;
+
+        for (int enemy_count = 1; enemy_count <= spawn.enemyCount; enemy_count++)
         {
-            spawnEnemy(slowEnemyPrefab);
-            yield return new WaitForSeconds(0.5f);
+            spawnEnemy(spawn.enemyType);
+            yield return new WaitForSeconds(interval);
         }
+        activeCoRoutines--;
     }
 
-    void spawnEnemy(Transform prefab)
+    // changed from game object to transform? can change back wasnt sure
+    void spawnEnemy(GameObject prefab)
     {
         Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, parent);
     }

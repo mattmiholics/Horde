@@ -111,63 +111,54 @@ public class CameraHandler : MonoBehaviour
     [SerializeField]
     [FoldoutGroup("Input/Actions", VisibleIf = "ContainsActionMap")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Move Control")]
     private string moveControl;
     private InputAction _move;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string lookControl;
     private InputAction _look;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string lookAltControl;
     private InputAction _lookAlt;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string rotateControl;
     private InputAction _rotate;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string rotateAltControl;
     private InputAction _rotateAlt;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string zoomControl;
     private InputAction _zoom;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string zoomAltControl;
     private InputAction _zoomAlt;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string activateControl;
     private InputAction _activate;
 
     [SerializeField]
     [FoldoutGroup("Input/Actions")]
     [ValueDropdown("GetInputActions", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, ExpandAllMenuItems = false, DoubleClickToConfirm = true, OnlyChangeValueOnConfirm = true)]
-    [LabelText("Look Control")]
     private string deactivateControl;
     private InputAction _deactivate;
 
@@ -238,20 +229,21 @@ public class CameraHandler : MonoBehaviour
         }
 
         actionMapsBlacklist = actionMapBlacklistToggles.Select(amt =>
-        {
-            InputActionMap am = playerInput.actions.FindActionMap(amt.actionMapString);
-            if (am == null) throw new Exception("Invalid action map selected");
-            return am;
-        })
-                     .ToArray();
+                                                        {
+                                                            InputActionMap am = playerInput.actions.FindActionMap(amt.actionMapString);
+                                                            if (am == null) throw new Exception("Invalid action map selected");
+                                                            return am;
+                                                        })
+                                                       .ToArray();
 
         actionMaps = actionMapToggles.Select(amt =>
-        {
-            InputActionMap am = playerInput.actions.FindActionMap(amt.actionMapString);
-            if (am == null) throw new Exception("Invalid action map selected");
-            return am;
-        })
-                             .ToArray();
+                                      {
+                                          InputActionMap am = playerInput.actions.FindActionMap(amt.actionMapString);
+                                          if (am == null) throw new Exception("Invalid action map selected");
+                                          return am;
+                                      })
+                                     .Where(am => !actionMapsBlacklist.Contains(am))
+                                     .ToArray();
 
         //set variables
         if (!cameraParent.TryGetComponent<Rigidbody>(out _rigidbodyParent))
@@ -322,21 +314,19 @@ public class CameraHandler : MonoBehaviour
     {
         disabledActionMaps = playerInput.actions.actionMaps.Where(am => (am.enabled && !actionMapsBlacklist.Contains(am))).ToArray(); //get all currently active maps
         //enable action map
-        actionMaps.Where(am => !actionMapsBlacklist.Contains(am)).ForEach(am => am.Enable());
+        actionMaps.ForEach(am => am.Enable());
         //disable other action maps
-        foreach(InputActionMap actionMap in disabledActionMaps)
-            actionMap.Disable();
-        
+        disabledActionMaps.ForEach(am => am.Disable());
+
         cameraAltActive = true;
     }
 
     private void DisableCameraControls(InputAction.CallbackContext context)
     {
         //disable action map
-        actionMaps.Where(am => !actionMapsBlacklist.Contains(am)).ForEach(am => am.Disable());
+        actionMaps.ForEach(am => am.Disable());
         //enable previously disabled action maps
-        foreach (InputActionMap actionMap in disabledActionMaps)
-            actionMap.Enable();
+        disabledActionMaps.ForEach(am => am.Enable());
 
         cameraAltActive = false;
     }
@@ -370,7 +360,7 @@ public class CameraHandler : MonoBehaviour
             lookAlt = _lookAlt.ReadValue<float>();
             zoom = _zoom.ReadValue<Vector2>().normalized.y;
 
-            //check if moveing past world border
+            //check if moving past world border
             if (lockToWorldBorder && World.Instance != null)
             {
                 Vector2 borderMinMax = new Vector2(World.Instance.worldData.border - 0.5f, World.Instance.worldData.chunkSize * World.Instance.worldData.mapSizeInChunks - World.Instance.worldData.border - 0.5f);
@@ -459,8 +449,6 @@ public class CameraHandler : MonoBehaviour
             zoomTime = (5 / zoomDrag);
         }
 
-        Debug.DrawLine(transform.position, furthestPoint, Color.red);
-
         cameraZoom.localPosition = new Vector3(0, 0, Mathf.Lerp(zoomPosZ, zoomTarget, Mathf.SmoothStep(0f, 1f, Mathf.Pow(zoomTime / (5 / zoomDrag), 0.4f))));
     }
 
@@ -506,5 +494,20 @@ public class CameraHandler : MonoBehaviour
         {
             _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
         }
+    }
+
+    public void UpdateMovementSense(System.Single newSense)
+    {
+        movementSensetivity = newSense;
+    }
+
+    public void UpdateRotationSense(System.Single newSense)
+    {
+        rotationSensetivity = newSense;
+    }
+
+    public void UpdateZoomSense(System.Single newSense)
+    {
+        zoomSensetivity = newSense;
     }
 }

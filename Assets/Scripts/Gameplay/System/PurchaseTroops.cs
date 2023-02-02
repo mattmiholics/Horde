@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PurchaseTroops : MonoBehaviour
@@ -10,7 +11,7 @@ public class PurchaseTroops : MonoBehaviour
     public Transform troopParent;
     private Transform troop;
 
-    public Transform spawnPoint;
+    private Transform spawnPoint;
     public float speed = 5;
 
     [Space]
@@ -41,14 +42,16 @@ public class PurchaseTroops : MonoBehaviour
     private void Start()
     {
         _playerInput = CameraHandler.Instance.playerInput;
+
+        spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Barracks>().spawnPoint;
     }
 
     public void SpawnTroop1()
     {
         if(PlayerStats.Instance.money >= 150)
         {
-            troop = Instantiate(troop1Prefab, spawnPoint, troopParent);
-            troop.position += new Vector3(speed * Time.deltaTime, 0, 0);
+            troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 150;
         }
     }
@@ -57,8 +60,8 @@ public class PurchaseTroops : MonoBehaviour
     {
         if (PlayerStats.Instance.money >= 200)
         {
-            troop = Instantiate(troop2Prefab, spawnPoint, troopParent);
-            troop.position += new Vector3(speed * Time.deltaTime, 0, 0);
+            troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 200;
         }
     }

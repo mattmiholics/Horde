@@ -11,13 +11,29 @@ public class TowerData : MonoBehaviour
     [ReadOnly]
     public int id;
 
+    [Space]
+    public bool editable;
+    public bool placeBarriers = true;
     public int cost;
+    public int costToLvl = 350;
     public int lvl;
     [Space]
-    public int costToLvl = 350;
-    public string type = "Archer";
+    public string type;
     [Space]
+    [MinValue(1)]
     public Vector3Int size;
+    [PropertyTooltip("The checker size will only evaluate the bounds volume with its values, but still place barriers using the regular size")]
+    public bool useChecker;
+    [ShowIf("useChecker")]
+    public bool showCheckerGizmo;
+    [MinValue(1)]
+    [ShowIf("useChecker")]
+    public Vector3Int checkerSize;
+    [ShowIf("useChecker")]
+    public Vector3 checkerOffset;
+    [Space]
+    [ReadOnly]
+    public int rotation;
     public GameObject main;
     public GameObject proxy;
     [Space]
@@ -37,12 +53,16 @@ public class TowerData : MonoBehaviour
     {
         if (showGizmo)
         {
-            if (Selection.activeObject == gameObject)
-                Gizmos.color = new Color(0, 1, 0, 0.4f);
-            else
-                Gizmos.color = new Color(1, 0, 1, 0.4f);
-
+            Gizmos.color = new Color(0, 1, 0, 0.4f);
+                
             Gizmos.DrawCube(transform.position + new Vector3(0, size.y / 2f, 0), size);
+        }
+
+        if (showCheckerGizmo)
+        {
+            Gizmos.color = new Color(1, 0, 1, 0.4f);
+
+            Gizmos.DrawCube(transform.position + checkerOffset + new Vector3(0, checkerSize.y / 2f, 0), checkerSize);
         }
     }
 #endif

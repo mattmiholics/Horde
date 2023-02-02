@@ -129,7 +129,7 @@ public class SceneLoader : MonoBehaviour
                     if (operation != null) { totalSceneProgress += operation.progress; }
                     else { nullCount++; }
                 }
-                totalSceneProgress = (totalSceneProgress / (scenesLoading.Count - nullCount)) * 100f;
+                totalSceneProgress = (totalSceneProgress / (scenesLoading.Count - nullCount)) * (worldLoading ? 50f : 100f);
 
                 progressBar.value = Mathf.RoundToInt(totalSceneProgress);
                 progressText.text = Mathf.RoundToInt(totalSceneProgress) + "%";
@@ -138,14 +138,24 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
-        progressText.text = 100 + "%";
-
         while (worldLoading)
         {
-            if (World.Instance != null && World.Instance.IsWorldCreated)
+            if (World.Instance == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            progressBar.value = 50 + (World.Instance.progress/2);
+            progressText.text = (50 + (World.Instance.progress / 2)) + "%";
+
+            if (World.Instance.IsWorldCreated)
                 worldLoading = false;
             yield return null;
         }
+
+        progressBar.value = 100;
+        progressText.text = 100 + "%";
 
         loadScreen.SetActive(false);
 
