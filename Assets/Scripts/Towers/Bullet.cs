@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
     void HitTarget()
     {
         EnemyMovement e = target.GetComponent<EnemyMovement>();
-        MovePlayer p = target.GetComponent<MovePlayer>();
+        PlayerController p = target.GetComponent<PlayerController>();
 
         if(e != null)
         {

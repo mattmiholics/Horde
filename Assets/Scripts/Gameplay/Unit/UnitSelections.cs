@@ -32,7 +32,7 @@ public class UnitSelections : MonoBehaviour
         if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
         {
             // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-            unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
+            unitToAdd.GetComponent<PlayerController>().enabled = true;
             PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
         }
     }
@@ -46,7 +46,7 @@ public class UnitSelections : MonoBehaviour
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
                 // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
+                unitToAdd.GetComponent<PlayerController>().enabled = true;
                 PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
             }
         }
@@ -55,7 +55,7 @@ public class UnitSelections : MonoBehaviour
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
                 // unitToAdd.GetComponent<MovePlayer>().enabled = false;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = false;
+                unitToAdd.GetComponent<PlayerController>().enabled = false;
                 PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unitToAdd);
             }
             unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
@@ -72,7 +72,7 @@ public class UnitSelections : MonoBehaviour
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
                 // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
+                unitToAdd.GetComponent<PlayerController>().enabled = true;
                 PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
             }
         }
@@ -87,7 +87,7 @@ public class UnitSelections : MonoBehaviour
                 if (LayerMask.LayerToName(unit.gameObject.layer) == "Player")
                 {
                     // unit.GetComponent<MovePlayer>().enabled = false;
-                    unit.GetComponent<MovePlayerNew>().enabled = false;
+                    unit.GetComponent<PlayerController>().enabled = false;
                     PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unit);
                 }
                 unit.transform.GetChild(0).gameObject.SetActive(false);

@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine.AI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MovePlayer : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    [Header("Troop stats")]
+    public int health;
+    public int damage;
+
+    [Header("Navigation Pathfinding")]
     public NavMeshAgent agent;
     public LayerMask ground;
-    public int health;
 
     private PlayerInput _playerInput;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string destinationControl;
     private InputAction _destination;
+
+    [Header("Animation")]
+    public Animator animator;
 
     Vector3 target;
     
