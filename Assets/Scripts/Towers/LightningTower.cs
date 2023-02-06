@@ -124,17 +124,18 @@ public class LightningTower : MonoBehaviour
         enemiesHit.Add(target.gameObject);
         HitEnemiesWithLaser(1);
         lr.enabled = true;
+        lr.positionCount = 1 + enemiesHit.ToArray().Length;
         lr.SetPosition(0, laserStart.transform.position);
         int count = 1;
         foreach (GameObject pos in enemiesHit.ToArray())
         {
             if (pos != null)
             {
-                lr.SetPosition(count/chainAmount, pos.transform.position);
+                lr.SetPosition(count, pos.transform.position);
                 count++;
             }
         }
-        lr.enabled = false;
+        //lr.enabled = false;
         enemiesHit.Clear();
         
     }
