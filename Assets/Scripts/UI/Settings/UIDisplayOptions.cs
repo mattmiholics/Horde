@@ -34,12 +34,6 @@ public class UIDisplayOptions : MonoBehaviour
         LoadSettings(currentResolutionIndex);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
@@ -97,16 +91,19 @@ public class UIDisplayOptions : MonoBehaviour
                          PlayerPrefs.GetInt("QualitySettingPreference");
         else
             qualityDropdown.value = 3;
+
         if (PlayerPrefs.HasKey("ResolutionPreference"))
             resolutionDropdown.value =
                          PlayerPrefs.GetInt("ResolutionPreference");
         else
             resolutionDropdown.value = currentResolutionIndex;
+
         if (PlayerPrefs.HasKey("TextureQualityPreference"))
             textureDropdown.value =
                          PlayerPrefs.GetInt("TextureQualityPreference");
         else
             textureDropdown.value = 0;
+
         if (PlayerPrefs.HasKey("FullscreenPreference"))
             Screen.fullScreen =
             Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenPreference"));
