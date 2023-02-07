@@ -55,9 +55,12 @@ public class UpgradeManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
+        var uiPos = Mouse.current.position.ReadValue();
+
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
+            SetPosition(uiPos);
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
     }
@@ -69,6 +72,12 @@ public class UpgradeManager : MonoBehaviour
         this.turretType = turretType;
         this.target = target;
         UpdateInfo();
+    }
+
+    public void SetPosition(Vector3 newPos)
+    {
+        Vector3 updatedPos = new Vector3(newPos.x, newPos.y + 80, newPos.z);
+        upgradeMenu.transform.position = updatedPos;
     }
 
     private void UpdateInfo()
