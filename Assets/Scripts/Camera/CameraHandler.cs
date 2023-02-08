@@ -510,4 +510,14 @@ public class CameraHandler : MonoBehaviour
     {
         zoomSensetivity = newSense;
     }
+
+    public void UpdateBorderMovement(bool canMove)
+    {
+        screenEdgeMoving = canMove;
+    }
+
+    public void UpdateLockMouseRotate(bool isLocked)
+    {
+        lockMouseWhileRotating = isLocked;
+    }
 }
