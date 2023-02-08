@@ -32,6 +32,15 @@ public class PlayerController : MonoBehaviour
         _playerInput = FindObjectOfType<PlayerInput>();
         _destination = _playerInput.actions[destinationControl];
     }
+    private void Update()
+    {
+
+        if (agent.remainingDistance <= 0.5)
+        {
+            animator.SetBool("IsRunning", false);
+        }
+
+    }
 
     private void OnEnable()
     {
@@ -52,12 +61,8 @@ public class PlayerController : MonoBehaviour
         {
             target = hit.point; // Move the target to the mouse position
             agent.SetDestination(target);
+            animator.SetBool("IsRunning", true);
         }
-    }
-
-    public void MoveToDestination(Vector3 destination)
-    {
-        agent.SetDestination(destination);
     }
 
     public void TakeDamage(int damage)
