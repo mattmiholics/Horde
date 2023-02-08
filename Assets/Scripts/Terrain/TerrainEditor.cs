@@ -128,6 +128,9 @@ public class TerrainEditor : MonoBehaviour
         {
             _playerInput.actions.FindActionMap(editingActionMap, true).Disable();
         }
+
+        placeProxy.SetActive(false);
+        removeProxy.SetActive(false);
     }
 
     private IEnumerator Editing()
@@ -151,7 +154,7 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit);
                         removeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //removed
+                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money) //removed
                         {
                             StartCoroutine(PlacingTerrain(hit, BlockType.Air));
                             
@@ -165,7 +168,7 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit, true);
                         placeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //placed
+                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money) //placed
                         {
                             StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
                         }
@@ -188,9 +191,10 @@ public class TerrainEditor : MonoBehaviour
         //fill with dummy
         BlockType origional = world.GetBlock(hit, place);
         Vector3Int blockPos = Vector3Int.RoundToInt(world.GetBlockPos(hit, place));
+        BlockType blockAbove = WorldDataHelper.GetBlock(world, blockPos + Vector3Int.up);
 
         if (world.IsBlockModifiable(blockPos) && !blockModifyBlacklist.Contains(world.GetBlock(hit, place)) //check if column is modifiable, if its not in the blacklist,
-            && (place || WorldDataHelper.GetBlock(world, blockPos + Vector3Int.up) != BlockType.Barrier))   //and not destroying blocks below towers (barriers)
+            && (place || (blockAbove != BlockType.Barrier && blockAbove != BlockType.Soft_Barrier)))   //and not destroying blocks below towers (barriers)
         {
             ModifyTerrain(hit, BlockType.Barrier, place);
             yield return 1;
@@ -199,12 +203,12 @@ public class TerrainEditor : MonoBehaviour
             bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
 
             //spawn tower
-            if (pathValid && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money)
+            if (pathValid && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
             {
                 ModifyTerrain(hit, blockType, place);
 
                 //remove money from player
-                PlayerStats.Instance.money -= Mathf.RoundToInt(cost * costMultiplier); //update money
+                PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
             }
             else //otherwise remove barriers
             {

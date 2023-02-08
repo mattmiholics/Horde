@@ -52,10 +52,22 @@ public class WaveSpawner : MonoBehaviour
     [Serializable]
     private class SpawnData
     {
+        [MinValue(0)]
         public float time;
+        [MinValue(0)]
         public float duration;
+        [MinValue(0)]
         public int enemyCount;
+
+        [TableColumnWidth(133, false)]
+        [AssetList(CustomFilterMethod = "HasEnemyMovementComponent")]
         public GameObject enemyType;
+
+        private bool HasEnemyMovementComponent(GameObject obj)
+        {
+            return obj.GetComponentInChildren<EnemyMovement>() != null;
+        }
+
         public int spawn;
     }
 
@@ -113,7 +125,7 @@ public class WaveSpawner : MonoBehaviour
     private void Update()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies.Length > 0 && activeCoRoutines >= 1 && !waveStarted) //wave started
+        if (activeCoRoutines >= 1 && !waveStarted) //wave started
         {
             waveStarted = true;
             EditButtons.Instance.DisableButtons();
@@ -150,6 +162,7 @@ public class WaveSpawner : MonoBehaviour
         PlayerStats.Instance.rounds++;
         //Check for any MarketBuildings
         MarketBuilding[] markets = FindObjectsOfType(typeof(MarketBuilding)) as MarketBuilding[];
+
         foreach (MarketBuilding item in markets)
         {
             item.PayPlayer(item.buildingLevel);

@@ -157,6 +157,8 @@ public class TowerEditor : MonoBehaviour
                 m_td.proxy.SetActive(false);
             }
         }
+
+        selectedTower.SetActive(false);
     }
 
     public void NewSelectedTower(GameObject prefab, bool checkPlaying = false)

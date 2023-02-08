@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 57c64212a72e731418c991cf95084a26, type: 2}
+  - {fileID: 2100000, guid: eccc0153340e8b44694a59238e56b77c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,8 +100,6 @@ MonoBehaviour:
   speed: 70
   impactEffect: {fileID: 7081970572383328169, guid: 68b89d475bbab1447b674d33e28c9d64, type: 3}
   damage: 50
-  aSource: {fileID: 1713547648294717945, guid: ef36f7b0c2a128844845980c52626755, type: 3}
-  clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
 --- !u!82 &6622670956569508016
 AudioSource:
   m_ObjectHideFlags: 0
