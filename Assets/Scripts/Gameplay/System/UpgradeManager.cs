@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class UpgradeManager : MonoBehaviour
 {
-    public GameObject upgradeMenu;
-    public GameObject infoText;
+    private GameObject upgradeMenu;
+    private GameObject infoText;
     private int cost;
     private int lvl;
     private string turretType;
@@ -30,6 +30,7 @@ public class UpgradeManager : MonoBehaviour
         {
             // We destroy this instance
             Destroy(this.gameObject);
+            Debug.Log("destroyed");
         }
         else
         {
@@ -60,25 +61,28 @@ public class UpgradeManager : MonoBehaviour
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
-            SetPosition(uiPos);
+            // SetPosition(uiPos);
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
     }
 
-    public void GetInfo(int cost, GameObject target, int currentLevel, string turretType)
+    public void GetInfo(int cost, GameObject target, int currentLevel, string turretType, GameObject upgradeMenu, GameObject infoText)
     {
         this.cost = cost;
         this.lvl = currentLevel;
         this.turretType = turretType;
         this.target = target;
+        this.upgradeMenu = upgradeMenu;
+        this.infoText = infoText;
         UpdateInfo();
     }
 
+    /* 
     public void SetPosition(Vector3 newPos)
     {
         Vector3 updatedPos = new Vector3(newPos.x, newPos.y + 80, newPos.z);
         upgradeMenu.transform.position = updatedPos;
-    }
+    } */
 
     private void UpdateInfo()
     {

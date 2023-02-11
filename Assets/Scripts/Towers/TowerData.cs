@@ -14,6 +14,11 @@ public class TowerData : MonoBehaviour
     [Space]
     public bool editable;
     public bool placeBarriers = true;
+
+    public GameObject upgradeUI;
+    public GameObject infoText;
+    //private GameObject cancelButton = upgradeUI.transform.GetChild(2);
+
     public int cost;
     public int costToLvl = 350;
     public int lvl;
@@ -71,8 +76,8 @@ public class TowerData : MonoBehaviour
     {
         if (lvl < 3)
         {
-            UpgradeManager.Instance.upgradeMenu.SetActive(true);
-            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(costToLvl, gameObject, lvl, type);
+            this.upgradeUI.SetActive(true);
+            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
         }
     }
 
@@ -97,5 +102,8 @@ public class TowerData : MonoBehaviour
         }
     }
 
-
+    public void upgradeTest()
+    {
+        Debug.Log("test");
+    }
 }
