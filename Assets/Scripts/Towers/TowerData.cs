@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using Unity.AI.Navigation;
+using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using System;
 
 public class TowerData : MonoBehaviour
 {
@@ -21,7 +24,7 @@ public class TowerData : MonoBehaviour
 
     public int cost;
     public int costToLvl = 350;
-    public int lvl;
+    public int lvl = 0;
     [Space]
     public string type;
     [Space]
@@ -48,8 +51,25 @@ public class TowerData : MonoBehaviour
     public GameObject lvl3Main;
     public GameObject lvl3Proxy;
 
+
     [Space]
     public bool showGizmo;
+
+    private static TowerData _instance;
+    public static TowerData Instance { get { return _instance; } }
+
+    [SerializeField]
+    private List<TowerUpgradeData> upgradeDataList;
+
+
+    [Serializable]
+    private class TowerUpgradeData
+    {
+        public GameObject main;
+        public GameObject proxy;
+        [MinValue(0)]
+        public int costToLvl;
+    }
 
 
 
@@ -74,16 +94,29 @@ public class TowerData : MonoBehaviour
 
     public void BeginUpgrade()
     {
+        if(lvl+1 < upgradeDataList.ToArray().Length)
+        {
+            this.upgradeUI.SetActive(true);
+            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[lvl].costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
+
+        }
+        /*
         if (lvl < 3)
         {
             this.upgradeUI.SetActive(true);
             UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
         }
+        */
     }
 
 
     public void Upgrade()
     {
+        upgradeDataList[lvl].main.SetActive(false);
+        upgradeDataList[lvl + 1].main.SetActive(true);
+        lvl++;
+
+        /*
         if (lvl == 1)
         {
             main.SetActive(false);
@@ -100,6 +133,7 @@ public class TowerData : MonoBehaviour
             proxy = lvl3Proxy;
             lvl++;
         }
+        */
     }
 
     public void upgradeTest()
