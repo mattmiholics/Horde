@@ -21,10 +21,45 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
+--- !u!114 &-6922908992817670324
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c209da0407915e4cb0f4fcd7b31a446, type: 3}
+  m_Name: AmbientOcclusion2D
+  m_EditorClassIdentifier: 
+  active: 1
+  aoOnly:
+    m_OverrideState: 0
+    m_Value: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  luminanceThreshold:
+    m_OverrideState: 0
+    m_Value: 0.05
+  distance:
+    m_OverrideState: 0
+    m_Value: 0.3
+  blurAmount:
+    m_OverrideState: 0
+    m_Value: 0.85
+  iterations:
+    m_OverrideState: 0
+    m_Value: 4
+  downscaling:
+    m_OverrideState: 0
+    m_Value: 2
+  shader: {fileID: 4800000, guid: e6dfd97d0036974448658a80b2ae413b, type: 3}
 --- !u!114 &-6007862234540271587
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -46,7 +81,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.44
+    m_Value: 0
   smoothness:
     m_OverrideState: 1
     m_Value: 0.2
@@ -68,7 +103,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: -0.3
+    m_Value: 0
   xMultiplier:
     m_OverrideState: 0
     m_Value: 0
@@ -153,7 +188,7 @@ MonoBehaviour:
   active: 1
   amount:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   mode:
     m_OverrideState: 1
     m_Value: 0
@@ -219,6 +254,7 @@ MonoBehaviour:
   - {fileID: -1319934636863906624}
   - {fileID: -1557444942619649466}
   - {fileID: -2381796952063531639}
+  - {fileID: -6922908992817670324}
 --- !u!114 &7119699448633279425
 MonoBehaviour:
   m_ObjectHideFlags: 3
