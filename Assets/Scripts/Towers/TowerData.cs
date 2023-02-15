@@ -105,8 +105,8 @@ public class TowerData : MonoBehaviour
         {
             this.upgradeUI.SetActive(true);
             UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
-        }
-        */
+        }*/
+        
     }
 
 
@@ -136,8 +136,13 @@ public class TowerData : MonoBehaviour
         */
     }
 
-    public void upgradeTest()
+    public void upgradeTurret()
     {
-        Debug.Log("test");
+        UpgradeManager.Instance.GetComponent<UpgradeManager>().UpgradeTarget();
+    }
+
+    public void cancel()
+    {
+        this.upgradeUI.SetActive(false);
     }
 }
