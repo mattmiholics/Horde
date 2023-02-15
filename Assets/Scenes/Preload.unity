@@ -3681,12 +3681,12 @@ RectTransform:
   - {fileID: 1286403689}
   - {fileID: 912334493}
   m_Father: {fileID: 883613341}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 915.0158, y: 482.99997}
-  m_SizeDelta: {x: 3740, y: 980}
+  m_AnchoredPosition: {x: 0, y: -3.500061}
+  m_SizeDelta: {x: 1872.7412, y: 7}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &273875125
 MonoBehaviour:
@@ -3706,7 +3706,7 @@ MonoBehaviour:
   - {fileID: 1286403689}
   - {fileID: 912334493}
   offsets:
-  - {fileID: 0}
+  - {fileID: 273875124}
   direction: 2
   animationTime: 0.3
   animationCurve:
@@ -10635,7 +10635,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 652981842}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10651,7 +10651,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2040257248}
         m_TargetAssemblyTypeName: EditButtons, Assembly-CSharp
         m_MethodName: ToggleTowerEditing
         m_Mode: 1
@@ -15133,15 +15133,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1866071070}
-  - {fileID: 2040257246}
   - {fileID: 273875124}
   m_Father: {fileID: 2131687290}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -482.99997}
-  m_SizeDelta: {x: -1830, y: -980}
+  m_AnchoredPosition: {x: 703.21234, y: 0.000061035156}
+  m_SizeDelta: {x: -1406.4249, y: -0.00036621}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &910927125
 GameObject:
@@ -19759,7 +19758,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1133741963}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -19775,7 +19774,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2040257248}
         m_TargetAssemblyTypeName: EditButtons, Assembly-CSharp
         m_MethodName: ToggleDefault
         m_Mode: 1
@@ -21727,7 +21726,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1239154177}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -21743,7 +21742,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2040257248}
         m_TargetAssemblyTypeName: EditButtons, Assembly-CSharp
         m_MethodName: ToggleDefault
         m_Mode: 1
@@ -29095,7 +29094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.005554199, y: 0}
+  m_AnchoredPosition: {x: 0.0056152344, y: 0}
   m_SizeDelta: {x: -28.199951, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1712191868
@@ -31809,13 +31808,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2040257246}
   m_Father: {fileID: 883613341}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0010071, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 59.19}
   m_SizeDelta: {x: 449.81, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1866071071
@@ -34716,6 +34716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2040257246}
   - component: {fileID: 2040257247}
+  - component: {fileID: 2040257248}
   m_Layer: 5
   m_Name: EditorUILayout
   m_TagString: Untagged
@@ -34739,12 +34740,12 @@ RectTransform:
   - {fileID: 2092232578}
   - {fileID: 1239154175}
   - {fileID: 1133741961}
-  m_Father: {fileID: 883613341}
-  m_RootOrder: 1
+  m_Father: {fileID: 1866071070}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0.0009912477, y: 50.000122}
   m_SizeDelta: {x: 449.81, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040257247
@@ -34773,6 +34774,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2040257248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040257245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed87896008bc304ea5a5b0ff0044ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupHandler: {fileID: 273875125}
+  towerEditorPopupIndex: 0
+  terrainEditorPopupIndex: 1
+  disabledDuringWave:
+  - {fileID: 652981841}
+  - {fileID: 2092232579}
 --- !u!1 &2059709518
 GameObject:
   m_ObjectHideFlags: 0
@@ -35492,7 +35511,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 2092232580}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -35508,7 +35527,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2040257248}
         m_TargetAssemblyTypeName: EditButtons, Assembly-CSharp
         m_MethodName: ToggleTerrainEditing
         m_Mode: 1
