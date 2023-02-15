@@ -15,7 +15,7 @@ public static class PathSearch
         List<PathPoint> closedPoints = new List<PathPoint>();
         openPoints.Add(NewPathPoint(intStartPoint, 0, Vector3Int.Distance(intStartPoint, intEndPoint), EMoveAction.walk));
         closedPoints.Add(openPoints[0]);
-        openPoints = ClosePoint(0, openPoints, closedPoints, worldData, pfType, intEndPoint);
+        openPoints = ClosePoint(0, openPoints, closedPoints, worldData, pfType, intEndPoint, true);
         bool pathFound = false;
         float maxEstimatePath = 1500;
 
@@ -135,7 +135,7 @@ public static class PathSearch
         return path;
     }
 
-    private static List<PathPoint> ClosePoint(int index, List<PathPoint> openPoints, List<PathPoint> closedPoints, World world, SPathFinderType pfType, Vector3Int targetPoint)
+    private static List<PathPoint> ClosePoint(int index, List<PathPoint> openPoints, List<PathPoint> closedPoints, World world, SPathFinderType pfType, Vector3Int targetPoint, bool ignoreVerticalCheck = false)
     {
         List<PathPoint> newOpenPoints = openPoints;
         PathPoint lastPoint = openPoints[index];
@@ -145,7 +145,7 @@ public static class PathSearch
         Vector3Int east = new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1);
         Vector3Int west = new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1);
 
-        if (SizeCheck(ref lastPoint, pfType, world))
+        if (SizeCheck(ref lastPoint, pfType, world, ignoreVerticalCheck))
         {
             // ---------------------------------------------------------------//north//   /|\//    |// 
             if (SizeCheck(ref north, pfType, world)
@@ -198,10 +198,10 @@ public static class PathSearch
         return newOpenPoints;
     }
 
-    private static bool SizeCheck(ref Vector3Int point, SPathFinderType type, World world)
+    private static bool SizeCheck(ref Vector3Int point, SPathFinderType type, World world, bool ignoreVerticalCheck = false)
     {
-        if (VerticalCheck(ref point, type, world))
-            return true;
+        if (!ignoreVerticalCheck && !VerticalCheck(ref point, type, world))
+            return false;
 
         for (int i = 0; i < type.characterHeight; i++)
         {
@@ -214,11 +214,13 @@ public static class PathSearch
         return true;
     }
 
-    private static bool SizeCheck(ref PathPoint pathpoint, SPathFinderType type, World world)
+    private static bool SizeCheck(ref PathPoint pathpoint, SPathFinderType type, World world, bool ignoreVerticalCheck = false)
     {
         Vector3Int point = pathpoint.point;
-        bool sizeCheckBool = SizeCheck(ref point, type, world);
+        bool sizeCheckBool = SizeCheck(ref point, type, world, ignoreVerticalCheck);
         pathpoint.point = point;
+
+        // Need to update hueristics here too
 
         return sizeCheckBool;
     }
@@ -241,7 +243,7 @@ public static class PathSearch
         }
         else // Current block is air so check for fall distance
         {
-            for (int i = 1; i <= type.maxFallDistance; i++)
+            for (int i = 1; i <= type.maxFallDistance + 1; i++)
             {
                 blockType = WorldDataHelper.GetBlock(world, point - new Vector3Int(0, i, 0));
                 if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier)
