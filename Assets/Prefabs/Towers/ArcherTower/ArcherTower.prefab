@@ -2458,7 +2458,16 @@ MonoBehaviour:
   lvl3Main: {fileID: 8422478646709018389}
   lvl3Proxy: {fileID: 5967429755111889719}
   showGizmo: 0
-  upgradeDataList: []
+  upgradeDataList:
+  - main: {fileID: 4953947662352260004}
+    proxy: {fileID: 2393908278401241128}
+    costToLvl: 350
+  - main: {fileID: 626151332578261127}
+    proxy: {fileID: 7451804328704762979}
+    costToLvl: 700
+  - main: {fileID: 8422478646709018389}
+    proxy: {fileID: 5967429755111889719}
+    costToLvl: 1100
 --- !u!1 &6474238135682969483
 GameObject:
   m_ObjectHideFlags: 0

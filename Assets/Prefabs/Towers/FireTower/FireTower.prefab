@@ -633,6 +633,16 @@ MonoBehaviour:
   lvl3Main: {fileID: 3560213310364313134}
   lvl3Proxy: {fileID: 6850486324523920190}
   showGizmo: 0
+  upgradeDataList:
+  - main: {fileID: 1602951521015417412}
+    proxy: {fileID: 1238280220135687876}
+    costToLvl: 750
+  - main: {fileID: 6909883108600440316}
+    proxy: {fileID: 7719116132146860059}
+    costToLvl: 1200
+  - main: {fileID: 3560213310364313134}
+    proxy: {fileID: 6850486324523920190}
+    costToLvl: 1750
 --- !u!208 &-3680261497845567882
 NavMeshObstacle:
   m_ObjectHideFlags: 0

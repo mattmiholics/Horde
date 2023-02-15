@@ -482,6 +482,16 @@ MonoBehaviour:
   lvl3Main: {fileID: 7764855213982527556}
   lvl3Proxy: {fileID: 5616121398132585574}
   showGizmo: 1
+  upgradeDataList:
+  - main: {fileID: 6602026639863969013}
+    proxy: {fileID: 4474387787115331449}
+    costToLvl: 650
+  - main: {fileID: 1697962925787256790}
+    proxy: {fileID: 8667962083683961650}
+    costToLvl: 1000
+  - main: {fileID: 7764855213982527556}
+    proxy: {fileID: 5616121398132585574}
+    costToLvl: 1500
 --- !u!120 &1632305269818597670
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -884,7 +894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8667962083683961650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.111504555, y: 1.6958537, z: -0.17518997}
+  m_LocalPosition: {x: 0.1115036, y: 1.6958537, z: -0.17518616}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
