@@ -241,9 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5
+  id: 6
   editable: 0
   placeBarriers: 1
+  upgradeUI: {fileID: 0}
+  infoText: {fileID: 0}
   cost: 300
   costToLvl: 350
   lvl: 1
@@ -261,6 +263,7 @@ MonoBehaviour:
   lvl3Main: {fileID: 0}
   lvl3Proxy: {fileID: 0}
   showGizmo: 0
+  upgradeDataList: []
 --- !u!114 &138547339522853192
 MonoBehaviour:
   m_ObjectHideFlags: 0
