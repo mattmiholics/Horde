@@ -238,13 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db0e744b7ccf924595e8041489afc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  damage: 0
   agent: {fileID: 386663479654082274}
-  animator: {fileID: 793427055596785475}
   ground:
     serializedVersion: 2
     m_Bits: 8
-  health: 100
   destinationControl: Unit/Destination
+  animator: {fileID: 793427055596785475}
 --- !u!114 &386663479654082285
 MonoBehaviour:
   m_ObjectHideFlags: 0

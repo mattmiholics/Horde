@@ -8,6 +8,7 @@ public class PurchaseTroops : MonoBehaviour
 {
     public Transform troop1Prefab;
     public Transform troop2Prefab;
+    public Transform troop3Prefab;
     public Transform troopParent;
     private Transform troop;
 
@@ -63,6 +64,16 @@ public class PurchaseTroops : MonoBehaviour
             troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 200;
+        }
+    }
+
+    public void SpawnTroop3()
+    {
+        if (PlayerStats.Instance.money >= 0)
+        {
+            troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            PlayerStats.Instance.money -= 0;
         }
     }
 }
