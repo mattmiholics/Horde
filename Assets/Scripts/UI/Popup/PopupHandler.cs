@@ -11,7 +11,8 @@ public class PopupHandler : MonoBehaviour
 {
     public enum Direction { up, down, left, right }
     public List<RectTransform> popups;
-    public List<RectTransform> offsets;
+    public RectTransform[] offsets;
+    private Vector2[] origionalOffsetInits;
     [Space(25)]
     public Direction direction;
     public float animationTime = 0.5f;
@@ -32,6 +33,8 @@ public class PopupHandler : MonoBehaviour
         currentActive = -1;
         animating = false;
         activating = false;
+
+        origionalOffsetInits = offsets.Select(o => o.anchoredPosition).ToArray();
     }
 
     public void ActivatePopup(int index)
@@ -177,6 +180,7 @@ public class PopupHandler : MonoBehaviour
     {
         animating = true;
         Vector2 init = rt.anchoredPosition;
+        Vector2[] offsetInits = offsets.Select(o => o.anchoredPosition).ToArray();
 
         float currentTime = 0;
         while (currentTime < animationTime)
@@ -185,15 +189,15 @@ public class PopupHandler : MonoBehaviour
             {
                 rt.anchoredPosition = new Vector2(init.x, Mathf.LerpUnclamped(init.y, movementTarget, animationCurve.Evaluate(currentTime / animationTime)));
                 if (offsets != null)
-                    foreach (RectTransform offset in offsets)
-                        offset.anchoredPosition = new Vector2(init.x, Mathf.LerpUnclamped(init.y, movementTarget, animationCurve.Evaluate(currentTime / animationTime)));
+                    for (int i = 0; i < offsets.Length; i++)
+                        offsets[i].anchoredPosition = new Vector2(origionalOffsetInits[i].x, Mathf.LerpUnclamped(offsetInits[i].y, movementTarget + origionalOffsetInits[i].y, animationCurve.Evaluate(currentTime / animationTime)));
             }
             else
             {
                 rt.anchoredPosition = new Vector2(Mathf.LerpUnclamped(init.x, movementTarget, animationCurve.Evaluate(currentTime / animationTime)), init.y);
                 if (offsets != null)
-                    foreach (RectTransform offset in offsets)
-                        offset.anchoredPosition = new Vector2(Mathf.LerpUnclamped(init.x, movementTarget, animationCurve.Evaluate(currentTime / animationTime)), init.y);
+                    for (int i = 0; i < offsets.Length; i++)
+                        offsets[i].anchoredPosition = new Vector2(Mathf.LerpUnclamped(offsetInits[i].x, movementTarget + origionalOffsetInits[i].x, animationCurve.Evaluate(currentTime / animationTime)), origionalOffsetInits[i].y);
             }
 
             currentTime += Time.unscaledDeltaTime;
@@ -205,15 +209,15 @@ public class PopupHandler : MonoBehaviour
         {
             rt.anchoredPosition = new Vector2(init.x, movementTarget);
             if (offsets != null)
-                foreach (RectTransform offset in offsets)
-                    offset.anchoredPosition = new Vector2(init.x, movementTarget);
+                for (int i = 0; i < offsets.Length; i++)
+                    offsets[i].anchoredPosition = new Vector2(origionalOffsetInits[i].x, movementTarget + origionalOffsetInits[i].y);
         }
         else
         {
             rt.anchoredPosition = new Vector2(movementTarget, init.y);
             if (offsets != null)
-                foreach (RectTransform offset in offsets)
-                    offset.anchoredPosition = new Vector2(movementTarget, init.y);
+                for (int i = 0; i < offsets.Length; i++)
+                    offsets[i].anchoredPosition = new Vector2(movementTarget + origionalOffsetInits[i].x, origionalOffsetInits[i].y);
         }
 
         animating = false;

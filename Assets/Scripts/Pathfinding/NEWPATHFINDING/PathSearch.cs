@@ -21,6 +21,14 @@ public static class PathSearch
 
         while (true)
         {
+            if (EndFound(closedPoints))
+            {
+                //Debug.Log("Finished!");
+                path = GetPathToTarget(closedPoints);
+                pathFound = true;
+                break;
+            }
+
             int minIndex = GetMinEstimate(openPoints);
 
             if (openPoints.Count > 0)
@@ -35,14 +43,6 @@ public static class PathSearch
                     openPoints.RemoveAt(minIndex);
                 }
 
-            if (EndFound(closedPoints))
-            {
-                //Debug.Log("Finished!");
-                path = GetPathToTarget(closedPoints);
-                pathFound = true;
-                break;
-            }
-
             if (openPoints.Count <= 0)
             {
                 pathFound = false;
@@ -55,7 +55,7 @@ public static class PathSearch
             }
         }
 
-        Debug.Log("Nodes created " + closedPoints.Count.ToString());
+        //Debug.Log("Nodes created " + closedPoints.Count.ToString());
 
         DrawPath(openPoints, Color.green, 0.5f);
         DrawPath(closedPoints, Color.blue, 0.5f);
@@ -140,122 +140,118 @@ public static class PathSearch
         List<PathPoint> newOpenPoints = openPoints;
         PathPoint lastPoint = openPoints[index];
 
-        if (SizeCheck(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z), pfType.characterHeight, world) 
-        && VerticalCheck(ref lastPoint, pfType.maxFallDistance, pfType.jumpHeight, world))
+        Vector3Int north = new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z);
+        Vector3Int south = new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z);
+        Vector3Int east = new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1);
+        Vector3Int west = new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1);
+
+        if (SizeCheck(ref lastPoint, pfType, world))
         {
             // ---------------------------------------------------------------//north//   /|\//    |// 
-            if (!closedPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z))
-            && (!newOpenPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z)))
-            && (SizeCheck(new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z), pfType.characterHeight, world)))
+            if (SizeCheck(ref north, pfType, world)
+            && !closedPoints.Any(point => point.point == north)
+            && !newOpenPoints.Any(point => point.point == north))
             {
-                newOpenPoints.Add(NewPathPoint(new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z)
+                newOpenPoints.Add(NewPathPoint(north
                 , lastPoint.pathLenghtFromStart + 1
-                , Vector3Int.Distance(new Vector3Int(lastPoint.point.x + 1, lastPoint.point.y, lastPoint.point.z), targetPoint)
+                , Vector3Int.Distance(north, targetPoint)
                 , EMoveAction.walk
                 , lastPoint));
             }
 
             // south//    |//   \|///
-            if (!closedPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z))
-            && (!newOpenPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z)))
-            && (SizeCheck(new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z), pfType.characterHeight, world)))
+            if (SizeCheck(ref south, pfType, world)
+            && !closedPoints.Any(point => point.point == south)
+            && !newOpenPoints.Any(point => point.point == south))
             {
-                newOpenPoints.Add(NewPathPoint(new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z)
+                newOpenPoints.Add(NewPathPoint(south
                 , lastPoint.pathLenghtFromStart + 1
-                , Vector3Int.Distance(new Vector3Int(lastPoint.point.x - 1, lastPoint.point.y, lastPoint.point.z), targetPoint)
+                , Vector3Int.Distance(south, targetPoint)
                 , EMoveAction.walk
                 , lastPoint));
             }
             // east//    ---->//   //
-            if (!closedPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1))
-            && (!newOpenPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1)))
-            && (SizeCheck(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1), pfType.characterHeight, world)))
+            if (SizeCheck(ref east, pfType, world)
+            && !closedPoints.Any(point => point.point == east)
+            && !newOpenPoints.Any(point => point.point == east))
             {
-                newOpenPoints.Add(NewPathPoint(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1)
+                newOpenPoints.Add(NewPathPoint(east
                 , lastPoint.pathLenghtFromStart + 1
-                , Vector3Int.Distance(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z + 1), targetPoint)
+                , Vector3Int.Distance(east, targetPoint)
                 , EMoveAction.walk
                 , lastPoint));
             }
             // west//    <----//   //
-            if (!closedPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1))
-            && (!newOpenPoints.Any(point => point.point == new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1)))
-            && (SizeCheck(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1), pfType.characterHeight, world)))
+            if (SizeCheck(ref west, pfType, world)
+            && !closedPoints.Any(point => point.point == west)
+            && !newOpenPoints.Any(point => point.point == west))
             {
-                newOpenPoints.Add(NewPathPoint(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1)
+                newOpenPoints.Add(NewPathPoint(west
                 , lastPoint.pathLenghtFromStart + 1
-                , Vector3Int.Distance(new Vector3Int(lastPoint.point.x, lastPoint.point.y, lastPoint.point.z - 1), targetPoint)
+                , Vector3Int.Distance(west, targetPoint)
                 , EMoveAction.walk
                 , lastPoint));
             }
         }
+
         newOpenPoints.RemoveAt(index);
         return newOpenPoints;
     }
 
-    private static bool SizeCheck(Vector3Int position, int characterHeight, World world)
+    private static bool SizeCheck(ref Vector3Int point, SPathFinderType type, World world)
     {
-        for (int i = 0; i < characterHeight; i++)
+        if (VerticalCheck(ref point, type, world))
+            return true;
+
+        for (int i = 0; i < type.characterHeight; i++)
         {
-            BlockType blockType = WorldDataHelper.GetBlock(world, position);
+            BlockType blockType = WorldDataHelper.GetBlock(world, point);
             if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier)
             {
                 return false;
-            }   
+            }
         }
         return true;
     }
 
-    private static bool VerticalCheck(ref PathPoint pathpoint, int maxFallDistance, int jumpHeight, World world)
+    private static bool SizeCheck(ref PathPoint pathpoint, SPathFinderType type, World world)
     {
-        Vector3Int position = pathpoint.point;
+        Vector3Int point = pathpoint.point;
+        bool sizeCheckBool = SizeCheck(ref point, type, world);
+        pathpoint.point = point;
 
-        BlockType blockType = WorldDataHelper.GetBlock(world, position);
+        return sizeCheckBool;
+    }
+
+    private static bool VerticalCheck(ref Vector3Int point, SPathFinderType type, World world)
+    {
+        BlockType blockType = WorldDataHelper.GetBlock(world, point);
 
         if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier) // Current block is filled so check for jump height
         {
-            for (int i = 1; i <= jumpHeight; i++)
+            for (int i = 1; i <= type.jumpHeight; i++)
             {
-                blockType = WorldDataHelper.GetBlock(world, position + new Vector3Int(0, i, 0));
+                blockType = WorldDataHelper.GetBlock(world, point + new Vector3Int(0, i, 0));
                 if (blockType == BlockType.Air || blockType == BlockType.Soft_Barrier)
                 {
-                    pathpoint.point += new Vector3Int(0, i, 0);
+                    point += new Vector3Int(0, i, 0);
                     return true;
                 }
             }
         }
         else // Current block is air so check for fall distance
         {
-            for (int i = 1; i <= maxFallDistance; i++)
+            for (int i = 1; i <= type.maxFallDistance; i++)
             {
-                blockType = WorldDataHelper.GetBlock(world, position - new Vector3Int(0, i, 0));
+                blockType = WorldDataHelper.GetBlock(world, point - new Vector3Int(0, i, 0));
                 if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier)
                 {
-                    pathpoint.point -= new Vector3Int(0, i - 1, 0);
+                    point -= new Vector3Int(0, i - 1, 0);
                     return true;
                 }
             }
         }
         return false; // The agent cannot fall/jump to this difference in vertical height
-    }
-}
-
-public struct SPathFinderType
-{
-    public bool walk, jump, fall;
-    public int maxFallDistance, jumpHeight, jumpDistance;
-    public int characterHeight;
-    public static SPathFinderType normal()
-    {
-        SPathFinderType n = new SPathFinderType();
-        n.walk = true;
-        n.jump = true;
-        n.fall = true;
-        n.maxFallDistance = 1;
-        n.jumpHeight = 1;
-        n.jumpDistance = 0;
-        n.characterHeight = 2;
-        return n;
     }
 }
 
