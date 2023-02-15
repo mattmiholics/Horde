@@ -121,6 +121,18 @@ public class WaveSpawner : MonoBehaviour
     private void Start()
     {
         spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
+
+        Debug.Log(NextButtons.Instance.name);
+        Debug.Log(NextButtons.Instance.nextWaveButton.name);
+        Debug.Log(NextButtons.Instance.nextLevelButton.name);
+
+        NextButtons.Instance.nextLevelButton.SetActive(false);
+
+        // Check if there are any waves
+        if (waveDataList != null && waveDataList.Count > 0)
+            NextButtons.Instance.nextWaveButton.SetActive(true);
+        else
+            NextButtons.Instance.nextWaveButton.SetActive(false);
     }
     private void Update()
     {
@@ -130,12 +142,20 @@ public class WaveSpawner : MonoBehaviour
             waveStarted = true;
             EditButtons.Instance.DisableButtons();
             startWave.Invoke();
+
+            NextButtons.Instance.nextWaveButton.SetActive(false);
         }
         else if (enemies.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
             waveStarted = false;
             endWave.Invoke();
             EditButtons.Instance.EnableButtons();
+
+            // Check if there are any more waves
+            if (waveNum > waveDataList.Count)
+                NextButtons.Instance.nextLevelButton.SetActive(true);
+            else
+                NextButtons.Instance.nextWaveButton.SetActive(true);
         }
     }
 
@@ -160,13 +180,6 @@ public class WaveSpawner : MonoBehaviour
     public void SpawnNextWave()
     {
         PlayerStats.Instance.rounds++;
-        //Check for any MarketBuildings
-        MarketBuilding[] markets = FindObjectsOfType(typeof(MarketBuilding)) as MarketBuilding[];
-
-        foreach (MarketBuilding item in markets)
-        {
-            item.PayPlayer(item.buildingLevel);
-        }
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
         spawnWave(currWave);

@@ -87,8 +87,6 @@ public class Agent : SerializedMonoBehaviour
 
     private IEnumerator FollowPath(List<PathPoint> pathPoints)
     {
-        Debug.Log("new follow");
-
         pathPoints.Reverse();
 
         if (pathPoints.Count <= 0)
