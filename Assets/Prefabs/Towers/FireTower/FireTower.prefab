@@ -997,6 +997,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7939827575190920760}
     m_Modifications:
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7133776328832873815}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: cancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerData, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7133776328832873815}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: upgradeTurret
+      objectReference: {fileID: 0}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerData, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3814613057151578943, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Name
       value: UI_Canvas

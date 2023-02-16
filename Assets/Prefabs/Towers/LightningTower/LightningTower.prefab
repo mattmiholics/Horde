@@ -1711,6 +1711,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8146736873603658089}
     m_Modifications:
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3195081099761220971}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: cancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerData, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3195081099761220971}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: upgradeTurret
+      objectReference: {fileID: 0}
+    - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerData, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3814613057151578943, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Name
       value: UI_Canvas
@@ -1798,6 +1822,10 @@ PrefabInstance:
     - target: {fileID: 5041716919129187912, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734397242102702512, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69140887403e65a45859e30d944f40dc, type: 3}
