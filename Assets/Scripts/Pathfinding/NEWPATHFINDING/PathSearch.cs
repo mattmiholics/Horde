@@ -9,7 +9,7 @@ public static class PathSearch
     public static bool GetPathToTarget(Vector3 startPoint, Vector3 endPoint, World worldData, SPathFinderType pfType, out List<PathPoint> pathPoints, int maxNodes = 1000)
     {
         Vector3Int intStartPoint = Vector3Int.RoundToInt(startPoint);
-        Vector3Int intEndPoint = Vector3Int.RoundToInt(endPoint);
+        Vector3Int intEndPoint = worldData.GetSurfaceHeightPosition(endPoint, true);
         List<PathPoint> path = new List<PathPoint>();
         List<PathPoint> openPoints = new List<PathPoint>();
         List<PathPoint> closedPoints = new List<PathPoint>();

@@ -571,15 +571,17 @@ public class World : MonoBehaviour
         public List<Vector3Int> chunkPositionsToUpdate;
     }
 
-    public Vector3Int GetSurfaceHeightPosition(Vector2 nearestXZ)
+    public Vector3Int GetSurfaceHeightPosition(Vector3 nearestXZ, bool searchBelow = false)
     {
-        Vector3Int blockPos = new Vector3Int(Mathf.RoundToInt(nearestXZ.x), 0, Mathf.RoundToInt(nearestXZ.y));
-        for (int i = chunkHeight - 1; i > 0; i--)
+        Vector3Int blockPos = Vector3Int.RoundToInt(nearestXZ);
+        for (int i = (searchBelow ? blockPos.y : chunkHeight - 1); i > 0; i--)
         {
-            BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.y);
-            if (block != BlockType.Nothing && block != BlockType.Air)
+            Debug.Log(new Vector3Int(blockPos.x, i, blockPos.z));
+
+            BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.z);
+            if (block != BlockType.Nothing && block != BlockType.Air && block != BlockType.Soft_Barrier)
             {
-                blockPos.y = i;
+                blockPos.y = i + 1;
                 break;
             }
         }

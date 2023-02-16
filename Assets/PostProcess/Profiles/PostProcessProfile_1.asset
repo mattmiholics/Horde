@@ -50,10 +50,10 @@ MonoBehaviour:
     m_Value: 1
   density:
     m_OverrideState: 1
-    m_Value: 0.457
+    m_Value: 0.424
   speed:
     m_OverrideState: 1
-    m_Value: 0.14
+    m_Value: 0.25
   direction:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.5}
