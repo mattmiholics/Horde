@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 8372085862632968230}
   - component: {fileID: 2351795037486638901}
   - component: {fileID: -7063945888824949614}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Test Enemy Slow
   m_TagString: Enemy
   m_Icon: {fileID: 0}
