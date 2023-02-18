@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Linq;
+using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Agent : SerializedMonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public event Action<List<PathPoint>> PathUpdated;   
+
+    new public Rigidbody rigidbody;
     public LayerMask groundLayer;
     public SPathFinderType type;
+    // Debug
+    public int debugMaxNodes;
     public Transform debugTarget;
 
     public float jumpHeightMultiplier = 7;
@@ -19,16 +24,36 @@ public class Agent : SerializedMonoBehaviour
     private bool jumpReady;
 
     private Vector3 currentTarget;
+    private int latestMaxNodes;
 
     private Coroutine followPathCoroutine;
+
+    [Button]
+    private void SearchPath() // This is to debug
+    {
+        SetTarget(debugTarget.position, debugMaxNodes);
+    }
+
+    private void OnEnable()
+    {
+        World.ChunkUpdated += ChunksUpdatePath;
+    }
+
+    private void OnDisable()
+    {
+        World.ChunkUpdated -= ChunksUpdatePath;
+    }
+
+    private void ChunksUpdatePath(HashSet<ChunkRenderer> updatedChunks)
+    {
+        SetTarget(currentTarget, latestMaxNodes);
+    }
 
     private void Start()
     {
         jumpReady = true;
 
         rigidbody.useGravity = false;
-
-        StartCoroutine(SearchPath());
     }
 
     private void FixedUpdate()
@@ -36,33 +61,24 @@ public class Agent : SerializedMonoBehaviour
         rigidbody.AddForce(Vector3.down * rigidbody.mass * gravity);
     }
 
-    private IEnumerator SearchPath()
-    {
-        for (; ; )
-        {
-            yield return new WaitForSeconds(0.5f);
-            SetTarget(debugTarget.position, 35);
-        }
-    }
-
     /// <summary>
     /// Sets a target position for the agent to pathfind to, and starts following the path it calculates.
     /// </summary>
     public void SetTarget(Vector3 target, int maxNodes = 1000)
     {
-        if (PathSearch.GetPathToTarget(rigidbody.position, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes))
+        latestMaxNodes = maxNodes;
+
+        if (PathSearch.GetPathToTarget(rigidbody.position, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes) && pathPoints.Count > 0)
         {
-            if (pathPoints.Count > 0)
-            {
-                if (pathPoints.Count <= 1 && currentTarget == Vector3Int.RoundToInt(target))
-                    return;
+            if (pathPoints.Count <= 1 && currentTarget == Vector3Int.RoundToInt(target))
+                return;
 
-                currentTarget = Vector3Int.RoundToInt(target);
+            currentTarget = Vector3Int.RoundToInt(target);
+            PathUpdated?.Invoke(pathPoints);
 
-                if (followPathCoroutine != null)
-                    StopCoroutine(followPathCoroutine);
-                followPathCoroutine = StartCoroutine(FollowPath(pathPoints));
-            }
+            if (followPathCoroutine != null)
+                StopCoroutine(followPathCoroutine);
+            followPathCoroutine = StartCoroutine(FollowPath(pathPoints));
         }
         else
         {
@@ -80,6 +96,12 @@ public class Agent : SerializedMonoBehaviour
     /// </summary>
     public void SetTarget(List<PathPoint> calculatedPathPoints)
     {
+        // Check for nearest path point instead of the first
+        /*int nearestIndex = calculatedPathPoints.Select((p, ix) => new { Point = p, Index = ix })
+                                               .OrderBy(x => Vector3.Distance(x.Point.point, rigidbody.position))
+                                               .First()
+                                               .Index;*/
+
         if (followPathCoroutine != null)
             StopCoroutine(followPathCoroutine);
         followPathCoroutine = StartCoroutine(FollowPath(calculatedPathPoints));

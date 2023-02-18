@@ -576,8 +576,6 @@ public class World : MonoBehaviour
         Vector3Int blockPos = Vector3Int.RoundToInt(nearestXZ);
         for (int i = (searchBelow ? blockPos.y : chunkHeight - 1); i > 0; i--)
         {
-            Debug.Log(new Vector3Int(blockPos.x, i, blockPos.z));
-
             BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.z);
             if (block != BlockType.Nothing && block != BlockType.Air && block != BlockType.Soft_Barrier)
             {
