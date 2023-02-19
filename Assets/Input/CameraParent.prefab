@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 668968358719689807}
   - component: {fileID: 668968358719689800}
-  - component: {fileID: 668968358719689806}
   m_Layer: 7
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -72,23 +71,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 668968358829219695}
---- !u!114 &668968358719689806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668968358719689801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FocusTracksTarget: 0
-  m_FocusTracking: 0
-  m_FocusTarget: {fileID: 0}
-  m_FocusOffset: 0
-  m_Profile: {fileID: 11400000, guid: c41a493c34f217d4fa10b12d341bea76, type: 2}
 --- !u!1 &668968358829219688
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,8 +269,8 @@ MonoBehaviour:
   cameraZoom: {fileID: 668968359478054577}
   lockControls: 0
   lockMouseWhileRotating: 1
-  lockLookX: 1
-  minMaxLookX: {x: 280, y: 80}
+  lockLookY: 1
+  minMaxLookY: {x: 0, y: 0}
   screenEdgeMoving: 0
   screenEdgeRatio: 0.02
   lockToWorldBorder: 1

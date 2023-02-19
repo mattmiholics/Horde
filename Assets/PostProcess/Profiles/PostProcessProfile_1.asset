@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: 15
+    m_Value: 5
 --- !u!114 &-5146186128181405064
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_Value: 1
   density:
     m_OverrideState: 1
-    m_Value: 0.424
+    m_Value: 0.522
   speed:
     m_OverrideState: 1
     m_Value: 0.25

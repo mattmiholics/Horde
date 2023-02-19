@@ -25,6 +25,94 @@ MonoBehaviour:
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
+--- !u!114 &-7643171902333419229
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630a38b420b39c040b1469b07a79e7d6, type: 3}
+  m_Name: SSGIVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  PreMultiply:
+    m_OverrideState: 0
+    m_Value: 0.25
+  FinalContrast:
+    m_OverrideState: 0
+    m_Value: 1
+  FinalIntensity:
+    m_OverrideState: 0
+    m_Value: 1.25
+  LightFalloffDistance:
+    m_OverrideState: 1
+    m_Value: 0.5
+  LightIntensity:
+    m_OverrideState: 1
+    m_Value: 0.7
+  LightDirInfluence:
+    m_OverrideState: 0
+    m_Value: 0.95
+  NormalmapBoost:
+    m_OverrideState: 0
+    m_Value: 0.75
+  GITint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  GIContrast:
+    m_OverrideState: 0
+    m_Value: 0.65
+  GISaturation:
+    m_OverrideState: 0
+    m_Value: 1
+  GIVibrance:
+    m_OverrideState: 0
+    m_Value: 0.5
+  FallbackDirectIntensity:
+    m_OverrideState: 0
+    m_Value: 0.25
+  FallbackDirectSaturation:
+    m_OverrideState: 0
+    m_Value: 1
+  FallbackDirectPower:
+    m_OverrideState: 0
+    m_Value: 2
+  SkyboxInfluence:
+    m_OverrideState: 0
+    m_Value: 1
+  ShadowIntensity:
+    m_OverrideState: 1
+    m_Value: 2.5
+  ShadowTint:
+    m_OverrideState: 0
+    m_Value: {r: 0.06, g: 0.08, b: 0.12, a: 1}
+  ShadowExponential:
+    m_OverrideState: 0
+    m_Value: 0.3
+  ShadowContrast:
+    m_OverrideState: 0
+    m_Value: 0.05
+  ContactShadowsRange:
+    m_OverrideState: 0
+    m_Value: 0.25
+  ContactShadowsSoftKnee:
+    m_OverrideState: 0
+    m_Value: 0.25
+  CastedShadowsIntensity:
+    m_OverrideState: 0
+    m_Value: 10
+  CastedShadowsOmniDirectional:
+    m_OverrideState: 0
+    m_Value: 0.5
+  CastedShadowsRange:
+    m_OverrideState: 0
+    m_Value: 15
+  CastedShadowsSoftKnee:
+    m_OverrideState: 0
+    m_Value: 0.85
 --- !u!114 &-6007862234540271587
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -219,6 +307,7 @@ MonoBehaviour:
   - {fileID: -1319934636863906624}
   - {fileID: -1557444942619649466}
   - {fileID: -2381796952063531639}
+  - {fileID: -7643171902333419229}
 --- !u!114 &7119699448633279425
 MonoBehaviour:
   m_ObjectHideFlags: 3
