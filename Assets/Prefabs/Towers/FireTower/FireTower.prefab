@@ -617,8 +617,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 4191196401239573293}
   infoText: {fileID: 2000480380275259132}
   cost: 750
-  costToLvl: 750
-  lvl: 1
+  level: 1
   type: Fire
   size: {x: 2, y: 2, z: 2}
   useChecker: 0
@@ -626,12 +625,6 @@ MonoBehaviour:
   checkerSize: {x: 0, y: 0, z: 0}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 1602951521015417412}
-  proxy: {fileID: 1238280220135687876}
-  lvl2Main: {fileID: 6909883108600440316}
-  lvl2Proxy: {fileID: 7719116132146860059}
-  lvl3Main: {fileID: 3560213310364313134}
-  lvl3Proxy: {fileID: 6850486324523920190}
   showGizmo: 0
   upgradeDataList:
   - main: {fileID: 1602951521015417412}

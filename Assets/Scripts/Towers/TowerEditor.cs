@@ -172,8 +172,6 @@ public class TowerEditor : MonoBehaviour
 
         td = selectedTower.GetComponent<TowerData>();
 
-        Debug.Log(td.level);
-        Debug.Log(prefab.name);
         td.Main.SetActive(false);
         td.Proxy.SetActive(true);
         selectedTower.SetActive(false);

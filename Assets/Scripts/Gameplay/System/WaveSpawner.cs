@@ -121,10 +121,6 @@ public class WaveSpawner : MonoBehaviour
     {
         spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
 
-        Debug.Log(NextButtons.Instance.name);
-        Debug.Log(NextButtons.Instance.nextWaveButton.name);
-        Debug.Log(NextButtons.Instance.nextLevelButton.name);
-
         NextButtons.Instance.nextLevelButton.SetActive(false);
 
         // Check if there are any waves

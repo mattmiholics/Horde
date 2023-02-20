@@ -17,8 +17,10 @@ public class Agent : SerializedMonoBehaviour
     public int debugMaxNodes;
     public Transform debugTarget;
 
-    public float jumpHeightMultiplier = 7;
-    public float jumpHeightOffset;
+    [ReadOnly] public int remainingNodes;
+
+    private float jumpHeightMultiplier = 2.1f;
+    private float jumpHeightOffset = 5.2f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
@@ -145,7 +147,8 @@ public class Agent : SerializedMonoBehaviour
 
             rigidbody.velocity = new Vector3(type.speed * direction.x, rigidbody.velocity.y, type.speed * direction.z);
 
-            Debug.DrawLine(rigidbody.position, pathPoints.Last().point, Color.magenta);
+            remainingNodes = pathPoints.Count;
+            //Debug.DrawLine(rigidbody.position, pathPoints.Last().point, Color.magenta);
 
             yield return null;
         }
@@ -166,6 +169,7 @@ public class Agent : SerializedMonoBehaviour
             yield return null;
         }
 
+        remainingNodes = 0;
         rigidbody.position = pathPoints.Last().point;
         yield return null;
     }

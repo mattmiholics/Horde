@@ -36,7 +36,5 @@ public class NextButtons : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
-
-        Debug.Log(NextButtons.Instance.name);
     }
 }

@@ -466,8 +466,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 8219686791443657272}
   infoText: {fileID: 6051445037018777577}
   cost: 600
-  costToLvl: 650
-  lvl: 1
+  level: 1
   type: Lightning
   size: {x: 2, y: 3, z: 2}
   useChecker: 0
@@ -475,12 +474,6 @@ MonoBehaviour:
   checkerSize: {x: 0, y: 0, z: 0}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 6602026639863969013}
-  proxy: {fileID: 4474387787115331449}
-  lvl2Main: {fileID: 1697962925787256790}
-  lvl2Proxy: {fileID: 8667962083683961650}
-  lvl3Main: {fileID: 7764855213982527556}
-  lvl3Proxy: {fileID: 5616121398132585574}
   showGizmo: 1
   upgradeDataList:
   - main: {fileID: 6602026639863969013}

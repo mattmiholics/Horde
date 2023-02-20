@@ -2442,8 +2442,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 2778340600054471430}
   infoText: {fileID: 533565142160174807}
   cost: 300
-  costToLvl: 350
-  lvl: 1
+  level: 1
   type: Archer
   size: {x: 2, y: 3, z: 2}
   useChecker: 0
@@ -2451,8 +2450,6 @@ MonoBehaviour:
   checkerSize: {x: 0, y: 0, z: 0}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 4953947662352260004}
-  proxy: {fileID: 2393908278401241128}
   showGizmo: 0
   upgradeDataList:
   - main: {fileID: 4953947662352260004}
