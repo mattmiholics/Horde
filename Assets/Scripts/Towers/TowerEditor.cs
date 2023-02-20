@@ -153,8 +153,8 @@ public class TowerEditor : MonoBehaviour
             proxiesActive = false;
             foreach (TowerData m_td in tdList)
             {
-                m_td.main.SetActive(true);
-                m_td.proxy.SetActive(false);
+                m_td.Main.SetActive(true);
+                m_td.Proxy.SetActive(false);
             }
         }
 
@@ -172,12 +172,14 @@ public class TowerEditor : MonoBehaviour
 
         td = selectedTower.GetComponent<TowerData>();
 
-        td.main.SetActive(false);
-        td.proxy.SetActive(true);
+        Debug.Log(td.level);
+        Debug.Log(prefab.name);
+        td.Main.SetActive(false);
+        td.Proxy.SetActive(true);
         selectedTower.SetActive(false);
         materialActive = false;
 
-        renderers = td.proxy.GetComponentsInChildren<Renderer>(true);
+        renderers = td.Proxy.GetComponentsInChildren<Renderer>(true);
     }
 
     private IEnumerator Editing()
@@ -201,7 +203,7 @@ public class TowerEditor : MonoBehaviour
                 {
                     proxiesActive = true;
                     tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
-                    tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
+                    tdList.ForEach(m_td => { m_td.Main.SetActive(false); m_td.Proxy.SetActive(true); });
                 }
 
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
@@ -224,7 +226,7 @@ public class TowerEditor : MonoBehaviour
                 {
                     proxiesActive = false;
                     tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
-                    tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
+                    tdList.ForEach(m_td => { m_td.Main.SetActive(true); m_td.Proxy.SetActive(false); });
                 }
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
                 {
@@ -271,8 +273,8 @@ public class TowerEditor : MonoBehaviour
         //instantiate tower
         GameObject newTower = Instantiate(selectedTower, position, selectedTower.transform.rotation, towerParent);
         TowerData n_td = newTower.GetComponent<TowerData>();
-        n_td.main.SetActive(false);
-        n_td.proxy.SetActive(false);
+        n_td.Main.SetActive(false);
+        n_td.Proxy.SetActive(false);
         yield return 1;
 
         //check if path valid
@@ -288,9 +290,9 @@ public class TowerEditor : MonoBehaviour
                 world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); //spawn barriers
 
             tdList.Add(n_td);
-            n_td.proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
-            n_td.main.SetActive(true);
-            n_td.proxy.SetActive(false);
+            n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+            n_td.Main.SetActive(true);
+            n_td.Proxy.SetActive(false);
 
             //remove money from player
             PlayerStats.Instance.money -= n_td.cost;

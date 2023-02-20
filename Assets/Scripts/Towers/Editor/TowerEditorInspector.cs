@@ -92,7 +92,7 @@ public class TowerEditorInspector : OdinEditor
             {
                 towerEditor.proxiesActive = true;
                 List<TowerData> tdList = towerEditor.permanentTowerParent.GetComponentsInChildren<TowerData>().Concat(towerEditor.towerParent.GetComponentsInChildren<TowerData>()).ToList();
-                tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
+                tdList.ForEach(m_td => { m_td.Main.SetActive(false); m_td.Proxy.SetActive(true); });
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerEditor.towerMask))
@@ -112,7 +112,7 @@ public class TowerEditorInspector : OdinEditor
             {
                 towerEditor.proxiesActive = false;
                 List<TowerData> tdList = towerEditor.permanentTowerParent.GetComponentsInChildren<TowerData>().Concat(towerEditor.towerParent.GetComponentsInChildren<TowerData>()).ToList();
-                tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
+                tdList.ForEach(m_td => { m_td.Main.SetActive(true); m_td.Proxy.SetActive(false); });
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerEditor.groundMask))

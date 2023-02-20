@@ -17,8 +17,12 @@ public class BlockTypeButtons : MonoBehaviour
         set { serializableButtonBlockType.CopyFrom(value); }
     }
 
+
+
     private void OnEnable()
     {
+        SceneLoader.SceneLoaded += UpdateButtons;
+
         terrainEditor = TerrainEditor.Instance;
 
         UpdateText();
@@ -38,6 +42,11 @@ public class BlockTypeButtons : MonoBehaviour
         {
             entry.Key.onValueChanged.RemoveAllListeners();
         }
+    }
+
+    private void UpdateButtons()
+    {
+
     }
 
     public void ChangeBlockType(BlockType blockType)

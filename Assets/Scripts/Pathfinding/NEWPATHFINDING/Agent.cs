@@ -64,14 +64,14 @@ public class Agent : SerializedMonoBehaviour
     /// <summary>
     /// Sets a target position for the agent to pathfind to, and starts following the path it calculates.
     /// </summary>
-    public void SetTarget(Vector3 target, int maxNodes = 1000)
+    public bool SetTarget(Vector3 target, int maxNodes = 1000)
     {
         latestMaxNodes = maxNodes;
 
         if (PathSearch.GetPathToTarget(rigidbody.position, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes) && pathPoints.Count > 0)
         {
             if (pathPoints.Count <= 1 && currentTarget == Vector3Int.RoundToInt(target))
-                return;
+                return true;
 
             currentTarget = Vector3Int.RoundToInt(target);
             PathUpdated?.Invoke(pathPoints);
@@ -79,6 +79,8 @@ public class Agent : SerializedMonoBehaviour
             if (followPathCoroutine != null)
                 StopCoroutine(followPathCoroutine);
             followPathCoroutine = StartCoroutine(FollowPath(pathPoints));
+
+            return true;
         }
         else
         {
@@ -88,6 +90,8 @@ public class Agent : SerializedMonoBehaviour
             rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
 
             Debug.LogWarning("No path found!");
+
+            return false;
         }
     }
 

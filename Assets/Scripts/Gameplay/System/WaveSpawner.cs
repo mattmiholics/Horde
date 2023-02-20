@@ -24,7 +24,6 @@ public class WaveSpawner : MonoBehaviour
 
     //public float intermissionTime = 5.5f;
     //private float countdown = 2f;
-    private int waveIndex = 0;
     private static int waveNum = 1;
 
     private bool waveStarted;

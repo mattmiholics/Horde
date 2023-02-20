@@ -99,8 +99,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 0}
   infoText: {fileID: 0}
   cost: 400
-  costToLvl: 400
-  lvl: 1
+  level: 1
   type: Market
   size: {x: 3, y: 2, z: 3}
   useChecker: 0
@@ -108,14 +107,11 @@ MonoBehaviour:
   checkerSize: {x: 0, y: 0, z: 0}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 5529824526244204144}
-  proxy: {fileID: 2605459032533482908}
-  lvl2Main: {fileID: 5529824526244204144}
-  lvl2Proxy: {fileID: 0}
-  lvl3Main: {fileID: 5529824526244204144}
-  lvl3Proxy: {fileID: 0}
   showGizmo: 0
-  upgradeDataList: []
+  upgradeDataList:
+  - main: {fileID: 5529824526244204144}
+    proxy: {fileID: 2605459032533482908}
+    costToLvl: 0
 --- !u!208 &-7854030889853721614
 NavMeshObstacle:
   m_ObjectHideFlags: 0

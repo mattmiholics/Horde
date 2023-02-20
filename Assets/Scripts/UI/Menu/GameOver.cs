@@ -9,9 +9,19 @@ public class GameOver : MonoBehaviour
     public Text roundsText;
     [StringInList(typeof(PropertyDrawersHelper), "AllSceneNames")] public string mainMenu;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        if (roundsText != null)
+        SceneLoader.SceneLoaded += RefreshText;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= RefreshText;
+    }
+
+    public void RefreshText()
+    {
+        if (roundsText != null && PlayerStats.Instance != null)
             roundsText.text = PlayerStats.Instance.rounds.ToString();
     }
 
@@ -22,7 +32,7 @@ public class GameOver : MonoBehaviour
 
     public void Menu ()
     {
-        SceneLoader.Instance.Load("MainMenu", true);
+        SceneLoader.Instance.Load(mainMenu, true);
     }
 
     public void Continue()

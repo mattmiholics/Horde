@@ -23,8 +23,9 @@ public class TowerData : MonoBehaviour
     //private GameObject cancelButton = upgradeUI.transform.GetChild(2);
 
     public int cost;
-    public int costToLvl = 350;
-    public int lvl = 0;
+    [MinValue(1)]
+    //[ReadOnly] 
+    public int level = 1;
     [Space]
     public string type;
     [Space]
@@ -42,8 +43,10 @@ public class TowerData : MonoBehaviour
     [Space]
     [ReadOnly]
     public int rotation;
-    public GameObject main;
-    public GameObject proxy;
+    [HideInInspector]
+    public GameObject Main => upgradeDataList.ElementAtOrDefault(level - 1).main;
+    [HideInInspector]
+    public GameObject Proxy => upgradeDataList.ElementAtOrDefault(level - 1).proxy;
 
     [Space]
     public bool showGizmo;
@@ -51,14 +54,16 @@ public class TowerData : MonoBehaviour
     private static TowerData _instance;
     public static TowerData Instance { get { return _instance; } }
 
+    [ValidateInput("@upgradeDataList.Count > 0")] // Requires there to be at least one level
     [SerializeField]
     private List<TowerUpgradeData> upgradeDataList;
-
 
     [Serializable]
     private class TowerUpgradeData
     {
+        [Required]
         public GameObject main;
+        [Required]
         public GameObject proxy;
         [MinValue(0)]
         public int costToLvl;
@@ -87,48 +92,20 @@ public class TowerData : MonoBehaviour
 
     public void BeginUpgrade()
     {
-        if(lvl < upgradeDataList.ToArray().Length)
+        if(level < upgradeDataList.ToArray().Length)
         {
             this.upgradeUI.SetActive(true);
-            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[lvl].costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
+            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText);
 
         }
-        /*
-        if (lvl < 3)
-        {
-            this.upgradeUI.SetActive(true);
-            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
-        }*/
-        
     }
 
 
     public void Upgrade()
     {
-        this.main.SetActive(false);
-        upgradeDataList[lvl].main.SetActive(true);
-        this.main = upgradeDataList[lvl].main;
-        this.proxy = upgradeDataList[lvl].proxy;
-        lvl++;
-
-        /*
-        if (lvl == 1)
-        {
-            main.SetActive(false);
-            lvl2Main.SetActive(true);
-            main = lvl2Main;
-            proxy = lvl2Proxy;
-            lvl++;
-            costToLvl *= 2;
-        }else if(lvl == 2)
-        {
-            main.SetActive(false);
-            lvl3Main.SetActive(true);
-            main = lvl3Main;
-            proxy = lvl3Proxy;
-            lvl++;
-        }
-        */
+        Main.SetActive(false);
+        level++;
+        Main.SetActive(true);
     }
 
     public void upgradeTurret()

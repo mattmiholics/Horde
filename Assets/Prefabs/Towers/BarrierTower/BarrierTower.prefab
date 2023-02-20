@@ -86,8 +86,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 5619731650120926349}
   infoText: {fileID: 7787973402426110300}
   cost: 300
-  costToLvl: 350
-  lvl: 1
+  level: 1
   type: Barrier
   size: {x: 3, y: 2, z: 2}
   useChecker: 1
@@ -95,14 +94,11 @@ MonoBehaviour:
   checkerSize: {x: 3, y: 2, z: 2}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 758191915756330490}
-  proxy: {fileID: 3688141010969223332}
-  lvl2Main: {fileID: 0}
-  lvl2Proxy: {fileID: 0}
-  lvl3Main: {fileID: 0}
-  lvl3Proxy: {fileID: 0}
   showGizmo: 0
-  upgradeDataList: []
+  upgradeDataList:
+  - main: {fileID: 758191915756330490}
+    proxy: {fileID: 3688141010969223332}
+    costToLvl: 0
 --- !u!1 &3688141010969223332
 GameObject:
   m_ObjectHideFlags: 0

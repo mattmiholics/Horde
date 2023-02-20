@@ -268,9 +268,10 @@ MonoBehaviour:
   id: 4
   editable: 0
   placeBarriers: 1
+  upgradeUI: {fileID: 0}
+  infoText: {fileID: 0}
   cost: 300
-  costToLvl: 350
-  lvl: 1
+  level: 1
   type: Barracks
   size: {x: 3, y: 2, z: 3}
   useChecker: 1
@@ -278,13 +279,11 @@ MonoBehaviour:
   checkerSize: {x: 3, y: 2, z: 4}
   checkerOffset: {x: 0, y: 0, z: 0.5}
   rotation: 0
-  main: {fileID: 3316091406568799871}
-  proxy: {fileID: 5565930563410851840}
-  lvl2Main: {fileID: 0}
-  lvl2Proxy: {fileID: 0}
-  lvl3Main: {fileID: 0}
-  lvl3Proxy: {fileID: 0}
   showGizmo: 0
+  upgradeDataList:
+  - main: {fileID: 3316091406568799871}
+    proxy: {fileID: 5565930563410851840}
+    costToLvl: 0
 --- !u!114 &2855642030919889862
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -82,3 +82,47 @@ MonoBehaviour:
   components:
   - {fileID: -7757671021548476238}
   - {fileID: -5146186128181405064}
+  - {fileID: 2794001520040537400}
+--- !u!114 &2794001520040537400
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b72aa2546c25764e8eb85a8bbfc41e4, type: 3}
+  m_Name: LUT
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
+  startFadeDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  endFadeDistance:
+    m_OverrideState: 0
+    m_Value: 1000
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.025
+  lutNear:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: e9ba66f0830c64b50aa84d5129f0fb8e, type: 3}
+    dimension: 1
+  lutFar:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  invert:
+    m_OverrideState: 0
+    m_Value: 0
+  vibrance:
+    m_OverrideState: 0
+    m_Value: 0
+  vibranceRGBBalance:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  shader: {fileID: 4800000, guid: 92f2bf48777049e46b3a89219297c3dd, type: 3}

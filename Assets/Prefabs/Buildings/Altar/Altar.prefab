@@ -380,8 +380,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 0}
   infoText: {fileID: 0}
   cost: 300
-  costToLvl: 350
-  lvl: 1
+  level: 1
   type: Altar
   size: {x: 2, y: 3, z: 2}
   useChecker: 1
@@ -389,14 +388,11 @@ MonoBehaviour:
   checkerSize: {x: 2, y: 3, z: 3}
   checkerOffset: {x: 0, y: 0, z: 0.5}
   rotation: 0
-  main: {fileID: 7552670695327935894}
-  proxy: {fileID: 436857091235351584}
-  lvl2Main: {fileID: 0}
-  lvl2Proxy: {fileID: 0}
-  lvl3Main: {fileID: 0}
-  lvl3Proxy: {fileID: 0}
   showGizmo: 0
-  upgradeDataList: []
+  upgradeDataList:
+  - main: {fileID: 7552670695327935894}
+    proxy: {fileID: 436857091235351584}
+    costToLvl: 0
 --- !u!114 &3373148012908150145
 MonoBehaviour:
   m_ObjectHideFlags: 0

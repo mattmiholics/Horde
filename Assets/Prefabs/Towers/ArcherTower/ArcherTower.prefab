@@ -2453,10 +2453,6 @@ MonoBehaviour:
   rotation: 0
   main: {fileID: 4953947662352260004}
   proxy: {fileID: 2393908278401241128}
-  lvl2Main: {fileID: 626151332578261127}
-  lvl2Proxy: {fileID: 7451804328704762979}
-  lvl3Main: {fileID: 8422478646709018389}
-  lvl3Proxy: {fileID: 5967429755111889719}
   showGizmo: 0
   upgradeDataList:
   - main: {fileID: 4953947662352260004}
