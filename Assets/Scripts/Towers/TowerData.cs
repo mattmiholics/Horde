@@ -44,13 +44,6 @@ public class TowerData : MonoBehaviour
     public int rotation;
     public GameObject main;
     public GameObject proxy;
-    [Space]
-    public GameObject lvl2Main;
-    public GameObject lvl2Proxy;
-    [Space]
-    public GameObject lvl3Main;
-    public GameObject lvl3Proxy;
-
 
     [Space]
     public bool showGizmo;
@@ -94,7 +87,7 @@ public class TowerData : MonoBehaviour
 
     public void BeginUpgrade()
     {
-        if(lvl+1 < upgradeDataList.ToArray().Length)
+        if(lvl < upgradeDataList.ToArray().Length)
         {
             this.upgradeUI.SetActive(true);
             UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[lvl].costToLvl, gameObject, lvl, type, this.upgradeUI, this.infoText);
@@ -112,8 +105,10 @@ public class TowerData : MonoBehaviour
 
     public void Upgrade()
     {
-        upgradeDataList[lvl].main.SetActive(false);
-        upgradeDataList[lvl + 1].main.SetActive(true);
+        this.main.SetActive(false);
+        upgradeDataList[lvl].main.SetActive(true);
+        this.main = upgradeDataList[lvl].main;
+        this.proxy = upgradeDataList[lvl].proxy;
         lvl++;
 
         /*
