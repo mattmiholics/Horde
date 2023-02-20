@@ -306,7 +306,7 @@ public class World : MonoBehaviour
 
     }
 
-    internal bool IsBlockModifiable(Vector3Int blockWorldPos)
+    public bool IsBlockModifiable(Vector3Int blockWorldPos)
     {
         Vector3Int pos = Chunk.ChunkPositionFromBlockCoords(this, blockWorldPos.x, blockWorldPos.y, blockWorldPos.z);
         ChunkData containerChunk = null;
@@ -326,7 +326,7 @@ public class World : MonoBehaviour
             return false;
     }
 
-    internal BlockType GetBlock(RaycastHit hit, bool place = false)
+    public BlockType GetBlock(RaycastHit hit, bool place = false)
     {
         ChunkRenderer chunk = hit.collider.GetComponent<ChunkRenderer>();
         if (chunk == null)
@@ -361,7 +361,7 @@ public class World : MonoBehaviour
         return true;
     }
 
-    internal bool SetBlock(RaycastHit hit, BlockType blockType, bool place = false)
+    public bool SetBlock(RaycastHit hit, BlockType blockType, bool place = false)
     {
         HashSet<ChunkRenderer> updateChunks = new HashSet<ChunkRenderer>();
 

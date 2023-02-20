@@ -110,7 +110,7 @@ public class TerrainEditorInspector : OdinEditor
                 terrainEditor.removeProxy.transform.position = pos;
 
 
-                if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt)
+                if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt && terrainEditor.world.GetBlock(hit) != BlockType.Bedrock)
                         terrainEditor.ModifyTerrain(hit);
             }
             else
@@ -123,7 +123,7 @@ public class TerrainEditorInspector : OdinEditor
                 terrainEditor.placeProxy.transform.position = pos;
 
 
-                if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt)
+                if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt && terrainEditor.world.GetBlock(hit, true) != BlockType.Bedrock)
                     terrainEditor.ModifyTerrain(hit, terrainEditor.blockType, true);
             }
         }

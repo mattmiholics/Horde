@@ -93,8 +93,7 @@ public class TerrainEditor : MonoBehaviour
 
     public void ModifyTerrain(RaycastHit hit, BlockType blockType = BlockType.Air, bool place = false)
     {
-        if (world.GetBlock(hit, place) != BlockType.Bedrock)
-            world.SetBlock(hit, blockType, place);
+        world.SetBlock(hit, blockType, place);
     }
 
     public void ModifyModifiabilityEditor(RaycastHit hit, bool unlock)
@@ -154,11 +153,11 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit);
                         removeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money) //removed
-                        {
-                            StartCoroutine(PlacingTerrain(hit, BlockType.Air));
-                            
-                        }
+                        if (_click.WasPerformedThisFrame()) //removed
+                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
+                                StartCoroutine(PlacingTerrain(hit, BlockType.Air));
+                            else
+                                UnableToEdit();
                     }
                     else
                     {
@@ -168,10 +167,11 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit, true);
                         placeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money) //placed
-                        {
-                            StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
-                        }
+                        if (_click.WasPerformedThisFrame()) //placed
+                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
+                                StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
+                            else
+                                UnableToEdit();
                     }
                 }
                 else
@@ -213,28 +213,30 @@ public class TerrainEditor : MonoBehaviour
             else //otherwise remove barriers
             {
                 ModifyTerrain(hit, origional, place);
-                if (unableToPlaceCoroutine != null)
-                    StopCoroutine(unableToPlaceCoroutine);
-                unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
-                if (unableToRemoveCoroutine != null)
-                    StopCoroutine(unableToRemoveCoroutine);
-                unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
+                UnableToEdit();
             }
         }
         else
         {
-            if (unableToPlaceCoroutine != null)
-                StopCoroutine(unableToPlaceCoroutine);
-            unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
-            if (unableToRemoveCoroutine != null)
-                StopCoroutine(unableToRemoveCoroutine);
-            unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
+            UnableToEdit();
         }
         yield return null;
     }
 
+    public void UnableToEdit()
+    {
+        if (unableToPlaceCoroutine != null)
+            StopCoroutine(unableToPlaceCoroutine);
+        unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
+        if (unableToRemoveCoroutine != null)
+            StopCoroutine(unableToRemoveCoroutine);
+        unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
+    }
+
     private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
     {
+        Debug.Log("unableStart");
+
         Renderer r = proxy.GetComponent<Renderer>();
 
         float currentTime = 0;
@@ -244,7 +246,7 @@ public class TerrainEditor : MonoBehaviour
             r.material.SetColor("_EmissionColor", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
 
             currentTime += Time.deltaTime;
-
+            Debug.Log("unable");
             yield return null;
         }
 
