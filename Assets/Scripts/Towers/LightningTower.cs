@@ -107,6 +107,14 @@ public class LightningTower : MonoBehaviour
     private void FireLaser()
     {
         enemiesHit.Add(target.gameObject);
+
+        //Gets the travel distance oif laser in each direction
+        float xCord = (System.Math.Abs(gameObject.transform.position.x - target.transform.position.x) / 2);
+        float yCord = (System.Math.Abs(gameObject.transform.position.y - target.transform.position.y) / 2);
+        float zCord = (System.Math.Abs(gameObject.transform.position.z - target.transform.position.z) / 2);
+        //Need to add the smaller of the target or orgigins position to get the halfway for each direction
+
+
         HitEnemiesWithLaser(1);
         lr.enabled = true;
         lr.positionCount = 1 + enemiesHit.ToArray().Length;
