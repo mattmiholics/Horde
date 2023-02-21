@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KnightTroopLogic : TroopData
 {
-    private Transform target;
+    // private Transform target;
 
     // [Header("Attributes")]
 
@@ -13,48 +13,14 @@ public class KnightTroopLogic : TroopData
     // public float range = 2f;
     // public new int damage = 50;
 
-    [Header("Unity Setup Fields")]
+    // [Header("Unity Setup Fields")]
 
-    public string enemyTag = "Enemy";
-    public Transform partToRotate;
-    public float rotationSpeed = 7f;
+    // public string enemyTag = "Enemy";
+    // public Transform partToRotate;
+    // public float rotationSpeed = 7f;
 
-    public GameObject bullet;
-    public Transform firePoint;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        InvokeRepeating("UpdateTarget", 0f, .5f);
-    }
-
-    void UpdateTarget()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float shortestDistance = Mathf.Infinity;
-        GameObject nearestEnemy = null;
-
-        foreach(GameObject enemy in enemies)
-        {
-            float distToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if(distToEnemy < shortestDistance)
-            {
-                shortestDistance = distToEnemy;
-                nearestEnemy = enemy;
-            }
-        }
-
-        if(nearestEnemy != null && shortestDistance <= range)
-        {
-            target = nearestEnemy.transform;
-        }
-        else
-        {
-            //this was throwing an error in other prefabs
-            target = null;
-        }
-    }
+    // public GameObject bullet;
+    // public Transform firePoint;
 
     // Update is called once per frame
     void Update()

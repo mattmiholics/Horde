@@ -1,17 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyData : UnitData
 {
-    private int startHealth;
-
     [Header("Attributes")]
     public int damage = 25;
-    
-    [Header("Graphic Info")]
-    public Image healthBar;
     
     [Header("Value")]
     public int deathValue = 75;
@@ -20,12 +14,6 @@ public class EnemyData : UnitData
     public GameObject deathEffect;
     public AudioSource aSource;
     public AudioClip clip;
-
-    void Start()
-    {
-        startHealth = health;
-        // Debug.Log("Start Health: " + startHealth);
-    }
 
     public override void TakeDamage (int incomingDamage)
     {

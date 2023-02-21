@@ -253,7 +253,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1023
 --- !u!1 &70573509271531609
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,11 +440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 200
-  damage: 25
   healthBar: {fileID: 142063981}
+  damage: 25
   deathValue: 50
   deathEffect: {fileID: 5153799349873572474, guid: cd62e84504fcd4e47b25e84c77b5be5d, type: 3}
-  aSource: {fileID: 0}
+  aSource: {fileID: 3543203226564927523}
   clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
 --- !u!120 &-4314772923703604885
 LineRenderer:

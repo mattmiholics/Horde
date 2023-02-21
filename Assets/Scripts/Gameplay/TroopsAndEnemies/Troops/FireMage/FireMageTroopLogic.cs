@@ -8,7 +8,7 @@ public class FireMageTroopLogic : TroopData
 {
     protected SphereCollider sphereCollider;
 
-    private Transform target;
+    // private Transform target;
 
     [Header("Area Damage")]
     public float areaDamageRadius = 5f;
@@ -24,20 +24,20 @@ public class FireMageTroopLogic : TroopData
     [Header("Unity Setup Fields")]
 
     public LayerMask enemyLayerMask;
-    public Transform partToRotate;
-    public float rotationSpeed = 7f;
+    // public Transform partToRotate;
+    // public float rotationSpeed = 7f;
 
-    public GameObject bullet;
-    public Transform firePoint;
+    // public GameObject bullet;
+    // public Transform firePoint;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        InvokeRepeating("UpdateTarget", 0f, .5f);
-    }
+    // // Start is called before the first frame update
+    // void Start()
+    // {
+    //     InvokeRepeating("UpdateTarget", 0f, .5f);
+    // }
 
-    void UpdateTarget()
+    protected override void UpdateTarget()
     {
         Collider[] nearestEnemyCollider = Physics.OverlapSphere(transform.position, range, enemyLayerMask);
         
