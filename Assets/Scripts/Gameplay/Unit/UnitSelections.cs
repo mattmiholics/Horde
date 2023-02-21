@@ -28,7 +28,7 @@ public class UnitSelections : MonoBehaviour
     {
         DeselectAll();
         unitsSelected.Add(unitToAdd);
-        unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
+        //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
         if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
         {
             // unitToAdd.GetComponent<MovePlayer>().enabled = true;
@@ -42,7 +42,7 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
+            //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
                 // unitToAdd.GetComponent<MovePlayer>().enabled = true;
@@ -58,7 +58,7 @@ public class UnitSelections : MonoBehaviour
                 unitToAdd.GetComponent<PlayerController>().enabled = false;
                 PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unitToAdd);
             }
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
+            //unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
         }
     }
@@ -68,7 +68,7 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
+            //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
                 // unitToAdd.GetComponent<MovePlayer>().enabled = true;
@@ -90,7 +90,7 @@ public class UnitSelections : MonoBehaviour
                     unit.GetComponent<PlayerController>().enabled = false;
                     PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unit);
                 }
-                unit.transform.GetChild(0).gameObject.SetActive(false);
+                //unit.transform.GetChild(0).gameObject.SetActive(false);
             }
 
             unitsSelected.Clear();
