@@ -56,6 +56,7 @@ public class Agent : SerializedMonoBehaviour
         jumpReady = true;
 
         rigidbody.useGravity = false;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void FixedUpdate()
