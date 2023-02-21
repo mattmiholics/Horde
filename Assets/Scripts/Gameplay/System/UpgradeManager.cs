@@ -13,6 +13,8 @@ public class UpgradeManager : MonoBehaviour
     private string turretType;
     private GameObject target;
 
+    private bool active = false;
+
     [Header("Controls")]
     private PlayerInput _playerInput;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string selectionControl;
@@ -61,7 +63,12 @@ public class UpgradeManager : MonoBehaviour
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
+            if (this.active == true)
+            {
+                this.upgradeMenu.SetActive(false);
+            }
             // SetPosition(uiPos);
+            this.active = true;
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
     }
@@ -102,6 +109,7 @@ public class UpgradeManager : MonoBehaviour
     public void Cancel()
     {
         upgradeMenu.SetActive(false);
+        this.active = false;
     }
 
 }
