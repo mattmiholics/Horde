@@ -46,7 +46,7 @@ public class CannonBullet : MonoBehaviour
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-        EnemyMovement e = target.GetComponent<EnemyMovement>();
+        EnemyData e = target.GetComponent<EnemyData>();
 
         if (e != null)
         {
@@ -64,7 +64,7 @@ public class CannonBullet : MonoBehaviour
             if(dist <= splashDamageRange && enemy != target)
             {
                 GameObject effectNst = (GameObject)Instantiate(impactEffect, enemy.transform.position, enemy.transform.rotation);
-                enemy.GetComponent<EnemyMovement>().TakeDamage(splashDamage);
+                enemy.GetComponent<EnemyData>().TakeDamage(splashDamage);
             }
         }
     }

@@ -4,25 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class FireMageTroopLogic : MonoBehaviour
+public class FireMageTroopLogic : TroopData
 {
     protected SphereCollider sphereCollider;
 
-    [Header("Troop stats")]
-    public int health;
+    private Transform target;
+
     [Header("Area Damage")]
     public float areaDamageRadius = 5f;
     public float areaDamageDuration = 1.0f;
     public int areaDamagePerSecond = 5;
 
-    private Transform target;
-
-    [Header("Attributes")]
-
-    public float fireRate = 1f;
-    public float fireReload = 0f;
-    public float range = 15f;
-    public int damage = 50;
+    // [Header("Attributes")]
+    // public float fireRate = 1f;
+    // public float fireReload = 0f;
+    // public float range = 15f;
+    // public new int damage = 50;
 
     [Header("Unity Setup Fields")]
 
@@ -87,17 +84,11 @@ public class FireMageTroopLogic : MonoBehaviour
         GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
         //If a new bullet script is created, update it here
         FireMageBullet bulletS = bulltObj.GetComponent<FireMageBullet>();
-        CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
-        LBullet lBullet = bulltObj.GetComponent<LBullet>();
 
         if(bulletS != null)
         {
             // bulletS.sphereCollider.radius = areaDamageRadius;
             bulletS.Seek(target, damage);
-            }
-        else if(cBullet != null)
-        {
-            cBullet.Seek(target, damage);
         }
     }
 

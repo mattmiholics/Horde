@@ -8,18 +8,11 @@ public class Bullet : MonoBehaviour
     public GameObject impactEffect;
     public int damage = 50;
 
-
-
     public void Seek(Transform _target, int damage)
     {
         this.damage = damage;
         target = _target;
-
-
     }
-
-
-
 
     // Update is called once per frame
     void Update()
@@ -44,8 +37,8 @@ public class Bullet : MonoBehaviour
 
     void HitTarget()
     {
-        EnemyMovement e = target.GetComponent<EnemyMovement>();
-        PlayerController p = target.GetComponent<PlayerController>();
+        EnemyData e = target.GetComponent<EnemyData>();
+        TroopData p = target.GetComponent<TroopData>();
 
         if(e != null)
         {

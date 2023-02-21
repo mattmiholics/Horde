@@ -46,8 +46,8 @@ public class LBullet : MonoBehaviour
 
     void HitTarget()
     {
-        EnemyMovement e = target.GetComponent<EnemyMovement>();
-        PlayerController p = target.GetComponent<PlayerController>();
+        EnemyData e = target.GetComponent<EnemyData>();
+        TroopData p = target.GetComponent<TroopData>();
 
         if (e != null)
         {

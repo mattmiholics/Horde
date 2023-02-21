@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 3916239047668000137}
   - component: {fileID: 3916239047668000136}
   - component: {fileID: 8372085862632968230}
+  - component: {fileID: 6898606631627521529}
   - component: {fileID: 2351795037486638901}
   - component: {fileID: -7063945888824949614}
   m_Layer: 9
@@ -355,6 +356,25 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
   startHealth: 1250
   healthBar: {fileID: 5997454496089533876}
+--- !u!114 &6898606631627521529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916239047668000142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7593b0b07d3ad4b9d806d49f5be2f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1250
+  damage: 25
+  healthBar: {fileID: 5997454496089533876}
+  deathValue: 250
+  deathEffect: {fileID: 5153799349873572474, guid: cd62e84504fcd4e47b25e84c77b5be5d, type: 3}
+  aSource: {fileID: -7063945888824949614}
+  clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
 --- !u!120 &2351795037486638901
 LineRenderer:
   m_ObjectHideFlags: 0

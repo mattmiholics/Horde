@@ -164,7 +164,7 @@ public class LightningTower : MonoBehaviour
             }
             if (currentTarget != null)
             {
-                currentTarget.GetComponent<EnemyMovement>().TakeDamage(chainDamage);
+                currentTarget.GetComponent<EnemyData>().TakeDamage(chainDamage);
                 enemiesHit.Add(currentTarget);
                 prevTarget= currentTarget;
             }
