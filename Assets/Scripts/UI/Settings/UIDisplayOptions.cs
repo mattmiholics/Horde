@@ -54,7 +54,7 @@ public class UIDisplayOptions : MonoBehaviour
         displayMonitor.RefreshShownValue();
     }
 
-    int findResolutions()
+    public int findResolutions()
     {
         resolutionDropdown.ClearOptions();
         List<string> resOptions = new List<string>();
@@ -141,7 +141,10 @@ public class UIDisplayOptions : MonoBehaviour
 
     public void SetFrameLimit(float frameLimit)
     {
-        Application.targetFrameRate = (int)frameLimit;
+        if (frameLimit > 500)
+            Application.targetFrameRate = -1;
+        else
+            Application.targetFrameRate = (int)frameLimit;
     }
     
     public void SaveSettings()
@@ -187,7 +190,7 @@ public class UIDisplayOptions : MonoBehaviour
         if (PlayerPrefs.HasKey(FRAME_LIMIT))
             frameCap.value = PlayerPrefs.GetInt(FRAME_LIMIT);
         else
-            frameCap.value = -1;
+            frameCap.value = 501;
     }
 
     
