@@ -6,6 +6,9 @@ public class UnitSelections : MonoBehaviour
     public List<GameObject> unitList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
 
+    public Transform troopParent;
+    public Transform troopSelectionParent;
+
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
 
@@ -31,9 +34,7 @@ public class UnitSelections : MonoBehaviour
         //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
         if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
         {
-            // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-            unitToAdd.GetComponent<PlayerController>().enabled = true;
-            PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+            unitToAdd.transform.SetParent(troopSelectionParent);
         }
     }
 
@@ -45,18 +46,14 @@ public class UnitSelections : MonoBehaviour
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<PlayerController>().enabled = true;
-                PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+                unitToAdd.transform.SetParent(troopSelectionParent);
             }
         }
         else
         {
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = false;
-                unitToAdd.GetComponent<PlayerController>().enabled = false;
-                PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unitToAdd);
+                unitToAdd.transform.SetParent(troopParent);
             }
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
@@ -71,9 +68,7 @@ public class UnitSelections : MonoBehaviour
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
             if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<PlayerController>().enabled = true;
-                PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+                unitToAdd.transform.SetParent(troopSelectionParent);
             }
         }
     }
@@ -86,19 +81,12 @@ public class UnitSelections : MonoBehaviour
             {
                 if (LayerMask.LayerToName(unit.gameObject.layer) == "Player")
                 {
-                    // unit.GetComponent<MovePlayer>().enabled = false;
-                    unit.GetComponent<PlayerController>().enabled = false;
-                    PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unit);
+                    unit.transform.SetParent(troopParent);
                 }
                 //unit.transform.GetChild(0).gameObject.SetActive(false);
             }
 
             unitsSelected.Clear();
         }
-    }
-
-    public void Deselect(GameObject unitToDeselect)
-    {
-        
     }
 }
