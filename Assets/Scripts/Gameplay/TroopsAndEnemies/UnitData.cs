@@ -23,6 +23,8 @@ public class UnitData : MonoBehaviour
     public virtual void TakeDamage(int incomingDamage)
     {
         health -= incomingDamage;
+        Debug.Log("Damage: " + incomingDamage);
+        Debug.Log("Damage taken, Health: " + health);
         healthBar.fillAmount = health/startHealth;
         DeathCheck();
     }

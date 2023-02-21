@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 8848749969187139269}
   destinationControl: Unit/Destination
+  isSelected: {fileID: 7353907759549336582}
   animator: {fileID: 2832447021273076074}
 --- !u!114 &8848749969187139269
 MonoBehaviour:

@@ -64,16 +64,17 @@ public class UnitClick : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
         {
+            GameObject clickedUnit = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             // If we hit a clickable object
             if (_unionSelect.WasPressedThisFrame())
             {
                 // Shift clicked
-                UnitSelections.Instance.ShiftClickSelect(hit.collider.gameObject);
+                UnitSelections.Instance.ShiftClickSelect(clickedUnit);
             }
             else
             {
                 // Normal Clicked
-                UnitSelections.Instance.ClickSelect(hit.collider.gameObject);
+                UnitSelections.Instance.ClickSelect(clickedUnit);
             }
         }
         else

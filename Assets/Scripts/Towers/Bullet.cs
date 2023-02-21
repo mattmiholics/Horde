@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     public void Seek(Transform _target, int damage)
     {
+        Debug.Log("Attack Player Seek");
         this.damage = damage;
         target = _target;
     }
@@ -17,6 +18,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Attack Player Update 1");
         if (target == null)
         {
             Destroy(gameObject);
@@ -26,8 +28,11 @@ public class Bullet : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
 
+        Debug.Log("Attack Player Update 2");
+
         if(dir.magnitude <= distanceThisFrame)
         {
+            Debug.Log("Attack Player Hit Target 1");
             HitTarget();
             return;
         }
@@ -39,6 +44,7 @@ public class Bullet : MonoBehaviour
     {
         EnemyData e = target.GetComponent<EnemyData>();
         TroopData p = target.GetComponent<TroopData>();
+        Debug.Log("Attack Player Hit Target 2");
 
         if(e != null)
         {
@@ -47,6 +53,7 @@ public class Bullet : MonoBehaviour
         
         if(p != null)
         {
+            Debug.Log("Attack Player Take Damage: " + damage);
             p.TakeDamage(damage);
         }
 

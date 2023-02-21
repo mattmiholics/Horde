@@ -27,14 +27,33 @@ public class UnitSelections : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InvokeRepeating("CheckTroopSelection", 0f, .1f);
+    }
+
+    void CheckTroopSelection()
+    {
+        foreach (var unit in unitsSelected)
+        {
+            if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
+            {
+                unit.transform.SetParent(troopSelectionParent);
+                unit.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void ClickSelect(GameObject unitToAdd)
     {
+        Debug.Log("Clicked " + unitToAdd.name);
         DeselectAll();
         unitsSelected.Add(unitToAdd);
         //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-        if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+        if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
         {
             unitToAdd.transform.SetParent(troopSelectionParent);
+            unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
         }
     }
 
@@ -44,16 +63,18 @@ public class UnitSelections : MonoBehaviour
         {
             unitsSelected.Add(unitToAdd);
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
             {
                 unitToAdd.transform.SetParent(troopSelectionParent);
+                unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
             }
         }
         else
         {
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
             {
                 unitToAdd.transform.SetParent(troopParent);
+                unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(false); 
             }
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
@@ -66,10 +87,13 @@ public class UnitSelections : MonoBehaviour
         {
             unitsSelected.Add(unitToAdd);
             //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
-            {
-                unitToAdd.transform.SetParent(troopSelectionParent);
-            }
+            // foreach (var unit in unitsSelected)
+            // {
+            //     if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
+            //     {
+            //         unit.transform.SetParent(troopSelectionParent);
+            //     }
+            // }
         }
     }
 
@@ -79,9 +103,10 @@ public class UnitSelections : MonoBehaviour
         {
             foreach (var unit in unitsSelected)
             {
-                if (LayerMask.LayerToName(unit.gameObject.layer) == "Player")
+                if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
                 {
                     unit.transform.SetParent(troopParent);
+                    unit.transform.Find("Offset/IsSelected").gameObject.SetActive(false);
                 }
                 //unit.transform.GetChild(0).gameObject.SetActive(false);
             }
