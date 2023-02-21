@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.14898534, g: 0.764151, b: 0.23731682, a: 1}
+  m_Color: {r: 0.7647059, g: 0.16867545, b: 0.1490196, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 8014259299477567331}
   - component: {fileID: 8431883694700447906}
   - component: {fileID: 8601944676513259195}
+  - component: {fileID: 5803285407938862401}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -177,6 +178,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 1023
+--- !u!114 &5803285407938862401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875787728762262472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 888698a0b190b37419a27b20742d70f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3916239047668000142
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,8 +376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1250
-  damage: 25
   healthBar: {fileID: 5997454496089533876}
+  damage: 25
   deathValue: 250
   deathEffect: {fileID: 5153799349873572474, guid: cd62e84504fcd4e47b25e84c77b5be5d, type: 3}
   aSource: {fileID: -7063945888824949614}

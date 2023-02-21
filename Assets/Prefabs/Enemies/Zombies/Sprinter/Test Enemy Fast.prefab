@@ -204,12 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff0931eb61b8de48b5f335cba1efb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 100
-  deathEffect: {fileID: 5153799349873572474, guid: cd62e84504fcd4e47b25e84c77b5be5d, type: 3}
-  aSource: {fileID: 2095304563810743312}
-  clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
-  startHealth: 150
-  healthBar: {fileID: 2827955095543940960}
 --- !u!114 &1041273996331324162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,8 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 150
-  damage: 25
   healthBar: {fileID: 2827955095543940960}
+  damage: 25
   deathValue: 100
   deathEffect: {fileID: 5153799349873572474, guid: cd62e84504fcd4e47b25e84c77b5be5d, type: 3}
   aSource: {fileID: 2095304563810743312}
@@ -436,6 +430,7 @@ GameObject:
   - component: {fileID: 7602866403670327540}
   - component: {fileID: 3646991020082115840}
   - component: {fileID: 7205811807390237181}
+  - component: {fileID: 9105816384947590591}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -525,6 +520,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 511
+--- !u!114 &9105816384947590591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2799738907374824622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 888698a0b190b37419a27b20742d70f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9007633652626321530
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.14898534, g: 0.764151, b: 0.23731682, a: 1}
+  m_Color: {r: 0.7647059, g: 0.16862746, b: 0.14901961, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

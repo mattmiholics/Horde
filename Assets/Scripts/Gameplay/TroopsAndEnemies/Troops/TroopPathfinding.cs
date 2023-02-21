@@ -17,6 +17,18 @@ public class TroopPathfinding : MonoBehaviour
     public Animator animator;
 
     Vector3 target;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        UnitSelections.Instance.unitList.Add(this.gameObject);
+    }
+
+    // Update is called once per frame
+    void OnDestroy()
+    {
+        UnitSelections.Instance.unitList.Remove(this.gameObject);
+    }
     
     // Start is called before the first frame update
     private void Awake()
@@ -52,7 +64,7 @@ public class TroopPathfinding : MonoBehaviour
         if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, agent.groundLayer)) // If the raycast doesn't hit a wall
         {
             target = hit.point; // Move the target to the mouse position
-            agent.SetTarget(target);
+            agent.SetTarget(target, 50);
             animator.SetBool("IsRunning", true);
         }
     }
