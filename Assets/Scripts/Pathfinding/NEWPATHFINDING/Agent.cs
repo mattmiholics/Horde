@@ -24,8 +24,8 @@ public class Agent : SerializedMonoBehaviour
 
     [ReadOnly] public int remainingNodes;
 
-    public float jumpHeightMultiplier = 2.1f;
-    public float jumpHeightOffset = 5.2f;
+    private float jumpHeightMultiplier = 2.1f;
+    private float jumpHeightOffset = 5.2f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
