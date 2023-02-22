@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class UpdateFrameText : MonoBehaviour
 {
-    [SerializeField] Text numberText;
+    [SerializeField] TextMeshProUGUI numberText;
 
     private void Awake()
     {

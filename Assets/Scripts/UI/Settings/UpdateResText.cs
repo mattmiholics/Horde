@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpdateResText : MonoBehaviour
 {
-    [SerializeField] Text numberText;
+    [SerializeField] TextMeshProUGUI numberText;
     private void Awake()
     {
         UpdateResScale(GetComponentInParent<Slider>().value);

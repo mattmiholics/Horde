@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class UpdateTextAndDouble : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI numberText;
-    [SerializeField] Slider vol;
 
     private void Awake()
     {
