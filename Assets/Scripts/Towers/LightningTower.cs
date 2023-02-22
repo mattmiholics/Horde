@@ -30,6 +30,7 @@ public class LightningTower : MonoBehaviour
     public GameObject laserStart;
 
     private List<GameObject> enemiesHit = new List<GameObject>();
+    private List<Vector3> halfwayPoints = new List<Vector3>();
 
 
     // Start is called before the first frame update
@@ -108,11 +109,40 @@ public class LightningTower : MonoBehaviour
     {
         enemiesHit.Add(target.gameObject);
 
-        //Gets the travel distance oif laser in each direction
+        //Gets the travel distance of laser in each direction and divides it by 2 for the halfway distance
         float xCord = (System.Math.Abs(gameObject.transform.position.x - target.transform.position.x) / 2);
         float yCord = (System.Math.Abs(gameObject.transform.position.y - target.transform.position.y) / 2);
         float zCord = (System.Math.Abs(gameObject.transform.position.z - target.transform.position.z) / 2);
-        //Need to add the smaller of the target or orgigins position to get the halfway for each direction
+
+        //Adds the halfway distance to the samller to the coords to find the halfway point in that direction, then adds a random distance to make a 'lightning' effect
+        if(gameObject.transform.position.x <= target.transform.position.x)
+        {
+            xCord = xCord + gameObject.transform.position.x + Random.Range(-.6f,.6f);
+        }
+        else
+        {
+            xCord = xCord + target.transform.position.x + Random.Range(-.6f, .6f);
+        }
+        if (gameObject.transform.position.y <= target.transform.position.y)
+        {
+            yCord = yCord + gameObject.transform.position.y + Random.Range(-.2f, .2f);
+        }
+        else
+        {
+            yCord = yCord + target.transform.position.y + Random.Range(-.2f, .2f);
+        }
+        if (gameObject.transform.position.z <= target.transform.position.z)
+        {
+            zCord = zCord + gameObject.transform.position.z + Random.Range(-.6f, .6f);
+        }
+        else
+        {
+            zCord = zCord + target.transform.position.z + Random.Range(-.6f, .6f);
+        }
+
+        Vector3 coord = new Vector3(xCord, yCord, zCord);
+        halfwayPoints.Add(coord);
+
 
 
         HitEnemiesWithLaser(1);
@@ -130,6 +160,7 @@ public class LightningTower : MonoBehaviour
         }
         //lr.enabled = false;
         enemiesHit.Clear();
+        halfwayPoints.Clear();
         
     }
 
