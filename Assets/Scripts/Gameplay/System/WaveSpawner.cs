@@ -185,13 +185,17 @@ public class WaveSpawner : MonoBehaviour
     public void SpawnNextWave()
     {
         PlayerStats.Instance.rounds++;
-        Slider slider = progressBar.GetComponent<Slider>();
-        slider.value = 0f;
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
         CalcTotalEnemiesInWave(currWave);
         spawnWave(currWave);
         waveNum++;
+
+        if (progressBar == null)
+            return;
+
+        Slider slider = progressBar.GetComponent<Slider>();
+        slider.value = 0f;
     }
     private void spawnWave(WaveData currWave)
     {
@@ -223,12 +227,14 @@ public class WaveSpawner : MonoBehaviour
     // changed from game object to transform? can change back wasnt sure
     void SpawnEnemy(GameObject prefab, Altar altar)
     {
-        UpdateProgressBar();
         GameObject enemy = Instantiate(prefab, altar.spawnPoint.position, Quaternion.identity, parent);
         // Set target path for the agent
         if (enemy.TryGetComponent<Agent>(out Agent agent) && altar.TryGetComponent<StaticAgent>(out StaticAgent staticAgent))
         {
             agent.SetTarget(staticAgent.pathPoints);
         }
+
+        if (progressBar != null)
+            UpdateProgressBar();
     }
 }
