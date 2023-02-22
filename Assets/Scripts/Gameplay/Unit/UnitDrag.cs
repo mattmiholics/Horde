@@ -135,6 +135,9 @@ public class UnitDrag : MonoBehaviour
 
     void SelectUnits()
     {
+        if (UnitSelections.Instance == null)
+            return;
+
         // Loop though all the units
         foreach ( var unit in UnitSelections.Instance.unitList)
         {

@@ -58,6 +58,9 @@ public class UnitClick : MonoBehaviour
 
     private void OnLeftClick(InputAction.CallbackContext context)
     {
+        if (UnitSelections.Instance == null)
+            return;
+
         groundMarker.SetActive(false);
         RaycastHit hit = new RaycastHit();
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
