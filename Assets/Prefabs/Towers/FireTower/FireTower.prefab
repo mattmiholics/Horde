@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
+  id: 12
   editable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 4191196401239573293}
