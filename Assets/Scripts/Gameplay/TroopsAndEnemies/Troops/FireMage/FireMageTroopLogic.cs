@@ -82,7 +82,7 @@ public class FireMageTroopLogic : TroopData
 
     }
 
-    void Shoot()
+    protected override void Shoot()
     {
         GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
         //If a new bullet script is created, update it here
@@ -93,12 +93,6 @@ public class FireMageTroopLogic : TroopData
             // bulletS.sphereCollider.radius = areaDamageRadius;
             bulletS.Seek(target, damage);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
     }
         
 }

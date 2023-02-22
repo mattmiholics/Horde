@@ -6,9 +6,9 @@ public class Bullet : MonoBehaviour
 
     public float speed = 70f;
     public GameObject impactEffect;
-    public int damage = 50;
+    public float damage = 50f;
 
-    public void Seek(Transform _target, int damage)
+    public void Seek(Transform _target, float damage)
     {
         Debug.Log("Attack Player Seek");
         this.damage = damage;
@@ -43,8 +43,8 @@ public class Bullet : MonoBehaviour
     void HitTarget()
     {
         EnemyData e = target.GetComponent<EnemyData>();
-        TroopData p = target.GetComponent<TroopData>();
-        Debug.Log("Attack Player Hit Target 2");
+        TroopData p = target.transform.parent.gameObject.transform.parent.gameObject.GetComponent<TroopData>();
+        // Debug.Log("Attack Player Hit Target 2: " + p.name);
 
         if(e != null)
         {

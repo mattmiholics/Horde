@@ -3,139 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
-using Sirenix.OdinInspector;
 
 public class EnemyPathfinding : MonoBehaviour
 {
-    // public Transform[] destinations;
-    // public Agent agent;
+    [Header("Navigation Pathfinding")]
+    public Agent agent;
+    public LayerMask whatIsPlayer;
+    // public Transform ultimateDestination;
 
-    // private LineRenderer myLineRenderer;
+    [Header("Navigation Set Target")]
+    public float sightRange;
+    public float attackRange;
+    public bool playerInSightRange, playerInAttackRange;
 
-    // //public Transform player;
-    // public Transform targetObject;
-    // //[SerializeField] private GameObject targetMarkerPrefab;
-    // [PropertySpace(0, 10)]
-    // [SerializeField] private Transform visualObjectsParent;
-    // public LayerMask whatIsGround, whatIsPlayer;
+    [Header("Animation")]
+    public Animator animator;
 
-    // //Patroling
-    // public Vector3 walkPoint;
-    // Vector3 target;
-    // bool walkPointSet;
-    // public float walkPointRange;
+    Vector3 target;
 
-    // //States
-    // public float sightRange, attackRange;
-    // public bool playerInSightRange, playerInAttackRange;
+    private void Awake()
+    {
+        agent = GetComponent<Agent>();
+        // StartCoroutine(CheckPlayerInSight());
+    }
 
-    // private void Awake()
-    // {
-    //     // THIS NEEDS TO BE OPTIMIZED
-    //     targetObject = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<MainHall>().target;
-    //     // agent = GetComponent<NavMeshAgent>();
-    //     myLineRenderer = GetComponent<LineRenderer>();
+    private void Update()
+    {
+        int dist = agent.remainingNodes;
+        if(dist <= 2)
+        {
+            Destroy(gameObject);
+            PlayerStats.Instance.lives--;
+        }
+        // else if (agent.SetTarget(target, 50))
+        // {
+        //     //DrawPath();
+        // }
+    }
 
-    //     myLineRenderer.startWidth = 0.15f;
-    //     myLineRenderer.endWidth = 0.15f;
-    //     myLineRenderer.positionCount = 0;
+    private void MoveToTarget()
+    {
+        // agent.SetTarget(ultimateDestination.position, 50);
+        // Debug.Log("Ultimate Destination: " + ultimateDestination.position);
+    }
 
-    //     StartCoroutine(CheckPlayerInSight());
-    // }
+    // Use overlapsphere instead
+    private IEnumerator CheckPlayerInSight()
+    {
+        for (; ;) 
+        {
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
 
-    // private void Update()
-    // {
-    //     float dist = Vector3.Distance(transform.position, targetObject.transform.position);
-    //     if(dist <= 2)
-    //     {
-    //         Destroy(gameObject);
-    //         PlayerStats.Instance.lives--;
-    //     }
-    //     else if (agent.SetTarget(target))
-    //     {
-    //         //DrawPath();
-    //     }
-    // }
+            if (playerInSightRange) playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+            else playerInAttackRange = false;
 
-    // private IEnumerator CheckPlayerInSight()
-    // {
-    //     for (; ;) 
-    //     {
-    //         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer(); // Prioritize chase player
+            else if (playerInSightRange && playerInAttackRange) AttackPlayer(GetNearestPlayer()); // Then attacking player (probably need to prioritize this later on)
+            else if (!playerInSightRange && !playerInAttackRange) MoveToTarget(); // Then move to target
 
-    //         if (playerInSightRange) playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-    //         else playerInAttackRange = false;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 
-    //         if (playerInSightRange && !playerInAttackRange) ChasePlayer(); // Prioritize chase player
-    //         else if (playerInSightRange && playerInAttackRange) AttackPlayer(GetNearestPlayer()); // Then attacking player (probably need to prioritize this later on)
-    //         else if (!playerInSightRange && !playerInAttackRange) MoveToTarget(); // Then move to target
+    private void ChasePlayer()
+    {
+        agent.SetTarget(GetNearestPlayer().position, 50);
+    }
 
-    //         yield return new WaitForSeconds(0.5f);
-    //     }
-    // }
+    // Use overlapsphere instead
+    private Transform GetNearestPlayer()
+    {
+        Collider[] playerUnits = Physics.OverlapSphere(transform.position, sightRange, whatIsPlayer);
+        Transform nearestPlayerPosition = playerUnits.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault().transform;
+        return nearestPlayerPosition;
+    }
 
-    // private void MoveToTarget()
-    // {
-    //     //targetMarkerPrefab.transform.SetParent(visualObjectsParent);
-    //     //targetMarkerPrefab.SetActive(true);
-    //     //targetMarkerPrefab.transform.position = targetObject.transform.position;
-    //     agent.SetTarget(targetObject.position);
-    // }
+    private void AttackPlayer(Transform playerObject)
+    {
+        agent.SetTarget(transform.position, 50);
 
-    // private void Patroling()
-    // {
-    //     if (!walkPointSet) SearchWalkPoint();
+        transform.LookAt(playerObject);
+        Debug.Log("Attack Player 1");
 
-    //     if (walkPointSet)
-    //         agent.SetTarget(walkPoint);
-
-    //     Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-    //     if (distanceToWalkPoint.magnitude < 1f)
-    //     {
-    //         walkPointSet = false;
-    //     }
-    // }
-
-    // private void SearchWalkPoint()
-    // {
-    //     float randomZ = Random.Range(-walkPointRange, walkPointRange);
-    //     float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-    //     walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-    //     if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-    //     {
-    //         walkPointSet = true;
-    //     }
-    // }
-
-    // private void ChasePlayer()
-    // {
-    //     agent.SetTarget(GetNearestPlayer().position);
-    // }
-
-    // private Transform GetNearestPlayer()
-    // {
-    //     Collider[] playerUnits = Physics.OverlapSphere(transform.position, sightRange, whatIsPlayer);
-    //     Transform nearestPlayerPosition = playerUnits.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault().transform;
-    //     return nearestPlayerPosition;
-    // }
-
-    // // void DrawPath()
-    // // {
-    // //     myLineRenderer.positionCount = agent.path.corners.Length;
-    // //     myLineRenderer.SetPosition(0, transform.position);
-
-    // //     if (agent.path.corners.Length < 2)
-    // //     {
-    // //         return;
-    // //     }
-
-    // //     for (int i = 1; i < agent.path.corners.Length; i++)
-    // //     {
-    // //         Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
-    // //         myLineRenderer.SetPosition(i, pointPosition);
-    // //     }
-    // // }
+        this.gameObject.GetComponent<EnemyData>().Attack();
+    }
 }

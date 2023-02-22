@@ -20,7 +20,7 @@ public class UnitData : MonoBehaviour
         // Debug.Log("Start Health: " + startHealth);
     }
 
-    public virtual void TakeDamage(int incomingDamage)
+    public virtual void TakeDamage(float incomingDamage)
     {
         health -= incomingDamage;
         Debug.Log("Damage: " + incomingDamage);
@@ -31,7 +31,7 @@ public class UnitData : MonoBehaviour
         
     public virtual void DeathCheck()
     {
-        if (health <= 0)
+        if (health <= 0f)
             Destroy(this.gameObject);
     }
 }

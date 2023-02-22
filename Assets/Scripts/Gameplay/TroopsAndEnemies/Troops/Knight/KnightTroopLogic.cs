@@ -44,22 +44,4 @@ public class KnightTroopLogic : TroopData
         fireReload -= Time.deltaTime;
 
     }
-
-    void Shoot()
-    {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        //If a new bullet script is created, update it here
-        Bullet bulletS = bulltObj.GetComponent<Bullet>();
-
-        if(bulletS != null)
-        {
-            bulletS.Seek(target, damage);
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
-    }
 }

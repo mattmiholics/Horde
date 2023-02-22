@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class EnemyData : UnitData
 {
+    protected Transform target;
     [Header("Attributes")]
+    public float fireRate = 1f;
+    public float fireReload = 0f;
+    public float range = 15f;
     public int damage = 25;
     
     [Header("Value")]
@@ -15,7 +20,16 @@ public class EnemyData : UnitData
     public AudioSource aSource;
     public AudioClip clip;
 
-    public override void TakeDamage (int incomingDamage)
+    [Header("Unity Setup Fields")]
+
+    public string enemyTag = "Enemy";
+    public Transform partToRotate;
+    public float rotationSpeed = 7f;
+
+    public GameObject bullet;
+    public Transform firePoint;
+
+    public override void TakeDamage (float incomingDamage)
     {
         health -= incomingDamage;
         healthBar.fillAmount = health/startHealth;
@@ -34,5 +48,25 @@ public class EnemyData : UnitData
 
             Destroy(this.gameObject);
         }
+    }
+
+    public virtual void Attack()
+    {
+        Debug.Log("Attack Player 2");
+
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+        Bullet bulletS = bulletObj.GetComponent<Bullet>();
+        
+        if(bulletS != null)
+        {
+            Debug.Log("Attack Player 3");
+            bulletS.Seek(target, 50);
+        }
+    }
+
+    protected virtual void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

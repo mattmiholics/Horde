@@ -10,7 +10,7 @@ public class TroopData : UnitData
     public float fireRate = 1f;
     public float fireReload = 0f;
     public float range = 15f;
-    public int damage = 25;
+    public float damage = 25f;
 
     [Header("Unity Setup Fields")]
 
@@ -53,5 +53,23 @@ public class TroopData : UnitData
             //this was throwing an error in other prefabs
             target = null;
         }
+    }
+
+    protected virtual void Shoot()
+    {
+        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+        //If a new bullet script is created, update it here
+        Bullet bulletS = bulltObj.GetComponent<Bullet>();
+
+        if(bulletS != null)
+        {
+            bulletS.Seek(target, damage);
+        }
+    }
+
+    protected virtual void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }
