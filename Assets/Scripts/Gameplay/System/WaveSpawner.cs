@@ -10,6 +10,8 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
+    //public GameObject progressBar;
+
     public Transform enemyPrefab;
     public Transform fastEnemyPrefab;
     public Transform slowEnemyPrefab;
@@ -27,7 +29,8 @@ public class WaveSpawner : MonoBehaviour
     private static int waveNum = 1;
 
     private bool waveStarted;
-    private int activeCoRoutines = 0; 
+    private int activeCoRoutines = 0;
+    private int totalEnemyAmount = 0;
 
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
@@ -61,6 +64,8 @@ public class WaveSpawner : MonoBehaviour
         [TableColumnWidth(133, false)]
         [AssetList(CustomFilterMethod = "HasEnemyMovementComponent")]
         public GameObject enemyType;
+
+        public bool boss;
 
         private bool HasEnemyMovementComponent(GameObject obj)
         {
@@ -154,6 +159,25 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    /*
+    private void calcTotalEnemiesInWave (WaveData wave_data)
+    {
+        this.totalEnemyAmount = 0;
+
+        foreach (SpawnData spawn_data in wave_data.getSpawnData())
+        {
+            this.totalEnemyAmount += spawn_data.enemyCount;
+        }
+    }
+
+    private void updateProgressBar()
+    {
+        Slider slider = progressBar.GetComponent<Slider>();
+        float percentageToAdd = 1 / this.totalEnemyAmount;
+        slider.value += percentageToAdd;
+    } */
+
+
     public void DisableUI(string UIName)
     {
         GameObject UI = Root.Instance.UIGroups.Where(obj => obj.name == UIName).SingleOrDefault();
@@ -175,8 +199,11 @@ public class WaveSpawner : MonoBehaviour
     public void SpawnNextWave()
     {
         PlayerStats.Instance.rounds++;
+        // Slider slider = progressBar.GetComponent<Slider>();
+        // slider.value = 0f;
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
+        // calcTotalEnemiesInWave(currWave);
         spawnWave(currWave);
         waveNum++;
     }
@@ -210,6 +237,7 @@ public class WaveSpawner : MonoBehaviour
     // changed from game object to transform? can change back wasnt sure
     void spawnEnemy(GameObject prefab)
     {
+         // updateProgressBar();
         Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, parent);
     }
 }
