@@ -10,7 +10,7 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject progressBar;
+    //public GameObject progressBar;
 
     public Transform enemyPrefab;
     public Transform fastEnemyPrefab;
@@ -159,6 +159,7 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    /*
     private void calcTotalEnemiesInWave (WaveData wave_data)
     {
         this.totalEnemyAmount = 0;
@@ -174,7 +175,7 @@ public class WaveSpawner : MonoBehaviour
         Slider slider = progressBar.GetComponent<Slider>();
         float percentageToAdd = 1 / this.totalEnemyAmount;
         slider.value += percentageToAdd;
-    }
+    } */
 
 
     public void DisableUI(string UIName)
@@ -198,11 +199,11 @@ public class WaveSpawner : MonoBehaviour
     public void SpawnNextWave()
     {
         PlayerStats.Instance.rounds++;
-        Slider slider = progressBar.GetComponent<Slider>();
-        slider.value = 0f;
+        // Slider slider = progressBar.GetComponent<Slider>();
+        // slider.value = 0f;
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
-        calcTotalEnemiesInWave(currWave);
+        // calcTotalEnemiesInWave(currWave);
         spawnWave(currWave);
         waveNum++;
     }
@@ -236,7 +237,7 @@ public class WaveSpawner : MonoBehaviour
     // changed from game object to transform? can change back wasnt sure
     void spawnEnemy(GameObject prefab)
     {
-        updateProgressBar();
+         // updateProgressBar();
         Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, parent);
     }
 }
