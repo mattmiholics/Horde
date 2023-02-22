@@ -783,7 +783,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 290897526}
+      - m_Target: {fileID: 899035308}
         m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: SetMSAA
         m_Mode: 3
@@ -1175,7 +1175,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1118023240}
+      - m_Target: {fileID: 899035306}
         m_TargetAssemblyTypeName: AudioOptions, Assembly-CSharp
         m_MethodName: SetSfxVol
         m_Mode: 0
@@ -3711,10 +3711,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 05a7c0d0cb7fd714ab8632e77c7b0337, type: 2}
-        m_TargetAssemblyTypeName: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset,
-          Unity.RenderPipelines.Universal.Runtime
-        m_MethodName: set_renderScale
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
+        m_MethodName: UpdateRenderScale
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4757,7 +4756,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 290897525}
-  - component: {fileID: 290897526}
   m_Layer: 5
   m_Name: GraphicsOptionsUI
   m_TagString: Untagged
@@ -4796,29 +4794,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2153.2556, y: 1212.0348}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &290897526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290897524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0939249131b34489328330828a0dac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resolution: {fileID: 247472981}
-  shadowDistance: {fileID: 513582685}
-  motionBlur: {fileID: 761650152}
-  tiltShift: {fileID: 1364951081}
-  lensDistortion: {fileID: 868122583}
-  vignette: {fileID: 1119325951}
-  ambientOcclusion: {fileID: 1903548013}
-  msaa0: {fileID: 58394139}
-  msaa1: {fileID: 658816708}
-  msaa2: {fileID: 1321728277}
-  msaa3: {fileID: 2004392610}
 --- !u!1 &293911337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5059,8 +5034,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 403013152}
-        m_TargetAssemblyTypeName: CameraHandler, Assembly-CSharp
+      - m_Target: {fileID: 899035305}
+        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
         m_MethodName: UpdateZoomSense
         m_Mode: 0
         m_Arguments:
@@ -6562,17 +6537,6 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 3
---- !u!114 &403013152 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 668968359509995570, guid: 6ed9e7de7f4ec6548b7ee8c268c3c45d, type: 3}
-  m_PrefabInstance: {fileID: 195210312}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b4e842599398bc45929013c48c80616, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &417792681
 GameObject:
   m_ObjectHideFlags: 0
@@ -8103,10 +8067,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 05a7c0d0cb7fd714ab8632e77c7b0337, type: 2}
-        m_TargetAssemblyTypeName: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset,
-          Unity.RenderPipelines.Universal.Runtime
-        m_MethodName: set_shadowDistance
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
+        m_MethodName: UpdateShadowDistance
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8335,9 +8298,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 403013152}
-        m_TargetAssemblyTypeName: CameraHandler, Assembly-CSharp
-        m_MethodName: UpdateBorderMovement
+      - m_Target: {fileID: 899035305}
+        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
+        m_MethodName: ToggleBorderMovement
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8894,18 +8857,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1118023240}
-        m_TargetAssemblyTypeName: AudioOptions, Assembly-CSharp
-        m_MethodName: SaveSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1118023238}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -9351,18 +9302,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1858073371}
-        m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
-        m_MethodName: SaveSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1858073369}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -9711,7 +9650,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.004149378, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10611,7 +10550,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetResolution
         m_Mode: 0
@@ -10679,7 +10618,7 @@ RectTransform:
   - {fileID: 2012585560}
   - {fileID: 1939542102}
   m_Father: {fileID: 1858073370}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10912,18 +10851,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: eae0ac69fa5b1f0488133761f1ceecbc, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1216103051}
-        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
-        m_MethodName: SaveSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -11234,7 +11161,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 290897526}
+      - m_Target: {fileID: 899035308}
         m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: SetMSAA
         m_Mode: 3
@@ -13000,8 +12927,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648638487}
-        m_TargetAssemblyTypeName: ConstantPostProcessUpdate, Assembly-CSharp
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: UpdateMotionBlur
         m_Mode: 0
         m_Arguments:
@@ -13238,7 +13165,7 @@ RectTransform:
   - {fileID: 816649643}
   - {fileID: 976827402}
   m_Father: {fileID: 1858073370}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13304,7 +13231,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetDisplay
         m_Mode: 0
@@ -14760,8 +14687,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648638487}
-        m_TargetAssemblyTypeName: ConstantPostProcessUpdate, Assembly-CSharp
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: UpdateLensDistortion
         m_Mode: 0
         m_Arguments:
@@ -15280,7 +15207,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 899035303}
-  - component: {fileID: 899035304}
+  - component: {fileID: 899035305}
+  - component: {fileID: 899035306}
+  - component: {fileID: 899035308}
+  - component: {fileID: 899035307}
   m_Layer: 5
   m_Name: OptionsUI
   m_TagString: Untagged
@@ -15313,7 +15243,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0.00012207031, y: -1.0112305}
   m_SizeDelta: {x: -795.3415, y: -450.20486}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &899035304
+--- !u!114 &899035305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15322,13 +15252,73 @@ MonoBehaviour:
   m_GameObject: {fileID: 899035302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5b0ccce3cb70f4ea25502b5d962376, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aa7947e817c99344b7ccfda94853bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioOptions: {fileID: 1118023238}
-  GraphicsOptions: {fileID: 290897524}
-  DisplayOptions: {fileID: 1858073369}
-  ControlOptions: {fileID: 1216103049}
+  moveSense: {fileID: 2109341646}
+  rotationSense: {fileID: 1084499935}
+  zoomSense: {fileID: 295641224}
+  borderMovment: {fileID: 528014762}
+  lockMouse: {fileID: 1898569751}
+  camera: {fileID: 1812358353}
+--- !u!114 &899035306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899035302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0aab2c70a277c14f9eb0b034288fbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: {fileID: 2074495946}
+  musicVolume: {fileID: 1391791770}
+  sfxVolume: {fileID: 84469231}
+  audioMixer: {fileID: 24100000, guid: ee6871a2b730c244f864c6a4b353fdea, type: 2}
+--- !u!114 &899035307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899035302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d307f18ab56ac41889520b144bbfa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolutionDropdown: {fileID: 650559171}
+  displayMonitor: {fileID: 786702452}
+  refreshRates: {fileID: 1429646720}
+  fullscreen: {fileID: 2138240698}
+  frameCap: {fileID: 2108612493}
+  vsync: {fileID: 1314837865}
+--- !u!114 &899035308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899035302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0939249131b34489328330828a0dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: {fileID: 247472981}
+  shadowDistance: {fileID: 513582685}
+  motionBlur: {fileID: 761650152}
+  tiltShift: {fileID: 1364951081}
+  lensDistortion: {fileID: 868122583}
+  vignette: {fileID: 1119325951}
+  ambientOcclusion: {fileID: 1903548013}
+  msaa0: {fileID: 58394139}
+  msaa1: {fileID: 658816708}
+  msaa2: {fileID: 1321728277}
+  msaa3: {fileID: 2004392610}
+  constantPostProcess: {fileID: 1648638487}
 --- !u!1 &910272474
 GameObject:
   m_ObjectHideFlags: 0
@@ -15490,8 +15480,8 @@ RectTransform:
   m_Father: {fileID: 1950546261}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.004149378, y: 0}
-  m_AnchorMax: {x: 0.004149378, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18425,8 +18415,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 403013152}
-        m_TargetAssemblyTypeName: CameraHandler, Assembly-CSharp
+      - m_Target: {fileID: 899035305}
+        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
         m_MethodName: UpdateRotationSense
         m_Mode: 0
         m_Arguments:
@@ -19360,7 +19350,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1118023239}
-  - component: {fileID: 1118023240}
   m_Layer: 5
   m_Name: AudioOptionsUI
   m_TagString: Untagged
@@ -19394,22 +19383,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2153.2556, y: 1212.0348}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1118023240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118023238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0aab2c70a277c14f9eb0b034288fbd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  masterVolume: {fileID: 2074495946}
-  musicVolume: {fileID: 1391791770}
-  sfxVolume: {fileID: 84469231}
-  audioMixer: {fileID: 24100000, guid: ee6871a2b730c244f864c6a4b353fdea, type: 2}
 --- !u!1 &1119325949
 GameObject:
   m_ObjectHideFlags: 0
@@ -19496,6 +19469,18 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
+        m_MethodName: UpdateVignette
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1648638487}
         m_TargetAssemblyTypeName: ConstantPostProcessUpdate, Assembly-CSharp
         m_MethodName: UpdateVignette
@@ -21619,7 +21604,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1216103050}
-  - component: {fileID: 1216103051}
   m_Layer: 5
   m_Name: ControlOptionsUI
   m_TagString: Untagged
@@ -21655,23 +21639,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2153.2556, y: 1212.0348}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1216103051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1216103049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa7947e817c99344b7ccfda94853bfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSense: {fileID: 2109341646}
-  rotationSense: {fileID: 1084499935}
-  zoomSense: {fileID: 295641224}
-  borderMovment: {fileID: 528014762}
-  lockMouse: {fileID: 1898569751}
 --- !u!1 &1230127398
 GameObject:
   m_ObjectHideFlags: 0
@@ -23587,7 +23554,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetVsync
         m_Mode: 0
@@ -23709,7 +23676,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 290897526}
+      - m_Target: {fileID: 899035308}
         m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: SetMSAA
         m_Mode: 3
@@ -24739,8 +24706,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648638487}
-        m_TargetAssemblyTypeName: ConstantPostProcessUpdate, Assembly-CSharp
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: UpdateTiltShift
         m_Mode: 0
         m_Arguments:
@@ -24864,6 +24831,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
+        m_MethodName: LoadSettings
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25003,7 +24982,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1118023240}
+      - m_Target: {fileID: 899035306}
         m_TargetAssemblyTypeName: AudioOptions, Assembly-CSharp
         m_MethodName: SetMusicVol
         m_Mode: 0
@@ -26031,7 +26010,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetRefreshRate
         m_Mode: 0
@@ -27935,18 +27914,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: eae0ac69fa5b1f0488133761f1ceecbc, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 290897526}
-        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
-        m_MethodName: SaveSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -32832,6 +32799,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808892910}
   m_CullTransparentMesh: 1
+--- !u!1 &1812358353 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 668968359509995571, guid: 6ed9e7de7f4ec6548b7ee8c268c3c45d, type: 3}
+  m_PrefabInstance: {fileID: 195210312}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1820668364
 GameObject:
   m_ObjectHideFlags: 0
@@ -33723,7 +33695,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858073370}
-  - component: {fileID: 1858073371}
   m_Layer: 5
   m_Name: DisplayOptionsUI
   m_TagString: Untagged
@@ -33745,8 +33716,8 @@ RectTransform:
   m_Children:
   - {fileID: 510313699}
   - {fileID: 1412973553}
-  - {fileID: 786702451}
   - {fileID: 650559174}
+  - {fileID: 786702451}
   - {fileID: 1429646719}
   - {fileID: 2108612492}
   - {fileID: 1314837864}
@@ -33760,25 +33731,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2153.2556, y: 1212.0348}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1858073371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858073369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34d307f18ab56ac41889520b144bbfa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resolutionDropdown: {fileID: 650559171}
-  displayMonitor: {fileID: 786702452}
-  refreshRates: {fileID: 1429646720}
-  fullscreen: {fileID: 2138240698}
-  upscaling: {fileID: 0}
-  frameCap: {fileID: 2108612493}
-  vsync: {fileID: 1314837865}
 --- !u!1 &1862646945
 GameObject:
   m_ObjectHideFlags: 0
@@ -34470,9 +34422,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 403013152}
-        m_TargetAssemblyTypeName: CameraHandler, Assembly-CSharp
-        m_MethodName: UpdateLockMouseRotate
+      - m_Target: {fileID: 899035305}
+        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
+        m_MethodName: ToggleLockMouse
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34573,6 +34525,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.Rendering.Universal.ScriptableRendererFeature,
           Unity.RenderPipelines.Universal.Runtime
         m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 899035308}
+        m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
+        m_MethodName: UpdateAmbientOcclusion
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -36210,7 +36174,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 290897526}
+      - m_Target: {fileID: 899035308}
         m_TargetAssemblyTypeName: GraphicsOptions, Assembly-CSharp
         m_MethodName: SetMSAA
         m_Mode: 3
@@ -37857,7 +37821,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1118023240}
+      - m_Target: {fileID: 899035306}
         m_TargetAssemblyTypeName: AudioOptions, Assembly-CSharp
         m_MethodName: SetMasterVol
         m_Mode: 0
@@ -38721,11 +38685,11 @@ MonoBehaviour:
   m_MinValue: 15
   m_MaxValue: 501
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 15
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetFrameLimit
         m_Mode: 0
@@ -38854,9 +38818,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 403013152}
-        m_TargetAssemblyTypeName: CameraHandler, Assembly-CSharp
-        m_MethodName: UpdateMovementSense
+      - m_Target: {fileID: 899035305}
+        m_TargetAssemblyTypeName: ControlOptions, Assembly-CSharp
+        m_MethodName: UpdateMoveSense
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39833,7 +39797,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858073371}
+      - m_Target: {fileID: 899035307}
         m_TargetAssemblyTypeName: UIDisplayOptions, Assembly-CSharp
         m_MethodName: SetFullscreen
         m_Mode: 0

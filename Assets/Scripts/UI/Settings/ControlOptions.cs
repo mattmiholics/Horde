@@ -8,16 +8,49 @@ public class ControlOptions : MonoBehaviour
     [SerializeField] Slider zoomSense;
     [SerializeField] Toggle borderMovment;
     [SerializeField] Toggle lockMouse;
+    [SerializeField] GameObject camera;
 
     const string MOVE_SENSE = "MoveSense";
     const string ROTATION_SENSE = "RotationSense";
     const string ZOOM_SENSE = "ZoomSense";
     const string BORDER_MOVEMENT = "BorderMovement";
     const string LOCK_MOUSE = "LockMouse";
+    CameraHandler cameraHandler;
+
 
     void Start()
     {
+        cameraHandler = camera.GetComponent<CameraHandler>();
         LoadSettings();
+    }
+
+    public void UpdateMoveSense(float newSense)
+    {
+        cameraHandler.UpdateMovementSense(newSense);
+        PlayerPrefs.SetFloat(MOVE_SENSE, moveSense.value);
+    }
+    public void UpdateRotationSense(float newSense)
+    {
+        cameraHandler.UpdateRotationSense(newSense);
+        PlayerPrefs.SetFloat(ROTATION_SENSE, rotationSense.value);
+    }
+
+    public void UpdateZoomSense(float newSense)
+    {
+        cameraHandler.UpdateZoomSense(newSense);
+        PlayerPrefs.SetFloat(ZOOM_SENSE, zoomSense.value);
+    }
+
+    public void ToggleBorderMovement(bool doesBorderMove)
+    {
+        cameraHandler.UpdateBorderMovement(doesBorderMove);
+        PlayerPrefs.SetInt(BORDER_MOVEMENT, borderMovment.isOn ? 1 : 0);
+    }
+
+    public void ToggleLockMouse(bool doesMouseLock)
+    {
+        cameraHandler.UpdateLockMouseRotate(doesMouseLock);
+        PlayerPrefs.SetInt(LOCK_MOUSE, lockMouse.isOn ? 1 : 0);
     }
 
     public void SaveSettings()
@@ -36,16 +69,19 @@ public class ControlOptions : MonoBehaviour
             moveSense.value = PlayerPrefs.GetFloat(MOVE_SENSE);
         else
             moveSense.value = 2.5f;
+        UpdateMoveSense(moveSense.value);
 
         if (PlayerPrefs.HasKey(ROTATION_SENSE))
             rotationSense.value = PlayerPrefs.GetFloat(ROTATION_SENSE);
         else
             rotationSense.value = 2.5f;
+        UpdateRotationSense(rotationSense.value);
 
         if (PlayerPrefs.HasKey(ZOOM_SENSE))
             zoomSense.value = PlayerPrefs.GetFloat(ZOOM_SENSE);
         else
             zoomSense.value = 2.5f;
+        UpdateZoomSense(zoomSense.value);
 
         if (PlayerPrefs.HasKey(BORDER_MOVEMENT))
             if (PlayerPrefs.GetInt(BORDER_MOVEMENT) == 1)
@@ -58,6 +94,7 @@ public class ControlOptions : MonoBehaviour
             }
         else
             borderMovment.SetIsOnWithoutNotify(false);
+        ToggleBorderMovement(borderMovment);
 
         if (PlayerPrefs.HasKey(LOCK_MOUSE))
             if (PlayerPrefs.GetInt(LOCK_MOUSE) == 1)
@@ -70,6 +107,7 @@ public class ControlOptions : MonoBehaviour
             }
         else
             lockMouse.SetIsOnWithoutNotify(true);
+        ToggleLockMouse(lockMouse);
     }
 }
 

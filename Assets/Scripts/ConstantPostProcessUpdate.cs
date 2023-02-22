@@ -84,20 +84,4 @@ public class ConstantPostProcessUpdate : MonoBehaviour
             vignette.intensity.value = 0.45f;
         }
     }
-
-    public void UpdateAmbientOcclusion(bool ambientOcclusionEnabled)
-    {
-        if (!profile.TryGet<AmbientOcclusion2D>(out var ambientOcclusion))
-        {
-            ambientOcclusion = profile.Add<AmbientOcclusion2D>(true);
-        }
-        if (ambientOcclusionEnabled == false)
-        {
-            ambientOcclusion.intensity.value = 0f;
-        }
-        else
-        {
-            ambientOcclusion.intensity.value = 1f;
-        }
-    }
 }

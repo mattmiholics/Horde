@@ -9,7 +9,6 @@ public class UIDisplayOptions : MonoBehaviour
     [SerializeField] TMPro.TMP_Dropdown displayMonitor;
     [SerializeField] TMPro.TMP_Dropdown refreshRates;
     [SerializeField] Toggle fullscreen;
-    [SerializeField] TMPro.TMP_Dropdown upscaling;
     [SerializeField] Slider frameCap;
     [SerializeField] Toggle vsync;
 
@@ -19,7 +18,6 @@ public class UIDisplayOptions : MonoBehaviour
     const string RESOLUTION = "ResolutionPreference";
     const string FULLSCREEN = "FullscreenPreference";
     const string DISPLAY_MONITOR = "DisplayMonitor";
-    const string UPSCALING = "Upscaling";
     const string REFRESH_RATE_PREF = "RefreshRate";
     const string VSYNC = "VsyncPref";
     const string FRAME_LIMIT = "FramerateCap";
@@ -111,6 +109,7 @@ public class UIDisplayOptions : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+        PlayerPrefs.SetInt(FULLSCREEN, Convert.ToInt32(fullscreen.isOn));
     }
 
     public void SetResolution(int resolutionIndex)
@@ -118,25 +117,29 @@ public class UIDisplayOptions : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         findRefreshRates(resolution.refreshRate);
+        PlayerPrefs.SetInt(RESOLUTION, resolutionDropdown.value);
     }
 
     public void SetRefreshRate(int refreshIndex)
     {
         Resolution resolution = Screen.currentResolution;
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen, REFRESH_RATES[refreshIndex]);
+        PlayerPrefs.SetInt(REFRESH_RATE_PREF, refreshRates.value);
     }
 
     public void SetDisplay(int displayIndex)
     {
         Display.displays[displayIndex].Activate();
+        PlayerPrefs.SetInt(DISPLAY_MONITOR, displayMonitor.value);
     }
 
-    public void SetVsync(bool vsync)
+    public void SetVsync(bool newVsync)
     {
-        if (vsync)
+        if (newVsync)
             QualitySettings.vSyncCount = 1;
         else
             QualitySettings.vSyncCount = 0;
+        PlayerPrefs.SetInt(VSYNC, Convert.ToInt32(vsync.isOn));
     }
 
     public void SetFrameLimit(float frameLimit)
@@ -145,6 +148,7 @@ public class UIDisplayOptions : MonoBehaviour
             Application.targetFrameRate = -1;
         else
             Application.targetFrameRate = (int)frameLimit;
+        PlayerPrefs.SetInt(FRAME_LIMIT, (int)frameCap.value);
     }
     
     public void SaveSettings()
@@ -165,6 +169,7 @@ public class UIDisplayOptions : MonoBehaviour
             resolutionDropdown.value = PlayerPrefs.GetInt(RESOLUTION);
         else
             resolutionDropdown.value = currentResolutionIndex;
+        SetResolution(resolutionDropdown.value);
 
         if (PlayerPrefs.HasKey(FULLSCREEN))
         {
@@ -176,21 +181,25 @@ public class UIDisplayOptions : MonoBehaviour
             Screen.fullScreen = true;
             fullscreen.isOn = true;
         }
+        SetFullscreen(fullscreen.isOn);
 
         if (PlayerPrefs.HasKey(REFRESH_RATE_PREF))
             refreshRates.value = PlayerPrefs.GetInt(REFRESH_RATE_PREF);
         else
             refreshRates.value = 0;
+        SetRefreshRate(refreshRates.value);
 
         if (PlayerPrefs.HasKey(VSYNC))
             vsync.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(VSYNC));
         else
             vsync.isOn = false;
+        SetVsync(vsync.isOn);
 
         if (PlayerPrefs.HasKey(FRAME_LIMIT))
             frameCap.value = PlayerPrefs.GetInt(FRAME_LIMIT);
         else
             frameCap.value = 501;
+        SetFrameLimit(frameCap.value);
     }
 
     
