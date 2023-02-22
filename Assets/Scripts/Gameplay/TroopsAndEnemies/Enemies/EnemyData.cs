@@ -52,14 +52,14 @@ public class EnemyData : UnitData
 
     public virtual void Attack()
     {
-        Debug.Log("Attack Player 2");
+        //Debug.Log("Attack Player 2");
 
         GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
         Bullet bulletS = bulletObj.GetComponent<Bullet>();
         
         if(bulletS != null)
         {
-            Debug.Log("Attack Player 3");
+            //Debug.Log("Attack Player 3");
             bulletS.Seek(target, 50);
         }
     }

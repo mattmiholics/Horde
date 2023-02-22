@@ -231,7 +231,7 @@ public class WaveSpawner : MonoBehaviour
         // Set target path for the agent
         if (enemy.TryGetComponent<Agent>(out Agent agent) && altar.TryGetComponent<StaticAgent>(out StaticAgent staticAgent))
         {
-            agent.SetTarget(staticAgent.pathPoints);
+            agent.SetTarget(new List<PathPoint>(staticAgent.pathPoints));
         }
 
         if (progressBar != null)
