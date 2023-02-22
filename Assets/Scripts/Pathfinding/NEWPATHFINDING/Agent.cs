@@ -23,9 +23,10 @@ public class Agent : SerializedMonoBehaviour
     }*/
 
     [ReadOnly] public int remainingNodes;
+    [ReadOnly] public bool isMoving;
 
-    private float jumpHeightMultiplier = 2.1f;
-    private float jumpHeightOffset = 5.2f;
+    public float jumpHeightMultiplier = 2.1f;
+    public float jumpHeightOffset = 5.2f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
@@ -61,6 +62,9 @@ public class Agent : SerializedMonoBehaviour
     private void FixedUpdate()
     {
         rigidbody.AddForce(Vector3.down * rigidbody.mass * gravity);
+
+        if (!isMoving)
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x * 0.95f, rigidbody.velocity.y, rigidbody.velocity.z * 0.87f);
     }
 
     /// <summary>
@@ -123,6 +127,8 @@ public class Agent : SerializedMonoBehaviour
         if (pathPoints.Count <= 0)
             yield break;
 
+        isMoving = true;
+
         for (; ; )
         {
             if (Vector3.Distance(new Vector3(rigidbody.position.x, pathPoints.Last().point.y, rigidbody.position.z), pathPoints.Last().point) < 0.05f)
@@ -172,6 +178,7 @@ public class Agent : SerializedMonoBehaviour
             yield return null;
         }
 
+        isMoving = false;
         remainingNodes = 0;
         rigidbody.position = pathPoints.Last().point;
         yield return null;

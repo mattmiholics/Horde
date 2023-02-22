@@ -153,7 +153,6 @@ public class TerrainEditor : MonoBehaviour
     {
         for (; ; )
         {
-            Debug.Log(playModeBlockType);
             if (playModeBlockType != BlockType.Nothing)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());

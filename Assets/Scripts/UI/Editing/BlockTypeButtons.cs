@@ -16,7 +16,10 @@ public class BlockTypeButtons : MonoBehaviour
         set { serializableButtonBlockType.CopyFrom(value); }
     }
 
-
+    private void Awake()
+    {
+        UpdateButtons();
+    }
 
     private void OnEnable()
     {
@@ -48,11 +51,13 @@ public class BlockTypeButtons : MonoBehaviour
 
     public void ChangeBlockType(BlockType blockType)
     {
-        TerrainEditor.Instance.playModeBlockType = blockType;
+        if (TerrainEditor.Instance)
+            TerrainEditor.Instance.playModeBlockType = blockType;
     }
 
     public void UpdateText()
     {
-        infoText.text = string.Format("${0} - place\n${0} - remove", TerrainEditor.Instance.cost);
+        if (TerrainEditor.Instance)
+            infoText.text = string.Format("${0} - place\n${0} - remove", TerrainEditor.Instance.cost);
     }
 }

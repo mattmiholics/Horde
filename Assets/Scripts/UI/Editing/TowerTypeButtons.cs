@@ -30,6 +30,8 @@ public class TowerTypeButtons : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+
+        UpdateButtons();
     }
 
 
@@ -63,7 +65,8 @@ public class TowerTypeButtons : MonoBehaviour
 
     public void ChangeTowerType(GameObject tower)
     {
-        TowerEditor.Instance.NewSelectedTower(tower);
+        if (TowerEditor.Instance)
+            TowerEditor.Instance.NewSelectedTower(tower);
     }
 
     public void UpdateText()

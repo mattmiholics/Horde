@@ -174,6 +174,7 @@ public class TowerEditor : MonoBehaviour
 
     public void NewSelectedTower(GameObject prefab, bool checkPlaying = false)
     {
+        Debug.Log("New selected");
         if (checkPlaying && Application.isPlaying)
             return;
 
