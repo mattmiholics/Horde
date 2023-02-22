@@ -10,18 +10,14 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject progressBar;
-
-    public Transform enemyPrefab;
-    public Transform fastEnemyPrefab;
-    public Transform slowEnemyPrefab;
-    private Transform spawnPoint;
     public Transform parent;
     public Transform effectParent;
-
-    public UnityEvent startWave;
-    public UnityEvent endWave;
-
+    [ValidateInput("@(spawns != null && spawns.Count > 0)")]
+    public List<Altar> spawns;
+    [ValidateInput("@(enemies != null && enemies.Count > 0)")]
+    public List<GameObject> enemies;
+    [Space]
+    public GameObject progressBar;
     public Text waveCountdownText;
 
     public float intermissionTime = 5.5f;
@@ -32,11 +28,22 @@ public class WaveSpawner : MonoBehaviour
     private int activeCoRoutines = 0;
     private float totalEnemyAmount = 0;
 
+    [Space]
+    public UnityEvent startWave;
+    public UnityEvent endWave;
+
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
 
+    [OnValueChanged("@RefreshSpawnData()")]
+    [OnInspectorInit("@RefreshSpawnData()")]
     [SerializeField]
     private List<WaveData> waveDataList;
+
+    private void RefreshSpawnData()
+    {
+        waveDataList.ForEach(wd => wd.spawnDataList.ForEach(sd => { sd.waveSpawner = this; if (sd.spawn == null) sd.spawn = spawns.FirstOrDefault(); }));
+    }
 
     [Serializable]
     private class WaveData
@@ -44,16 +51,14 @@ public class WaveSpawner : MonoBehaviour
         [SerializeField]
         [TableList(ShowIndexLabels = true)]
         public List<SpawnData> spawnDataList;
-
-        public List<SpawnData> getSpawnData()
-        {
-            return spawnDataList;
-        }
     }
 
     [Serializable]
     private class SpawnData
     {
+        [HideInInspector]
+        public WaveSpawner waveSpawner; // This is just to know which instance the data is apart of
+
         [MinValue(0)]
         public float time;
         [MinValue(0)]
@@ -61,18 +66,31 @@ public class WaveSpawner : MonoBehaviour
         [MinValue(0)]
         public int enemyCount;
 
-        [TableColumnWidth(133, false)]
-        [AssetList(CustomFilterMethod = "HasEnemyMovementComponent")]
+        [TableColumnWidth(34, false)]
+        [HorizontalGroup("Boss", PaddingLeft = 8)]
+        [HideLabel]
+        public bool boss;
+
+        [ValueDropdown("GetEnemyTypes", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false, OnlyChangeValueOnConfirm = true)]
         public GameObject enemyType;
 
-        public bool boss;
+        private IEnumerable GetEnemyTypes()
+        {
+            return waveSpawner.enemies.Select(enemy => new ValueDropdownItem(enemy.name, enemy));
+        }
 
         private bool HasEnemyMovementComponent(GameObject obj)
         {
             return obj.GetComponentInChildren<EnemyMovement>() != null;
         }
 
-        public int spawn;
+        [ValueDropdown("GetAltars", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false, OnlyChangeValueOnConfirm = true)]
+        public Altar spawn;
+
+        private IEnumerable GetAltars()
+        {
+            return waveSpawner.spawns.Select((spawn, index) => new ValueDropdownItem($"{index + 1}. Altar", spawn));
+        }
     }
 
     private void Awake()
@@ -92,40 +110,8 @@ public class WaveSpawner : MonoBehaviour
         waveStarted = false;
     }
 
-    // Update is called once per frame
-    /*void Update()
-    {
-
-        if (countdown <= 0)
-        {
-            //Check for any MarketBuildings
-            MarketBuilding[] markets = FindObjectsOfType(typeof(MarketBuilding)) as MarketBuilding[];
-            foreach (MarketBuilding item in markets)
-            {
-                item.PayPlayer(item.buildingLevel);
-            }
-
-            StartCoroutine(spawnWave());
-            if(waveNum > 5)
-            {
-                StartCoroutine(spawnWaveFast());
-            }
-            countdown = intermissionTime;
-            waveNum++;
-        }
-
-        countdown -= Time.deltaTime;
-
-        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
-
-        waveCountdownText.text = string.Format("{0:00.00}", countdown); ;
-    }
-    */
-
     private void Start()
     {
-        spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Altar>().spawnPoint;
-
         NextButtons.Instance.nextLevelButton.SetActive(false);
 
         // Check if there are any waves
@@ -160,17 +146,17 @@ public class WaveSpawner : MonoBehaviour
     }
 
     
-    private void calcTotalEnemiesInWave (WaveData wave_data)
+    private void CalcTotalEnemiesInWave (WaveData wave_data)
     {
         this.totalEnemyAmount = 0;
 
-        foreach (SpawnData spawn_data in wave_data.getSpawnData())
+        foreach (SpawnData spawn_data in wave_data.spawnDataList)
         {
             this.totalEnemyAmount += spawn_data.enemyCount;
         }
     }
 
-    private void updateProgressBar()
+    private void UpdateProgressBar()
     {
         Slider slider = progressBar.GetComponent<Slider>();
         float percentageToAdd = 1 / this.totalEnemyAmount;
@@ -203,22 +189,22 @@ public class WaveSpawner : MonoBehaviour
         slider.value = 0f;
 
         WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
-        calcTotalEnemiesInWave(currWave);
+        CalcTotalEnemiesInWave(currWave);
         spawnWave(currWave);
         waveNum++;
     }
     private void spawnWave(WaveData currWave)
     {
-        List < SpawnData > spawnData = currWave.getSpawnData();
+        List < SpawnData > spawnData = currWave.spawnDataList;
 
         foreach (SpawnData spawn_data in spawnData)
         {
             activeCoRoutines++;
-            StartCoroutine(spawn(spawn_data));
+            StartCoroutine(Spawn(spawn_data));
         }
     }
 
-    IEnumerator spawn(SpawnData spawn)
+    IEnumerator Spawn(SpawnData spawn)
     {
         // wait until the given time to spawn
         yield return new WaitForSeconds(spawn.time);
@@ -228,16 +214,21 @@ public class WaveSpawner : MonoBehaviour
 
         for (int enemy_count = 1; enemy_count <= spawn.enemyCount; enemy_count++)
         {
-            spawnEnemy(spawn.enemyType);
+            SpawnEnemy(spawn.enemyType, spawn.spawn);
             yield return new WaitForSeconds(interval);
         }
         activeCoRoutines--;
     }
 
     // changed from game object to transform? can change back wasnt sure
-    void spawnEnemy(GameObject prefab)
+    void SpawnEnemy(GameObject prefab, Altar altar)
     {
-        updateProgressBar();
-        Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, parent);
+        UpdateProgressBar();
+        GameObject enemy = Instantiate(prefab, altar.spawnPoint.position, Quaternion.identity, parent);
+        // Set target path for the agent
+        if (enemy.TryGetComponent<Agent>(out Agent agent) && altar.TryGetComponent<StaticAgent>(out StaticAgent staticAgent))
+        {
+            agent.SetTarget(staticAgent.pathPoints);
+        }
     }
 }

@@ -39,7 +39,7 @@ public class TerrainEditor : MonoBehaviour
     [ReadOnly]
     public float costMultiplier;
 
-    private PlayerInput _playerInput;
+    public PlayerInput _playerInput;
     [Header("Controls")]
     [PropertySpace(5, 5)]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string editingActionMap;
@@ -74,6 +74,23 @@ public class TerrainEditor : MonoBehaviour
             _instance = this;
         }
 
+        if (CameraHandler.Instance != null)
+            DelayedStart();
+    }
+
+    private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
+    }
+
+    private void DelayedStart()
+    {
         _playerInput = CameraHandler.Instance.playerInput;
 
         _click = _playerInput.actions[clickControl];
@@ -196,7 +213,13 @@ public class TerrainEditor : MonoBehaviour
         if (world.IsBlockModifiable(blockPos) && !blockModifyBlacklist.Contains(world.GetBlock(hit, place)) //check if column is modifiable, if its not in the blacklist,
             && (place || (blockAbove != BlockType.Barrier && blockAbove != BlockType.Soft_Barrier)))   //and not destroying blocks below towers (barriers)
         {
-            ModifyTerrain(hit, BlockType.Barrier, place);
+            yield return null;
+            ModifyTerrain(hit, blockType, place);
+            //remove money from player
+            PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
+
+            //Debug.Log();
+            /*ModifyTerrain(hit, BlockType.Barrier, place);
             yield return 1;
 
             //check if path valid
@@ -214,7 +237,7 @@ public class TerrainEditor : MonoBehaviour
             {
                 ModifyTerrain(hit, origional, place);
                 UnableToEdit();
-            }
+            }*/
         }
         else
         {

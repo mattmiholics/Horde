@@ -9,6 +9,8 @@ using Sirenix.Utilities;
 
 public class CameraHandler : MonoBehaviour
 {
+    public static event Action SingletonInstanced;
+
     public Camera cineCamera;
     public Transform cameraParent;
     public Transform cameraYRotate;
@@ -269,6 +271,8 @@ public class CameraHandler : MonoBehaviour
 
         //other stuff
         _rigidbodyYRotate.maxAngularVelocity = 100;
+
+        SingletonInstanced?.Invoke();
     }
 
     private void OnEnable()

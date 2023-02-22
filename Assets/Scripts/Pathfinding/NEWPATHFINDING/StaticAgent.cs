@@ -1,9 +1,9 @@
-using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 public class StaticAgent : SerializedMonoBehaviour
 {
@@ -11,7 +11,6 @@ public class StaticAgent : SerializedMonoBehaviour
 
     public int maxNodes;
     public Transform startPoint;
-    public Transform debugTarget;
     public SPathFinderType type;
 
     [ReadOnly] public List<PathPoint> pathPoints;
@@ -32,12 +31,6 @@ public class StaticAgent : SerializedMonoBehaviour
         SetTarget(currentTarget, maxNodes);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        SetTarget(debugTarget.position, maxNodes);
-    }
-
     public bool SetTarget(Vector3 target, int maxNodes = 1000)
     {
         if (PathSearch.GetPathToTarget(startPoint.position, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes) && pathPoints.Count > 0)
@@ -52,5 +45,12 @@ public class StaticAgent : SerializedMonoBehaviour
             Debug.LogWarning("No path found!");
             return false;
         }
+    }
+
+    public void SetTarget(List<PathPoint> calculatedPathPoints)
+    {
+        pathPoints = calculatedPathPoints;
+        currentTarget = calculatedPathPoints.LastOrDefault().point;
+        PathUpdated?.Invoke(calculatedPathPoints);
     }
 }

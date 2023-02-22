@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEditor;
 using Sirenix.Utilities;
+using System;
 
 public class TowerEditor : MonoBehaviour
 {
@@ -96,14 +97,28 @@ public class TowerEditor : MonoBehaviour
         tdList = towerParent.GetComponentsInChildren<TowerData>(true).ToList();
 
         editing = false;
-    }
 
-    private void Start()
-    {
-        //NewSelectedTower(TowerTypeButtons.Instance.serializableButtonGameObject.Values.FirstOrDefault());
+        if (CameraHandler.Instance != null)
+            DelayedStart();
     }
 
     private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;  
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
+    }
+
+    private void OnDestroy()
+    {
+        _rotate.performed -= RotateTower;
+    }
+
+    private void DelayedStart()
     {
         _playerInput = CameraHandler.Instance.playerInput;
 
@@ -112,11 +127,7 @@ public class TowerEditor : MonoBehaviour
         _rotate = _playerInput.actions[rotateControl];
 
         _rotate.performed += RotateTower;
-    }
 
-    private void OnDisable()
-    {
-        _rotate.performed -= RotateTower;
     }
 
     private void RotateTower(InputAction.CallbackContext ctx)
@@ -273,7 +284,22 @@ public class TowerEditor : MonoBehaviour
         TowerData n_td = newTower.GetComponent<TowerData>();
         n_td.Main.SetActive(false);
         n_td.Proxy.SetActive(false);
-        yield return 1;
+
+        if (td.useChecker)
+            world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
+
+        if (n_td.placeBarriers)
+            world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); //spawn barriers
+
+        tdList.Add(n_td);
+        n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+        n_td.Main.SetActive(true);
+        n_td.Proxy.SetActive(false);
+
+        //remove money from player
+        PlayerStats.Instance.money -= n_td.cost;
+        yield return null;
+        /*yield return 1;
 
         //check if path valid
         bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
@@ -298,7 +324,7 @@ public class TowerEditor : MonoBehaviour
         else //otherwise remove tower
         {
             Destroy(newTower);
-        }
+        }*/
     }
 
     public void SmartDestroy(GameObject gameObject)

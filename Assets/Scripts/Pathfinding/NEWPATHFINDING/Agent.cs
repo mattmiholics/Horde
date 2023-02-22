@@ -14,8 +14,13 @@ public class Agent : SerializedMonoBehaviour
     public LayerMask groundLayer;
     public SPathFinderType type;
     // Debug
-    public int debugMaxNodes;
+    /*public int debugMaxNodes;
     public Transform debugTarget;
+    [Button]
+    private void SearchPath() // This is to debug
+    {
+    SetTarget(debugTarget.position, debugMaxNodes);
+    }*/
 
     [ReadOnly] public int remainingNodes;
 
@@ -29,12 +34,6 @@ public class Agent : SerializedMonoBehaviour
     private int latestMaxNodes;
 
     private Coroutine followPathCoroutine;
-
-    [Button]
-    private void SearchPath() // This is to debug
-    {
-        SetTarget(debugTarget.position, debugMaxNodes);
-    }
 
     private void OnEnable()
     {
@@ -112,6 +111,9 @@ public class Agent : SerializedMonoBehaviour
         if (followPathCoroutine != null)
             StopCoroutine(followPathCoroutine);
         followPathCoroutine = StartCoroutine(FollowPath(calculatedPathPoints));
+
+        currentTarget = calculatedPathPoints.LastOrDefault().point;
+        PathUpdated?.Invoke(calculatedPathPoints);
     }
 
     private IEnumerator FollowPath(List<PathPoint> pathPoints)
