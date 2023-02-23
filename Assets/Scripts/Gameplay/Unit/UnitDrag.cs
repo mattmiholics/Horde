@@ -139,14 +139,13 @@ public class UnitDrag : MonoBehaviour
             return;
 
         // Loop though all the units
-        foreach ( var unit in UnitSelections.Instance.unitList)
+        foreach (var unit in UnitSelections.Instance.unitList)
         {
             // If unit is within the bounds of the selection rect
             if (selectionBox.Contains(Camera.main.WorldToScreenPoint(unit.transform.position)))
             {
                 // If any unit is within the selection add them to selection
                 UnitSelections.Instance.DragSelect(unit);
-                PlayerUnitArmyNew.AddUnitToSelectedParent(unit);
             }
         }
     }

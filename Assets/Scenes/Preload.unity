@@ -17929,7 +17929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundMarker: {fileID: 1974170669}
-  clickableLayer:
+  troopLayer:
     serializedVersion: 2
     m_Bits: 64
   ground:

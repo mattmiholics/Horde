@@ -5,9 +5,11 @@ public class UnitSelections : MonoBehaviour
 {
     public List<GameObject> unitList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
-
+    [Space]
     public Transform troopParent;
     public Transform troopSelectionParent;
+    [Space]
+    public LayerMask troopLayer;
 
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
@@ -36,24 +38,24 @@ public class UnitSelections : MonoBehaviour
     {
         foreach (var unit in unitsSelected)
         {
-            if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
+            if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
             {
                 unit.transform.SetParent(troopSelectionParent);
-                unit.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
+                unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
             }
         }
     }
 
     public void ClickSelect(GameObject unitToAdd)
     {
-        Debug.Log("Clicked " + unitToAdd.name);
+        //Debug.Log("Clicked " + unitToAdd.name);
         DeselectAll();
         unitsSelected.Add(unitToAdd);
-        //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-        if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
+
+        if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
         {
             unitToAdd.transform.SetParent(troopSelectionParent);
-            unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
+            unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
         }
     }
 
@@ -62,21 +64,19 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
+            if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
                 unitToAdd.transform.SetParent(troopSelectionParent);
-                unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(true);
+                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
             }
         }
         else
         {
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Troop")
+            if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
                 unitToAdd.transform.SetParent(troopParent);
-                unitToAdd.transform.Find("Offset/IsSelected").gameObject.SetActive(false); 
+                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(false); 
             }
-            //unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
         }
     }
@@ -86,14 +86,14 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            //unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            // foreach (var unit in unitsSelected)
-            // {
-            //     if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
-            //     {
-            //         unit.transform.SetParent(troopSelectionParent);
-            //     }
-            // }
+            foreach (var unit in unitsSelected)
+            {
+                 if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+                 {
+                    unit.transform.SetParent(troopSelectionParent);
+                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+                }
+            }
         }
     }
 
@@ -103,12 +103,11 @@ public class UnitSelections : MonoBehaviour
         {
             foreach (var unit in unitsSelected)
             {
-                if (LayerMask.LayerToName(unit.gameObject.layer) == "Troop")
+                if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                 {
                     unit.transform.SetParent(troopParent);
-                    unit.transform.Find("Offset/IsSelected").gameObject.SetActive(false);
+                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(false);
                 }
-                //unit.transform.GetChild(0).gameObject.SetActive(false);
             }
 
             unitsSelected.Clear();

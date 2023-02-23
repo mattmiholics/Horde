@@ -52,7 +52,7 @@ public class PurchaseTroops : MonoBehaviour
         if(PlayerStats.Instance.money >= 150)
         {
             troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 150;
         }
     }
@@ -62,7 +62,7 @@ public class PurchaseTroops : MonoBehaviour
         if (PlayerStats.Instance.money >= 200)
         {
             troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 200;
         }
     }
@@ -72,7 +72,7 @@ public class PurchaseTroops : MonoBehaviour
         if (PlayerStats.Instance.money >= 0)
         {
             troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<NavMeshAgent>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 0;
         }
     }

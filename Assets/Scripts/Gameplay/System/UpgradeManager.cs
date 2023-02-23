@@ -63,12 +63,12 @@ public class UpgradeManager : MonoBehaviour
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
-            if (this.active == true)
+            if (active == true && upgradeMenu != null)
             {
-                this.upgradeMenu.SetActive(false);
+                upgradeMenu.SetActive(false);
             }
             // SetPosition(uiPos);
-            this.active = true;
+            active = true;
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
     }

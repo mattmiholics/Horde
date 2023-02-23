@@ -5,7 +5,7 @@ public class UnitClick : MonoBehaviour
 {
     public GameObject groundMarker;
 
-    public LayerMask clickableLayer;
+    public LayerMask troopLayer;
     public LayerMask ground;
     [Space]
     public bool mapStartEnabled = true;
@@ -65,9 +65,9 @@ public class UnitClick : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, troopLayer))
         {
-            GameObject clickedUnit = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            GameObject clickedUnit = hit.collider.GetComponentInParent<Agent>().gameObject;
             // If we hit a clickable object
             if (_unionSelect.WasPressedThisFrame())
             {

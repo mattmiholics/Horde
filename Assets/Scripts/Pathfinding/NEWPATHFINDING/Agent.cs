@@ -25,8 +25,9 @@ public class Agent : SerializedMonoBehaviour
     [ReadOnly] public int remainingNodes;
     [ReadOnly] public bool isMoving;
 
-    public float jumpHeightMultiplier = 2.1f;
-    public float jumpHeightOffset = 5.2f;
+    public float jumpHeightMultiplier = 1.75f;
+    public float jumpHeightOffset = 6f;
+    public float rotateSpeed = 5f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
@@ -131,18 +132,24 @@ public class Agent : SerializedMonoBehaviour
 
         for (; ; )
         {
+            // Check if close enough to a node to either remove or if at final node
             if (Vector3.Distance(new Vector3(rigidbody.position.x, pathPoints.Last().point.y, rigidbody.position.z), pathPoints.Last().point) < 0.05f)
             {
-                if (pathPoints.Count <= 1)
+                if (pathPoints.Count <= 1 && Vector3.Distance(rigidbody.position, pathPoints.Last().point) < 0.05f)
                     break;
-                else
+                else if (pathPoints.Count > 1)
                     pathPoints.RemoveAt(pathPoints.Count - 1);
             }
 
+            // Calculate direction
             Vector3 direction = (pathPoints.Last().point - rigidbody.position);
             direction = new Vector3(direction.x, 0, direction.z).normalized;
 
-            if (jumpReady) // Check for jump
+            // Calculate rotation
+            rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, Quaternion.LookRotation(direction), rotateSpeed * Time.deltaTime);
+
+            // Check if jumping is necessary
+            if (jumpReady)
             {
                 int blockHeightChange = Mathf.RoundToInt(pathPoints.Last().point.y - rigidbody.position.y);
 
