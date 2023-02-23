@@ -81,7 +81,7 @@ public class ConstantPostProcessUpdate : MonoBehaviour
         }
         else
         {
-            vignette.intensity.value = 0.45f;
+            vignette.intensity.value = 0.384f;
         }
     }
 }
