@@ -22,26 +22,26 @@ public class KnightTroopLogic : TroopData
     // public GameObject bullet;
     // public Transform firePoint;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (target == null)
-        {
-            return;
-        }
-        //Target Locking
-        Vector3 dir = target.transform.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * rotationSpeed).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f,rotation.y, 0f);
+    // // Update is called once per frame
+    // void Update()
+    // {
+    //     if (target == null)
+    //     {
+    //         return;
+    //     }
+    //     //Target Locking
+    //     Vector3 dir = target.transform.position - transform.position;
+    //     Quaternion lookRotation = Quaternion.LookRotation(dir);
+    //     Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * rotationSpeed).eulerAngles;
+    //     partToRotate.rotation = Quaternion.Euler(0f,rotation.y, 0f);
 
-        if(fireReload <= 0)
-        {
-            Shoot();
-            fireReload = 1 / fireRate;
-        }
+    //     if(fireReload <= 0)
+    //     {
+    //         Shoot();
+    //         fireReload = 1 / fireRate;
+    //     }
 
-        fireReload -= Time.deltaTime;
+    //     fireReload -= Time.deltaTime;
 
-    }
+    // }
 }

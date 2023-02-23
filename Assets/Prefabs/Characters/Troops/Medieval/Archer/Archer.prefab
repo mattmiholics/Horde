@@ -194,6 +194,7 @@ MonoBehaviour:
   rotationSpeed: 7
   bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
   firePoint: {fileID: 8641179442993172763}
+  animator: {fileID: 793427055596785475}
 --- !u!114 &5370838298868686088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,10 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635d6944be3b7b74ea8e5e462b9fff91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
   agent: {fileID: 4427366567508629091}
   destinationControl: Unit/Destination
   isSelected: {fileID: 7933379948109426569}
-  animator: {fileID: 793427055596785475}
 --- !u!114 &4427366567508629091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   remainingNodes: 0
+  isMoving: 0
   jumpHeightMultiplier: 2.1
   jumpHeightOffset: 5.2
 --- !u!54 &3732279838141533726

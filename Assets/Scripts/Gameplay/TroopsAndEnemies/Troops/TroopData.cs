@@ -5,6 +5,8 @@ using UnityEngine;
 public class TroopData : UnitData
 {
     protected Transform target;
+    protected Agent agent;
+    protected TroopPathfinding troopPathfinding;
     
     [Header("Attributes")]
     public float fireRate = 1f;
@@ -21,10 +23,15 @@ public class TroopData : UnitData
     public GameObject bullet;
     public Transform firePoint;
 
+    [Header("Animation")]
+    public Animator animator;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         startHealth = health;
+        agent = this.gameObject.GetComponent<Agent>();
+        troopPathfinding = this.gameObject.GetComponent<TroopPathfinding>();
         InvokeRepeating("UpdateTarget", 0f, .5f);
     }
 
@@ -55,7 +62,31 @@ public class TroopData : UnitData
         }
     }
 
-    protected virtual void Shoot()
+    protected virtual void Update()
+    {
+        MovementAnimation();
+        
+        if (target == null)
+        {
+            return;
+        }
+        //Target Locking
+        Vector3 dir = target.transform.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * rotationSpeed).eulerAngles;
+        partToRotate.rotation = Quaternion.Euler(0f,rotation.y, 0f);
+
+        if(fireReload <= 0)
+        {
+            Attack();
+            fireReload = 1 / fireRate;
+        }
+
+        fireReload -= Time.deltaTime;
+        
+    }
+
+    protected virtual void Attack()
     {
         GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
         //If a new bullet script is created, update it here
@@ -65,6 +96,14 @@ public class TroopData : UnitData
         {
             bulletS.Seek(target, damage);
         }
+    }
+
+    protected virtual void MovementAnimation()
+    {
+        if (agent.remainingNodes <= 1f)
+            animator.SetBool("IsRunning", false);
+        else
+            animator.SetBool("IsRunning", true);
     }
 
     protected virtual void OnDrawGizmosSelected()
