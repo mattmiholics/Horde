@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1.125
+    m_Value: 0.1
   contrast:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -2
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 0.990566, g: 0.9610027, b: 0.8924439, a: 1}
@@ -82,13 +82,13 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.3214667, g: 0.4182626, b: 0.5283019, a: 1}
+    m_Value: {r: 0.48326808, g: 0.5468234, b: 0.5660378, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.8018868, g: 0.7994743, b: 0.5182004, a: 1}
+    m_Value: {r: 0.9716981, g: 0.90265584, b: 0.7746084, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 4
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,8 +156,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.19722222
-          value: 0.14201182
+          time: 0.07124682
+          value: 0.05913979
           inSlope: 0.9335847
           outSlope: 0.9335847
           tangentMode: 0
