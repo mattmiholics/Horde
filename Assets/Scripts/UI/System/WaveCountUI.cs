@@ -12,6 +12,6 @@ public class WaveCountUI : MonoBehaviour
     void Update()
     {
         if (WaveSpawner.Instance != null)
-            waveCount.text = $"Wave: {WaveSpawner.Instance.waveNum + "/" + WaveSpawner.Instance.waveCount}";
+            waveCount.text = $"Wave: {WaveSpawner.Instance.waveNum - 1 + "/" + WaveSpawner.Instance.waveCount}";
     }
 }

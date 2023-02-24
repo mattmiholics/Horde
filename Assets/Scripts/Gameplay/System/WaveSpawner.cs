@@ -36,14 +36,21 @@ public class WaveSpawner : MonoBehaviour
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
 
-    [OnValueChanged("@RefreshSpawnData()")]
+    [OnCollectionChanged("@RefreshSpawnData()")]
+    [OnInspectorDispose("@RefreshSpawnData()")]
     [OnInspectorInit("@RefreshSpawnData()")]
     [SerializeField]
     private List<WaveData> waveDataList;
 
     private void RefreshSpawnData()
     {
-        waveDataList.ForEach(wd => wd.spawnDataList.ForEach(sd => { sd.waveSpawner = this; if (sd.spawn == null) sd.spawn = spawns.FirstOrDefault(); }));
+        waveDataList.ForEach(wd => wd.spawnDataList.ForEach(sd => { 
+            sd.waveSpawner = this; 
+            if (sd.spawn == null) 
+                sd.spawn = spawns.FirstOrDefault();
+            if (sd.enemyType == null)
+                sd.enemyType = enemies.FirstOrDefault();
+            }));
     }
 
     [Serializable]
@@ -72,7 +79,7 @@ public class WaveSpawner : MonoBehaviour
         [HideLabel]
         public bool boss;
 
-        [ValueDropdown("GetEnemyTypes", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false, OnlyChangeValueOnConfirm = true)]
+        [ValueDropdown("GetEnemyTypes", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false)]
         public GameObject enemyType;
 
         private IEnumerable GetEnemyTypes()
@@ -85,7 +92,7 @@ public class WaveSpawner : MonoBehaviour
             return obj.GetComponentInChildren<EnemyMovement>() != null;
         }
 
-        [ValueDropdown("GetAltars", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false, OnlyChangeValueOnConfirm = true)]
+        [ValueDropdown("GetAltars", HideChildProperties = true, NumberOfItemsBeforeEnablingSearch = 0, CopyValues = false)]
         public Altar spawn;
 
         private IEnumerable GetAltars()
