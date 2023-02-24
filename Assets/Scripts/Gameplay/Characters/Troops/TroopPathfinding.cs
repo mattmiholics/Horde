@@ -69,9 +69,9 @@ public class TroopPathfinding : MonoBehaviour
             Vector3 mouse = Mouse.current.position.ReadValue(); // Get the mouse Position
             Ray castPoint = Camera.main.ScreenPointToRay(mouse); // Cast a ray to get where the mouse is pointing at
             RaycastHit hit; // Stores the position where the ray hit.
-            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, agent.groundLayer)) // If the raycast doesn't hit a wall
+            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, agent.groundLayer) && World.Instance != null) // If the raycast doesn't hit a wall
             {
-                target = hit.point; // Move the target to the mouse position
+                target = World.Instance.GetBlockPos(hit, true); // Move the target to the mouse position
                 agent.SetTarget(target, 50);
                 isMoving = true;
                 // animator.SetBool("IsRunning", true);

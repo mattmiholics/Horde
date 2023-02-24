@@ -571,9 +571,9 @@ public class World : MonoBehaviour
         public List<Vector3Int> chunkPositionsToUpdate;
     }
 
-    public Vector3Int GetSurfaceHeightPosition(Vector3 nearestXZ, bool searchBelow = false)
+    public Vector3Int GetSurfaceHeightPosition(Vector3 nearestVector, bool searchBelow = false)
     {
-        Vector3Int blockPos = Vector3Int.RoundToInt(nearestXZ);
+        Vector3Int blockPos = Vector3Int.RoundToInt(nearestVector);
         for (int i = (searchBelow ? blockPos.y : chunkHeight - 1); i > 0; i--)
         {
             BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.z);

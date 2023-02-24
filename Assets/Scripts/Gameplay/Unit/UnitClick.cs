@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class UnitClick : MonoBehaviour
 {
     public GameObject groundMarker;
+    public Animator arrowAnimator;
 
     public LayerMask troopLayer;
     public LayerMask ground;
@@ -95,11 +96,11 @@ public class UnitClick : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground) && World.Instance != null)
         {
-            groundMarker.transform.position = hit.point;
-            groundMarker.SetActive(false);
+            groundMarker.transform.position = World.Instance.GetSurfaceHeightPosition(World.Instance.GetBlockPos(hit, true), true) - new Vector3(0, 0.5f, 0);
             groundMarker.SetActive(true);
+            arrowAnimator.SetTrigger("Spinning");
         }
     }
 }

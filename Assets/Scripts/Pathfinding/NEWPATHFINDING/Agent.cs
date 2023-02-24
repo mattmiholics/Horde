@@ -95,6 +95,8 @@ public class Agent : SerializedMonoBehaviour
                 StopCoroutine(followPathCoroutine);
 
             rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+            remainingNodes = 0;
+            isMoving = false;
 
             Debug.LogWarning("No path found!");
 
