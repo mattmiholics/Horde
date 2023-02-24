@@ -277,7 +277,7 @@ MonoBehaviour:
   movementSensetivity: 2.5
   movementDrag: 16
   rotationSensetivity: 2.5
-  rotationDrag: 40
+  rotationDrag: 30
   zoomSensetivity: 2.5
   zoomDrag: 40
   zoomMinMax: {x: 4, y: 30}

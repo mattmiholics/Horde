@@ -25,9 +25,9 @@ public class Agent : SerializedMonoBehaviour
     [ReadOnly] public int remainingNodes;
     [ReadOnly] public bool isMoving;
 
-    public float jumpHeightMultiplier = 1.75f;
-    public float jumpHeightOffset = 6f;
-    public float rotateSpeed = 5f;
+    private const float jumpHeightMultiplier = 1.75f;
+    private const float jumpHeightOffset = 6f;
+    private const float rotateSpeed = 3f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
