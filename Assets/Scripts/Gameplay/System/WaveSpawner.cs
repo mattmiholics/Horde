@@ -22,7 +22,8 @@ public class WaveSpawner : MonoBehaviour
 
     public float intermissionTime = 5.5f;
     private float countdown = 2f;
-    private static int waveNum = 1;
+    public int waveNum = 1;
+    public int waveCount => waveDataList.Count;
 
     private bool waveStarted;
     private int activeCoRoutines = 0;
@@ -175,11 +176,6 @@ public class WaveSpawner : MonoBehaviour
         GameObject UI = Root.Instance.UIGroups.Where(obj => obj.name == UIName).SingleOrDefault();
         if (UI != null)
             UI.SetActive(true);
-    }
-
-    public static string getWaveNum()
-    {
-        return string.Format("{0}", waveNum - 1);
     }
 
     public void SpawnNextWave()
