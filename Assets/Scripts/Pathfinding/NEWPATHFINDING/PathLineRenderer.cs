@@ -16,7 +16,7 @@ public class PathLineRenderer : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
-    private void Start()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
     }

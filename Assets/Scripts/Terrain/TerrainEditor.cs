@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(World))]
@@ -39,7 +40,7 @@ public class TerrainEditor : MonoBehaviour
     [ReadOnly]
     public float costMultiplier;
 
-    public PlayerInput _playerInput;
+    private PlayerInput _playerInput;
     [Header("Controls")]
     [PropertySpace(5, 5)]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string editingActionMap;
@@ -47,6 +48,13 @@ public class TerrainEditor : MonoBehaviour
     private InputAction _click;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string removeControl;
     private InputAction _remove;
+
+    [FoldoutGroup("Events")]
+    public UnityEvent terrainPlaced;
+    [FoldoutGroup("Events")]
+    public UnityEvent terrainRemoved;
+    [FoldoutGroup("Events")]
+    public UnityEvent unableToEdit;
 
     [HideInInspector]
     public World world;
@@ -99,8 +107,8 @@ public class TerrainEditor : MonoBehaviour
         placeProxy.transform.position = Vector3.zero;
         removeProxy.transform.position = Vector3.zero;
 
-        placeProxyColor = placeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
-        removeProxyColor = removeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
+        placeProxyColor = placeProxy.GetComponent<Renderer>().material.GetColor("_Wireframe_Color");
+        removeProxyColor = removeProxy.GetComponent<Renderer>().material.GetColor("_Wireframe_Color");
 
         placeProxy.SetActive(false);
         removeProxy.SetActive(false);
@@ -217,6 +225,10 @@ public class TerrainEditor : MonoBehaviour
             ModifyTerrain(hit, blockType, place);
             //remove money from player
             PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
+            if (place)
+                terrainPlaced?.Invoke();
+            else
+                terrainRemoved?.Invoke();
 
             //Debug.Log();
             /*ModifyTerrain(hit, BlockType.Barrier, place);
@@ -248,6 +260,8 @@ public class TerrainEditor : MonoBehaviour
 
     public void UnableToEdit()
     {
+        unableToEdit?.Invoke();
+
         if (unableToPlaceCoroutine != null)
             StopCoroutine(unableToPlaceCoroutine);
         unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
@@ -258,23 +272,19 @@ public class TerrainEditor : MonoBehaviour
 
     private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
     {
-        Debug.Log("unableStart");
-
         Renderer r = proxy.GetComponent<Renderer>();
 
         float currentTime = 0;
 
         while (currentTime <= 0.5f)
         {
-            r.material.SetColor("_EmissionColor", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
+            r.material.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
 
             currentTime += Time.deltaTime;
-            Debug.Log("unable");
+
             yield return null;
         }
 
-        r.material.SetColor("_EmissionColor", origColor);
-
-
+        r.material.SetColor("_Wireframe_Color", origColor);
     }
 }

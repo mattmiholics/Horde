@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEditor;
 using Sirenix.Utilities;
 using System;
+using UnityEngine.Events;
 
 public class TowerEditor : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class TowerEditor : MonoBehaviour
     [Space]
     public Material placeMaterial;
     public Material removeMaterial;
+    [ColorUsage(false, true)]
+    public Color unableToEditColor;
 
     [Space]
     [Required]
@@ -47,6 +50,13 @@ public class TowerEditor : MonoBehaviour
     private InputAction _remove;
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string rotateControl;
     private InputAction _rotate;
+
+    [FoldoutGroup("Events")]
+    public UnityEvent towerPlaced;
+    [FoldoutGroup("Events")]
+    public UnityEvent towerRemoved;
+    [FoldoutGroup("Events")]
+    public UnityEvent unableToEdit;
 
     [Space]
     [Header("Debug")]
@@ -76,6 +86,7 @@ public class TowerEditor : MonoBehaviour
     public bool editing;
 
     private Coroutine editCoroutine;
+    private Coroutine unableToPlaceCoroutine;
 
     private static TowerEditor _instance;
     public static TowerEditor Instance { get { return _instance; } }
@@ -174,7 +185,6 @@ public class TowerEditor : MonoBehaviour
 
     public void NewSelectedTower(GameObject prefab, bool checkPlaying = false)
     {
-        Debug.Log("New selected");
         if (checkPlaying && Application.isPlaying)
             return;
 
@@ -227,6 +237,8 @@ public class TowerEditor : MonoBehaviour
                         PlayerStats.Instance.money += n_td.cost;
 
                         TowerHelper.RemoveTower(this, n_td);
+
+                        towerRemoved?.Invoke();
                     }
                 }
             }
@@ -252,22 +264,31 @@ public class TowerEditor : MonoBehaviour
                     {
                         if (!materialActive)
                         {
+                            if (unableToPlaceCoroutine != null)
+                                StopCoroutine(unableToPlaceCoroutine);
+
                             renderers.ForEach(r => r.materials = r.materials.Select(m => m = placeMaterial).ToArray()); //show place proxy material
                             materialActive = true;
                         }
 
-                        if (_click.WasPerformedThisFrame() && td.cost <= PlayerStats.Instance.money) //tower placed
-                        {
-                            StartCoroutine(PlacingTower(selectedTower, m_basePosition, corner1, corner2, m_corner1, m_corner2));
-                        }
+                        if (_click.WasPerformedThisFrame()) //tower placed
+                            if (td.cost <= PlayerStats.Instance.money)
+                                StartCoroutine(PlacingTower(selectedTower, m_basePosition, corner1, corner2, m_corner1, m_corner2));
+                            else
+                                UnableToEdit();
                     }
                     else //if space is invalid show red proxy material
                     {
                         if (materialActive)
                         {
+                            if (unableToPlaceCoroutine != null)
+                                StopCoroutine(unableToPlaceCoroutine);
+
                             renderers.ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray()); //show remove proxy material
                             materialActive = false;
                         }
+                        if (_click.WasPerformedThisFrame()) //tower tried to be placed in invalid spot
+                            UnableToEdit(false);
                     }
                 }
                 else
@@ -299,6 +320,8 @@ public class TowerEditor : MonoBehaviour
 
         //remove money from player
         PlayerStats.Instance.money -= n_td.cost;
+        towerPlaced?.Invoke();
+
         yield return null;
         /*yield return 1;
 
@@ -326,6 +349,33 @@ public class TowerEditor : MonoBehaviour
         {
             Destroy(newTower);
         }*/
+    }
+
+    public void UnableToEdit(bool place = true)
+    {
+        unableToEdit?.Invoke();
+
+        if (unableToPlaceCoroutine != null)
+            StopCoroutine(unableToPlaceCoroutine);
+        unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(selectedTower, place ? placeMaterial.GetColor("_Wireframe_Color") : removeMaterial.GetColor("_Wireframe_Color")));
+    }
+
+    private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
+    {
+        Renderer[] rs = proxy.GetComponentsInChildren<Renderer>().ToArray();
+
+        float currentTime = 0;
+
+        while (currentTime <= 0.5f)
+        {
+            rs.ForEach(r => r.material.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f)));
+
+            currentTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        rs.ForEach(r => r.material.SetColor("_Wireframe_Color", origColor));
     }
 
     public void SmartDestroy(GameObject gameObject)
