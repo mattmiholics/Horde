@@ -7,14 +7,12 @@ public class ControlOptions : MonoBehaviour
     [SerializeField] Slider rotationSense;
     [SerializeField] Slider zoomSense;
     [SerializeField] Toggle borderMovment;
-    [SerializeField] Toggle lockMouse;
     [SerializeField] GameObject camera;
 
     const string MOVE_SENSE = "MoveSense";
     const string ROTATION_SENSE = "RotationSense";
     const string ZOOM_SENSE = "ZoomSense";
     const string BORDER_MOVEMENT = "BorderMovement";
-    const string LOCK_MOUSE = "LockMouse";
     CameraHandler cameraHandler;
 
 
@@ -47,20 +45,12 @@ public class ControlOptions : MonoBehaviour
         PlayerPrefs.SetInt(BORDER_MOVEMENT, borderMovment.isOn ? 1 : 0);
     }
 
-    public void ToggleLockMouse(bool doesMouseLock)
-    {
-        cameraHandler.UpdateLockMouseRotate(doesMouseLock);
-        PlayerPrefs.SetInt(LOCK_MOUSE, lockMouse.isOn ? 1 : 0);
-    }
-
     public void SaveSettings()
     {
         PlayerPrefs.SetFloat(MOVE_SENSE, moveSense.value);
         PlayerPrefs.SetFloat(ROTATION_SENSE, rotationSense.value);
         PlayerPrefs.SetFloat(ZOOM_SENSE, zoomSense.value);
         PlayerPrefs.SetInt(BORDER_MOVEMENT, borderMovment.isOn ? 1 : 0);
-        PlayerPrefs.SetInt(LOCK_MOUSE, lockMouse.isOn ? 1 : 0);
-
     }
 
     public void LoadSettings()
@@ -94,20 +84,7 @@ public class ControlOptions : MonoBehaviour
             }
         else
             borderMovment.SetIsOnWithoutNotify(false);
-        ToggleBorderMovement(borderMovment);
-
-        if (PlayerPrefs.HasKey(LOCK_MOUSE))
-            if (PlayerPrefs.GetInt(LOCK_MOUSE) == 1)
-            {
-                lockMouse.SetIsOnWithoutNotify(true);
-            }
-            else
-            {
-                lockMouse.SetIsOnWithoutNotify(false);
-            }
-        else
-            lockMouse.SetIsOnWithoutNotify(true);
-        ToggleLockMouse(lockMouse);
+        ToggleBorderMovement(borderMovment.isOn);
     }
 }
 
