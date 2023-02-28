@@ -18,6 +18,7 @@ public class LBullet : MonoBehaviour
         target = nTarget;
         this.chain = chain;
         this.ChainDamage = chainDamage;
+        gameObject.transform.LookAt(nTarget);
     }
 
 

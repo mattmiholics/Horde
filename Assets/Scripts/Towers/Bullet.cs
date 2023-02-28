@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     public void Seek(Transform _target, float damage)
     {
+        gameObject.transform.LookAt(_target);
         //Debug.Log("Attack Player Seek");
         this.damage = damage;
         target = _target;

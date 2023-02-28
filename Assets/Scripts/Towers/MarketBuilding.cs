@@ -4,26 +4,11 @@ using UnityEngine;
 
 public class MarketBuilding : MonoBehaviour
 {
-    public int buildingLevel;
+    public int payAmount;
 
-    private void Start()
+    public void PayPlayer()
     {
-        buildingLevel = 1;
-    }
+            PlayerStats.Instance.money += payAmount;
 
-    public void PayPlayer(int level)
-    {
-        if (level == 1)
-        {
-            PlayerStats.Instance.money += 150;
-        }
-        else if (level == 2)
-        {
-            PlayerStats.Instance.money += 300;
-        }
-        else
-        {
-            PlayerStats.Instance.money += 750;
-        }
     }
 }
