@@ -2317,6 +2317,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4356062471479612529}
     m_Modifications:
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4698814986184808785}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: cancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530727830772839422, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerData, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3632716532964899639, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
