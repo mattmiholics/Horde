@@ -17,7 +17,7 @@ public class WaveSpawner : MonoBehaviour
     [ValidateInput("@(enemies != null && enemies.Count > 0)")]
     public List<GameObject> enemies;
     [Space]
-    public GameObject progressBar;
+    private ProgressUI progressBar = ProgressUI.Instance;
     public Text waveCountdownText;
 
     public float intermissionTime = 5.5f;
@@ -179,7 +179,7 @@ public class WaveSpawner : MonoBehaviour
 
     private void UpdateProgressBar()
     {
-        Slider slider = progressBar.GetComponent<Slider>();
+        Slider slider = progressBar.slider;
         float percentageToAdd = 1 / this.totalEnemyAmount;
         slider.value += percentageToAdd;
     }
@@ -229,15 +229,13 @@ public class WaveSpawner : MonoBehaviour
             CalcTotalEnemiesInWave(currWave);
             spawnWave(currWave);
             this.lastWave = currWave;
-            //CalcTotalEnemiesInWave(currWave);
-            //spawnWave(currWave);
-            //this.lastWave = currWave;
         }
         waveNum++;
+        this.progressBar = ProgressUI.Instance;
         if (progressBar == null)
             return;
 
-        Slider slider = progressBar.GetComponent<Slider>();
+        Slider slider = progressBar.slider;
         slider.value = 0f;
     }
 
@@ -262,7 +260,6 @@ public class WaveSpawner : MonoBehaviour
 
         for (int enemy_count = 1; enemy_count <= spawn.enemyCount; enemy_count++)
         {
-            Debug.Log(spawn.enemyCount);
             SpawnEnemy(spawn.enemyType, spawn.spawn);
             yield return new WaitForSeconds(interval);
         }
