@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17880,16 +17880,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: {fileID: 247472981}
   shadowDistance: {fileID: 513582685}
-  motionBlur: {fileID: 761650152}
-  tiltShift: {fileID: 1364951081}
-  lensDistortion: {fileID: 868122583}
-  vignette: {fileID: 1119325951}
+  motionBlurToggle: {fileID: 761650152}
+  tiltShiftToggle: {fileID: 1364951081}
+  lensDistortionToggle: {fileID: 868122583}
+  vignetteToggle: {fileID: 1119325951}
   ambientOcclusion: {fileID: 1903548013}
   msaa0: {fileID: 58394139}
   msaa1: {fileID: 658816708}
   msaa2: {fileID: 1321728277}
   msaa3: {fileID: 2004392610}
-  constantPostProcess: {fileID: 1648638487}
+  constantPostProcessVolume: {fileID: 1648638485}
 --- !u!114 &899035307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33214,7 +33214,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1648638486}
   - component: {fileID: 1648638485}
-  - component: {fileID: 1648638487}
   m_Layer: 0
   m_Name: ConstantPostProcess
   m_TagString: Untagged
@@ -33254,19 +33253,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1648638487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648638484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583d387e16b321147a770fc22091ca5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: {fileID: 1648638485}
 --- !u!1 &1655246049
 GameObject:
   m_ObjectHideFlags: 0

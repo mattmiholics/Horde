@@ -1,5 +1,8 @@
+using SCPE;
 using System;
 using UnityEngine;
+using UnityEngine.Profiling;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -7,17 +10,19 @@ public class GraphicsOptions : MonoBehaviour
 {
     [SerializeField] Slider resolution;
     [SerializeField] Slider shadowDistance;
-    [SerializeField] Toggle motionBlur;
-    [SerializeField] Toggle tiltShift;
-    [SerializeField] Toggle lensDistortion;
-    [SerializeField] Toggle vignette;
+    [SerializeField] Toggle motionBlurToggle;
+    [SerializeField] Toggle tiltShiftToggle;
+    [SerializeField] Toggle lensDistortionToggle;
+    [SerializeField] Toggle vignetteToggle;
     [SerializeField] Toggle ambientOcclusion;
     [SerializeField] Button msaa0;
     [SerializeField] Button msaa1;
     [SerializeField] Button msaa2;
     [SerializeField] Button msaa3;
 
-    [SerializeField] ConstantPostProcessUpdate constantPostProcess;
+    [SerializeField] Volume constantPostProcessVolume;
+    VolumeProfile profile;
+
     int msaa;
 
     const string RESOLUTION = "Resolution";
@@ -31,6 +36,7 @@ public class GraphicsOptions : MonoBehaviour
 
     void Start()
     {
+        profile = constantPostProcessVolume.sharedProfile;
         LoadSettings();
     }
 
@@ -69,27 +75,70 @@ public class GraphicsOptions : MonoBehaviour
 
     public void UpdateMotionBlur(bool doesBlur)
     {
-        
-        constantPostProcess.UpdateMotionBlur(doesBlur);
-        PlayerPrefs.SetInt(MOTION_BLUR, Convert.ToInt32(motionBlur.isOn));
+        if (!profile.TryGet<MotionBlur>(out var motionBlur))
+        {
+            motionBlur = profile.Add<MotionBlur>(true);
+        }
+        if (doesBlur == false)
+        {
+            motionBlur.intensity.value = 0f;
+        }
+        else
+        {
+            motionBlur.intensity.value = 1f;
+        }
+        PlayerPrefs.SetInt(MOTION_BLUR, Convert.ToInt32(motionBlurToggle.isOn));
     }
 
     public void UpdateTiltShift(bool doesTiltShift)
     {
-        constantPostProcess.UpdateTiltShift(doesTiltShift);
-        PlayerPrefs.SetInt(TILT_SHIFT, Convert.ToInt32(tiltShift.isOn));
+        if (!profile.TryGet<TiltShift>(out var tilt))
+        {
+            tilt = profile.Add<TiltShift>(true);
+        }
+        if (doesTiltShift == false)
+        {
+            tilt.amount.value = 0f;
+        }
+        else
+        {
+            tilt.amount.value = 1f;
+        }
+        PlayerPrefs.SetInt(TILT_SHIFT, Convert.ToInt32(doesTiltShift));
     }
 
     public void UpdateLensDistortion(bool doesLensDistortion)
     {
-        constantPostProcess.UpdateLensDistortion(doesLensDistortion);
-        PlayerPrefs.SetInt(LENS_DISTORTION, Convert.ToInt32(lensDistortion.isOn));
+        if (!profile.TryGet<LensDistortion>(out var lensDistortion))
+        {
+            lensDistortion = profile.Add<LensDistortion>(true);
+        }
+        if (doesLensDistortion == false)
+        {
+            lensDistortion.intensity.value = 0f;
+        }
+        else
+        {
+            lensDistortion.intensity.value = -0.25f;
+        }
+        PlayerPrefs.SetInt(LENS_DISTORTION, Convert.ToInt32(lensDistortionToggle.isOn));
     }
 
     public void UpdateVignette(bool doesVignette)
     {
-        constantPostProcess.UpdateVignette(doesVignette);
-        PlayerPrefs.SetInt(VIGNETTE, Convert.ToInt32(vignette.isOn));
+        if (!profile.TryGet<Vignette>(out var vignette))
+        {
+            vignette = profile.Add<Vignette>(true);
+        }
+        if (doesVignette == false)
+        {
+            vignette.intensity.value = 0f;
+        }
+        else
+        {
+            vignette.intensity.value = 0.384f;
+        }
+        PlayerPrefs.SetInt(VIGNETTE, Convert.ToInt32(vignetteToggle.isOn));
     }
 
     public void UpdateAmbientOcclusion(bool doesAmbientOcclusion)
@@ -103,10 +152,10 @@ public class GraphicsOptions : MonoBehaviour
         PlayerPrefs.SetFloat(SHADOW_DISTANCE, shadowDistance.value);
         PlayerPrefs.SetInt(MSAA, msaa);
 
-        PlayerPrefs.SetInt(MOTION_BLUR, Convert.ToInt32(motionBlur.isOn));
-        PlayerPrefs.SetInt(TILT_SHIFT, Convert.ToInt32(tiltShift.isOn));
-        PlayerPrefs.SetInt(LENS_DISTORTION, Convert.ToInt32(lensDistortion.isOn));
-        PlayerPrefs.SetInt(VIGNETTE, Convert.ToInt32(vignette.isOn));
+        PlayerPrefs.SetInt(MOTION_BLUR, Convert.ToInt32(motionBlurToggle.isOn));
+        PlayerPrefs.SetInt(TILT_SHIFT, Convert.ToInt32(tiltShiftToggle.isOn));
+        PlayerPrefs.SetInt(LENS_DISTORTION, Convert.ToInt32(lensDistortionToggle.isOn));
+        PlayerPrefs.SetInt(VIGNETTE, Convert.ToInt32(vignetteToggle.isOn));
         PlayerPrefs.SetInt(AMBIENT_OCCLUSION, Convert.ToInt32(ambientOcclusion.isOn));
     }
 
@@ -135,38 +184,39 @@ public class GraphicsOptions : MonoBehaviour
             SetMSAA(msaa);
         }
 
-
         if (PlayerPrefs.HasKey(TILT_SHIFT))
         {
-            tiltShift.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(TILT_SHIFT));
+            tiltShiftToggle.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(TILT_SHIFT));
         }
         else
-        { tiltShift.isOn = true; }
-        UpdateTiltShift(tiltShift.isOn);
+        {
+            tiltShiftToggle.isOn = true;
+        }
+        UpdateTiltShift(tiltShiftToggle.isOn);
 
         if (PlayerPrefs.HasKey(MOTION_BLUR))
         {
-            motionBlur.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(MOTION_BLUR));
+            motionBlurToggle.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(MOTION_BLUR));
         }
         else
-        { motionBlur.isOn = true; }
-        UpdateMotionBlur(motionBlur.isOn);
+        { motionBlurToggle.isOn = true; }
+        UpdateMotionBlur(motionBlurToggle.isOn);
 
         if (PlayerPrefs.HasKey(LENS_DISTORTION))
         {
-            lensDistortion.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(LENS_DISTORTION));
+            lensDistortionToggle.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(LENS_DISTORTION));
         }
         else
-        { lensDistortion.isOn = true; }
-        UpdateLensDistortion(lensDistortion.isOn);
+        { lensDistortionToggle.isOn = true; }
+        UpdateLensDistortion(lensDistortionToggle.isOn);
 
         if (PlayerPrefs.HasKey(VIGNETTE))
         {
-            vignette.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(VIGNETTE));
+            vignetteToggle.isOn = Convert.ToBoolean(PlayerPrefs.GetInt(VIGNETTE));
         }
         else
-        { vignette.isOn = true; }
-        UpdateVignette(vignette.isOn);
+        { vignetteToggle.isOn = true; }
+        UpdateVignette(vignetteToggle.isOn);
 
         if (PlayerPrefs.HasKey(AMBIENT_OCCLUSION))
         {
