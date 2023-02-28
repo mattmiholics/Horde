@@ -49,6 +49,16 @@ public class GameOver : MonoBehaviour
         UI.SetActive(true);
     }
 
+    public bool IsPaused()
+    {
+        if (Time.timeScale == 0f)
+        {
+            return true;
+        }
+        else;
+        return false;
+    }
+
     GameObject FindInActiveObjectByName(string name)
     {
         Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
