@@ -33,6 +33,10 @@ public class WaveSpawner : MonoBehaviour
     public UnityEvent startWave;
     public UnityEvent endWave;
 
+    public bool infiniteWaveSpawning = false;
+    private bool infiniteStarted = false;
+    private WaveData lastWave;
+
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
 
@@ -130,7 +134,7 @@ public class WaveSpawner : MonoBehaviour
     }
     private void Update()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemiesAlive = GameObject.FindGameObjectsWithTag("Enemy");
         if (activeCoRoutines >= 1 && !waveStarted) //wave started
         {
             waveStarted = true;
@@ -139,17 +143,26 @@ public class WaveSpawner : MonoBehaviour
 
             NextButtons.Instance.nextWaveButton.SetActive(false);
         }
-        else if (enemies.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
+        else if (enemiesAlive.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
             waveStarted = false;
             endWave.Invoke();
             EditButtons.Instance.EnableButtons();
 
             // Check if there are any more waves
-            if (waveNum > waveDataList.Count)
-                NextButtons.Instance.nextLevelButton.SetActive(true);
-            else
+            if (waveNum <= waveDataList.Count)
+            {
                 NextButtons.Instance.nextWaveButton.SetActive(true);
+            }
+            else if (infiniteWaveSpawning)
+            {
+                NextButtons.Instance.nextWaveButton.SetActive(true);
+                this.infiniteStarted = true;
+            }
+            else
+            {
+                NextButtons.Instance.nextLevelButton.SetActive(true);
+            }
         }
     }
 
@@ -185,21 +198,49 @@ public class WaveSpawner : MonoBehaviour
             UI.SetActive(true);
     }
 
+    private WaveData incrementWave(WaveData wave)
+    {
+        List<SpawnData> spawnData = wave.spawnDataList;
+        foreach (SpawnData spawn_data in spawnData)
+        {
+            int increase_amount = Convert.ToInt32(spawn_data.enemyCount * .2);
+            if (increase_amount == 0)
+            {
+                increase_amount = 1;
+            }
+            spawn_data.enemyCount += increase_amount;
+        }
+        return wave;
+    }
+
     public void SpawnNextWave()
     {
         PlayerStats.Instance.rounds++;
-
-        WaveData currWave = waveDataList.ElementAtOrDefault(waveNum-1);
-        CalcTotalEnemiesInWave(currWave);
-        spawnWave(currWave);
+        if (this.infiniteStarted)
+        {
+            WaveData currWave = incrementWave(this.lastWave);
+            CalcTotalEnemiesInWave(currWave);
+            spawnWave(currWave);
+            this.lastWave = currWave;
+        }
+        else
+        {
+            WaveData currWave = waveDataList.ElementAtOrDefault(waveNum - 1);
+            CalcTotalEnemiesInWave(currWave);
+            spawnWave(currWave);
+            this.lastWave = currWave;
+            //CalcTotalEnemiesInWave(currWave);
+            //spawnWave(currWave);
+            //this.lastWave = currWave;
+        }
         waveNum++;
-
         if (progressBar == null)
             return;
 
         Slider slider = progressBar.GetComponent<Slider>();
         slider.value = 0f;
     }
+
     private void spawnWave(WaveData currWave)
     {
         List < SpawnData > spawnData = currWave.spawnDataList;
@@ -221,6 +262,7 @@ public class WaveSpawner : MonoBehaviour
 
         for (int enemy_count = 1; enemy_count <= spawn.enemyCount; enemy_count++)
         {
+            Debug.Log(spawn.enemyCount);
             SpawnEnemy(spawn.enemyType, spawn.spawn);
             yield return new WaitForSeconds(interval);
         }
