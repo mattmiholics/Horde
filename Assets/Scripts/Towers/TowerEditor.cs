@@ -368,14 +368,14 @@ public class TowerEditor : MonoBehaviour
 
         while (currentTime <= 0.5f)
         {
-            rs.ForEach(r => r.material.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f)));
+            rs.ForEach(r => r.materials.ForEach(m => m.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f))));
 
             currentTime += Time.deltaTime;
 
             yield return null;
         }
 
-        rs.ForEach(r => r.material.SetColor("_Wireframe_Color", origColor));
+        rs.ForEach(r => r.materials.ForEach(m => m.SetColor("_Wireframe_Color", origColor)));
     }
 
     public void SmartDestroy(GameObject gameObject)
