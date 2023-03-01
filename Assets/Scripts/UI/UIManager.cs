@@ -17,7 +17,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject levelSelect;
     [SerializeField] GameObject rules;
 
-
+    /*This is a quick and dirty way for escape functionality. 
+     * While it does work, should this project be continued beyond this course 
+     * I would *HIGHLY* recommend redoing this system to be more expandable. 
+     * But for a fast solution for QoL, this is here. 
+     */
 
 
     [Header("Controls")]
