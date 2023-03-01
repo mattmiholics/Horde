@@ -20,12 +20,18 @@ public class Barrier : MonoBehaviour
 
     GameObject enemyObj;
     float enemyOriginalSpeed;
+    float delayTime;
+    float currentTime;
     private List<Agent> agentList;
+    bool enemyTriggered;
 
     void Start()
     {
+        delayTime = 1f;
+        currentTime = delayTime;
+        enemyTriggered = false;
         agentList = new List<Agent>();
-        InvokeRepeating("CheckHealth", 0f, .1f);
+        InvokeRepeating("CheckHealth", 0f, 0.1f);
     }
 
     private void CheckHealth()
@@ -52,14 +58,17 @@ public class Barrier : MonoBehaviour
     }
     private void OnTriggerStay(Collider other) 
     {
-        if (other.tag == enemyTag)
+        currentTime -= Time.deltaTime;
+        if (other.tag == enemyTag && currentTime <= 0)
         {
             TakeDamage();
+            currentTime = delayTime;
         }
     }
 
     void TakeDamage()
     {
         health--;
+        Debug.Log("Health: " + health);
     }
 }

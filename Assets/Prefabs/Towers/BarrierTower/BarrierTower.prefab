@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrierTower: {fileID: 1629769728814458253}
-  health: 250
+  health: 75
   enemyTag: Enemy
 --- !u!1001 &3563171666514049003
 PrefabInstance:
