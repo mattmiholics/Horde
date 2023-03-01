@@ -182,15 +182,16 @@ public class LightningTower : MonoBehaviour
         {
             float relativeDist = float.MaxValue;
             GameObject currentTarget = null;
-            Collider[] targetsHit = Physics.OverlapSphere(prevTarget.transform.position, 10);
+            //Collider[] targetsHit = Physics.OverlapSphere(prevTarget.transform.position, 10);
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-            foreach (Collider hitCollider in targetsHit)
+            foreach (GameObject hitEnemy in enemies)
             {
-                float storeVal = Vector3.Distance(prevTarget.transform.position, hitCollider.gameObject.transform.position);
-                if (hitCollider.gameObject.tag == "Enemy" && storeVal < relativeDist && hitCollider.gameObject != prevTarget && !enemiesHit.Contains(hitCollider.gameObject))
+                float storeVal = Vector3.Distance(prevTarget.transform.position, hitEnemy.gameObject.transform.position);
+                if (hitEnemy.gameObject.tag == "Enemy" && storeVal < relativeDist && hitEnemy.gameObject != prevTarget && !enemiesHit.Contains(hitEnemy.gameObject))
                 {
                     relativeDist = storeVal;
-                    currentTarget = hitCollider.gameObject;
+                    currentTarget = hitEnemy.gameObject;
                 }
             }
             if (currentTarget != null)
