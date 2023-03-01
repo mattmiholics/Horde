@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LightningTower : MonoBehaviour
 {
     private Transform target;
+    public UnityEvent fire;
 
     [Header("Attributes")]
 
@@ -86,6 +88,7 @@ public class LightningTower : MonoBehaviour
 
         if (fireReload <= 0)
         {
+            fire.Invoke();
             Shoot();
             if (useLaser)
             {
