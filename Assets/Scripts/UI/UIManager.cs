@@ -5,18 +5,27 @@ using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
-    GameObject currentMenu;
-    GameObject previousMenu;
     [SerializeField] GameObject gamePausedUI;
     [SerializeField] GameObject sceneManager;
+    [SerializeField] GameObject generalOptions;
+    [SerializeField] GameObject mainOptions;
+    [SerializeField] GameObject audio;
+    [SerializeField] GameObject graphics;
+    [SerializeField] GameObject display;
+    [SerializeField] GameObject controls;
+    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject levelSelect;
+    [SerializeField] GameObject rules;
+
+
+
+
     [Header("Controls")]
     private PlayerInput _playerInput;
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string uiActionMap;
     [Space]
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string escapeControl;
     private InputAction _escape;
-
-    private LinkedList<GameObject> menus;
     
     void Awake()
     {
@@ -37,7 +46,7 @@ public class UIManager : MonoBehaviour
 
     private void OnCancel(InputAction.CallbackContext callbackContext)
     {
-        if (sceneManager.GetComponent<SceneLoader>().currentScene != "MainMenu")
+        if (sceneManager.GetComponent<SceneLoader>().currentScene != "MainMenu") //In a level
         {
             if (gamePausedUI.GetComponent<GameOver>().IsPaused())
             {
@@ -45,11 +54,54 @@ public class UIManager : MonoBehaviour
                 {
                     gamePausedUI.GetComponent<GameOver>().Continue();
                 }
-                //else go back
+                    if (mainOptions.active)
+                    {
+                        mainOptions.SetActive(false);
+                        gamePausedUI.SetActive(true);
+                    }
+                    else if (audio.active || graphics.active || display.active || controls.active)
+                    {
+                        audio.SetActive(false);
+                        graphics.SetActive(false);
+                        display.SetActive(false);
+                        controls.SetActive(false);
+                        mainOptions.SetActive(true);
+                    }
             }
             else
             {
                 gamePausedUI.GetComponent<GameOver>().PauseGame();
+            }
+        }
+        else //On the main menu
+        {
+            if (generalOptions.active)
+            {
+                if (mainOptions.active)
+                {
+                    mainOptions.SetActive(false);
+                    generalOptions.SetActive(false);
+                    mainMenu.SetActive(true);
+                }
+                else
+                {
+                    audio.SetActive(false);
+                    graphics.SetActive(false);
+                    display.SetActive(false);
+                    controls.SetActive(false);
+                    generalOptions.SetActive(true);
+                    mainOptions.SetActive(true);
+                }
+            }
+            if (levelSelect.active)
+            {
+                levelSelect.SetActive(false);
+                mainMenu.SetActive(true);
+            }
+            if (rules.active)
+            {
+                rules.SetActive(false);
+                mainMenu.SetActive(true);
             }
         }
     }

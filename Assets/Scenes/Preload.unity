@@ -8060,8 +8060,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 650, y: 107.27}
+  m_AnchoredPosition: {x: 0.000083923, y: 0}
+  m_SizeDelta: {x: 320, y: 107.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &444995676
 MonoBehaviour:
@@ -8575,7 +8575,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 650, y: 107.27}
+  m_SizeDelta: {x: 320, y: 107.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &484804540
 MonoBehaviour:
@@ -45169,7 +45169,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 677711499}
+      - m_Target: {fileID: 1796566700}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -45470,6 +45470,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamePausedUI: {fileID: 709446147}
   sceneManager: {fileID: 745743950}
+  generalOptions: {fileID: 899035302}
+  mainOptions: {fileID: 2030984647}
+  audio: {fileID: 1118023238}
+  graphics: {fileID: 290897524}
+  display: {fileID: 1858073369}
+  controls: {fileID: 1216103049}
+  mainMenu: {fileID: 1796566700}
+  levelSelect: {fileID: 2130390034}
+  rules: {fileID: 1968928194}
   uiActionMap: Main
   escapeControl: Main/Escape
 --- !u!1 &2137989465
