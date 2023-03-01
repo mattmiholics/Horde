@@ -405,35 +405,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 03010400000074007900700065002f00000000012000000053005000610074006800460069006e0064006500720054007900700065002c00200041007300730065006d0062006c0079002d004300530068006100720070001f0105000000730070006500650064000000803f17010f0000006d0061007800460061006c006c00440069007300740061006e00630065000400000017010a0000006a0075006d0070004800650069006700680074000100000017010f00000063006800610072006100630074006500720048006500690067006800740002000000052d010a000000700061007400680050006f0069006e0074007300
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: type
-      Entry: 7
-      Data: SPathFinderType, Assembly-CSharp
-    - Name: speed
-      Entry: 4
-      Data: 1
-    - Name: maxFallDistance
-      Entry: 3
-      Data: 4
-    - Name: jumpHeight
-      Entry: 3
-      Data: 1
-    - Name: characterHeight
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: pathPoints
-      Entry: 6
-      Data: 
+    SerializationNodes: []
   maxNodes: 500
   startPoint: {fileID: 0}
   currentTarget: {x: 0, y: 0, z: 0}
