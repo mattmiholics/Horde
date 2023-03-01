@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74b981ab35fcb1468c7aaf9752b24e1, type: 3}
   m_Name: CloudShadows
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   texture:
     m_OverrideState: 1
     m_Value: {fileID: 2800000, guid: 5169c93c178dd854baf6808e4a1750c5, type: 3}
@@ -62,10 +62,10 @@ MonoBehaviour:
     m_Value: 1
   startFadeDistance:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: 0
   endFadeDistance:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 15
   shader: {fileID: 4800000, guid: b778580ec166f424e8c4d41504e3e93a, type: 3}
 --- !u!114 &-1292560428790917621
 MonoBehaviour:

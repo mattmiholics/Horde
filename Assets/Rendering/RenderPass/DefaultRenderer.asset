@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb33d0a2cde6174b965861c37637b9f, type: 3}
-  m_Name: '[SCPE] CloudShadowsRenderer'
+  m_Name: SCPE CloudShadowsRenderer
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
