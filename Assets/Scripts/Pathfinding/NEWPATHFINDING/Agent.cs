@@ -22,6 +22,7 @@ public class Agent : SerializedMonoBehaviour
     SetTarget(debugTarget.position, debugMaxNodes);
     }*/
 
+    [ReadOnly] public float movementMultiplier = 1;
     [ReadOnly] public int remainingNodes;
     [ReadOnly] public bool isMoving;
 
@@ -49,13 +50,15 @@ public class Agent : SerializedMonoBehaviour
 
     private void ChunksUpdatePath(HashSet<ChunkRenderer> updatedChunks)
     {
-        SetTarget(currentTarget, latestMaxNodes);
+        // SetTarget(currentTarget, latestMaxNodes);
+        Debug.Log("Current Target: " + currentTarget);
+        SetTarget(currentTarget);
     }
 
     private void Start()
     {
         jumpReady = true;
-
+        movementMultiplier = 1;
         rigidbody.useGravity = false;
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
@@ -115,11 +118,12 @@ public class Agent : SerializedMonoBehaviour
                                                .First()
                                                .Index;*/
 
+        currentTarget = calculatedPathPoints.LastOrDefault().point;
+        
         if (followPathCoroutine != null)
             StopCoroutine(followPathCoroutine);
         followPathCoroutine = StartCoroutine(FollowPath(calculatedPathPoints));
 
-        currentTarget = calculatedPathPoints.LastOrDefault().point;
         PathUpdated?.Invoke(calculatedPathPoints);
     }
 
@@ -163,7 +167,7 @@ public class Agent : SerializedMonoBehaviour
                 }
             }
 
-            rigidbody.velocity = new Vector3(type.speed * direction.x, rigidbody.velocity.y, type.speed * direction.z);
+            rigidbody.velocity = new Vector3(type.speed * movementMultiplier * direction.x, rigidbody.velocity.y, type.speed * movementMultiplier * direction.z);
 
             remainingNodes = pathPoints.Count;
             //Debug.DrawLine(rigidbody.position, pathPoints.Last().point, Color.magenta);
@@ -176,7 +180,7 @@ public class Agent : SerializedMonoBehaviour
         // Just to make sure the position is exact lerp to the center of the block
         Vector3 currentPosition = transform.position;
         float currentTime = 0;
-        float lerpTime = 0.5f/type.speed;
+        float lerpTime = 0.5f/(type.speed*movementMultiplier);
 
         while (currentTime < lerpTime)
         {

@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce544de9698535479a18ef1b909e9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrierTower: {fileID: 0}
+  barrierTower: {fileID: 1629769728814458253}
   health: 250
   enemyTag: Enemy
 --- !u!1001 &3563171666514049003
