@@ -185,6 +185,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   healthBar: {fileID: 7283756034141582658}
+  attack:
+    m_PersistentCalls:
+      m_Calls: []
+  stopAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  move:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6814151726738181585}
+        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
+        m_MethodName: MoveAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  stopMove:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6814151726738181585}
+        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
+        m_MethodName: StopMoveAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  death:
+    m_PersistentCalls:
+      m_Calls: []
   fireRate: 1
   fireReload: 1
   range: 15

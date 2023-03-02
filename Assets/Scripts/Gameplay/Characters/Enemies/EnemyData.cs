@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 public class EnemyData : UnitData
 {
@@ -46,6 +47,8 @@ public class EnemyData : UnitData
             GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity, WaveSpawner.Instance.effectParent);
             Destroy(effect, 5f);
 
+            death.Invoke();
+
             Destroy(this.gameObject);
         }
     }
@@ -60,8 +63,10 @@ public class EnemyData : UnitData
         if(bulletS != null)
         {
             //Debug.Log("Attack Player 3");
+            attack.Invoke();
             bulletS.Seek(target, 50);
         }
+        stopAttack.Invoke();
     }
 
     protected virtual void OnDrawGizmosSelected()

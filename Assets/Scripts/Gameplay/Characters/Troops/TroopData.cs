@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TroopData : UnitData
 {
@@ -94,16 +95,33 @@ public class TroopData : UnitData
 
         if(bulletS != null)
         {
+            attack.Invoke();
             bulletS.Seek(target, damage);
         }
+        stopAttack.Invoke();
     }
 
     protected virtual void MovementAnimation()
     {
         if (agent.remainingNodes <= 1f)
-            animator.SetBool("IsRunning", false);
+        {
+            stopMove.Invoke();
+        }
         else
-            animator.SetBool("IsRunning", true);
+        {
+            move.Invoke();  
+        }
+            
+    }
+
+    public virtual void MoveAnimation()
+    {
+        animator.SetBool("IsRunning", true);
+    }
+
+    public virtual void StopMoveAnimation()
+    {
+        animator.SetBool("IsRunning", false);
     }
 
     protected virtual void OnDrawGizmosSelected()

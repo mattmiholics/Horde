@@ -82,6 +82,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   healthBar: {fileID: 2827955095543940960}
+  Attack:
+    m_PersistentCalls:
+      m_Calls: []
+  Move:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Death:
+    m_PersistentCalls:
+      m_Calls: []
   fireRate: 1
   fireReload: 0
   range: 15

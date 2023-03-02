@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UnitData : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class UnitData : MonoBehaviour
 
     [Header("Graphic Info")]
     public Image healthBar;
+    [Header("Unity Events")]
+    public UnityEvent attack;
+    public UnityEvent stopAttack;
+    public UnityEvent move;
+    public UnityEvent stopMove;
+    public UnityEvent death;
 
     protected virtual void Start()
     {
@@ -32,7 +39,10 @@ public class UnitData : MonoBehaviour
     public virtual void DeathCheck()
     {
         if (health <= 0f)
+        {
+            death.Invoke();
             Destroy(this.gameObject);
+        }
     }
 }
 
