@@ -438,8 +438,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_color = v.ase_color;
@@ -670,20 +670,21 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = IN.ase_texcoord8.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float temp_output_110_0 = ( temp_output_105_0 / ( 1.0 + _SecondaryNoiseHeight ) );
 				float4 lerpResult77 = lerp( _SecondaryColor , _BaseColor , temp_output_110_0);
 				float fresnelNdotV115 = dot( WorldNormal, WorldViewDirection );
 				float fresnelNode115 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV115, _FresnelPower ) );
 				float4 clampResult120 = clamp( ( lerpResult77 + ( ( fresnelNode115 * temp_output_110_0 ) * _FresnelStrength ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float3 BaseColor = clampResult120.rgb;
@@ -1108,8 +1109,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
@@ -1278,15 +1279,15 @@ Shader "Shader Graphs/CloudsTessellation"
 					#endif
 				#endif
 
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord2;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float Alpha = clampResult44.r;
@@ -1531,8 +1532,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
@@ -1686,15 +1687,15 @@ Shader "Shader Graphs/CloudsTessellation"
 					#endif
 				#endif
 
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord2;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float Alpha = clampResult44.r;
@@ -1943,8 +1944,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.texcoord0.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
 				o.ase_texcoord5.xyz = ase_worldNormal;
@@ -2125,7 +2126,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = IN.ase_texcoord4.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float temp_output_110_0 = ( temp_output_105_0 / ( 1.0 + _SecondaryNoiseHeight ) );
 				float4 lerpResult77 = lerp( _SecondaryColor , _BaseColor , temp_output_110_0);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
@@ -2134,15 +2136,15 @@ Shader "Shader Graphs/CloudsTessellation"
 				float fresnelNode115 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV115, _FresnelPower ) );
 				float4 clampResult120 = clamp( ( lerpResult77 + ( ( fresnelNode115 * temp_output_110_0 ) * _FresnelStrength ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord6;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float3 BaseColor = clampResult120.rgb;
@@ -2385,8 +2387,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
 				o.ase_texcoord3.xyz = ase_worldNormal;
@@ -2554,7 +2556,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = IN.ase_texcoord2.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float temp_output_110_0 = ( temp_output_105_0 / ( 1.0 + _SecondaryNoiseHeight ) );
 				float4 lerpResult77 = lerp( _SecondaryColor , _BaseColor , temp_output_110_0);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
@@ -2563,15 +2566,15 @@ Shader "Shader Graphs/CloudsTessellation"
 				float fresnelNode115 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV115, _FresnelPower ) );
 				float4 clampResult120 = clamp( ( lerpResult77 + ( ( fresnelNode115 * temp_output_110_0 ) * _FresnelStrength ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord4;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float3 BaseColor = clampResult120.rgb;
@@ -2806,8 +2809,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
@@ -2970,15 +2973,15 @@ Shader "Shader Graphs/CloudsTessellation"
 					#endif
 				#endif
 
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord4;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float3 Normal = float3(0, 0, 1);
@@ -3278,8 +3281,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_color = v.ase_color;
@@ -3506,20 +3509,21 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = IN.ase_texcoord8.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float temp_output_110_0 = ( temp_output_105_0 / ( 1.0 + _SecondaryNoiseHeight ) );
 				float4 lerpResult77 = lerp( _SecondaryColor , _BaseColor , temp_output_110_0);
 				float fresnelNdotV115 = dot( WorldNormal, WorldViewDirection );
 				float fresnelNode115 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV115, _FresnelPower ) );
 				float4 clampResult120 = clamp( ( lerpResult77 + ( ( fresnelNode115 * temp_output_110_0 ) * _FresnelStrength ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				float3 BaseColor = clampResult120.rgb;
@@ -3848,8 +3852,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
@@ -3967,15 +3971,15 @@ Shader "Shader Graphs/CloudsTessellation"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				surfaceDescription.Alpha = clampResult44.r;
@@ -4217,8 +4221,8 @@ Shader "Shader Graphs/CloudsTessellation"
 				float2 texCoord102 = v.ase_texcoord.xy * _Size_Instance + ( appendResult97 * _SecondaryNoiseSpeed );
 				float simplePerlin3D101 = snoise( float3( texCoord102 ,  0.0 )*_SecondaryNoiseScale );
 				simplePerlin3D101 = simplePerlin3D101*0.5 + 0.5;
-				float temp_output_110_0 = ( ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) ) / ( 1.0 + _SecondaryNoiseHeight ) );
-				float3 appendResult23 = (float3(0.0 , temp_output_110_0 , 0.0));
+				float temp_output_105_0 = ( ( smoothstepResult84 * _NoiseHeight ) + ( simplePerlin3D101 * _SecondaryNoiseHeight ) );
+				float3 appendResult23 = (float3(0.0 , temp_output_105_0 , 0.0));
 				
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
@@ -4335,15 +4339,15 @@ Shader "Shader Graphs/CloudsTessellation"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 temp_output_36_0 = ( float4( 1,1,1,1 ) * IN.ase_color );
+				float4 temp_output_140_0 = ( ( float4( 1,1,1,1 ) * IN.ase_color ) * float4( 1,1,1,1 ) );
 				float4 screenPos = IN.ase_texcoord;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float4 ditherCustomScreenPos39 = ( ase_screenPosNorm / _DitherScale );
 				float2 clipScreen39 = ditherCustomScreenPos39.xy * _ScreenParams.xy;
 				float dither39 = Dither8x8Bayer( fmod(clipScreen39.x, 8), fmod(clipScreen39.y, 8) );
-				dither39 = step( dither39, temp_output_36_0.r );
-				float4 clampResult44 = clamp( ( temp_output_36_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+				dither39 = step( dither39, temp_output_140_0.r );
+				float4 clampResult44 = clamp( ( temp_output_140_0 + dither39 ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 				
 
 				surfaceDescription.Alpha = clampResult44.r;
@@ -4381,17 +4385,11 @@ Shader "Shader Graphs/CloudsTessellation"
 /*ASEBEGIN
 Version=19105
 Node;AmplifyShaderEditor.CommentaryNode;57;-3994.783,-166.5482;Inherit;False;2935.83;1138.24;;33;34;85;45;32;33;103;104;106;108;105;101;99;102;98;97;14;13;31;15;17;80;92;91;64;84;35;63;72;71;61;73;110;111;Noise;0.6510323,0.9549256,0.990566,1;0;0
-Node;AmplifyShaderEditor.WireNode;30;333.4255,926.1169;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.DynamicAppendNode;23;150.3374,976.2491;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.VertexColorNode;29;-625.941,248.1575;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ScreenPosInputsNode;40;-585.8544,477.0492;Float;False;0;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleDivideOpNode;42;-328.2547,478.6492;Inherit;False;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;-404.2397,216.3221;Inherit;False;2;2;0;COLOR;1,1,1,1;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;43;122.3394,210.9236;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.DitheringNode;39;-115.4544,298.5486;Inherit;False;1;True;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ClampOpNode;44;267.9394,182.5059;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
 Node;AmplifyShaderEditor.WireNode;73;-3627.386,477.2278;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;61;-3079.363,349.2331;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NegateNode;71;-3651.664,573.7832;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;72;-3515.488,512.408;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;63;-3367.74,346.3111;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;50,50;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -4404,26 +4402,19 @@ Node;AmplifyShaderEditor.AbsOpNode;80;-2231.374,153.5976;Inherit;False;1;0;FLOAT
 Node;AmplifyShaderEditor.DynamicAppendNode;17;-3812.349,44.03306;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleTimeNode;15;-3983.142,47.71641;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;31;-3502.856,51.04554;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;13;-3091.597,0.5315728;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;14;-3344.458,-1.893476;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;50,50;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DynamicAppendNode;97;-2989.483,560.1585;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleTimeNode;98;-3160.276,563.8419;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;102;-2521.591,514.2319;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;50,50;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;99;-2687.988,565.171;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;101;-2200.887,511.1561;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;105;-1606.246,447.7632;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;108;-1851.95,532.1093;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;106;-2154.495,645.793;Inherit;False;Property;_SecondaryNoiseHeight;SecondaryNoiseHeight;11;0;Create;True;0;0;0;False;0;False;1;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;104;-2477.21,394.5884;Inherit;False;Property;_SecondaryNoiseScale;SecondaryNoiseScale;10;0;Create;True;0;0;0;False;0;False;1;0.2;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;104;-2477.21,394.5884;Inherit;False;Property;_SecondaryNoiseScale;SecondaryNoiseScale;10;0;Create;True;0;0;0;False;0;False;1;0.3;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;103;-3112.354,768.2147;Inherit;False;Property;_SecondaryNoiseSpeed;SecondaryNoiseSpeed;9;0;Create;True;0;0;0;False;0;False;3;3;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;33;-3392.638,230.3561;Inherit;False;Property;_NoiseScale;NoiseScale;7;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;32;-3937.187,572.3165;Inherit;False;Property;_NoiseSpeed;NoiseSpeed;6;0;Create;True;0;0;0;False;0;False;1.3;1.3;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;33;-3392.638,230.3561;Inherit;False;Property;_NoiseScale;NoiseScale;7;0;Create;True;0;0;0;False;0;False;0.5;0.6;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;32;-3937.187,572.3165;Inherit;False;Property;_NoiseSpeed;NoiseSpeed;6;0;Create;True;0;0;0;False;0;False;1.3;2.59;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector2Node;85;-2151.401,-0.240232;Inherit;False;Property;_Smoothstep;Smoothstep;2;0;Create;True;0;0;0;False;0;False;0,1;0,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;34;-2014.484,372.5164;Inherit;False;Property;_NoiseHeight;NoiseHeight;8;0;Create;True;0;0;0;False;0;False;0.5;1.61;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-2014.484,372.5164;Inherit;False;Property;_NoiseHeight;NoiseHeight;8;0;Create;True;0;0;0;False;0;False;0.5;0.26;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;41;-553.991,653.0494;Inherit;False;Property;_DitherScale;DitherScale;15;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;38;101.3572,563.1776;Inherit;False;Property;_AlphaThreshold;AlphaThreshold;13;0;Create;True;0;0;0;False;0;False;0.99;0.99;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;110;-1332.87,520.5839;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;111;-1585.825,642.2891;Inherit;False;2;2;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;96;-814.5219,976.3063;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;132.1311,28.72414;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -4441,27 +4432,37 @@ Node;AmplifyShaderEditor.ColorNode;12;-1022.07,-617.0801;Inherit;False;Property;
 Node;AmplifyShaderEditor.ColorNode;78;-1023.125,-789.3427;Inherit;False;Property;_SecondaryColor;SecondaryColor;1;0;Create;True;0;0;0;False;0;False;0.6078432,0.7215686,0.8313726,1;0.6082829,0.720368,0.8301887,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;77;-631.5876,-541.8696;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;119;-388.9906,-294.6071;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ClampOpNode;120;-70.24376,-206.2818;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
 Node;AmplifyShaderEditor.FresnelNode;115;-1073.761,-371.9559;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;117;-864.1096,-11.91475;Inherit;False;Property;_FresnelStrength;FresnelStrength;4;0;Create;True;0;0;0;False;0;False;0.3;0.3;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;114;-1324.297,-295.5297;Inherit;False;Property;_FresnelPower;FresnelPower;3;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;113;-8.037083,64.11088;Inherit;False;Property;_EmissionStrength;EmissionStrength;5;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;11;961.8312,-240.0497;Inherit;False;Property;_Tessellation;Tessellation;14;0;Create;True;0;0;0;True;0;False;1;7;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;892.1802,35.40044;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Shader Graphs/CloudsTessellation;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;1;0;Surface;0;638133073631549058;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;1;638132379867525324;  Phong;0;638132381047729121;  Strength;0.5,False,;0;  Type;1;638132385820202546;  Tess;21.4,True,_Tessellation;638132412237564575;  Min;10,False,;638132386999252159;  Max;25,False,_Tessellation;638132387558652918;  Edge Length;12,True,_Tessellation;638132381159402154;  Max Displacement;25,False,;0;Write Depth;0;638133073470034164;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.Vector2Node;45;-3522.257,-116.5482;Inherit;False;InstancedProperty;_Size;Size;12;0;Create;True;0;0;0;False;0;False;1,1;50,50;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-WireConnection;30;0;23;0
-WireConnection;23;1;96;0
+Node;AmplifyShaderEditor.Vector2Node;45;-3522.257,-116.5482;Inherit;False;InstancedProperty;_Size;Size;12;0;Create;True;0;0;0;False;0;False;1,1;1,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.SimpleAddOpNode;111;-1585.825,642.2891;Inherit;False;2;2;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;106;-2154.495,645.793;Inherit;False;Property;_SecondaryNoiseHeight;SecondaryNoiseHeight;11;0;Create;True;0;0;0;False;0;False;1;0.8;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;110;-1332.87,520.5839;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;43;1136.597,242.7296;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.DitheringNode;39;898.8038,330.3546;Inherit;False;1;True;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;38;1498.327,509.4479;Inherit;False;Property;_AlphaThreshold;AlphaThreshold;13;0;Create;True;0;0;0;False;0;False;0.99;0.99;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;23;1327.505,1005.556;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WireNode;30;1457.622,437.3958;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.PosVertexDataNode;138;-195.6824,647.7639;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;124;-196.4577,838.9627;Inherit;False;Property;_EdgeDistance;EdgeDistance;16;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;120;111.5621,-201.9531;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.DepthFade;135;14.9966,642.8982;Inherit;False;True;True;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;134;201.5838,836.2306;Inherit;False;Property;_EdgeFadeStrength;EdgeFadeStrength;17;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;133;431.5493,616.8901;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;1779.192,69.67296;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Shader Graphs/CloudsTessellation;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;1;0;Surface;0;638133126626620271;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;1;638132379867525324;  Phong;0;638132381047729121;  Strength;0.5,False,;0;  Type;1;638132385820202546;  Tess;21.4,True,_Tessellation;638132412237564575;  Min;10,False,;638132386999252159;  Max;25,False,_Tessellation;638132387558652918;  Edge Length;12,True,_Tessellation;638132381159402154;  Max Displacement;25,False,;0;Write Depth;0;638133144393626850;  Early Z;0;638133143721692705;Vertex Position,InvertActionOnDeselection;1;638133143749505410;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;140;603.3549,229.4756;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;1,1,1,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.ClampOpNode;44;1515.197,218.3119;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;108;-1851.95,532.1093;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;61;-3079.363,349.2331;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;13;-3091.597,0.5315728;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;101;-2200.887,511.1561;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 WireConnection;42;0;40;0
 WireConnection;42;1;41;0
 WireConnection;36;1;29;0
-WireConnection;43;0;36;0
-WireConnection;43;1;39;0
-WireConnection;39;0;36;0
-WireConnection;39;2;42;0
-WireConnection;44;0;43;0
 WireConnection;73;0;17;0
-WireConnection;61;0;63;0
-WireConnection;61;1;33;0
 WireConnection;71;0;32;0
 WireConnection;72;0;73;0
 WireConnection;72;1;71;0
@@ -4481,8 +4482,6 @@ WireConnection;17;0;15;0
 WireConnection;17;1;15;0
 WireConnection;31;0;17;0
 WireConnection;31;1;32;0
-WireConnection;13;0;14;0
-WireConnection;13;1;33;0
 WireConnection;14;0;45;0
 WireConnection;14;1;31;0
 WireConnection;97;0;98;0
@@ -4491,16 +4490,9 @@ WireConnection;102;0;45;0
 WireConnection;102;1;99;0
 WireConnection;99;0;97;0
 WireConnection;99;1;103;0
-WireConnection;101;0;102;0
-WireConnection;101;1;104;0
 WireConnection;105;0;35;0
 WireConnection;105;1;108;0
-WireConnection;108;0;101;0
-WireConnection;108;1;106;0
-WireConnection;110;0;105;0
-WireConnection;110;1;111;0
-WireConnection;111;1;106;0
-WireConnection;96;0;110;0
+WireConnection;96;0;105;0
 WireConnection;112;0;120;0
 WireConnection;112;1;113;0
 WireConnection;116;0;115;0
@@ -4512,12 +4504,35 @@ WireConnection;77;1;12;0
 WireConnection;77;2;110;0
 WireConnection;119;0;77;0
 WireConnection;119;1;118;0
-WireConnection;120;0;119;0
 WireConnection;115;3;114;0
+WireConnection;111;1;106;0
+WireConnection;110;0;105;0
+WireConnection;110;1;111;0
+WireConnection;43;0;140;0
+WireConnection;43;1;39;0
+WireConnection;39;0;140;0
+WireConnection;39;2;42;0
+WireConnection;23;1;96;0
+WireConnection;30;0;23;0
+WireConnection;120;0;119;0
+WireConnection;135;1;138;0
+WireConnection;135;0;124;0
+WireConnection;133;0;135;0
+WireConnection;133;1;134;0
 WireConnection;2;0;120;0
 WireConnection;2;2;112;0
 WireConnection;2;6;44;0
 WireConnection;2;7;38;0
 WireConnection;2;8;30;0
+WireConnection;140;0;36;0
+WireConnection;44;0;43;0
+WireConnection;108;0;101;0
+WireConnection;108;1;106;0
+WireConnection;61;0;63;0
+WireConnection;61;1;33;0
+WireConnection;13;0;14;0
+WireConnection;13;1;33;0
+WireConnection;101;0;102;0
+WireConnection;101;1;104;0
 ASEEND*/
-//CHKSM=533271429D1DADC82144CA937BE89E09A5E41744
+//CHKSM=0708C3031AFA3B6D5AA9F0E68B7AF716DCC96E3C

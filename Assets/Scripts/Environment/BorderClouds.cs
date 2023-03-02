@@ -6,6 +6,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[ExecuteAlways]
 public class BorderClouds : MonoBehaviour
 {
     public World world;

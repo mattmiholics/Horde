@@ -3,7 +3,12 @@ guid: 20df8469ab70e9344a4a82527988703c
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FireTower
+    second: {fileID: 2100000, guid: 48df693c90351044b9288c585f1a99c0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
