@@ -192,7 +192,7 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 8641179442993172763}
   rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
+  bullet: {fileID: 8952111980692290676, guid: 58698e2c35cf3524784a534a8ed2351a, type: 3}
   firePoint: {fileID: 8641179442993172763}
   animator: {fileID: 793427055596785475}
 --- !u!114 &5370838298868686088
@@ -254,11 +254,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  movementMultiplier: 1
   remainingNodes: 0
   isMoving: 0
-  jumpHeightMultiplier: 1.75
-  jumpHeightOffset: 6
-  rotateSpeed: 5
 --- !u!54 &3732279838141533726
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -434,6 +432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888698a0b190b37419a27b20742d70f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freezeX: 0
+  freezeY: 0
+  freezeZ: 0
 --- !u!1 &3196932591354193141
 GameObject:
   m_ObjectHideFlags: 0
