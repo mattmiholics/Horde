@@ -54,7 +54,8 @@ public class Barrier : MonoBehaviour
 
     private void OnDestroy() 
     {
-        agentList.ForEach(a => a.movementMultiplier = 1f);
+        if (agentList != null && agentList.Count > 0)
+            agentList.ForEach(a => a.movementMultiplier = 1f);
     }
     private void OnTriggerStay(Collider other) 
     {
