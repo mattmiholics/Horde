@@ -39,7 +39,8 @@ public class SceneInitialize : MonoBehaviour
         //camera
         CameraHandler cameraHandler = CameraHandler.Instance;
         cameraHandler.transform.position = cameraStartPosition;
-        cameraHandler.transform.localEulerAngles = cameraStartEulerRotation;
+        cameraHandler.cameraYRotate.localEulerAngles = new Vector3(0, cameraStartEulerRotation.y, 0);
+        cameraHandler.cameraXRotate.localEulerAngles = new Vector3(cameraStartEulerRotation.x, 0, 0);
         cameraHandler.cameraZoom.transform.position = new Vector3(0, 0, cameraZoom);
         cameraHandler.lockControls = cameraLockControls;
 

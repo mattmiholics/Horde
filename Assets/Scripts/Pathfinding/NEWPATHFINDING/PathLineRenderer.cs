@@ -44,7 +44,7 @@ public class PathLineRenderer : MonoBehaviour
 
     public void UpdateLine(Vector3[] pathVectors)
     {
-        float offset = 0.35f; // A value between 0-0.5
+        float offset = 0.45f; // A value between 0-0.5
 
         List<Vector3> tempList = new List<Vector3>();
 
@@ -72,8 +72,12 @@ public class PathLineRenderer : MonoBehaviour
                 int direction = firstVector.y < lastVector.y ? 1 : -1;
 
                 // Create new vectors with the height change difference and offsets towards the lower height vector
-                Vector3 subVector1 = new Vector3(lowerHeightVector.x + difference.x * offset * direction, firstVector.y, lowerHeightVector.z + difference.z * offset * direction);
-                Vector3 subVector2 = new Vector3(lowerHeightVector.x + difference.x *offset * direction, lastVector.y, lowerHeightVector.z + difference.z * offset * direction);
+                Vector3 subVector1 = new Vector3(lowerHeightVector.x + difference.x * (offset + (direction > 0 ? -0.01f : 0.01f)) * direction, 
+                                                 firstVector.y, 
+                                                 lowerHeightVector.z + difference.z * (offset + (direction > 0 ? -0.01f : 0.01f)) * direction);
+                Vector3 subVector2 = new Vector3(lowerHeightVector.x + difference.x * (offset + (direction > 0 ? 0.01f : -0.01f)) * direction, 
+                                                 lastVector.y, 
+                                                 lowerHeightVector.z + difference.z * (offset + (direction > 0 ? 0.01f : -0.01f)) * direction);
 
                 // Lower the first three points by the offset (exclude last vector because it will be evaluated in the next iteration)
                 firstVector += Vector3.down * offset;

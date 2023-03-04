@@ -269,7 +269,7 @@ public class WaveSpawner : MonoBehaviour
     // changed from game object to transform? can change back wasnt sure
     void SpawnEnemy(GameObject prefab, Altar altar)
     {
-        GameObject enemy = Instantiate(prefab, altar.spawnPoint.position, Quaternion.identity, parent);
+        GameObject enemy = Instantiate(prefab, altar.spawnPoint.position, altar.spawnPoint.rotation, parent);
         // Set target path for the agent
         if (enemy.TryGetComponent<Agent>(out Agent agent) && altar.TryGetComponent<StaticAgent>(out StaticAgent staticAgent))
         {
