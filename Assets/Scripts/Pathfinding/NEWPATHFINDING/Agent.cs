@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Linq;
 using System;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Agent : SerializedMonoBehaviour
@@ -25,6 +26,13 @@ public class Agent : SerializedMonoBehaviour
     [ReadOnly] public float movementMultiplier = 1;
     [ReadOnly] public int remainingNodes;
     [ReadOnly] public bool isMoving;
+
+    [FoldoutGroup("Events")]
+    public UnityEvent startMoving;
+    [FoldoutGroup("Events")]
+    public UnityEvent stopMoving;
+    [FoldoutGroup("Events")]
+    public UnityEvent jump;
 
     private const float jumpHeightMultiplier = 1.75f;
     private const float jumpHeightOffset = 6f;
@@ -97,6 +105,7 @@ public class Agent : SerializedMonoBehaviour
             if (followPathCoroutine != null)
                 StopCoroutine(followPathCoroutine);
 
+            stopMoving?.Invoke();
             rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
             remainingNodes = 0;
             isMoving = false;
@@ -135,6 +144,7 @@ public class Agent : SerializedMonoBehaviour
             yield break;
 
         isMoving = true;
+        startMoving?.Invoke();
 
         for (; ; )
         {
@@ -164,6 +174,8 @@ public class Agent : SerializedMonoBehaviour
                     rigidbody.velocity = new Vector3(rigidbody.velocity.x, (blockHeightChange * jumpHeightMultiplier) + jumpHeightOffset, rigidbody.velocity.z);
 
                     StartCoroutine(JumpCooldown(jumpCooldown));
+
+                    jump?.Invoke();
                 }
             }
 
@@ -191,6 +203,7 @@ public class Agent : SerializedMonoBehaviour
             yield return null;
         }
 
+        stopMoving?.Invoke();
         isMoving = false;
         remainingNodes = 0;
         rigidbody.position = pathPoints.Last().point;

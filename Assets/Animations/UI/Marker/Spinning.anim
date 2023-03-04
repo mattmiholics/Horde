@@ -29,8 +29,17 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.46666667
         value: {x: 0, y: 500, z: 0}
-        inSlope: {x: 0, y: 600, z: 0}
-        outSlope: {x: 0, y: 600, z: 0}
+        inSlope: {x: 0, y: 1027.8969, z: 0}
+        outSlope: {x: 0, y: 1027.8969, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 0.75
+        value: {x: 0, y: 770.9226, z: 0}
+        inSlope: {x: 0, y: 458.72122, z: 0}
+        outSlope: {x: 0, y: 458.72122, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -38,11 +47,11 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.5
         value: {x: 0, y: 900, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: -0.91754353, z: 0}
+        outSlope: {x: 0, y: 1.3478123, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.78131163, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -338,20 +347,29 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.46666667
         value: 500
-        inSlope: 600
-        outSlope: 600
+        inSlope: 1027.8969
+        outSlope: 1027.8969
         tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.75
+        value: 770.9226
+        inSlope: 458.72122
+        outSlope: 458.72122
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.5
         value: 900
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        inSlope: -0.91754353
+        outSlope: 1.3478123
+        tangentMode: 1
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.78131163
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -581,7 +599,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
+    attribute: m_LocalEulerAngles.x
     path: FaceCamera/Arrow
     classID: 4
     script: {fileID: 0}
@@ -601,7 +619,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
+    attribute: m_LocalEulerAngles.z
     path: FaceCamera/Arrow
     classID: 4
     script: {fileID: 0}
