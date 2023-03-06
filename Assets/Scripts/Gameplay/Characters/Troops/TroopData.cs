@@ -8,6 +8,7 @@ public class TroopData : UnitData
     protected Transform target;
     protected Agent agent;
     protected TroopPathfinding troopPathfinding;
+    private bool isMoving;
     
     [Header("Attributes")]
     public float fireRate = 1f;
@@ -31,6 +32,7 @@ public class TroopData : UnitData
     protected override void Start()
     {
         startHealth = health;
+        isMoving = false;
         agent = this.gameObject.GetComponent<Agent>();
         troopPathfinding = this.gameObject.GetComponent<TroopPathfinding>();
         InvokeRepeating("UpdateTarget", 0f, .5f);
@@ -103,13 +105,17 @@ public class TroopData : UnitData
 
     protected virtual void MovementAnimation()
     {
-        if (agent.remainingNodes <= 1f)
+        if (agent.remainingNodes <= 1f && isMoving)
         {
             stopMove.Invoke();
+            isMoving = false;
+            Debug.Log("Stop move");
         }
-        else
+        else if (!isMoving)
         {
-            move.Invoke();  
+            move.Invoke();
+            isMoving = true;
+            Debug.Log("Start move");
         }
             
     }

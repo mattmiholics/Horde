@@ -94,6 +94,10 @@ public class FireMageTroopLogic : TroopData
             bulletS.Seek(target, damage);
         }
     }
-        
+    
+    public void DebugFireMage(string STR)
+    {
+        Debug.Log(STR);
+    }
 }
 

@@ -58,34 +58,10 @@ MonoBehaviour:
       m_Calls: []
   move:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8044621263776838008}
-        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
-        m_MethodName: MoveAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   stopMove:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8044621263776838008}
-        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
-        m_MethodName: StopMoveAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   death:
     m_PersistentCalls:
       m_Calls: []
@@ -105,7 +81,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  animator: {fileID: 2832447021273076074}
+  animator: {fileID: 0}
 --- !u!114 &3721058615175430264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +144,63 @@ MonoBehaviour:
   movementMultiplier: 1
   remainingNodes: 0
   isMoving: 0
+  startMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5776674113403708578}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Running
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8044621263776838008}
+        m_TargetAssemblyTypeName: FireMageTroopLogic, Assembly-CSharp
+        m_MethodName: DebugFireMage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Running
+          m_BoolArgument: 0
+        m_CallState: 2
+  stopMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5776674113403708578}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Idle
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8044621263776838008}
+        m_TargetAssemblyTypeName: FireMageTroopLogic, Assembly-CSharp
+        m_MethodName: DebugFireMage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Idle
+          m_BoolArgument: 0
+        m_CallState: 2
+  jump:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &7095033502759651454
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -215,7 +248,6 @@ Transform:
   - {fileID: 5477210983570888234}
   - {fileID: 7630913791560988471}
   - {fileID: 7903274220885666481}
-  - {fileID: 5203652018602439932}
   - {fileID: 8641179442993172763}
   - {fileID: 7533413233156097474}
   m_Father: {fileID: 386663479654082279}
@@ -454,7 +486,7 @@ RectTransform:
   m_Children:
   - {fileID: 3473824090149363922}
   m_Father: {fileID: 5051194964961935175}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -815,7 +847,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5051194964961935175}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8352060432300594121
 GameObject:
@@ -956,7 +988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -996,84 +1028,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
---- !u!4 &5477210983570888234 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
+--- !u!1 &5136679671373237392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
   m_PrefabInstance: {fileID: 5442687164726981057}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5745938424023978775
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 5051194964961935175}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-      propertyPath: m_Name
-      value: Paladin WProp J Nordstrom
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
---- !u!1 &4862978697876647494 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-  m_PrefabInstance: {fileID: 5745938424023978775}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2832447021273076074
+--- !u!95 &5776674113403708578
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4862978697876647494}
+  m_GameObject: {fileID: 5136679671373237392}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-  m_Controller: {fileID: 9100000, guid: 012a360fca05da847941fc88ecfef579, type: 2}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 38610183916fed14f96a2078ff8600ff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1083,8 +1053,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!4 &5203652018602439932 stripped
+--- !u!4 &5477210983570888234 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 741746d1f1e36204f94d3cfbc20284db, type: 3}
-  m_PrefabInstance: {fileID: 5745938424023978775}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 39a842d746acc1b44adb49e21c43037a, type: 3}
+  m_PrefabInstance: {fileID: 5442687164726981057}
   m_PrefabAsset: {fileID: 0}
