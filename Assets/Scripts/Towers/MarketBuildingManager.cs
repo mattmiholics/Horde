@@ -9,4 +9,14 @@ public class MarketBuildingManager : MonoBehaviour
     {
         gameObject.GetComponentInChildren<MarketBuilding>().PayPlayer();
     }
+
+    public void BeginPayout()
+    {
+        gameObject.GetComponentInChildren<MarketBuilding>().StartPayOut();
+    }
+
+    public void StopPayout()
+    {
+        gameObject.GetComponentInChildren<MarketBuilding>().StopPayOut();
+    }
 }
