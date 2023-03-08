@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 public class Barrier : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class Barrier : MonoBehaviour
     private float health;
     [SerializeField]
     private string enemyTag = "Enemy";
+    [FoldoutGroup("Events")]
+    public UnityEvent takeDamage;
 
     GameObject enemyObj;
     float enemyOriginalSpeed;
@@ -62,12 +66,13 @@ public class Barrier : MonoBehaviour
         currentTime -= Time.deltaTime;
         if (other.tag == enemyTag && currentTime <= 0)
         {
-            TakeDamage();
+            // TakeDamage();
+            takeDamage.Invoke();
             currentTime = delayTime;
         }
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
         health--;
         Debug.Log("Health: " + health);

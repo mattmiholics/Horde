@@ -16,9 +16,6 @@ public class UnitData : MonoBehaviour
     public Image healthBar;
     [Header("Unity Events")]
     public UnityEvent attack;
-    public UnityEvent stopAttack;
-    public UnityEvent move;
-    public UnityEvent stopMove;
     public UnityEvent death;
 
     protected virtual void Start()

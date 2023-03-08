@@ -66,7 +66,6 @@ public class EnemyData : UnitData
             attack.Invoke();
             bulletS.Seek(target, 50);
         }
-        stopAttack.Invoke();
     }
 
     protected virtual void OnDrawGizmosSelected()

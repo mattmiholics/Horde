@@ -292,6 +292,21 @@ MonoBehaviour:
   barrierTower: {fileID: 1629769728814458253}
   health: 75
   enemyTag: Enemy
+  takeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6755223330806103461}
+        m_TargetAssemblyTypeName: Barrier, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &3563171666514049003
 PrefabInstance:
   m_ObjectHideFlags: 0
