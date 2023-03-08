@@ -188,39 +188,6 @@ MonoBehaviour:
   attack:
     m_PersistentCalls:
       m_Calls: []
-  stopAttack:
-    m_PersistentCalls:
-      m_Calls: []
-  move:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6814151726738181585}
-        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
-        m_MethodName: MoveAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  stopMove:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6814151726738181585}
-        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
-        m_MethodName: StopMoveAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   death:
     m_PersistentCalls:
       m_Calls: []
@@ -296,6 +263,39 @@ MonoBehaviour:
   movementMultiplier: 1
   remainingNodes: 0
   isMoving: 0
+  startMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6814151726738181585}
+        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
+        m_MethodName: MoveAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  stopMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6814151726738181585}
+        m_TargetAssemblyTypeName: TroopData, Assembly-CSharp
+        m_MethodName: StopMoveAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  jump:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &3732279838141533726
 Rigidbody:
   m_ObjectHideFlags: 0

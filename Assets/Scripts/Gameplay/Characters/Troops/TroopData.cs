@@ -100,20 +100,17 @@ public class TroopData : UnitData
             attack.Invoke();
             bulletS.Seek(target, damage);
         }
-        stopAttack.Invoke();
     }
 
     protected virtual void MovementAnimation()
     {
         if (agent.remainingNodes <= 1f && isMoving)
         {
-            stopMove.Invoke();
             isMoving = false;
             Debug.Log("Stop move");
         }
         else if (!isMoving)
         {
-            move.Invoke();
             isMoving = true;
             Debug.Log("Start move");
         }
