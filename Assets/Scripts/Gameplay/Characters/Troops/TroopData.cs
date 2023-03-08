@@ -20,7 +20,7 @@ public class TroopData : UnitData
     [Header("Unity Setup Fields")]
 
     public string enemyTag = "Enemy";
-    public Transform partToRotate;
+    //public Transform partToRotate;
     public float rotationSpeed = 7f;
 
     public GameObject bullet;
@@ -75,10 +75,10 @@ public class TroopData : UnitData
             return;
         }
         //Target Locking
-        Vector3 dir = target.transform.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * rotationSpeed).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f,rotation.y, 0f);
+        //Vector3 dir = target.transform.position - transform.position;
+        //Quaternion lookRotation = Quaternion.LookRotation(dir);
+        //Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * rotationSpeed).eulerAngles;
+        //partToRotate.rotation = Quaternion.Euler(0f,rotation.y, 0f);
 
         if(fireReload <= 0)
         {

@@ -204,6 +204,7 @@ public class Agent : SerializedMonoBehaviour
         }
 
         stopMoving?.Invoke();
+        Debug.Log("stopped");
         isMoving = false;
         remainingNodes = 0;
         rigidbody.position = pathPoints.Last().point;

@@ -345,15 +345,6 @@ MonoBehaviour:
   attack:
     m_PersistentCalls:
       m_Calls: []
-  stopAttack:
-    m_PersistentCalls:
-      m_Calls: []
-  move:
-    m_PersistentCalls:
-      m_Calls: []
-  stopMove:
-    m_PersistentCalls:
-      m_Calls: []
   death:
     m_PersistentCalls:
       m_Calls:
@@ -382,6 +373,7 @@ MonoBehaviour:
   rotationSpeed: 7
   bullet: {fileID: 1148047656769899135, guid: 7a76b12fa6fe0e44084923967d4f654b, type: 3}
   firePoint: {fileID: 4598244595908026434}
+  animator: {fileID: 0}
 --- !u!82 &3543203226564927523
 AudioSource:
   m_ObjectHideFlags: 0
@@ -603,7 +595,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722068136091204452}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -614,7 +606,7 @@ Transform:
   - {fileID: 1118529856}
   m_Father: {fileID: 70573509271531613}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1300838436455112657
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +619,7 @@ GameObject:
   - component: {fileID: 8450731152690951195}
   m_Layer: 9
   m_Name: CylinderBox (5)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -672,7 +664,7 @@ GameObject:
   - component: {fileID: 1378040751242535351}
   m_Layer: 9
   m_Name: CylinderBox (6)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -717,7 +709,7 @@ GameObject:
   - component: {fileID: 2738367185210915433}
   m_Layer: 9
   m_Name: CylinderBox (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -762,7 +754,7 @@ GameObject:
   - component: {fileID: 9209123450141138880}
   m_Layer: 9
   m_Name: CylinderBox (4)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,7 +799,7 @@ GameObject:
   - component: {fileID: 5512836980687922217}
   m_Layer: 9
   m_Name: CylinderBox (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -852,7 +844,7 @@ GameObject:
   - component: {fileID: 7043963126056026936}
   m_Layer: 9
   m_Name: CylinderBox (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

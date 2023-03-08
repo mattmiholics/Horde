@@ -49,11 +49,11 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop1()
     {
-        if(PlayerStats.Instance.money >= 150)
+        if(PlayerStats.Instance.money >= 200)
         {
             troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
-            PlayerStats.Instance.money -= 150;
+            PlayerStats.Instance.money -= 200;
         }
     }
 
@@ -69,11 +69,11 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop3()
     {
-        if (PlayerStats.Instance.money >= 0)
+        if (PlayerStats.Instance.money >= 250)
         {
             troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
-            PlayerStats.Instance.money -= 0;
+            PlayerStats.Instance.money -= 250;
         }
     }
 }

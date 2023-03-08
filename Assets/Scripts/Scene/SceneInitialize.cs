@@ -32,9 +32,23 @@ public class SceneInitialize : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+
+        if (CameraHandler.Instance != null)
+            DelayedStart();
+    }
+
+    private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
     }
     // Start is called before the first frame update
-    void Start()
+    void DelayedStart()
     {
         //camera
         CameraHandler cameraHandler = CameraHandler.Instance;
