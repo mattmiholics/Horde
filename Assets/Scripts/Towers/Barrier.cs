@@ -72,9 +72,9 @@ public class Barrier : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float incomingDamage)
+    public void TakeDamage()
     {
-        health -= incomingDamage;
-        Debug.Log("Health: " + health);
+        health--;
+        // Debug.Log("Health: " + health);
     }
 }

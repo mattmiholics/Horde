@@ -99,6 +99,9 @@ MonoBehaviour:
   - main: {fileID: 758191915756330490}
     proxy: {fileID: 3688141010969223332}
     costToLvl: 0
+  upgrade:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3688141010969223332
 GameObject:
   m_ObjectHideFlags: 0

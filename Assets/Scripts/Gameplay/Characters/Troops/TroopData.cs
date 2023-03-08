@@ -107,12 +107,12 @@ public class TroopData : UnitData
         if (agent.remainingNodes <= 1f && isMoving)
         {
             isMoving = false;
-            Debug.Log("Stop move");
+            // Debug.Log("Stop move");
         }
         else if (!isMoving)
         {
             isMoving = true;
-            Debug.Log("Start move");
+            // Debug.Log("Start move");
         }
             
     }
@@ -134,7 +134,7 @@ public class TroopData : UnitData
 
     public virtual void DeathAnimation()
     {
-        animator.SetBool("Attack", true);
+        animator.SetBool("Death", true);
     }
 
     protected virtual void OnDrawGizmosSelected()

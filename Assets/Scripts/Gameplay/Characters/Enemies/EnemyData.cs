@@ -35,11 +35,11 @@ public class EnemyData : UnitData
 
     public override void TakeDamage (float incomingDamage)
     {
-        Debug.Log("Original health: " + health);
+        // Debug.Log("Original health: " + health);
         health -= incomingDamage;
         healthBar.fillAmount = health/startHealth;
-        Debug.Log("Deal damage: " + incomingDamage);
-        Debug.Log("Health after damage: " + health);
+        // Debug.Log("Deal damage: " + incomingDamage);
+        // Debug.Log("Health after damage: " + health);
         DeathCheck();
         aSource.PlayOneShot(clip);
     }
