@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class EnemyData : UnitData
 {
@@ -62,15 +63,19 @@ public class EnemyData : UnitData
     public virtual void Attack()
     {
         //Debug.Log("Attack Player 2");
-
-        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        Bullet bulletS = bulletObj.GetComponent<Bullet>();
-        
-        if(bulletS != null)
+        Scene targetScene = SceneManager.GetSceneByName("Level01");
+        if (targetScene.isLoaded)
         {
-            //Debug.Log("Attack Player 3");
-            attack.Invoke();
-            bulletS.Seek(target, 50);
+            GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+            SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
+            Bullet bulletS = bulletObj.GetComponent<Bullet>();
+            
+            if(bulletS != null)
+            {
+                //Debug.Log("Attack Player 3");
+                attack.Invoke();
+                bulletS.Seek(target, 50);
+            }
         }
     }
 

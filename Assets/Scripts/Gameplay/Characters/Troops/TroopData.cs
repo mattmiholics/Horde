@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class TroopData : UnitData
 {
@@ -91,14 +92,18 @@ public class TroopData : UnitData
 
     protected virtual void Attack()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        //If a new bullet script is created, update it here
-        Bullet bulletS = bulltObj.GetComponent<Bullet>();
-
-        if(bulletS != null)
+        Scene targetScene = SceneManager.GetSceneByName("Level01");
+        if (targetScene.isLoaded)
         {
-            attack.Invoke();
-            bulletS.Seek(target, damage);
+            GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+            SceneManager.MoveGameObjectToScene(bulltObj, targetScene);
+            //If a new bullet script is created, update it here
+            Bullet bulletS = bulltObj.GetComponent<Bullet>();
+            if(bulletS != null)
+            {
+                attack.Invoke();
+                bulletS.Seek(target, damage);
+            }
         }
     }
 

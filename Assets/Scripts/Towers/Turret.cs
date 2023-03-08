@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Turret : MonoBehaviour
 {
@@ -85,19 +86,24 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        //If a new bullet script is created, update it here
-        Bullet bulletS = bulltObj.GetComponent<Bullet>();
-        CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
-        LBullet lBullet = bulltObj.GetComponent<LBullet>();
+        Scene targetScene = SceneManager.GetSceneByName("Level01");
+        if (targetScene.isLoaded)
+        {
+            GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+            SceneManager.MoveGameObjectToScene(bulltObj, targetScene);
+            //If a new bullet script is created, update it here
+            Bullet bulletS = bulltObj.GetComponent<Bullet>();
+            CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
+            LBullet lBullet = bulltObj.GetComponent<LBullet>();
 
-        if(bulletS != null)
-        {
-            bulletS.Seek(target, damage);
-        }
-        else if(cBullet != null)
-        {
-            cBullet.Seek(target, damage);
+            if(bulletS != null)
+            {
+                bulletS.Seek(target, damage);
+            }
+            else if(cBullet != null)
+            {
+                cBullet.Seek(target, damage);
+            }
         }
     }
 
