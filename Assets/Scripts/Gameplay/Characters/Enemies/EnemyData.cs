@@ -30,10 +30,16 @@ public class EnemyData : UnitData
     public GameObject bullet;
     public Transform firePoint;
 
+    [Header("Animation")]
+    public Animator animator;
+
     public override void TakeDamage (float incomingDamage)
     {
+        Debug.Log("Original health: " + health);
         health -= incomingDamage;
         healthBar.fillAmount = health/startHealth;
+        Debug.Log("Deal damage: " + incomingDamage);
+        Debug.Log("Health after damage: " + health);
         DeathCheck();
         aSource.PlayOneShot(clip);
     }
@@ -66,6 +72,11 @@ public class EnemyData : UnitData
             attack.Invoke();
             bulletS.Seek(target, 50);
         }
+    }
+
+    public virtual void AttackAnimation()
+    {
+        animator.SetBool("Attack", true);
     }
 
     protected virtual void OnDrawGizmosSelected()

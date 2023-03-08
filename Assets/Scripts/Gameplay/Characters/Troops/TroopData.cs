@@ -127,6 +127,16 @@ public class TroopData : UnitData
         animator.SetBool("IsRunning", false);
     }
 
+    public virtual void AttackAnimation()
+    {
+        animator.SetBool("Attack", true);
+    }
+
+    public virtual void DeathAnimation()
+    {
+        animator.SetBool("Attack", true);
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
