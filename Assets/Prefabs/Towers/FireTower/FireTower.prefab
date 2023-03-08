@@ -2272,6 +2272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d223c27a1fe739f4fb786546eb550eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fire:
+    m_PersistentCalls:
+      m_Calls: []
   fireRate: 0.5
   fireReload: 0
   range: 40
@@ -2325,6 +2328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d223c27a1fe739f4fb786546eb550eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fire:
+    m_PersistentCalls:
+      m_Calls: []
   fireRate: 1.2
   fireReload: 0
   range: 80
@@ -2461,6 +2467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d223c27a1fe739f4fb786546eb550eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fire:
+    m_PersistentCalls:
+      m_Calls: []
   fireRate: 0.8
   fireReload: 0
   range: 55
@@ -2628,6 +2637,33 @@ MonoBehaviour:
   - main: {fileID: 3560213310364313134}
     proxy: {fileID: 6850486324523920190}
     costToLvl: 1750
+  upgrade:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7691976395779632662, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!208 &-3680261497845567882
 NavMeshObstacle:
   m_ObjectHideFlags: 0

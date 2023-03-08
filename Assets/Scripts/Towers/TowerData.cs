@@ -57,7 +57,8 @@ public class TowerData : MonoBehaviour
     [ValidateInput("@upgradeDataList.Count > 0")] // Requires there to be at least one level
     [SerializeField]
     private List<TowerUpgradeData> upgradeDataList;
-
+    [Header("Unity Events")]
+    public UnityEvent upgrade;
     [Serializable]
     private class TowerUpgradeData
     {
@@ -68,6 +69,8 @@ public class TowerData : MonoBehaviour
         [MinValue(0)]
         public int costToLvl;
     }
+
+    
 
 
 
@@ -103,9 +106,11 @@ public class TowerData : MonoBehaviour
 
     public void Upgrade()
     {
+        upgrade.Invoke();
         Main.SetActive(false);
         level++;
         Main.SetActive(true);
+
     }
 
     public void upgradeTurret()
