@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138521651733950448}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 8862223816745108327}
   m_Father: {fileID: 386663479654082279}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &386663479654082284
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +109,6 @@ MonoBehaviour:
   range: 15
   damage: 80
   enemyTag: Enemy
-  partToRotate: {fileID: 8641179442993172763}
   rotationSpeed: 7
   bullet: {fileID: 8952111980692290676, guid: 58698e2c35cf3524784a534a8ed2351a, type: 3}
   firePoint: {fileID: 8641179442993172763}
@@ -191,6 +190,18 @@ MonoBehaviour:
           m_StringArgument: StartMoving
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6499037168852081048}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: ResetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: StopMoving
+          m_BoolArgument: 0
+        m_CallState: 2
   stopMoving:
     m_PersistentCalls:
       m_Calls:
@@ -204,6 +215,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: StopMoving
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6499037168852081048}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: ResetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: StartMoving
           m_BoolArgument: 0
         m_CallState: 2
   jump:
@@ -1020,6 +1043,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 36f7674a9a5d502489ad0e2efcb69c90, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 8c45c2b1cc151c34a9f870b3d68858f9, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c45c2b1cc151c34a9f870b3d68858f9, type: 3}
 --- !u!4 &923549135364211682 stripped

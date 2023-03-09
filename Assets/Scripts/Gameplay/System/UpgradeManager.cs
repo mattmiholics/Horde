@@ -23,6 +23,9 @@ public class UpgradeManager : MonoBehaviour
     private static UpgradeManager _instance;
     public LayerMask towerMask;
 
+    TowerData towerDataHovered;
+    TowerData towerDataSelected;
+
     public static UpgradeManager Instance { get { return _instance; } }
 
     private void Awake()
@@ -58,7 +61,6 @@ public class UpgradeManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
-        var uiPos = Mouse.current.position.ReadValue();
 
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
@@ -67,9 +69,41 @@ public class UpgradeManager : MonoBehaviour
             {
                 upgradeMenu.SetActive(false);
             }
-            // SetPosition(uiPos);
             active = true;
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
+        }
+    }
+
+    private void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+
+
+        if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
+        {
+            TowerData td = hit.transform.GetComponentInParent<TowerData>();
+
+            if (td != towerDataHovered)
+            {
+                if (towerDataHovered)
+                {
+                    towerDataHovered.Proxy.SetActive(false);
+                    towerDataHovered.Main.SetActive(true);
+                }
+
+                towerDataHovered = td;
+
+                towerDataHovered.Proxy.SetActive(true);
+                towerDataHovered.Main.SetActive(false);
+            }
+        }
+        else if (towerDataHovered)
+        {
+            towerDataHovered.Proxy.SetActive(false);
+            towerDataHovered.Main.SetActive(true);
+
+            towerDataHovered = null;
         }
     }
 
