@@ -86,25 +86,26 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        Scene targetScene = SceneManager.GetSceneByName("Level01");
-        if (targetScene.isLoaded)
-        {
-            GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-            SceneManager.MoveGameObjectToScene(bulltObj, targetScene);
-            //If a new bullet script is created, update it here
-            Bullet bulletS = bulltObj.GetComponent<Bullet>();
-            CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
-            LBullet lBullet = bulltObj.GetComponent<LBullet>();
+        // Scene targetScene = SceneManager.GetSceneByName("Level01");
+        // if (targetScene.isLoaded)
+        // {
+        GameObject bulletParent = GameObject.Find("World/BulletParent");
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
+        // SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
+        //If a new bullet script is created, update it here
+        Bullet bulletS = bulletObj.GetComponent<Bullet>();
+        CannonBullet cBullet = bulletObj.GetComponent<CannonBullet>();
+        LBullet lBullet = bulletObj.GetComponent<LBullet>();
 
-            if(bulletS != null)
-            {
-                bulletS.Seek(target, damage);
-            }
-            else if(cBullet != null)
-            {
-                cBullet.Seek(target, damage);
-            }
+        if(bulletS != null)
+        {
+            bulletS.Seek(target, damage);
         }
+        else if(cBullet != null)
+        {
+            cBullet.Seek(target, damage);
+        }
+        // }
     }
 
     private void OnDrawGizmosSelected()

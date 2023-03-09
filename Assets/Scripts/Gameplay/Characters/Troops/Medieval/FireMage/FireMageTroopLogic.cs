@@ -84,9 +84,10 @@ public class FireMageTroopLogic : TroopData
 
     protected override void Attack()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+        GameObject bulletParent = GameObject.Find("World/BulletParent");
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
         //If a new bullet script is created, update it here
-        FireMageBullet bulletS = bulltObj.GetComponent<FireMageBullet>();
+        FireMageBullet bulletS = bulletObj.GetComponent<FireMageBullet>();
 
         if(bulletS != null)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class TroopData : UnitData
 {
@@ -19,7 +20,7 @@ public class TroopData : UnitData
 
     [Header("Unity Setup Fields")]
 
-    public string enemyTag = "Enemy";
+    public LayerMask enemyLayer;
     //public Transform partToRotate;
     public float rotationSpeed = 7f;
 
@@ -41,7 +42,7 @@ public class TroopData : UnitData
 
     protected virtual void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        GameObject[] enemies = Physics.OverlapSphere(transform.position, range, enemyLayer).Select(c => c.gameObject).ToArray();
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
 
@@ -92,19 +93,20 @@ public class TroopData : UnitData
 
     protected virtual void Attack()
     {
-        Scene targetScene = SceneManager.GetSceneByName("Level01");
-        if (targetScene.isLoaded)
+        // Scene targetScene = SceneManager.GetSceneByName("Level01");
+        // if (targetScene.isLoaded)
+        // {
+        GameObject bulletParent = GameObject.Find("World/BulletParent");
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
+        // SceneManager.MoveGameObjectToScene(bulltObj, targetScene);
+        //If a new bullet script is created, update it here
+        Bullet bulletS = bulletObj.GetComponent<Bullet>();
+        if(bulletS != null)
         {
-            GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-            SceneManager.MoveGameObjectToScene(bulltObj, targetScene);
-            //If a new bullet script is created, update it here
-            Bullet bulletS = bulltObj.GetComponent<Bullet>();
-            if(bulletS != null)
-            {
-                attack.Invoke();
-                bulletS.Seek(target, damage);
-            }
+            attack.Invoke();
+            bulletS.Seek(target, damage);
         }
+        // }
     }
 
     protected virtual void MovementAnimation()

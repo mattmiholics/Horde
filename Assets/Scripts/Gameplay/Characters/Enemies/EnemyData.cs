@@ -63,20 +63,21 @@ public class EnemyData : UnitData
     public virtual void Attack()
     {
         //Debug.Log("Attack Player 2");
-        Scene targetScene = SceneManager.GetSceneByName("Level01");
-        if (targetScene.isLoaded)
+        // Scene targetScene = SceneManager.GetSceneByName("Level01");
+        // if (targetScene.isLoaded)
+        // {
+        GameObject bulletParent = GameObject.Find("World/BulletParent");
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
+        // SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
+        Bullet bulletS = bulletObj.GetComponent<Bullet>();
+        
+        if(bulletS != null)
         {
-            GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-            SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
-            Bullet bulletS = bulletObj.GetComponent<Bullet>();
-            
-            if(bulletS != null)
-            {
-                //Debug.Log("Attack Player 3");
-                attack.Invoke();
-                bulletS.Seek(target, 50);
-            }
+            //Debug.Log("Attack Player 3");
+            attack.Invoke();
+            bulletS.Seek(target, 50);
         }
+        // }
     }
 
     public virtual void AttackAnimation()
