@@ -18,14 +18,16 @@ public class PopupHandler : MonoBehaviour
     public float animationTime = 0.5f;
     public AnimationCurve animationCurve = AnimationCurve.Linear(0, 0, 1, 1);
     [Space(25)]
+    [FoldoutGroup("Events")]
     public UnityEvent PopupEnabled;
+    [FoldoutGroup("Events")]
     public UnityEvent PopupDisabled;
 
     [HideInInspector]
     public InputActionMap[] disabledActionMaps;
 
     [ReadOnly] public int currentActive;
-    private bool animating;
+    [ReadOnly] public bool animating;
     private bool activating;
 
     private void Start()

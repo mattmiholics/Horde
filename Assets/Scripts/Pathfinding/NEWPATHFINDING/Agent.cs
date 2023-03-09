@@ -9,11 +9,14 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class Agent : SerializedMonoBehaviour
 {
-    public event Action<List<PathPoint>> PathUpdated;   
+    public event Action<List<PathPoint>> PathUpdated;
+    public event Action startMovingEvent;
+    public event Action stopMovingEvent;
 
-    new public Rigidbody rigidbody;
+    public Rigidbody rigidbody;
     public LayerMask groundLayer;
     public SPathFinderType type;
+
     // Debug
     /*public int debugMaxNodes;
     public Transform debugTarget;
@@ -106,6 +109,7 @@ public class Agent : SerializedMonoBehaviour
                 StopCoroutine(followPathCoroutine);
 
             stopMoving?.Invoke();
+            stopMovingEvent?.Invoke();
             rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
             remainingNodes = 0;
             isMoving = false;
@@ -145,6 +149,7 @@ public class Agent : SerializedMonoBehaviour
 
         isMoving = true;
         startMoving?.Invoke();
+        startMovingEvent?.Invoke();
 
         for (; ; )
         {
@@ -204,7 +209,8 @@ public class Agent : SerializedMonoBehaviour
         }
 
         stopMoving?.Invoke();
-        
+        stopMovingEvent?.Invoke();
+
         isMoving = false;
         remainingNodes = 0;
         transform.position = pathPoints.Last().point + Vector3.down * 0.5f;

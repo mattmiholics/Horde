@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class EditButtons : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class EditButtons : MonoBehaviour
     public List<Button> disabledDuringWave;
 
     private int reactivateIndex;
+
+    [HideInInspector]
+    public GameObject currentOutline;
 
     private static EditButtons _instance;
     public static EditButtons Instance { get { return _instance; } }
@@ -109,5 +113,26 @@ public class EditButtons : MonoBehaviour
             else if (reactivateIndex == towerEditorPopupIndex)
                 TowerEditor.Instance.EnableTowerEditing();
         }
+    }
+
+    public void OutlineButton(GameObject outline)
+    {
+        if (popupHandler.animating)
+            return;
+
+        if (currentOutline)
+            currentOutline.SetActive(false);
+
+        if (currentOutline != outline)
+        {
+            outline.SetActive(true);
+            currentOutline = outline;
+        }
+        else
+        {
+            currentOutline = null;
+        }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }

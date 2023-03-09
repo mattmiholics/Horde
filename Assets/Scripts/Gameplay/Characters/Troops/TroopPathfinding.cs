@@ -72,9 +72,8 @@ public class TroopPathfinding : MonoBehaviour
             if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, agent.groundLayer) && World.Instance != null) // If the raycast doesn't hit a wall
             {
                 target = World.Instance.GetBlockPos(hit, true); // Move the target to the mouse position
-                agent.SetTarget(target, 50);
+                agent.SetTarget(target, 500);
                 isMoving = true;
-                // animator.SetBool("IsRunning", true);
             }
         }
     }

@@ -523,6 +523,9 @@ MonoBehaviour:
   - main: {fileID: 7552670695327935894}
     proxy: {fileID: 436857091235351584}
     costToLvl: 0
+  upgrade:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3373148012908150145
 MonoBehaviour:
   m_ObjectHideFlags: 0

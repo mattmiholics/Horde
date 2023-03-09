@@ -12,7 +12,7 @@ public class PathPoint
     {
         get
         {
-            return this.heuristicEstimatePathLenght + this.pathLenghtFromStart / 10;
+            return this.heuristicEstimatePathLenght + this.pathLenghtFromStart / 7.5f;
         }
     }
     public EMoveAction moveAction = EMoveAction.walk;
