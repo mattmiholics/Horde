@@ -46,7 +46,7 @@ public class CannonBullet : MonoBehaviour
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-        EnemyData e = target.GetComponent<EnemyData>();
+        EnemyData e = target.GetComponentInParent<EnemyData>();
 
         if (e != null)
         {

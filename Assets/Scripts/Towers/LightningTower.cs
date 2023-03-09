@@ -153,6 +153,7 @@ public class LightningTower : MonoBehaviour
         lr.positionCount = 1 + enemiesHit.ToArray().Length;
         lr.SetPosition(0, laserStart.transform.position);
         int count = 1;
+        //Debug.Log(enemiesHit.ToArray().Length);
         foreach (GameObject pos in enemiesHit.ToArray())
         {
             if (pos != null)
@@ -199,7 +200,7 @@ public class LightningTower : MonoBehaviour
             }
             if (currentTarget != null)
             {
-                currentTarget.GetComponent<EnemyData>().TakeDamage(chainDamage);
+                currentTarget.GetComponentInParent<EnemyData>().TakeDamage(chainDamage);
                 enemiesHit.Add(currentTarget);
                 prevTarget= currentTarget;
             }

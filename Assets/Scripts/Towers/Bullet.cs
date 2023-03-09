@@ -43,9 +43,10 @@ public class Bullet : MonoBehaviour
 
     void HitTarget()
     {
-        EnemyData e = target.GetComponent<EnemyData>();
+        EnemyData e = target.GetComponentInParent<EnemyData>();
         TroopData p = target.transform.parent.gameObject.transform.parent.gameObject.GetComponent<TroopData>();
         // Debug.Log("Attack Player Hit Target 2: " + p.name);
+        
 
         if(e != null)
         {
