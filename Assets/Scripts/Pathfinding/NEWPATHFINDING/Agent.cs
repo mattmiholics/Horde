@@ -86,7 +86,7 @@ public class Agent : SerializedMonoBehaviour
     {
         latestMaxNodes = maxNodes;
 
-        if (PathSearch.GetPathToTarget(rigidbody.position, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes) && pathPoints.Count > 0)
+        if (PathSearch.GetPathToTarget(transform.position + Vector3.up * 0.5f, target, World.Instance, type, out List<PathPoint> pathPoints, maxNodes) && pathPoints.Count > 0)
         {
             if (pathPoints.Count <= 1 && currentTarget == Vector3Int.RoundToInt(target))
                 return true;
@@ -149,16 +149,16 @@ public class Agent : SerializedMonoBehaviour
         for (; ; )
         {
             // Check if close enough to a node to either remove or if at final node
-            if (Vector3.Distance(new Vector3(rigidbody.position.x, pathPoints.Last().point.y, rigidbody.position.z), pathPoints.Last().point) < 0.05f)
+            if (Vector3.Distance(new Vector3(transform.position.x, pathPoints.Last().point.y, transform.position.z), pathPoints.Last().point) < 0.05f)
             {
-                if (pathPoints.Count <= 1 && Vector3.Distance(rigidbody.position, pathPoints.Last().point) < 0.05f)
+                if (pathPoints.Count <= 1 && Vector3.Distance(transform.position + Vector3.up * 0.5f, pathPoints.Last().point) < 0.05f)
                     break;
                 else if (pathPoints.Count > 1)
                     pathPoints.RemoveAt(pathPoints.Count - 1);
             }
 
             // Calculate direction
-            Vector3 direction = (pathPoints.Last().point - rigidbody.position);
+            Vector3 direction = (pathPoints.Last().point - (transform.position + Vector3.up * 0.5f));
             direction = new Vector3(direction.x, 0, direction.z).normalized;
 
             // Calculate rotation
@@ -167,9 +167,9 @@ public class Agent : SerializedMonoBehaviour
             // Check if jumping is necessary
             if (jumpReady)
             {
-                int blockHeightChange = Mathf.RoundToInt(pathPoints.Last().point.y - rigidbody.position.y);
+                int blockHeightChange = Mathf.RoundToInt(pathPoints.Last().point.y - (transform.position.y + 0.5f));
 
-                if (blockHeightChange <= type.jumpHeight && blockHeightChange > 0 && Physics.Raycast(rigidbody.position, Vector3.down, 0.51f, groundLayer))
+                if (blockHeightChange <= type.jumpHeight && blockHeightChange > 0 && Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, 0.51f, groundLayer))
                 {
                     rigidbody.velocity = new Vector3(rigidbody.velocity.x, (blockHeightChange * jumpHeightMultiplier) + jumpHeightOffset, rigidbody.velocity.z);
 
@@ -182,7 +182,7 @@ public class Agent : SerializedMonoBehaviour
             rigidbody.velocity = new Vector3(type.speed * movementMultiplier * direction.x, rigidbody.velocity.y, type.speed * movementMultiplier * direction.z);
 
             remainingNodes = pathPoints.Count;
-            //Debug.DrawLine(rigidbody.position, pathPoints.Last().point, Color.magenta);
+            Debug.DrawLine(rigidbody.position, pathPoints.Last().point, Color.magenta);
 
             yield return null;
         }
@@ -196,7 +196,7 @@ public class Agent : SerializedMonoBehaviour
 
         while (currentTime < lerpTime)
         {
-            rigidbody.position = Vector3.Slerp(currentPosition, pathPoints.Last().point, currentTime/lerpTime);
+            transform.position = Vector3.Slerp(currentPosition, pathPoints.Last().point + Vector3.down * 0.5f, currentTime/lerpTime);
 
             currentTime += Time.deltaTime;
 
@@ -204,10 +204,10 @@ public class Agent : SerializedMonoBehaviour
         }
 
         stopMoving?.Invoke();
-        Debug.Log("stopped");
+        
         isMoving = false;
         remainingNodes = 0;
-        rigidbody.position = pathPoints.Last().point;
+        transform.position = pathPoints.Last().point + Vector3.down * 0.5f;
         yield return null;
     }
 
