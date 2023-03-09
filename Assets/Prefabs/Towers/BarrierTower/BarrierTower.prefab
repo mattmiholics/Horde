@@ -98,6 +98,7 @@ MonoBehaviour:
   upgradeDataList:
   - main: {fileID: 758191915756330490}
     proxy: {fileID: 3688141010969223332}
+    hightlight: {fileID: 758191915756330490}
     costToLvl: 0
   upgrade:
     m_PersistentCalls:

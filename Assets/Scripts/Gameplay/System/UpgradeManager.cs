@@ -82,25 +82,27 @@ public class UpgradeManager : MonoBehaviour
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
-            TowerData td = hit.transform.GetComponentInParent<TowerData>();
-
-            if (td != towerDataHovered)
+            if (hit.collider.tag == "Tower")
             {
-                if (towerDataHovered)
+                TowerData td = hit.transform.GetComponentInParent<TowerData>();
+
+                if (td != towerDataHovered && !td.Proxy.active)
                 {
-                    towerDataHovered.Proxy.SetActive(false);
-                    towerDataHovered.Main.SetActive(true);
+                    if (towerDataHovered)
+                    {
+                        towerDataHovered.Highlight.SetActive(false);
+                        towerDataHovered.Main.SetActive(true);
+                    }
+
+                    towerDataHovered = td;
+                    towerDataHovered.Highlight.SetActive(true);
+                    towerDataHovered.Main.SetActive(false);
                 }
-
-                towerDataHovered = td;
-
-                towerDataHovered.Proxy.SetActive(true);
-                towerDataHovered.Main.SetActive(false);
             }
         }
         else if (towerDataHovered)
         {
-            towerDataHovered.Proxy.SetActive(false);
+            towerDataHovered.Highlight.SetActive(false);
             towerDataHovered.Main.SetActive(true);
 
             towerDataHovered = null;
