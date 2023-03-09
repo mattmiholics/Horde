@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 public class Barrier : MonoBehaviour
 {
@@ -17,10 +19,23 @@ public class Barrier : MonoBehaviour
     private float health;
     [SerializeField]
     private string enemyTag = "Enemy";
+    [FoldoutGroup("Events")]
+    public UnityEvent takeDamage;
+
+    GameObject enemyObj;
+    float enemyOriginalSpeed;
+    float delayTime;
+    float currentTime;
+    private List<Agent> agentList;
+    bool enemyTriggered;
 
     void Start()
     {
-        InvokeRepeating("CheckHealth", 0f, .1f);
+        delayTime = 1f;
+        currentTime = delayTime;
+        enemyTriggered = false;
+        agentList = new List<Agent>();
+        InvokeRepeating("CheckHealth", 0f, 0.1f);
     }
 
     private void CheckHealth()
@@ -30,20 +45,36 @@ public class Barrier : MonoBehaviour
             TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
         }
     }
-    private void OnTriggerStay(Collider other) 
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == enemyTag)
         {
-            if (other.TryGetComponent<NavMeshAgent>(out NavMeshAgent nma))
-            {
-                nma.velocity = Vector3.zero;
-            }
-            TakeDamage();
+            Agent agent = other.GetComponentInParent<Agent>();
+            agent.movementMultiplier = 0f;
+            agentList.Add(agent);
         }
     }
 
-    void TakeDamage()
+    private void OnDestroy() 
+    {
+        if (agentList != null && agentList.Count > 0)
+            agentList.ForEach(a => a.movementMultiplier = 1f);
+    }
+    private void OnTriggerStay(Collider other) 
+    {
+        currentTime -= Time.deltaTime;
+        if (other.tag == enemyTag && currentTime <= 0)
+        {
+            // TakeDamage();
+            takeDamage.Invoke();
+            currentTime = delayTime;
+        }
+    }
+
+    public void TakeDamage()
     {
         health--;
+        // Debug.Log("Health: " + health);
     }
 }

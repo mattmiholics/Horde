@@ -9,6 +9,8 @@ using Sirenix.Utilities;
 
 public class CameraHandler : MonoBehaviour
 {
+    public static event Action SingletonInstanced;
+
     public Camera cineCamera;
     public Transform cameraParent;
     public Transform cameraYRotate;
@@ -18,9 +20,9 @@ public class CameraHandler : MonoBehaviour
     public bool lockControls = false;
     [Space]
     public bool lockMouseWhileRotating = true;
-    public bool lockLookX = true;
+    public bool lockLookY = true;
     [Tooltip("Only necessary if lock look X is false.")]
-    public Vector2 minMaxLookX;
+    public Vector2 minMaxLookY;
     [Space]
     public bool screenEdgeMoving = true;
     public float screenEdgeRatio = 0.05f;
@@ -269,6 +271,8 @@ public class CameraHandler : MonoBehaviour
 
         //other stuff
         _rigidbodyYRotate.maxAngularVelocity = 100;
+
+        SingletonInstanced?.Invoke();
     }
 
     private void OnEnable()
@@ -387,14 +391,14 @@ public class CameraHandler : MonoBehaviour
             }
 
             //look X (optional)
-            if (!lockLookX && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
+            if (!lockLookY && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
             {
-                cameraXRotate.localEulerAngles += new Vector3(10f * -look.y * rotationSensetivity * Time.unscaledDeltaTime, 0, 0);
+                cameraXRotate.localEulerAngles += new Vector3(10f * look.y * rotationSensetivity * Time.unscaledDeltaTime, 0, 0);
 
                 //check if camera is near x limits
-                if (cameraXRotate.localEulerAngles.x > minMaxLookX.y && cameraXRotate.localEulerAngles.x < minMaxLookX.x)
+                if (cameraXRotate.localEulerAngles.x > minMaxLookY.y && cameraXRotate.localEulerAngles.x < minMaxLookY.x)
                 {
-                    float target = Mathf.Abs(minMaxLookX.y - cameraXRotate.localEulerAngles.x) > Mathf.Abs(minMaxLookX.x - cameraXRotate.localEulerAngles.x) ? minMaxLookX.x : minMaxLookX.y;
+                    float target = Mathf.Abs(minMaxLookY.y - cameraXRotate.localEulerAngles.x) > Mathf.Abs(minMaxLookY.x - cameraXRotate.localEulerAngles.x) ? minMaxLookY.x : minMaxLookY.y;
                     cameraXRotate.localEulerAngles = new Vector3(target, 0, 0);
                 }
             }
@@ -402,6 +406,7 @@ public class CameraHandler : MonoBehaviour
             //camera zoom alt
             if (_zoomAlt.IsPressed() && !_rotateAlt.IsPressed()) //if zoom is pressed and rotate isn't so that both aren't active at once
             {
+                Cursor.visible = false;
                 if (lockMouseWhileRotating)
                     Mouse.current.WarpCursorPosition(warpPosition);
 
@@ -472,6 +477,7 @@ public class CameraHandler : MonoBehaviour
         //camera rotation
         if (!lockControls && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
         {
+            Cursor.visible = false;
             if (lockMouseWhileRotating)
                 Mouse.current.WarpCursorPosition(warpPosition);
 
@@ -492,6 +498,9 @@ public class CameraHandler : MonoBehaviour
         //rotation drag
         else
         {
+            if (!_zoomAlt.IsPressed())
+                Cursor.visible = true;
+           
             _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
         }
     }
@@ -509,5 +518,15 @@ public class CameraHandler : MonoBehaviour
     public void UpdateZoomSense(System.Single newSense)
     {
         zoomSensetivity = newSense;
+    }
+
+    public void UpdateBorderMovement(bool canMove)
+    {
+        screenEdgeMoving = canMove;
+    }
+
+    public void UpdateLockMouseRotate(bool isLocked)
+    {
+        lockMouseWhileRotating = isLocked;
     }
 }

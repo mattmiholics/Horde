@@ -97,8 +97,8 @@ public static class TowerHelper
         if (td.placeBarriers)
             towerEditor.world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
 
-        td.proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
-        td.main.SetActive(true);
-        td.proxy.SetActive(false);
+        td.Proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
+        td.Main.SetActive(true);
+        td.Proxy.SetActive(false);
     }
 }

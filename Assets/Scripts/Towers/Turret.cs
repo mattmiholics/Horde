@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Turret : MonoBehaviour
 {
     private Transform target;
+
+    public UnityEvent fire;
 
     [Header("Attributes")]
 
@@ -71,6 +75,7 @@ public class Turret : MonoBehaviour
 
         if(fireReload <= 0)
         {
+            fire.Invoke();
             Shoot();
             fireReload = 1 / fireRate;
         }
@@ -81,11 +86,16 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
+        // Scene targetScene = SceneManager.GetSceneByName("Level01");
+        // if (targetScene.isLoaded)
+        // {
+        GameObject bulletParent = GameObject.Find("World/BulletParent");
+        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
+        // SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
         //If a new bullet script is created, update it here
-        Bullet bulletS = bulltObj.GetComponent<Bullet>();
-        CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
-        LBullet lBullet = bulltObj.GetComponent<LBullet>();
+        Bullet bulletS = bulletObj.GetComponent<Bullet>();
+        CannonBullet cBullet = bulletObj.GetComponent<CannonBullet>();
+        LBullet lBullet = bulletObj.GetComponent<LBullet>();
 
         if(bulletS != null)
         {
@@ -95,6 +105,7 @@ public class Turret : MonoBehaviour
         {
             cBullet.Seek(target, damage);
         }
+        // }
     }
 
     private void OnDrawGizmosSelected()

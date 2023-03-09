@@ -5,6 +5,11 @@ public class UnitSelections : MonoBehaviour
 {
     public List<GameObject> unitList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
+    [Space]
+    public Transform troopParent;
+    public Transform troopSelectionParent;
+    [Space]
+    public LayerMask troopLayer;
 
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
@@ -24,16 +29,33 @@ public class UnitSelections : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InvokeRepeating("CheckTroopSelection", 0f, .1f);
+    }
+
+    void CheckTroopSelection()
+    {
+        foreach (var unit in unitsSelected)
+        {
+            if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+            {
+                unit.transform.SetParent(troopSelectionParent);
+                unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+            }
+        }
+    }
+
     public void ClickSelect(GameObject unitToAdd)
     {
+        //Debug.Log("Clicked " + unitToAdd.name);
         DeselectAll();
         unitsSelected.Add(unitToAdd);
-        unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-        if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+
+        if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
         {
-            // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-            unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
-            PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+            unitToAdd.transform.SetParent(troopSelectionParent);
+            unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
         }
     }
 
@@ -42,23 +64,19 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+            if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
-                PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+                unitToAdd.transform.SetParent(troopSelectionParent);
+                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
             }
         }
         else
         {
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+            if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = false;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = false;
-                PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unitToAdd);
+                unitToAdd.transform.SetParent(troopParent);
+                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(false); 
             }
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
         }
     }
@@ -68,12 +86,13 @@ public class UnitSelections : MonoBehaviour
         if (!unitsSelected.Contains(unitToAdd))
         {
             unitsSelected.Add(unitToAdd);
-            unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            if (LayerMask.LayerToName(unitToAdd.gameObject.layer) == "Player")
+            foreach (var unit in unitsSelected)
             {
-                // unitToAdd.GetComponent<MovePlayer>().enabled = true;
-                unitToAdd.GetComponent<MovePlayerNew>().enabled = true;
-                PlayerUnitArmyNew.AddUnitToSelectedParent(unitToAdd);
+                 if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+                 {
+                    unit.transform.SetParent(troopSelectionParent);
+                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+                }
             }
         }
     }
@@ -84,21 +103,14 @@ public class UnitSelections : MonoBehaviour
         {
             foreach (var unit in unitsSelected)
             {
-                if (LayerMask.LayerToName(unit.gameObject.layer) == "Player")
+                if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                 {
-                    // unit.GetComponent<MovePlayer>().enabled = false;
-                    unit.GetComponent<MovePlayerNew>().enabled = false;
-                    PlayerUnitArmyNew.RemoveUnitFromSelectedParent(unit);
+                    unit.transform.SetParent(troopParent);
+                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(false);
                 }
-                unit.transform.GetChild(0).gameObject.SetActive(false);
             }
 
             unitsSelected.Clear();
         }
-    }
-
-    public void Deselect(GameObject unitToDeselect)
-    {
-        
     }
 }

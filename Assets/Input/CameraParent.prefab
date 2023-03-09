@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 668968358719689807}
   - component: {fileID: 668968358719689800}
-  - component: {fileID: 668968358719689806}
   m_Layer: 7
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -72,23 +71,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 668968358829219695}
---- !u!114 &668968358719689806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668968358719689801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FocusTracksTarget: 0
-  m_FocusTracking: 0
-  m_FocusTarget: {fileID: 0}
-  m_FocusOffset: 0
-  m_Profile: {fileID: 11400000, guid: c41a493c34f217d4fa10b12d341bea76, type: 2}
 --- !u!1 &668968358829219688
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,17 +269,17 @@ MonoBehaviour:
   cameraZoom: {fileID: 668968359478054577}
   lockControls: 0
   lockMouseWhileRotating: 1
-  lockLookX: 1
-  minMaxLookX: {x: 280, y: 80}
+  lockLookY: 1
+  minMaxLookY: {x: 0, y: 0}
   screenEdgeMoving: 0
   screenEdgeRatio: 0.02
   lockToWorldBorder: 1
   movementSensetivity: 2.5
   movementDrag: 16
   rotationSensetivity: 2.5
-  rotationDrag: 22
+  rotationDrag: 30
   zoomSensetivity: 2.5
-  zoomDrag: 18
+  zoomDrag: 40
   zoomMinMax: {x: 4, y: 30}
   clippingCollision:
     serializedVersion: 2
@@ -389,6 +371,7 @@ GameObject:
   - component: {fileID: 668968360050407456}
   - component: {fileID: 668968360050407461}
   - component: {fileID: 668968360050407460}
+  - component: {fileID: 155179933}
   m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -404,7 +387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668968360050407457}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000019073486}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -486,7 +469,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -529,6 +512,18 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &155179933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668968360050407457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42bd39797503dcd4d8381386d36abdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6992704885883537816
 GameObject:
   m_ObjectHideFlags: 0

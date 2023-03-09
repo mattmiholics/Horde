@@ -26,7 +26,7 @@ public class NavMeshObstacleController : MonoBehaviour
         {
             if (towerData != null && towerData.TryGetComponent<NavMeshObstacle>(out NavMeshObstacle nmo))
             {
-                if (!towerData.proxy.activeSelf)
+                if (!towerData.Proxy.activeSelf)
                     nmo.enabled = true;
                 else
                     nmo.enabled = false;

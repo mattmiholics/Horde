@@ -137,18 +137,21 @@ public class MoveEnemy : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(playerObject);
+        Debug.Log("Attack Player 1");
 
         if (!alreadyAttacked)
         {
             //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
             //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            Debug.Log("Attack Player 2");
 
             GameObject bulletObj = (GameObject)Instantiate(projectile, firePoint.position, firePoint.rotation);
             Bullet bulletS = bulletObj.GetComponent<Bullet>();
             
             if(bulletS != null)
             {
+                Debug.Log("Attack Player 3");
                 bulletS.Seek(playerObject, 50);
             }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(World))]
@@ -48,6 +49,13 @@ public class TerrainEditor : MonoBehaviour
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string removeControl;
     private InputAction _remove;
 
+    [FoldoutGroup("Events")]
+    public UnityEvent terrainPlaced;
+    [FoldoutGroup("Events")]
+    public UnityEvent terrainRemoved;
+    [FoldoutGroup("Events")]
+    public UnityEvent unableToEdit;
+
     [HideInInspector]
     public World world;
     [HideInInspector]
@@ -74,6 +82,23 @@ public class TerrainEditor : MonoBehaviour
             _instance = this;
         }
 
+        if (CameraHandler.Instance != null)
+            DelayedStart();
+    }
+
+    private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
+    }
+
+    private void DelayedStart()
+    {
         _playerInput = CameraHandler.Instance.playerInput;
 
         _click = _playerInput.actions[clickControl];
@@ -82,8 +107,8 @@ public class TerrainEditor : MonoBehaviour
         placeProxy.transform.position = Vector3.zero;
         removeProxy.transform.position = Vector3.zero;
 
-        placeProxyColor = placeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
-        removeProxyColor = removeProxy.GetComponent<Renderer>().material.GetColor("_EmissionColor");
+        placeProxyColor = placeProxy.GetComponent<Renderer>().material.GetColor("_Wireframe_Color");
+        removeProxyColor = removeProxy.GetComponent<Renderer>().material.GetColor("_Wireframe_Color");
 
         placeProxy.SetActive(false);
         removeProxy.SetActive(false);
@@ -93,8 +118,7 @@ public class TerrainEditor : MonoBehaviour
 
     public void ModifyTerrain(RaycastHit hit, BlockType blockType = BlockType.Air, bool place = false)
     {
-        if (world.GetBlock(hit, place) != BlockType.Bedrock)
-            world.SetBlock(hit, blockType, place);
+        world.SetBlock(hit, blockType, place);
     }
 
     public void ModifyModifiabilityEditor(RaycastHit hit, bool unlock)
@@ -128,6 +152,9 @@ public class TerrainEditor : MonoBehaviour
         {
             _playerInput.actions.FindActionMap(editingActionMap, true).Disable();
         }
+
+        placeProxy.SetActive(false);
+        removeProxy.SetActive(false);
     }
 
     private IEnumerator Editing()
@@ -151,11 +178,11 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit);
                         removeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //removed
-                        {
-                            StartCoroutine(PlacingTerrain(hit, BlockType.Air));
-                            
-                        }
+                        if (_click.WasPerformedThisFrame()) //removed
+                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
+                                StartCoroutine(PlacingTerrain(hit, BlockType.Air));
+                            else
+                                UnableToEdit();
                     }
                     else
                     {
@@ -165,10 +192,11 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit, true);
                         placeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame() && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money) //placed
-                        {
-                            StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
-                        }
+                        if (_click.WasPerformedThisFrame()) //placed
+                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
+                                StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
+                            else
+                                UnableToEdit();
                     }
                 }
                 else
@@ -188,45 +216,58 @@ public class TerrainEditor : MonoBehaviour
         //fill with dummy
         BlockType origional = world.GetBlock(hit, place);
         Vector3Int blockPos = Vector3Int.RoundToInt(world.GetBlockPos(hit, place));
+        BlockType blockAbove = WorldDataHelper.GetBlock(world, blockPos + Vector3Int.up);
 
         if (world.IsBlockModifiable(blockPos) && !blockModifyBlacklist.Contains(world.GetBlock(hit, place)) //check if column is modifiable, if its not in the blacklist,
-            && (place || WorldDataHelper.GetBlock(world, blockPos + Vector3Int.up) != BlockType.Barrier))   //and not destroying blocks below towers (barriers)
+            && (place || (blockAbove != BlockType.Barrier && blockAbove != BlockType.Soft_Barrier)))   //and not destroying blocks below towers (barriers)
         {
-            ModifyTerrain(hit, BlockType.Barrier, place);
+            yield return null;
+            ModifyTerrain(hit, blockType, place);
+            //remove money from player
+            PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
+            if (place)
+                terrainPlaced?.Invoke();
+            else
+                terrainRemoved?.Invoke();
+
+            //Debug.Log();
+            /*ModifyTerrain(hit, BlockType.Barrier, place);
             yield return 1;
 
             //check if path valid
             bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
 
             //spawn tower
-            if (pathValid && Mathf.RoundToInt(cost * costMultiplier) <= PlayerStats.Instance.money)
+            if (pathValid && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
             {
                 ModifyTerrain(hit, blockType, place);
 
                 //remove money from player
-                PlayerStats.Instance.money -= Mathf.RoundToInt(cost * costMultiplier); //update money
+                PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
             }
             else //otherwise remove barriers
             {
                 ModifyTerrain(hit, origional, place);
-                if (unableToPlaceCoroutine != null)
-                    StopCoroutine(unableToPlaceCoroutine);
-                unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
-                if (unableToRemoveCoroutine != null)
-                    StopCoroutine(unableToRemoveCoroutine);
-                unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
-            }
+                UnableToEdit();
+            }*/
         }
         else
         {
-            if (unableToPlaceCoroutine != null)
-                StopCoroutine(unableToPlaceCoroutine);
-            unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
-            if (unableToRemoveCoroutine != null)
-                StopCoroutine(unableToRemoveCoroutine);
-            unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
+            UnableToEdit();
         }
         yield return null;
+    }
+
+    public void UnableToEdit()
+    {
+        unableToEdit?.Invoke();
+
+        if (unableToPlaceCoroutine != null)
+            StopCoroutine(unableToPlaceCoroutine);
+        unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(placeProxy, placeProxyColor));
+        if (unableToRemoveCoroutine != null)
+            StopCoroutine(unableToRemoveCoroutine);
+        unableToRemoveCoroutine = StartCoroutine(UnableToEditAnimation(removeProxy, removeProxyColor));
     }
 
     private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
@@ -237,15 +278,13 @@ public class TerrainEditor : MonoBehaviour
 
         while (currentTime <= 0.5f)
         {
-            r.material.SetColor("_EmissionColor", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
+            r.material.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f));
 
             currentTime += Time.deltaTime;
 
             yield return null;
         }
 
-        r.material.SetColor("_EmissionColor", origColor);
-
-
+        r.material.SetColor("_Wireframe_Color", origColor);
     }
 }

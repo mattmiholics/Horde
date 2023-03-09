@@ -241,12 +241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
+  id: 5
   editable: 0
   placeBarriers: 1
+  upgradeUI: {fileID: 0}
+  infoText: {fileID: 0}
   cost: 300
-  costToLvl: 350
-  lvl: 1
+  level: 1
   type: Main Hall
   size: {x: 3, y: 2, z: 3}
   useChecker: 0
@@ -254,13 +255,11 @@ MonoBehaviour:
   checkerSize: {x: 0, y: 0, z: 0}
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
-  main: {fileID: 6661419162092861471}
-  proxy: {fileID: 8742794837594873176}
-  lvl2Main: {fileID: 0}
-  lvl2Proxy: {fileID: 0}
-  lvl3Main: {fileID: 0}
-  lvl3Proxy: {fileID: 0}
   showGizmo: 0
+  upgradeDataList:
+  - main: {fileID: 6661419162092861471}
+    proxy: {fileID: 8742794837594873176}
+    costToLvl: 0
 --- !u!114 &138547339522853192
 MonoBehaviour:
   m_ObjectHideFlags: 0

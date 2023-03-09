@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class MoneyUI : MonoBehaviour
 {
-    public Text moneyText;
-
+    private TextMeshProUGUI money;
+    private void Start()
+    {
+        money = GetComponent<TextMeshProUGUI>();
+    }
     // Update is called once per frame
     void Update()
     {
         if (PlayerStats.Instance != null)
-            moneyText.text = "$" + PlayerStats.Instance.money.ToString();
+            money.text = "$" + PlayerStats.Instance.money.ToString("n0");
     }
 }

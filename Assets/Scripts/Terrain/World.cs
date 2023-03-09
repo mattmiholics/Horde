@@ -306,7 +306,7 @@ public class World : MonoBehaviour
 
     }
 
-    internal bool IsBlockModifiable(Vector3Int blockWorldPos)
+    public bool IsBlockModifiable(Vector3Int blockWorldPos)
     {
         Vector3Int pos = Chunk.ChunkPositionFromBlockCoords(this, blockWorldPos.x, blockWorldPos.y, blockWorldPos.z);
         ChunkData containerChunk = null;
@@ -326,7 +326,7 @@ public class World : MonoBehaviour
             return false;
     }
 
-    internal BlockType GetBlock(RaycastHit hit, bool place = false)
+    public BlockType GetBlock(RaycastHit hit, bool place = false)
     {
         ChunkRenderer chunk = hit.collider.GetComponent<ChunkRenderer>();
         if (chunk == null)
@@ -361,7 +361,7 @@ public class World : MonoBehaviour
         return true;
     }
 
-    internal bool SetBlock(RaycastHit hit, BlockType blockType, bool place = false)
+    public bool SetBlock(RaycastHit hit, BlockType blockType, bool place = false)
     {
         HashSet<ChunkRenderer> updateChunks = new HashSet<ChunkRenderer>();
 
@@ -571,15 +571,15 @@ public class World : MonoBehaviour
         public List<Vector3Int> chunkPositionsToUpdate;
     }
 
-    public Vector3Int GetSurfaceHeightPosition(Vector2 nearestXZ)
+    public Vector3Int GetSurfaceHeightPosition(Vector3 nearestVector, bool searchBelow = false)
     {
-        Vector3Int blockPos = new Vector3Int(Mathf.RoundToInt(nearestXZ.x), 0, Mathf.RoundToInt(nearestXZ.y));
-        for (int i = chunkHeight - 1; i > 0; i--)
+        Vector3Int blockPos = Vector3Int.RoundToInt(nearestVector);
+        for (int i = (searchBelow ? blockPos.y : chunkHeight - 1); i > 0; i--)
         {
-            BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.y);
-            if (block != BlockType.Nothing && block != BlockType.Air)
+            BlockType block = GetBlockFromChunkCoordinates(null, blockPos.x, i, blockPos.z);
+            if (block != BlockType.Nothing && block != BlockType.Air && block != BlockType.Soft_Barrier)
             {
-                blockPos.y = i;
+                blockPos.y = i + 1;
                 break;
             }
         }

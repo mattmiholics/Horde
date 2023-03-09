@@ -32,14 +32,29 @@ public class SceneInitialize : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+
+        if (CameraHandler.Instance != null)
+            DelayedStart();
+    }
+
+    private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
     }
     // Start is called before the first frame update
-    void Start()
+    void DelayedStart()
     {
         //camera
         CameraHandler cameraHandler = CameraHandler.Instance;
         cameraHandler.transform.position = cameraStartPosition;
-        cameraHandler.transform.localEulerAngles = cameraStartEulerRotation;
+        cameraHandler.cameraYRotate.localEulerAngles = new Vector3(0, cameraStartEulerRotation.y, 0);
+        cameraHandler.cameraXRotate.localEulerAngles = new Vector3(cameraStartEulerRotation.x, 0, 0);
         cameraHandler.cameraZoom.transform.position = new Vector3(0, 0, cameraZoom);
         cameraHandler.lockControls = cameraLockControls;
 

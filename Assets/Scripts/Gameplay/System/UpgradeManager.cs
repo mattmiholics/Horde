@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 
 public class UpgradeManager : MonoBehaviour
 {
-    public GameObject upgradeMenu;
-    public GameObject infoText;
+    private GameObject upgradeMenu;
+    private GameObject infoText;
     private int cost;
     private int lvl;
     private string turretType;
     private GameObject target;
+
+    private bool active = false;
 
     [Header("Controls")]
     private PlayerInput _playerInput;
@@ -20,6 +22,9 @@ public class UpgradeManager : MonoBehaviour
 
     private static UpgradeManager _instance;
     public LayerMask towerMask;
+
+    TowerData towerDataHovered;
+    TowerData towerDataSelected;
 
     public static UpgradeManager Instance { get { return _instance; } }
 
@@ -30,6 +35,7 @@ public class UpgradeManager : MonoBehaviour
         {
             // We destroy this instance
             Destroy(this.gameObject);
+            Debug.Log("destroyed");
         }
         else
         {
@@ -56,20 +62,68 @@ public class UpgradeManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
 
+
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
+            if (active == true && upgradeMenu != null)
+            {
+                upgradeMenu.SetActive(false);
+            }
+            active = true;
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
     }
 
-    public void GetInfo(int cost, GameObject target, int currentLevel, string turretType)
+    private void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+
+
+        if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
+        {
+            TowerData td = hit.transform.GetComponentInParent<TowerData>();
+
+            if (td != towerDataHovered)
+            {
+                if (towerDataHovered)
+                {
+                    towerDataHovered.Proxy.SetActive(false);
+                    towerDataHovered.Main.SetActive(true);
+                }
+
+                towerDataHovered = td;
+
+                towerDataHovered.Proxy.SetActive(true);
+                towerDataHovered.Main.SetActive(false);
+            }
+        }
+        else if (towerDataHovered)
+        {
+            towerDataHovered.Proxy.SetActive(false);
+            towerDataHovered.Main.SetActive(true);
+
+            towerDataHovered = null;
+        }
+    }
+
+    public void GetInfo(int cost, GameObject target, int currentLevel, string turretType, GameObject upgradeMenu, GameObject infoText)
     {
         this.cost = cost;
         this.lvl = currentLevel;
         this.turretType = turretType;
         this.target = target;
+        this.upgradeMenu = upgradeMenu;
+        this.infoText = infoText;
         UpdateInfo();
     }
+
+    /* 
+    public void SetPosition(Vector3 newPos)
+    {
+        Vector3 updatedPos = new Vector3(newPos.x, newPos.y + 80, newPos.z);
+        upgradeMenu.transform.position = updatedPos;
+    } */
 
     private void UpdateInfo()
     {
@@ -89,6 +143,7 @@ public class UpgradeManager : MonoBehaviour
     public void Cancel()
     {
         upgradeMenu.SetActive(false);
+        this.active = false;
     }
 
 }

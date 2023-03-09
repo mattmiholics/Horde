@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class LivesUI : MonoBehaviour
 {
-
-    public Text livesText;
-
+    private TextMeshProUGUI lives;
+    private void Start()
+    {
+        lives = GetComponent<TextMeshProUGUI>();
+    }
     // Update is called once per frame
     void Update()
     {
         if (PlayerStats.Instance != null)
-            livesText.text = PlayerStats.Instance.lives + " LIVES";
+            lives.text = string.Format("{0}", PlayerStats.Instance.lives);
     }
 }
