@@ -1,3 +1,4 @@
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class TroopPathfinding : MonoBehaviour
 
     [Header("Navigation Pathfinding")]
     public Agent agent;
+    public string staticLayer = "Troop";
+    public string activeLayer = "Troop Ignore";
     // public LayerMask ground;
 
     private PlayerInput _playerInput;
@@ -55,11 +58,29 @@ public class TroopPathfinding : MonoBehaviour
     private void OnEnable()
     {
         _destination.performed += OnRightClick;
+        agent.startMovingEvent += StartMoving;
+        agent.stopMovingEvent += StopMoving;
     }
 
     private void OnDisable()
     {
         _destination.performed -= OnRightClick;
+        agent.startMovingEvent -= StartMoving;
+        agent.stopMovingEvent -= StopMoving;
+    }
+
+    private void StartMoving()
+    {
+        agent.rigidbody.isKinematic = false;
+
+        transform.GetComponentsInChildren<Collider>().ForEach(c => c.gameObject.layer = LayerMask.NameToLayer(activeLayer));
+    }
+
+    private void StopMoving()
+    {
+        agent.rigidbody.isKinematic = true;
+
+        transform.GetComponentsInChildren<Collider>().ForEach(c => c.gameObject.layer = LayerMask.NameToLayer(staticLayer));
     }
 
     private void OnRightClick(InputAction.CallbackContext context)
@@ -72,7 +93,7 @@ public class TroopPathfinding : MonoBehaviour
             if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, agent.groundLayer) && World.Instance != null) // If the raycast doesn't hit a wall
             {
                 target = World.Instance.GetBlockPos(hit, true); // Move the target to the mouse position
-                agent.SetTarget(target, 500);
+                UnitSelections.Instance.FindNearestAvailiablePosition(agent, target);
                 isMoving = true;
             }
         }

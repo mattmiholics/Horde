@@ -13,7 +13,7 @@ public class Agent : SerializedMonoBehaviour
     public event Action startMovingEvent;
     public event Action stopMovingEvent;
 
-    public Rigidbody rigidbody;
+    new public Rigidbody rigidbody;
     public LayerMask groundLayer;
     public SPathFinderType type;
 
@@ -44,7 +44,8 @@ public class Agent : SerializedMonoBehaviour
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
 
-    private Vector3 currentTarget;
+    [HideInInspector]
+    public Vector3 currentTarget;
     private int latestMaxNodes;
 
     private Coroutine followPathCoroutine;

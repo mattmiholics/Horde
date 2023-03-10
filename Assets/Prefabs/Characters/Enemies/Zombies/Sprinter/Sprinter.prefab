@@ -273,7 +273,7 @@ MonoBehaviour:
   agent: {fileID: 837431314311637102}
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   sightRange: 10
   attackRange: 2
   playerInSightRange: 0
