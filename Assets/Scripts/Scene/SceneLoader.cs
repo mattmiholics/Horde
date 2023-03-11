@@ -49,7 +49,7 @@ public class SceneLoader : MonoBehaviour
     {
         scenesLoading = new List<AsyncOperation>();
 
-        Load(startingScene);
+        LoadWorldScene(startingScene);
     }
 
     public void LoadMultiple(List<string> scenes, bool unloadCurrent = false)
