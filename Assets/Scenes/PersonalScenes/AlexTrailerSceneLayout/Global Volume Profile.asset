@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   color:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.34
+    m_Value: 0.384
   smoothness:
     m_OverrideState: 1
     m_Value: 0.351
@@ -87,6 +87,8 @@ MonoBehaviour:
   - {fileID: 1785644811188393376}
   - {fileID: -1063357913775263443}
   - {fileID: 3298652467225186581}
+  - {fileID: 914036779241921340}
+  - {fileID: 4387553946980359537}
 --- !u!114 &690590504518470517
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -133,6 +135,127 @@ MonoBehaviour:
   bladeRotation:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &914036779241921340
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74483714bbf784b45b0c9c7c76035dd8, type: 3}
+  m_Name: Fog
+  m_EditorClassIdentifier: 
+  active: 1
+  useSceneSettings:
+    m_OverrideState: 0
+    m_Value: 0
+  fogMode:
+    m_OverrideState: 1
+    m_Value: 2
+  globalDensity:
+    m_OverrideState: 1
+    m_Value: 0.396
+  fogStartDistance:
+    m_OverrideState: 1
+    m_Value: 4.72
+  fogEndDistance:
+    m_OverrideState: 0
+    m_Value: 600
+  colorSource:
+    m_OverrideState: 0
+    m_Value: 0
+  skyboxMipLevel:
+    m_OverrideState: 0
+    m_Value: 0
+  fogColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.34006143, g: 0.32395872, b: 1.0566038, a: 1}
+  fogColorGradient:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  gradientDistance:
+    m_OverrideState: 0
+    m_Value: 1000
+  gradientUseFarClipPlane:
+    m_OverrideState: 0
+    m_Value: 1
+  distanceFog:
+    m_OverrideState: 0
+    m_Value: 1
+  distanceDensity:
+    m_OverrideState: 0
+    m_Value: 1
+  useRadialDistance:
+    m_OverrideState: 0
+    m_Value: 1
+  skyboxInfluence:
+    m_OverrideState: 0
+    m_Value: 0
+  enableDirectionalLight:
+    m_OverrideState: 0
+    m_Value: 0
+  useLightDirection:
+    m_OverrideState: 0
+    m_Value: 1
+  useLightColor:
+    m_OverrideState: 0
+    m_Value: 1
+  useLightIntensity:
+    m_OverrideState: 0
+    m_Value: 1
+  lightColor:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 0.89, b: 0.55, a: 1}
+  lightDirection:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0.5, z: -1}
+  lightIntensity:
+    m_OverrideState: 0
+    m_Value: 1
+  heightFog:
+    m_OverrideState: 0
+    m_Value: 1
+  height:
+    m_OverrideState: 0
+    m_Value: 10
+  heightDensity:
+    m_OverrideState: 0
+    m_Value: 0.75
+  heightFogNoise:
+    m_OverrideState: 0
+    m_Value: 1
+  heightNoiseTex:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 82a8d5f38e2ccf44c86362214b2d3e5e, type: 3}
+    dimension: 1
+  heightNoiseSize:
+    m_OverrideState: 0
+    m_Value: 0.25
+  heightNoiseStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  heightNoiseSpeed:
+    m_OverrideState: 0
+    m_Value: 2
+  lightScattering:
+    m_OverrideState: 0
+    m_Value: 0
+  scatterIntensity:
+    m_OverrideState: 0
+    m_Value: 10
+  scatterThreshold:
+    m_OverrideState: 0
+    m_Value: 1
+  scatterDiffusion:
+    m_OverrideState: 0
+    m_Value: 10
+  scatterSoftKnee:
+    m_OverrideState: 0
+    m_Value: 0.5
+  shader: {fileID: 4800000, guid: 8080b34b2281e8945a5ddfe687d717fb, type: 3}
 --- !u!114 &1785644811188393376
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -148,7 +271,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.829
+    m_Value: 0.265
 --- !u!114 &3298652467225186581
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -164,7 +287,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: -0.25
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -175,5 +298,39 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   scale:
+    m_OverrideState: 0
+    m_Value: 1
+--- !u!114 &4387553946980359537
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.44071355}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.7646436, z: 0.74744624, w: 0.22035679}
+  highlights:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  shadowsStart:
+    m_OverrideState: 0
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+  highlightsEnd:
     m_OverrideState: 0
     m_Value: 1
