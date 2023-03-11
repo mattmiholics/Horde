@@ -6,18 +6,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using Cinemachine;
 
 public class CameraHandler : MonoBehaviour
 {
     public static event Action SingletonInstanced;
 
     public Camera cineCamera;
+    public CinemachineVirtualCamera cineVC;
     public Transform cameraParent;
     public Transform cameraYRotate;
     public Transform cameraXRotate;
     public Transform cameraZoom;
     [Space]
     public bool lockControls = false;
+    public bool lockZoomCollision = false;
     [Space]
     public bool lockMouseWhileRotating = true;
     public bool lockLookY = true;
@@ -190,8 +193,10 @@ public class CameraHandler : MonoBehaviour
     private Rigidbody _rigidbodyParent;
     private Rigidbody _rigidbodyYRotate;
     private Vector2 warpPosition;
-    private float zoomPosZ;
-    private float zoomTarget;
+    [HideInInspector]
+    public float zoomPosZ;
+    [HideInInspector]
+    public float zoomTarget;
     private float zoomTime;
     [Space]
     [Header("Debug")]
@@ -431,7 +436,7 @@ public class CameraHandler : MonoBehaviour
 
         Vector3 GetFurthestPoint(Vector3 start, Vector3 dir, float distance)
         {
-            if (Physics.Raycast(start, dir, out RaycastHit hit, distance, clippingCollision))
+            if (Physics.Raycast(start, dir, out RaycastHit hit, distance, clippingCollision) && !lockZoomCollision)
             {
                 Vector3 point = hit.point + (dir.normalized * 0.01f);
                 return GetFurthestPoint(point, dir, distance - Vector3.Distance(start, point));

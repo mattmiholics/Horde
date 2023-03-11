@@ -164,11 +164,20 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 0, y: 0.25, z: 0}
+      - m_Value: {x: 0, y: 0, z: 0}
         m_Name: Offset_position
         m_Overridden: 1
+      - m_Value: {x: 0, y: 0, z: 0}
+        m_Name: BoundsCenter
+        m_Overridden: 1
+      - m_Value: {x: 0, y: 0, z: 0}
+        m_Name: BoundsSize
+        m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0.06586116, y: 0.4665165, z: 0, w: 0}
+        m_Name: Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -180,7 +189,16 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: 65fb95bb642720745b6b969b6329176d, type: 3}
+        m_Name: Texture
+        m_Overridden: 1
+      - m_Value: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+        m_Name: ParticleMesh
+        m_Overridden: 1
+      - m_Value: {fileID: 0}
+        m_Name: Mesh
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!73398921 &2026649254419424936

@@ -168,6 +168,8 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1;
         loading = false;
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentScene));
+
         SceneLoaded?.Invoke();
 
         yield return null;

@@ -9,8 +9,11 @@ public class SceneInitialize : MonoBehaviour
     public Vector3 cameraStartPosition;
     [Tooltip("this should be 0")]
     public Vector3 cameraStartEulerRotation;
-    public float cameraZoom = -18f;
+    public float cameraZoom = 18f;
+    [Min(0)]
+    public float cameraFOV = 60;
     public bool cameraLockControls;
+    public bool cameraLockZoomCollision;
 
     [Space]
     public List<string> activeUI;
@@ -52,10 +55,15 @@ public class SceneInitialize : MonoBehaviour
     {
         //camera
         CameraHandler cameraHandler = CameraHandler.Instance;
+        cameraHandler.lockZoomCollision = cameraLockZoomCollision;
         cameraHandler.transform.position = cameraStartPosition;
         cameraHandler.cameraYRotate.localEulerAngles = new Vector3(0, cameraStartEulerRotation.y, 0);
         cameraHandler.cameraXRotate.localEulerAngles = new Vector3(cameraStartEulerRotation.x, 0, 0);
-        cameraHandler.cameraZoom.transform.position = new Vector3(0, 0, cameraZoom);
+        cameraHandler.cameraZoom.transform.localEulerAngles = new Vector3(0, 180, cameraStartEulerRotation.z);
+        cameraHandler.cameraZoom.transform.localPosition = new Vector3(0, 0, cameraZoom);
+        cameraHandler.zoomPosZ = cameraZoom;
+        cameraHandler.zoomTarget = cameraZoom;
+        cameraHandler.cineVC.m_Lens.FieldOfView = cameraFOV;
         cameraHandler.lockControls = cameraLockControls;
 
         //ui

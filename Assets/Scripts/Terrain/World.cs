@@ -28,6 +28,10 @@ public class World : MonoBehaviour
     public BlockDataManager blockDataManager;
     [Space]
     public GameObject chunkPrefab;
+    [ColorUsage(true, true)]
+    public Color chunkVFXColor = Color.white;
+    public Mesh chunkVFXMesh;
+    public Texture2D chunkVFXTexture;
     public WorldRenderer worldRenderer;
     [Space]
     public TerrainGenerator terrainGenerator;

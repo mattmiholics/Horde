@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.457
+    m_Value: 0.384
   smoothness:
     m_OverrideState: 1
     m_Value: 0.253
@@ -196,10 +196,10 @@ MonoBehaviour:
     m_Value: 1
   startFadeDistance:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -99.6
   endFadeDistance:
     m_OverrideState: 1
-    m_Value: 18.78
+    m_Value: 68.22
   sensitivityDepth:
     m_OverrideState: 1
     m_Value: 1
