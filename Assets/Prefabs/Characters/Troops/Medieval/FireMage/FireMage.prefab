@@ -144,7 +144,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: 3313f54ef3fe30b4b80f0dd33e055a02, type: 3}
+  bullet: {fileID: 8952111980692290676, guid: e9e03a27246631b449414cec3729a3d2, type: 3}
   firePoint: {fileID: 8641179442993172763}
   animator: {fileID: 0}
   areaDamageRadius: 5
@@ -168,6 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   agent: {fileID: 8848749969187139269}
+  staticLayer: Troop
+  activeLayer: Troop Ignore
   destinationControl: Unit/Destination
   isSelected: {fileID: 7353907759549336582}
 --- !u!114 &8848749969187139269
@@ -273,6 +275,7 @@ MonoBehaviour:
   jump:
     m_PersistentCalls:
       m_Calls: []
+  currentTarget: {x: 0, y: 0, z: 0}
 --- !u!54 &7095033502759651454
 Rigidbody:
   m_ObjectHideFlags: 0
