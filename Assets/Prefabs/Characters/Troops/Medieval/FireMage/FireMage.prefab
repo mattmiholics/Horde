@@ -121,10 +121,10 @@ MonoBehaviour:
   canAttack: 0
   health: 100
   attackCooldown: 1
-  range: 50
+  range: 15
   damage: 45
   isRanged: 1
-  bullet: {fileID: 8952111980692290676, guid: e9e03a27246631b449414cec3729a3d2, type: 3}
+  bullet: {fileID: 8952111980692290676, guid: 3313f54ef3fe30b4b80f0dd33e055a02, type: 3}
   firePoint: {fileID: 8641179442993172763}
   healthBar: {fileID: 4705668166271882760}
   damageNumberGradient:

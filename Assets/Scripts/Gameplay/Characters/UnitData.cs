@@ -53,7 +53,7 @@ public class UnitData : MonoBehaviour
         // Debug.Log("Start Health: " + startHealth);
     }
 
-    private IEnumerator AttackCooldown(float cooldown)
+    protected IEnumerator AttackCooldown(float cooldown)
     {
         canAttack = false;
         if (debug)
