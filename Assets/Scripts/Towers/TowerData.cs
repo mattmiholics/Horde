@@ -47,11 +47,11 @@ public class TowerData : MonoBehaviour
     public GameObject Main => upgradeDataList.ElementAtOrDefault(level - 1).main;
     [HideInInspector]
     public GameObject Proxy => upgradeDataList.ElementAtOrDefault(level - 1).proxy;
-    [HideInInspector]
-    public GameObject Highlight => upgradeDataList.ElementAtOrDefault(level - 1).hightlight;
 
     [Space]
     public bool showGizmo;
+
+    public bool isRealTower = false;
 
     private static TowerData _instance;
     public static TowerData Instance { get { return _instance; } }
@@ -68,8 +68,6 @@ public class TowerData : MonoBehaviour
         public GameObject main;
         [Required]
         public GameObject proxy;
-        [Required]
-        public GameObject hightlight;
         [MinValue(0)]
         public int costToLvl;
     }
