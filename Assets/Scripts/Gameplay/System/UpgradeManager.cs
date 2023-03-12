@@ -65,12 +65,48 @@ public class UpgradeManager : MonoBehaviour
 
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
-            if (active == true && upgradeMenu != null)
+            TowerData td = hit.transform.parent.GetComponent<TowerData>();
+            if (td.isRealTower)
             {
-                upgradeMenu.SetActive(false);
+                if (active == true && upgradeMenu != null)
+                {
+                    upgradeMenu.SetActive(false);
+                }
+                active = true;
+
+                if (td != towerDataSelected)
+                {
+                    if (towerDataSelected)
+                    {
+                        if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline tdoutline))
+                        {
+                            tdoutline.OutlineColor = Color.blue;
+                            tdoutline.enabled = false;
+
+                        }
+                    }
+
+                    towerDataSelected = td;
+
+                    if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline outline))
+                    {
+                        outline.OutlineColor = Color.yellow;
+                        outline.enabled = true;
+                    }
+                }
             }
-            active = true;
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
+        }
+        else if (towerDataSelected)
+        {
+            if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline outline))
+            {
+                outline.OutlineColor = Color.blue;
+                outline.enabled = false;
+                
+            }
+
+            towerDataSelected = null;
         }
     }
 
@@ -87,7 +123,7 @@ public class UpgradeManager : MonoBehaviour
             {
                 if (td != towerDataHovered)
                 {
-                    if (towerDataHovered)
+                    if (towerDataHovered && towerDataHovered != towerDataSelected)
                     {
                         if (towerDataHovered.Main.TryGetComponent<Outline>(out Outline tdoutline))
                         {
@@ -99,12 +135,13 @@ public class UpgradeManager : MonoBehaviour
 
                     if (towerDataHovered.Main.TryGetComponent<Outline>(out Outline outline))
                     {
+                        outline.OutlineColor = Color.blue;
                         outline.enabled = true;
                     }
                 }
             }
         }
-        else if (towerDataHovered)
+        else if (towerDataHovered && towerDataHovered != towerDataSelected)
         {
             if (towerDataHovered.Main.TryGetComponent<Outline>(out Outline outline))
             {
