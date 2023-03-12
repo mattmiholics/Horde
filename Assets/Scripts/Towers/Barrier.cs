@@ -17,42 +17,34 @@ public class Barrier : MonoBehaviour
     [SerializeField]
     private GameObject barrierTower;
     [SerializeField]
-    private float health;
+    private float hitPoints;
     [SerializeField]
-    private string enemyTag = "Enemy";
+    private LayerMask enemyLayer;
     [FoldoutGroup("Events")]
-    public UnityEvent takeDamage;
+    public UnityEvent Hit;
     [Header("Graphic Info")]
     public Image healthBar;
-    public GameObject damageNumberPrefab;
 
     GameObject enemyObj;
     float enemyOriginalSpeed;
-    float delayTime;
-    float currentTime;
+    public float delayTime;
+    [ReadOnly]
+    public float currentTime;
     private List<Agent> agentList;
-    bool enemyTriggered;
+
+    private float startHitPoints;
 
     void Start()
     {
-        delayTime = 1f;
+        //delayTime = 1f;
         currentTime = delayTime;
-        enemyTriggered = false;
         agentList = new List<Agent>();
-        InvokeRepeating("CheckHealth", 0f, 0.1f);
-    }
-
-    private void CheckHealth()
-    {
-        if (this.health <= 0)
-        {
-            TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
-        }
+        startHitPoints = hitPoints;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == enemyTag)
+        if (enemyLayer == (enemyLayer | (1 << other.gameObject.layer)))
         {
             Agent agent = other.GetComponentInParent<Agent>();
             agent.movementMultiplier = 0f;
@@ -68,17 +60,24 @@ public class Barrier : MonoBehaviour
     private void OnTriggerStay(Collider other) 
     {
         currentTime -= Time.deltaTime;
-        if (other.tag == enemyTag && currentTime <= 0)
+        if (currentTime <= 0 && enemyLayer == (enemyLayer | (1 << other.gameObject.layer)))
         {
-            // TakeDamage();
-            takeDamage.Invoke();
+            TakeDamage();
+            Hit.Invoke();
             currentTime = delayTime;
         }
     }
 
     public void TakeDamage()
     {
-        health--;
+        hitPoints--;
+
+        healthBar.fillAmount = hitPoints / startHitPoints;
+
+        if (this.hitPoints <= 0)
+        {
+            TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
+        }
         // Debug.Log("Health: " + health);
     }
 }
