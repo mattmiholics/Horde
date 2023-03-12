@@ -16,7 +16,7 @@ public class FireMageTroopLogic : TroopData
             
             if(bulletS != null)
             {
-                bulletS.Seek(unitData.transform, 50);
+                bulletS.Seek(unitData.transform, damage);
             }
         }
         else
