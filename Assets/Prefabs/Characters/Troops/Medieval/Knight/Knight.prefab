@@ -97,37 +97,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e775acb596be8cd4ca220599318d145d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  drawGizmos: 0
+  canAttack: 0
   health: 200
-  healthBar: {fileID: 4934916599125484636}
-  attack:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6249156926950846349}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack
-          m_BoolArgument: 0
-        m_CallState: 2
-  death:
-    m_PersistentCalls:
-      m_Calls: []
-  fireRate: 1
-  fireReload: 0
+  attackCooldown: 1
   range: 2
   damage: 50
+  isRanged: 0
+  bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
+  firePoint: {fileID: 8641179442993172763}
+  healthBar: {fileID: 4934916599125484636}
+  damageNumberPrefab: {fileID: 3267922150389774706, guid: f5fa6a0c262a99d4296e5ed943f0ca32, type: 3}
+  Attacking:
+    m_PersistentCalls:
+      m_Calls: []
+  Hit:
+    m_PersistentCalls:
+      m_Calls: []
+  Death:
+    m_PersistentCalls:
+      m_Calls: []
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
-  rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
-  firePoint: {fileID: 8641179442993172763}
-  animator: {fileID: 0}
 --- !u!114 &8214865385678677783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   agent: {fileID: 1610462467375168580}
+  staticLayer: Troop
+  activeLayer: Troop Ignore
   destinationControl: Unit/Destination
   isSelected: {fileID: 7353907759549336582}
 --- !u!114 &1610462467375168580
@@ -247,6 +242,7 @@ MonoBehaviour:
   jump:
     m_PersistentCalls:
       m_Calls: []
+  currentTarget: {x: 0, y: 0, z: 0}
 --- !u!54 &2116153763143692860
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -128,39 +128,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c9b46628080a845b201814350a476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  drawGizmos: 0
+  canAttack: 0
   health: 150
-  healthBar: {fileID: 2827955095543940960}
-  attack:
-    m_PersistentCalls:
-      m_Calls: []
-  death:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4749312584868028725, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  fireRate: 1
-  fireReload: 0
+  attackCooldown: 1
   range: 15
   damage: 25
+  isRanged: 0
+  bullet: {fileID: 0}
+  firePoint: {fileID: 0}
+  healthBar: {fileID: 2827955095543940960}
+  damageNumberPrefab: {fileID: 3267922150389774706, guid: f5fa6a0c262a99d4296e5ed943f0ca32, type: 3}
+  Attacking:
+    m_PersistentCalls:
+      m_Calls: []
+  Hit:
+    m_PersistentCalls:
+      m_Calls: []
+  Death:
+    m_PersistentCalls:
+      m_Calls: []
   deathValue: 100
   deathEffect: {fileID: 4749312584868028727, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
   aSource: {fileID: 2095304563810743312}
   clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
-  enemyTag: Enemy
-  partToRotate: {fileID: 0}
-  rotationSpeed: 7
-  bullet: {fileID: 0}
-  firePoint: {fileID: 0}
   animator: {fileID: 0}
 --- !u!82 &2095304563810743312
 AudioSource:
@@ -271,13 +263,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 837431314311637102}
-  whatIsPlayer:
+  troopLayer:
     serializedVersion: 2
     m_Bits: 1088
   sightRange: 10
   attackRange: 2
-  playerInSightRange: 0
-  playerInAttackRange: 0
+  troopInSightRange: 0
+  troopInAttackRange: 0
   animator: {fileID: 7186750430164308786}
 --- !u!54 &1087735989021969532
 Rigidbody:
@@ -350,6 +342,7 @@ MonoBehaviour:
   jump:
     m_PersistentCalls:
       m_Calls: []
+  currentTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &1078857410129729519
 GameObject:
   m_ObjectHideFlags: 0

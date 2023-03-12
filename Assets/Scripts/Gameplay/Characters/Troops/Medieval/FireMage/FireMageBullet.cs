@@ -7,6 +7,9 @@ public class FireMageBullet : Bullet
     protected SphereCollider sphereCollider;
     [Header("Area Damage")]
     public GameObject damageFieldPrefab;
+    public float areaDamageRadius = 5f;
+    public float areaDamageDuration = 1.0f;
+    public int areaDamagePerSecond = 5;
 
     void Start()
     {

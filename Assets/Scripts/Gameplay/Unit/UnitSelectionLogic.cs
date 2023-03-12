@@ -115,7 +115,7 @@ public class UnitSelectionLogic : MonoBehaviour
             GameObject clickedUnit = hit.collider.GetComponentInParent<Agent>().gameObject;
 
             // If we hit a clickable object
-            if (_unionSelect.WasPressedThisFrame())
+            if (_unionSelect.IsPressed())
             {
                 // Shift clicked
                 UnitSelections.Instance.ShiftClickSelect(clickedUnit);
@@ -129,7 +129,7 @@ public class UnitSelectionLogic : MonoBehaviour
         else
         {
             // If we didn't and we're not shift clicking
-            if (!_unionSelect.WasPressedThisFrame())
+            if (!_unionSelect.IsPressed())
             {
                 if (UnitSelections.Instance.unitsSelected.Count > 0)
                     unitDeselected?.Invoke();

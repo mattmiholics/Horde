@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
@@ -21,6 +22,9 @@ public class Barrier : MonoBehaviour
     private string enemyTag = "Enemy";
     [FoldoutGroup("Events")]
     public UnityEvent takeDamage;
+    [Header("Graphic Info")]
+    public Image healthBar;
+    public GameObject damageNumberPrefab;
 
     GameObject enemyObj;
     float enemyOriginalSpeed;

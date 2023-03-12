@@ -4,87 +4,97 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 
+
 public class EnemyPathfinding : MonoBehaviour
 {
     [Header("Navigation Pathfinding")]
     public Agent agent;
-    public LayerMask whatIsPlayer;
+    public LayerMask troopLayer;
     // public Transform ultimateDestination;
 
     [Header("Navigation Set Target")]
     public float sightRange;
     public float attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    public bool troopInSightRange, troopInAttackRange;
 
     [Header("Animation")]
     public Animator animator;
 
-    Vector3 target;
+    Transform target;
+    bool hasDeviatedFromMainPath;
+    EnemyData enemyData;
+
+    private void Start()
+    {
+        target = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<MainHall>().target;
+        enemyData = GetComponent<EnemyData>();
+        hasDeviatedFromMainPath = false;
+        StartCoroutine(CheckTroopInSight());
+    }
 
     private void Awake()
     {
         agent = GetComponent<Agent>();
-        // StartCoroutine(CheckPlayerInSight());
     }
 
-    private void Update()
+    private void CheckDistance()
     {
-        int dist = agent.remainingNodes;
-        if(dist <= 2)
+        if(Vector3.Distance(target.position, transform.position) <= 0.5f)
         {
             Destroy(gameObject);
             PlayerStats.Instance.lives--;
         }
-        // else if (agent.SetTarget(target, 50))
-        // {
-        //     //DrawPath();
-        // }
+    }
+
+    private void OnEnable() 
+    {
+        agent.stopMovingEvent += CheckDistance;
+    }
+
+    private void OnDisable()
+    {
+        agent.stopMovingEvent -= CheckDistance;
     }
 
     private void MoveToTarget()
     {
-        // agent.SetTarget(ultimateDestination.position, 50);
-        // Debug.Log("Ultimate Destination: " + ultimateDestination.position);
+        agent.SetTarget(target.position, 500);
+        hasDeviatedFromMainPath = false;
     }
 
     // Use overlapsphere instead
-    private IEnumerator CheckPlayerInSight()
+    private IEnumerator CheckTroopInSight()
     {
         for (; ;) 
         {
-            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-
-            if (playerInSightRange) playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-            else playerInAttackRange = false;
-
-            if (playerInSightRange && !playerInAttackRange) ChasePlayer(); // Prioritize chase player
-            else if (playerInSightRange && playerInAttackRange) AttackPlayer(GetNearestPlayer()); // Then attacking player (probably need to prioritize this later on)
-            else if (!playerInSightRange && !playerInAttackRange) MoveToTarget(); // Then move to target
-
-            yield return new WaitForSeconds(0.5f);
+            troopInSightRange = Physics.CheckSphere(transform.position, sightRange, troopLayer);
+            if (troopInSightRange) 
+            {
+                // Debug.Log("Check troops");
+                troopInAttackRange = Physics.CheckSphere(transform.position, attackRange, troopLayer);
+                hasDeviatedFromMainPath = true;
+            }
+            else troopInAttackRange = false;
+            if (hasDeviatedFromMainPath)
+            {
+                if (troopInSightRange && !troopInAttackRange) ChaseTroop(); // Prioritize chase troop
+                else if (troopInSightRange && troopInAttackRange && enemyData.canAttack) enemyData.Attack(GetNearestTroop()); // Then attacking troop (probably need to prioritize this later on)
+                else if (!troopInSightRange && !troopInAttackRange) MoveToTarget(); // Then move to target
+            }
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
-    private void ChasePlayer()
+    private void ChaseTroop()
     {
-        agent.SetTarget(GetNearestPlayer().position, 50);
+        agent.SetTarget(GetNearestTroop().transform.position, (int)sightRange*3);
     }
 
     // Use overlapsphere instead
-    private Transform GetNearestPlayer()
+    private TroopData GetNearestTroop()
     {
-        Collider[] playerUnits = Physics.OverlapSphere(transform.position, sightRange, whatIsPlayer);
-        Transform nearestPlayerPosition = playerUnits.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault().transform;
-        return nearestPlayerPosition;
-    }
-
-    private void AttackPlayer(Transform playerObject)
-    {
-        agent.SetTarget(transform.position, 50);
-
-        transform.LookAt(playerObject);
-        Debug.Log("Attack Player 1");
-
-        this.gameObject.GetComponent<EnemyData>().Attack();
+        Collider[] troopUnits = Physics.OverlapSphere(transform.position, sightRange, troopLayer);
+        Transform nearestTroopPosition = troopUnits.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault().transform;
+        return nearestTroopPosition.GetComponentInParent<TroopData>();
     }
 }

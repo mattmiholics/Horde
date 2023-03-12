@@ -323,13 +323,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 6969223361038921112}
-  whatIsPlayer:
+  troopLayer:
     serializedVersion: 2
     m_Bits: 1088
   sightRange: 10
   attackRange: 2
-  playerInSightRange: 0
-  playerInAttackRange: 0
+  troopInSightRange: 0
+  troopInAttackRange: 0
   animator: {fileID: 3172992518036338681}
 --- !u!114 &760121680777907521
 MonoBehaviour:
@@ -343,39 +343,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a96330590b4703438dc317c353b1cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  drawGizmos: 0
+  canAttack: 0
   health: 200
-  healthBar: {fileID: 142063981}
-  attack:
-    m_PersistentCalls:
-      m_Calls: []
-  death:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4749312584868028725, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  fireRate: 1
-  fireReload: 0
+  attackCooldown: 1
   range: 15
   damage: 25
+  isRanged: 0
+  bullet: {fileID: 1148047656769899135, guid: 7a76b12fa6fe0e44084923967d4f654b, type: 3}
+  firePoint: {fileID: 4598244595908026434}
+  healthBar: {fileID: 142063981}
+  damageNumberPrefab: {fileID: 3267922150389774706, guid: f5fa6a0c262a99d4296e5ed943f0ca32, type: 3}
+  Attacking:
+    m_PersistentCalls:
+      m_Calls: []
+  Hit:
+    m_PersistentCalls:
+      m_Calls: []
+  Death:
+    m_PersistentCalls:
+      m_Calls: []
   deathValue: 50
   deathEffect: {fileID: 4749312584868028727, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
   aSource: {fileID: 3543203226564927523}
   clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
-  enemyTag: Enemy
-  partToRotate: {fileID: 4598244595908026434}
-  rotationSpeed: 7
-  bullet: {fileID: 1148047656769899135, guid: 7a76b12fa6fe0e44084923967d4f654b, type: 3}
-  firePoint: {fileID: 4598244595908026434}
   animator: {fileID: 0}
 --- !u!82 &3543203226564927523
 AudioSource:
@@ -544,6 +536,7 @@ MonoBehaviour:
   jump:
     m_PersistentCalls:
       m_Calls: []
+  currentTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &630902253298228400
 GameObject:
   m_ObjectHideFlags: 0

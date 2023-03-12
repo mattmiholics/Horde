@@ -42,7 +42,7 @@ public class UnitSelections : MonoBehaviour
     {
         foreach (var unit in unitsSelected)
         {
-            if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+            if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
             {
                 unit.transform.SetParent(troopSelectionParent);
                 unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
@@ -92,7 +92,7 @@ public class UnitSelections : MonoBehaviour
             unitsSelected.Add(unitToAdd);
             foreach (var unit in unitsSelected)
             {
-                 if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+                 if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                  {
                     unit.transform.SetParent(troopSelectionParent);
                     unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
@@ -107,7 +107,7 @@ public class UnitSelections : MonoBehaviour
         {
             foreach (var unit in unitsSelected)
             {
-                if (troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
+                if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                 {
                     unit.transform.SetParent(troopParent);
                     unit.GetComponent<TroopPathfinding>().isSelected.SetActive(false);
