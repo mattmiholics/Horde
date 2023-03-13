@@ -21,6 +21,7 @@ public class TroopPathfinding : MonoBehaviour
 
     [Header("Troop Selection")]
     public GameObject isSelected;
+    public GameObject modelToHighlight;
 
     // [Header("Animation")]
     // public Animator animator;

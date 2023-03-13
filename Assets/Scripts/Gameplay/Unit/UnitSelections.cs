@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+using System.Windows.Forms;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UnitSelections : MonoBehaviour
 {
@@ -16,6 +20,8 @@ public class UnitSelections : MonoBehaviour
 
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
+
+    public GameObject unitHovered;
 
     void Awake()
     {
@@ -38,6 +44,37 @@ public class UnitSelections : MonoBehaviour
         InvokeRepeating("CheckTroopSelection", 0f, .1f);
     }
 
+    private void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+
+        if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, troopLayer))
+        {
+            GameObject ud = hit.transform.gameObject;
+            if (ud != unitHovered)
+            {
+                if (unitHovered && !unitsSelected.Contains(unitHovered))
+                {
+                    unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = false;
+                }
+
+                unitHovered = ud;
+
+                unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+                unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
+                    
+            }
+            
+        }
+        else if (unitHovered && !unitsSelected.Contains(unitHovered))
+        {
+            unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = false;
+           
+            unitHovered = null;
+        }
+    }
+
     void CheckTroopSelection()
     {
         foreach (var unit in unitsSelected)
@@ -45,7 +82,8 @@ public class UnitSelections : MonoBehaviour
             if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
             {
                 unit.transform.SetParent(troopSelectionParent);
-                unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+                unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.yellow;
+                unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
             }
         }
     }
@@ -59,7 +97,8 @@ public class UnitSelections : MonoBehaviour
         if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
         {
             unitToAdd.transform.SetParent(troopSelectionParent);
-            unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+            unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.yellow;
+            unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
         }
     }
 
@@ -71,7 +110,8 @@ public class UnitSelections : MonoBehaviour
             if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
                 unitToAdd.transform.SetParent(troopSelectionParent);
-                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+                unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.yellow;
+                unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
             }
         }
         else
@@ -79,7 +119,8 @@ public class UnitSelections : MonoBehaviour
             if (troopLayer == (troopLayer | (1 << unitToAdd.gameObject.layer)))
             {
                 unitToAdd.transform.SetParent(troopParent);
-                unitToAdd.GetComponent<TroopPathfinding>().isSelected.SetActive(false); 
+                unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+                unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = false;
             }
             unitsSelected.Remove(unitToAdd);
         }
@@ -95,7 +136,8 @@ public class UnitSelections : MonoBehaviour
                  if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                  {
                     unit.transform.SetParent(troopSelectionParent);
-                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(true);
+                    unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.yellow;
+                    unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
                 }
             }
         }
@@ -110,7 +152,8 @@ public class UnitSelections : MonoBehaviour
                 if (unit && troopLayer == (troopLayer | (1 << unit.gameObject.layer)))
                 {
                     unit.transform.SetParent(troopParent);
-                    unit.GetComponent<TroopPathfinding>().isSelected.SetActive(false);
+                    unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+                    unit.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = false;
                 }
             }
 
