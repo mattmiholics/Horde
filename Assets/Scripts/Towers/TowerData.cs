@@ -53,6 +53,8 @@ public class TowerData : MonoBehaviour
 
     public bool isRealTower = false;
 
+    public GameObject rangeSphere;
+
     private static TowerData _instance;
     public static TowerData Instance { get { return _instance; } }
 

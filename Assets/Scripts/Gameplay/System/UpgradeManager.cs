@@ -82,8 +82,8 @@ public class UpgradeManager : MonoBehaviour
                         {
                             tdoutline.OutlineColor = Color.blue;
                             tdoutline.enabled = false;
-
                         }
+                        towerDataSelected.rangeSphere.active = false;
                     }
 
                     towerDataSelected = td;
@@ -92,7 +92,9 @@ public class UpgradeManager : MonoBehaviour
                     {
                         outline.OutlineColor = Color.yellow;
                         outline.enabled = true;
+                        
                     }
+                    towerDataSelected.rangeSphere.active = true;
                 }
             }
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
@@ -103,8 +105,8 @@ public class UpgradeManager : MonoBehaviour
             {
                 outline.OutlineColor = Color.blue;
                 outline.enabled = false;
-                
             }
+            towerDataSelected.rangeSphere.active = false;
 
             towerDataSelected = null;
         }
