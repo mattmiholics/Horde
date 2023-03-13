@@ -70,6 +70,35 @@ public class World : MonoBehaviour
         LoadWorld(true);
     }
 
+    [PropertySpace(15, 0)]
+    [Button(Icon = SdfIconType.XSquare, DisplayParameters = false)]
+    private void DeleteBarriers(bool update = true)
+    {
+        HashSet<ChunkRenderer> updateChunks = new HashSet<ChunkRenderer>();
+
+        // Set barrier blocks to air blocks so that tower/decoration placement can do that manually, just in case an id is switched intentionally
+        worldData.chunkDataDictionary.Values.ToList()
+                                            .ForEach(cd => Chunk
+                                            .LoopThroughTheBlocks(cd, (x, y, z) =>
+                                            {
+                                                BlockType block = Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z);
+                                                if (block == BlockType.Barrier || block == BlockType.Soft_Barrier)
+                                                {
+                                                    Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), BlockType.Air);
+                                                    ChunkRenderer chunkToUpdate = WorldDataHelper.GetChunk(this, cd.worldPosition);
+                                                    if (chunkToUpdate != null)
+                                                        updateChunks.Add(chunkToUpdate);
+                                                }
+                                            }));
+
+        if (update)
+        {
+            foreach (ChunkRenderer cr in updateChunks)
+                cr.UpdateChunk();
+            ChunkUpdated?.Invoke(updateChunks);
+        }
+    }
+
     [NonSerialized, OdinSerialize]
     public WorldData worldData;
 
@@ -304,7 +333,7 @@ public class World : MonoBehaviour
 
     private void CreateChunk(WorldData worldData, Vector3Int position, MeshData meshData, bool loadOnly)
     {
-        ChunkRenderer chunkRenderer = worldRenderer.RenderChunk(worldData, position, meshData);
+        ChunkRenderer chunkRenderer = worldRenderer.RenderChunk(this, worldData, position, meshData);
         if (!loadOnly)
             chunkDictionary.Add(position, chunkRenderer);
 
@@ -727,20 +756,13 @@ public class World : MonoBehaviour
         worldRenderer.LoadRenderersFromChunkData(this, ref chunkDictionary, ref worldData.chunkDataDictionary);
 
 
-        // Set barrier blocks to air blocks so that tower/decoration placement can do that manually, just in case an id is switched intentionally
-        /*worldData.chunkDataDictionary.Values.ToList()
-                                            .ForEach(cd => Chunk
-                                            .LoopThroughTheBlocks(cd, (x, y, z) =>
-                                            {
-                                                BlockType block = Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z);
-                                                if (block == BlockType.Barrier || block == BlockType.Soft_Barrier)
-                                                    Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), BlockType.Air);
-                                            }));*/
+        //DeleteBarriers(false);
 
         chunkSize = worldData.chunkSize;
         chunkHeight = worldData.chunkHeight;
         mapSizeInChunks = worldData.mapSizeInChunks;
         mapSeedOffset = worldData.mapSeedOffset;
+        border = worldData.border;
 
         WorldLoaded?.Invoke(assetDir, loadFromResources);
 

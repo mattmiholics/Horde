@@ -129,8 +129,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7
-  m_fontSizeBase: 7
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 1
@@ -187,8 +187,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumber: {fileID: 3532769609461225480}
-  speed: 2
-  distance: 1
+  jumpSpeed: 4
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.04
+      inSlope: 0.00000012864669
+      outSlope: 0.00000012864669
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14478764
+    - serializedVersion: 3
+      time: 1
+      value: -0.08
+      inSlope: -0.24984995
+      outSlope: -0.24984995
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.055984557
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  distance: 1.5
   fadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -222,31 +246,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeSpeed: 2
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.04
-      inSlope: -0.040606935
-      outSlope: -0.040606935
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33125
-    - serializedVersion: 3
-      time: 1
-      value: -0.1
-      inSlope: -0.39568526
-      outSlope: -0.39568526
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.074334145
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  fadeSpeed: 2.5
 --- !u!114 &4199493778323238159
 MonoBehaviour:
   m_ObjectHideFlags: 0

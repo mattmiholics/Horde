@@ -63,6 +63,8 @@ public class TowerEditor : MonoBehaviour
     [OnInspectorDispose("DisableSelectedTower")]
     [ReadOnly]
     public GameObject selectedTower;
+    [HideInInspector]
+    public GameObject selectedTowerPrefab;
 
     private void DisableSelectedTower()
     {
@@ -191,6 +193,7 @@ public class TowerEditor : MonoBehaviour
         SmartDestroy(selectedTower);
 
         selectedTower = SmartInstantiate(prefab, Vector3.zero, Quaternion.identity, towerProxyParent);
+        selectedTowerPrefab = prefab;
 
         td = selectedTower.GetComponent<TowerData>();
 
@@ -388,7 +391,15 @@ public class TowerEditor : MonoBehaviour
 
     public GameObject SmartInstantiate(GameObject gameObject, Vector3 position, Quaternion rotation, Transform parent)
     {
-        return Instantiate(gameObject, position, rotation, parent);
+        if (Application.isPlaying)
+            return Instantiate(gameObject, position, rotation, parent);
+        else
+        {
+            GameObject prefabGameObject = (GameObject)PrefabUtility.InstantiatePrefab(gameObject, parent);
+            prefabGameObject.transform.position = position;
+            prefabGameObject.transform.rotation = rotation;
+            return prefabGameObject;
+        }
     }
 }
 
