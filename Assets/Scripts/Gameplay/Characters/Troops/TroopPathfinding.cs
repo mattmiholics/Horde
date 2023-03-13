@@ -20,7 +20,6 @@ public class TroopPathfinding : MonoBehaviour
     private InputAction _destination;
 
     [Header("Troop Selection")]
-    public GameObject isSelected;
     public GameObject modelToHighlight;
 
     // [Header("Animation")]

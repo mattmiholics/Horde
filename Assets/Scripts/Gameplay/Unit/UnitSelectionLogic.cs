@@ -44,7 +44,7 @@ public class UnitSelectionLogic : MonoBehaviour
 
     private Coroutine dragging;
 
-    // Start is called before the first frame update
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         _playerInput = FindObjectOfType<PlayerInput>();
@@ -159,6 +159,20 @@ public class UnitSelectionLogic : MonoBehaviour
 
             DrawVisual();
             DrawSelection(endPosition);
+            foreach (var unit in UnitSelections.Instance.unitList)
+            {
+                // If unit is within the bounds of the selection rect
+                if (selectionBox.Contains(Camera.main.WorldToScreenPoint(unit.transform.position)))
+                {
+                    // If any unit is within the selection add them to selection
+                    UnitSelections.Instance.DragHover(unit);
+                }
+                else
+                {
+                    UnitSelections.Instance.DragUnhover(unit);
+                }
+            }
+            
             yield return null;
         }
     }

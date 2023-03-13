@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Windows.Forms;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UnitSelections : MonoBehaviour
 {
@@ -61,9 +58,11 @@ public class UnitSelections : MonoBehaviour
 
                 unitHovered = ud;
 
-                unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
-                unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
-                    
+                if (unitHovered && !unitsSelected.Contains(unitHovered))
+                {
+                    unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+                    unitHovered.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
+                }
             }
             
         }
@@ -141,6 +140,18 @@ public class UnitSelections : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void DragHover(GameObject unitToAdd)
+    {
+        unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+        unitToAdd.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = true;
+    }
+
+    public void DragUnhover(GameObject unitToRemove)
+    {
+        unitToRemove.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().OutlineColor = Color.blue;
+        unitToRemove.GetComponent<TroopPathfinding>().modelToHighlight.GetComponent<Outline>().enabled = false;
     }
 
     public void DeselectAll()
