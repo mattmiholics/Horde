@@ -85,7 +85,7 @@ public static class TowerHelper
     public static void PlaceTower(TowerEditor towerEditor, GameObject gameObject, Vector3 position, float rotation, Vector3Int corner1, Vector3Int corner2, Vector3Int m_corner1, Vector3Int m_corner2)
     {
         //instantiate tower
-        GameObject newTower = towerEditor.SmartInstantiate(towerEditor.selectedTower, position, Quaternion.Euler(0, rotation, 0), gameObject.GetComponent<TowerData>().editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
+        GameObject newTower = towerEditor.SmartInstantiate(towerEditor.selectedTowerPrefab, position, Quaternion.Euler(0, rotation, 0), gameObject.GetComponent<TowerData>().editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
         TowerData td = newTower.GetComponent<TowerData>();
 
         if (Application.isPlaying && td.editable)

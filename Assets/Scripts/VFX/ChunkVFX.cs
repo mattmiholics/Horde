@@ -23,6 +23,9 @@ public class ChunkVFX : MonoBehaviour
     [Button]
     private void ApplyMesh()
     {
+        if (!chunkRenderer.worldReference)
+            return;
+
         vfx.SetVector4("Color", chunkRenderer.worldReference.chunkVFXColor);
         vfx.SetMesh("ParticleMesh", chunkRenderer.worldReference.chunkVFXMesh);
         vfx.SetTexture("Texture", chunkRenderer.worldReference.chunkVFXTexture);

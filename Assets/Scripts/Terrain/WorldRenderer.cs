@@ -56,7 +56,7 @@ public class WorldRenderer : MonoBehaviour
         }
     }
 
-    internal ChunkRenderer RenderChunk(WorldData worldData, Vector3Int position, MeshData meshData)
+    internal ChunkRenderer RenderChunk(World world, WorldData worldData, Vector3Int position, MeshData meshData)
     {
         ChunkRenderer newChunk = null;
         if (chunkPool.Count > 0)
@@ -71,6 +71,7 @@ public class WorldRenderer : MonoBehaviour
         }
 
         newChunk.InitializeChunk(worldData.chunkDataDictionary[position]);
+        newChunk.worldReference = world;
         newChunk.UpdateChunk(meshData);
         newChunk.gameObject.SetActive(true);
         return newChunk;

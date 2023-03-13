@@ -32,24 +32,33 @@ public class UnitData : MonoBehaviour
     [Header("Graphic Info")]
     public Image healthBar;
     public Gradient damageNumberGradient;
-    private Transform damageNumberParent;
+    [ShowInInspector]
+    private ObjectPooler damageNumberPool;
     public GameObject damageNumberPrefab;
     [Header("Unity Events")]
     public UnityEvent Attacking;
     public UnityEvent Hit;
     public UnityEvent Death;
 
+    protected void Awake()
+    {
+        GameObject damageNumberTemp = GameObject.Find("DamageNumberParent");
+        if (!damageNumberTemp)
+        {
+            damageNumberPool = new GameObject("DamageNumberParent").AddComponent<ObjectPooler>();
+            damageNumberPool.prefab = damageNumberPrefab;
+            SceneManager.MoveGameObjectToScene(damageNumberPool.gameObject, gameObject.scene);
+        }
+        else
+        {
+            damageNumberPool = damageNumberTemp.GetComponent<ObjectPooler>();
+        }
+    }
+
     protected virtual void Start()
     {
         startHealth = health;
         canAttack = true;
-        damageNumberParent = GameObject.Find("DamageNumberParent").transform;
-        if (!damageNumberParent)
-        {
-            damageNumberParent = new GameObject("DamageNumberParent").transform;
-            SceneManager.MoveGameObjectToScene(damageNumberParent.gameObject, gameObject.scene);
-            Debug.Log("couldnt find paretn");
-        }
         // Debug.Log("Start Health: " + startHealth);
     }
 
@@ -91,9 +100,11 @@ public class UnitData : MonoBehaviour
         // Debug.Log("Original health: " + health);
         health -= incomingDamage;
         Hit.Invoke();
-        GameObject damageNumber = Instantiate(damageNumberPrefab, healthBar.transform.position, Quaternion.identity, damageNumberParent);
+
+        // Damage number
+        GameObject damageNumber = damageNumberPool.Create(healthBar.transform.position, Quaternion.identity, 2f);
         damageNumber.GetComponent<DamageNumber>().UpdateNumber(incomingDamage, damageNumberGradient.Evaluate(Mathf.Clamp01(incomingDamage/200)), Mathf.Clamp01(incomingDamage / 400 + 0.5f)); // 300 is max sized and furthest color
-        Destroy(damageNumber, 2f);
+
         healthBar.fillAmount = health/startHealth;
         // Debug.Log("Deal damage: " + incomingDamage);
         // Debug.Log("Health after damage: " + health);
