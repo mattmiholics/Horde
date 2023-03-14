@@ -10,6 +10,9 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public event Action WaveStarted;
+    public event Action WaveEnded;
+
     public Transform parent;
     public Transform effectParent;
     [ValidateInput("@(spawns != null && spawns.Count > 0)")]
@@ -30,8 +33,8 @@ public class WaveSpawner : MonoBehaviour
     private float totalEnemyAmount = 0;
 
     [Space]
-    public UnityEvent startWave;
-    public UnityEvent endWave;
+    public UnityEvent WaveStartedEvent;
+    public UnityEvent WaveEndedEvent;
 
     public bool infiniteWaveSpawning = false;
     private bool infiniteStarted = false;
@@ -139,14 +142,16 @@ public class WaveSpawner : MonoBehaviour
         {
             waveStarted = true;
             EditButtons.Instance.DisableButtons();
-            startWave.Invoke();
+            WaveStartedEvent.Invoke();
+            WaveStarted?.Invoke();
 
             NextButtons.Instance.nextWaveButton.SetActive(false);
         }
         else if (enemiesAlive.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
             waveStarted = false;
-            endWave.Invoke();
+            WaveEndedEvent.Invoke();
+            WaveEnded?.Invoke();
             EditButtons.Instance.EnableButtons();
 
             // Check if there are any more waves
