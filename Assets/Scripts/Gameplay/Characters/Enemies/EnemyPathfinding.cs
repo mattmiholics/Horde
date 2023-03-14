@@ -75,22 +75,29 @@ public class EnemyPathfinding : MonoBehaviour
                 hasDeviatedFromMainPath = true;
             }
             else troopInAttackRange = false;
-            if (hasDeviatedFromMainPath)
+            if (hasDeviatedFromMainPath && PathfindNearestTroop())
             {
-                if (troopInSightRange && !troopInAttackRange) ChaseTroop(); // Prioritize chase troop
-                else if (troopInSightRange && troopInAttackRange && enemyData.canAttack) enemyData.Attack(GetNearestTroop()); // Then attacking troop (probably need to prioritize this later on)
-                else if (!troopInSightRange && !troopInAttackRange) MoveToTarget(); // Then move to target
+                if (troopInSightRange && troopInAttackRange && enemyData.canAttack) enemyData.Attack(GetNearestTroop()); // Then attacking troop (probably need to prioritize this later on)
             }
+                
+            else
+                MoveToTarget();
             yield return new WaitForSeconds(0.2f);
         }
     }
 
-    private void ChaseTroop()
+    private bool PathfindNearestTroop()
     {
-        agent.SetTarget(GetNearestTroop().transform.position, (int)sightRange*3);
+        Collider[] troopUnits = Physics.OverlapSphere(transform.position, sightRange, troopLayer).OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).ToArray();
+        foreach (Collider unit in troopUnits)
+        {
+            if (agent.SetTarget(unit.transform.position, (int)(sightRange * 3f)))
+                // Debug.Log("Pathfind nearest troop: " + true);
+                return true;
+        }
+        // Debug.Log("Pathfind nearest troop: " + false);
+        return false;
     }
-
-    // Use overlapsphere instead
     private TroopData GetNearestTroop()
     {
         Collider[] troopUnits = Physics.OverlapSphere(transform.position, sightRange, troopLayer);
