@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject sceneManager;
     [SerializeField] GameObject generalOptions;
     [SerializeField] GameObject mainOptions;
-    [SerializeField] new GameObject audio;
+#pragma warning disable 0108
+    [SerializeField] GameObject audio;
+#pragma warning restore 0108
     [SerializeField] GameObject graphics;
     [SerializeField] GameObject display;
     [SerializeField] GameObject controls;

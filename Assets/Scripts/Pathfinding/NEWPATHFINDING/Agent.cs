@@ -12,8 +12,9 @@ public class Agent : SerializedMonoBehaviour
     public event Action<List<PathPoint>> PathUpdated;
     public event Action startMovingEvent;
     public event Action stopMovingEvent;
-
-    new public Rigidbody rigidbody;
+#pragma warning disable 0108
+    public Rigidbody rigidbody;
+#pragma warning restore 0108
     public LayerMask groundLayer;
     public SPathFinderType type;
 

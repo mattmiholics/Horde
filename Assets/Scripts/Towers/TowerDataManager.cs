@@ -20,7 +20,9 @@ public class TowerDataManager : SerializedMonoBehaviour
     [ValidateInput("ValidateListAsDictionary")]
     [Searchable]
     private List<TowerPrefabInspectorClass> towerPrefabInspectorClasses;
+#pragma warning disable 0414
     private bool listDictError = false;
+#pragma warning restore 0414
 
     [HideInInspector]
     public Dictionary<int, GameObject> idTowerPrefab;

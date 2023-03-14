@@ -395,10 +395,14 @@ public class TowerEditor : MonoBehaviour
             return Instantiate(gameObject, position, rotation, parent);
         else
         {
+#if UNITY_EDITOR
             GameObject prefabGameObject = (GameObject)PrefabUtility.InstantiatePrefab(gameObject, parent);
             prefabGameObject.transform.position = position;
             prefabGameObject.transform.rotation = rotation;
             return prefabGameObject;
+#else
+            return null;
+#endif
         }
     }
 }
