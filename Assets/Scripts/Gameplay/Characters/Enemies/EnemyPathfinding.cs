@@ -39,7 +39,7 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void CheckDistance()
     {
-        if(Vector3.Distance(target.position, transform.position) <= 0.5f)
+        if (Vector3.Distance(target.position, transform.position) <= 1f)
         {
             Destroy(gameObject);
             PlayerStats.Instance.lives--;
