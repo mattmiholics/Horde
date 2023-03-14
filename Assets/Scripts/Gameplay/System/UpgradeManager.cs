@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class UpgradeManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UpgradeManager : MonoBehaviour
     private string turretType;
     private GameObject target;
     private string upgradeInfo = "";
+
+    public UnityEvent notEnoughGold;
 
     private bool active = false;
 
@@ -204,6 +207,9 @@ public class UpgradeManager : MonoBehaviour
             target.GetComponent<TowerData>().Upgrade();
             PlayerStats.Instance.GetComponent<PlayerStats>().money -= cost;
             upgradeMenu.SetActive(false);
+        }else if (PlayerStats.Instance.money < cost)
+        {
+            notEnoughGold.Invoke();
         }
     }
 
