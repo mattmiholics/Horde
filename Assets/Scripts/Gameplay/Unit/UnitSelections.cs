@@ -186,10 +186,14 @@ public class UnitSelections : MonoBehaviour
         int index = 1;
         int size = 3;
         int borderSize = (int)(Mathf.Pow(size, 2) - Mathf.Pow(size - 2, 2)); // 8
+        bool atLeastOnePath = false;
         Vector3Int origionalTarget = targetPositionInt;
 
         while (finalPositions.Contains(targetPositionInt) || !agent.SetTarget(targetPositionInt, 150))
         {
+            if (finalPositions.Contains(targetPositionInt))
+                atLeastOnePath = true;
+
             Vector3Int offset = new Vector3Int();
             int distance = (int)Mathf.Floor(size / 2f);
 
@@ -216,6 +220,14 @@ public class UnitSelections : MonoBehaviour
 
             if (index > borderSize)
             {
+                if (size > 3 && !atLeastOnePath)
+                {
+                    return currentPositionInt; // If it does any entire border check after the first border and finds no paths and also no occupied positions (occupied position would assume there is a path if it was vacant) then give up
+                }
+                else
+                {
+                    atLeastOnePath = false;
+                }
                 index = 1;
                 size += 2;
                 borderSize = (int)(Mathf.Pow(size, 2) - Mathf.Pow(size - 2, 2));

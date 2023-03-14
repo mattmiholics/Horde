@@ -85,7 +85,16 @@ public class Agent : SerializedMonoBehaviour
     }
 
     /// <summary>
-    /// Sets a target position for the agent to pathfind to, and starts following the path it calculates.
+    /// Sets a target position for the agent to pathfind to, and starts following the path it calculates. Outputs a bool.
+    /// </summary>
+    public bool SetTarget(Vector3 target, out bool pathFound, int maxNodes = 1000)
+    {
+        pathFound = SetTarget(target, maxNodes);
+        return pathFound;
+    }
+
+    /// <summary>
+    /// Sets a target position for the agent to pathfind to, and starts following the path it calculates. Retuans a bool.
     /// </summary>
     public bool SetTarget(Vector3 target, int maxNodes = 1000)
     {
