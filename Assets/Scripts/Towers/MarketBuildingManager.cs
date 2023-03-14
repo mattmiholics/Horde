@@ -10,18 +10,38 @@ public class MarketBuildingManager : MonoBehaviour
     [ReadOnly]
     public bool tempStartPayingOut;
 
+    private void Awake()
+    {
+        if (WaveSpawner.Instance != null)
+            DelayedStart();
+    }
+
     private void OnEnable()
+    {
+        if (WaveSpawner.Instance == null)
+            WaveSpawner.SingletonInstanced += DelayedStart;
+    }
+
+    private void OnDisable()
+    {
+        WaveSpawner.SingletonInstanced -= DelayedStart;
+    }
+
+    private void DelayedStart()
     {
         WaveSpawner.Instance.WaveStarted += BeginPayout;
         WaveSpawner.Instance.WaveEnded += PayPlayer;
         WaveSpawner.Instance.WaveEnded += StopPayout;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        WaveSpawner.Instance.WaveStarted -= BeginPayout;
-        WaveSpawner.Instance.WaveEnded -= PayPlayer;
-        WaveSpawner.Instance.WaveEnded -= StopPayout;
+        if (WaveSpawner.Instance != null)
+        {
+            WaveSpawner.Instance.WaveStarted -= BeginPayout;
+            WaveSpawner.Instance.WaveEnded -= PayPlayer;
+            WaveSpawner.Instance.WaveEnded -= StopPayout;
+        }
     }
 
     public void PayPlayer()

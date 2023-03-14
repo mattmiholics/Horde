@@ -10,6 +10,7 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public static event Action SingletonInstanced;
     public event Action WaveStarted;
     public event Action WaveEnded;
 
@@ -24,7 +25,6 @@ public class WaveSpawner : MonoBehaviour
     public Text waveCountdownText;
 
     public float intermissionTime = 5.5f;
-    private float countdown = 2f;
     public int waveNum = 1;
     public int waveCount => waveDataList.Count;
 
@@ -123,6 +123,8 @@ public class WaveSpawner : MonoBehaviour
         }
 
         waveStarted = false;
+
+        SingletonInstanced?.Invoke();
     }
 
     private void Start()
@@ -257,6 +259,7 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator Spawn(SpawnData spawn)
     {
+        Debug.Log(spawn.spawn);
         // wait until the given time to spawn
         yield return new WaitForSeconds(spawn.time);
 

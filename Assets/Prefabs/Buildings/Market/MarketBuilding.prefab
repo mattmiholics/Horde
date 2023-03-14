@@ -5007,7 +5007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d6b865546b77345bc5d3738fc25142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  payoutNumber: {fileID: 0}
+  payoutNumber: {fileID: 3981903078313058411}
   currentAmountPayed: 0
   payAmountPerSecond: 14
   moneyCap: 2000
@@ -6739,7 +6739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d6b865546b77345bc5d3738fc25142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  payoutNumber: {fileID: 0}
+  payoutNumber: {fileID: 3981903078313058411}
   currentAmountPayed: 0
   payAmountPerSecond: 10
   moneyCap: 1500
@@ -7453,7 +7453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d6b865546b77345bc5d3738fc25142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  payoutNumber: {fileID: 0}
+  payoutNumber: {fileID: 3981903078313058411}
   currentAmountPayed: 0
   payAmountPerSecond: 20
   moneyCap: 2500
@@ -7501,7 +7501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d6b865546b77345bc5d3738fc25142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  payoutNumber: {fileID: 0}
+  payoutNumber: {fileID: 3981903078313058411}
   currentAmountPayed: 0
   payAmountPerSecond: 5
   moneyCap: 500
@@ -11148,7 +11148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d6b865546b77345bc5d3738fc25142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  payoutNumber: {fileID: 0}
+  payoutNumber: {fileID: 3981903078313058411}
   currentAmountPayed: 0
   payAmountPerSecond: 7
   moneyCap: 1000

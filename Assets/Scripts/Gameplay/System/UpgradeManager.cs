@@ -68,7 +68,7 @@ public class UpgradeManager : MonoBehaviour
             TowerData td = hit.transform.parent.GetComponent<TowerData>();
             if (td.selectable)
             {
-                if (active == true && upgradeMenu != null)
+                if (active && upgradeMenu != null)
                 {
                     upgradeMenu.SetActive(false);
                 }
@@ -99,12 +99,16 @@ public class UpgradeManager : MonoBehaviour
             }
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
-        else if (towerDataSelected)
+        else if (!CanvasHitDetector.Instance.IsPointerOverUI() && towerDataSelected)
         {
             if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline outline))
             {
                 outline.OutlineColor = Color.blue;
                 outline.enabled = false;
+            }
+            if (active && upgradeMenu != null)
+            {
+                upgradeMenu.SetActive(false);
             }
             //towerDataSelected.rangeSphere.active = false;
 

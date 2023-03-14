@@ -55,8 +55,8 @@ public class GameOver : MonoBehaviour
         {
             return true;
         }
-        else;
-        return false;
+        else
+            return false;
     }
 
     GameObject FindInActiveObjectByName(string name)

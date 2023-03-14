@@ -63,8 +63,11 @@ public class MarketBuilding : MonoBehaviour
         if (startPayingOut)
         {
             MarketBuildingManager mbm = GetComponentInParent<MarketBuildingManager>();
-            mbm.tempStartPayingOut = true;
-            mbm.tempCurrentAmountPayed = currentAmountPayed;
+            if (mbm)
+            {
+                mbm.tempStartPayingOut = true;
+                mbm.tempCurrentAmountPayed = currentAmountPayed;
+            }
         }
     }
 }

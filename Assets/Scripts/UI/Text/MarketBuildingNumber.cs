@@ -23,7 +23,7 @@ public class MarketBuildingNumber : MonoBehaviour
 
     public void BeginAnimation(float number)
     {
-        textMeshPro.text = number.ToString("0");
+        textMeshPro.text = "$" + number.ToString("0");
 
         if (numberAnimation != null)
             StopCoroutine(numberAnimation);
@@ -36,7 +36,7 @@ public class MarketBuildingNumber : MonoBehaviour
 
         while(currentTime < animationTime)
         {
-            textMeshPro.color = new Color(textMeshPro.color.r, textMeshPro.color.g, textMeshPro.color.b, currentTime / animationTime);
+            textMeshPro.color = new Color(textMeshPro.color.r, textMeshPro.color.g, textMeshPro.color.b, 1 - currentTime / animationTime);
             transform.localPosition = origionalPosition + new Vector3(0, jumpCurve.Evaluate(currentTime / animationTime), 0);
 
             currentTime += Time.deltaTime;

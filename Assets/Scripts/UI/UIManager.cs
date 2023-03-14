@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject sceneManager;
     [SerializeField] GameObject generalOptions;
     [SerializeField] GameObject mainOptions;
-    [SerializeField] GameObject audio;
+    [SerializeField] new GameObject audio;
     [SerializeField] GameObject graphics;
     [SerializeField] GameObject display;
     [SerializeField] GameObject controls;
@@ -54,16 +54,16 @@ public class UIManager : MonoBehaviour
         {
             if (gamePausedUI.GetComponent<GameOver>().IsPaused())
             {
-                if (gamePausedUI.active)
+                if (gamePausedUI.activeSelf)
                 {
                     gamePausedUI.GetComponent<GameOver>().Continue();
                 }
-                    if (mainOptions.active)
+                    if (mainOptions.activeSelf)
                     {
                         mainOptions.SetActive(false);
                         gamePausedUI.SetActive(true);
                     }
-                    else if (audio.active || graphics.active || display.active || controls.active)
+                    else if (audio.activeSelf || graphics.activeSelf || display.activeSelf || controls.activeSelf)
                     {
                         audio.SetActive(false);
                         graphics.SetActive(false);
@@ -79,9 +79,9 @@ public class UIManager : MonoBehaviour
         }
         else //On the main menu
         {
-            if (generalOptions.active)
+            if (generalOptions.activeSelf)
             {
-                if (mainOptions.active)
+                if (mainOptions.activeSelf)
                 {
                     mainOptions.SetActive(false);
                     generalOptions.SetActive(false);
@@ -97,12 +97,12 @@ public class UIManager : MonoBehaviour
                     mainOptions.SetActive(true);
                 }
             }
-            if (levelSelect.active)
+            if (levelSelect.activeSelf)
             {
                 levelSelect.SetActive(false);
                 mainMenu.SetActive(true);
             }
-            if (rules.active)
+            if (rules.activeSelf)
             {
                 rules.SetActive(false);
                 mainMenu.SetActive(true);

@@ -7,7 +7,7 @@ public class ControlOptions : MonoBehaviour
     [SerializeField] Slider rotationSense;
     [SerializeField] Slider zoomSense;
     [SerializeField] Toggle borderMovment;
-    [SerializeField] GameObject camera;
+    [SerializeField] new GameObject camera;
 
     const string MOVE_SENSE = "MoveSense";
     const string ROTATION_SENSE = "RotationSense";

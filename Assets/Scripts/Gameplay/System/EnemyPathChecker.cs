@@ -40,7 +40,7 @@ public class EnemyPathChecker : MonoBehaviour
 
         foreach(StaticAgent staticAgent in WaveSpawner.Instance.spawns.Select(a => a.GetComponent<StaticAgent>()).ToList())
         {
-            if (!staticAgent.SetTarget(staticAgent.currentTarget));
+            if (!staticAgent.SetTarget(staticAgent.currentTarget))
                 pathExists = false;
         }
 
