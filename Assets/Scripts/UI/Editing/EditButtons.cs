@@ -86,6 +86,9 @@ public class EditButtons : MonoBehaviour
         foreach (Button button in disabledDuringWave)
             button.interactable = false;
 
+        if (currentOutline)
+            currentOutline.SetActive(false);
+
         if (popupHandler.currentActive == terrainEditorPopupIndex)
         {
             TerrainEditor.Instance.DisableTerrainEditing();
@@ -104,6 +107,9 @@ public class EditButtons : MonoBehaviour
     {
         foreach (Button button in disabledDuringWave)
             button.interactable = true;
+
+        if (currentOutline)
+            currentOutline.SetActive(true);
 
         if (popupHandler.currentActive == -1) //activate the last used terrain editor if no current popup is active
         {
