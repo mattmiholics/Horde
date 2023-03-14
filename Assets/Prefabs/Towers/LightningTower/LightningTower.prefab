@@ -1849,6 +1849,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8146736873603658089}
     m_Modifications:
+    - target: {fileID: 822814752452257165, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2418482588794795021, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Name
       value: InfoText
