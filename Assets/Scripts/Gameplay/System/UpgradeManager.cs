@@ -85,7 +85,7 @@ public class UpgradeManager : MonoBehaviour
                             tdoutline.enabled = false;
                         }
                         if (towerDataSelected.rangeSphere != null)
-                            towerDataSelected.rangeSphere.active = false;
+                            towerDataSelected.rangeSphere.SetActive(false);
                     }
 
                     towerDataSelected = td;
@@ -97,7 +97,7 @@ public class UpgradeManager : MonoBehaviour
                         
                     }
                     if (towerDataSelected.rangeSphere != null)
-                        towerDataSelected.rangeSphere.active = true;
+                        towerDataSelected.rangeSphere.SetActive(true);
                 }
             }
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
@@ -114,7 +114,7 @@ public class UpgradeManager : MonoBehaviour
                 upgradeMenu.SetActive(false);
             }
             if (towerDataSelected.rangeSphere != null)
-                towerDataSelected.rangeSphere.active = false;
+                towerDataSelected.rangeSphere.SetActive(false);
 
             towerDataSelected = null;
         }

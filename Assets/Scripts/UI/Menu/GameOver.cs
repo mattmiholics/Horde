@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameOver : MonoBehaviour
 {
-    public Text roundsText;
+    public TextMeshProUGUI roundsText;
     [StringInList(typeof(PropertyDrawersHelper), "AllSceneNames")] public string mainMenu;
 
     private void OnEnable()

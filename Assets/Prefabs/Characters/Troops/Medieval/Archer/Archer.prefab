@@ -121,7 +121,6 @@ MonoBehaviour:
   staticLayer: Troop
   activeLayer: Troop Ignore
   destinationControl: Unit/Destination
-  isSelected: {fileID: 0}
   modelToHighlight: {fileID: 547974223750011224}
 --- !u!114 &4427366567508629091
 MonoBehaviour:
@@ -966,7 +965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

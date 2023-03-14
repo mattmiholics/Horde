@@ -3401,6 +3401,7 @@ MonoBehaviour:
   placeBarriers: 1
   upgradeUI: {fileID: 9124712446415710541}
   infoText: {fileID: 6865809122857032860}
+  upgradeInfo: 
   cost: 400
   level: 1
   type: Market
@@ -4843,7 +4844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6691,7 +6692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -8056,7 +8057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43fdb90e34c71042bb2c501d8106421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationTime: 3
+  animationTime: 0.8
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -8311,7 +8312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -13032,7 +13033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -13372,7 +13373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 2.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

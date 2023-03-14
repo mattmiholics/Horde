@@ -259,7 +259,6 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator Spawn(SpawnData spawn)
     {
-        Debug.Log(spawn.spawn);
         // wait until the given time to spawn
         yield return new WaitForSeconds(spawn.time);
 
