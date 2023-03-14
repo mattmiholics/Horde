@@ -319,7 +319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4439343543607827491}
-  - component: {fileID: 3128624411511928165}
+  - component: {fileID: 1508547235154700254}
   m_Layer: 8
   m_Name: Main_1
   m_TagString: Untagged
@@ -344,20 +344,20 @@ Transform:
   m_Father: {fileID: 4439343543887779147}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3128624411511928165
+--- !u!114 &1508547235154700254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4439343543607827516}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
   outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
@@ -454,7 +454,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4439343543887779147}
-  - component: {fileID: 4439343543887779144}
   - component: {fileID: 4439343543887779145}
   - component: {fileID: 4439343543887779146}
   - component: {fileID: 4439343543887779151}
@@ -485,22 +484,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!208 &4439343543887779144
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4439343543887779140}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.5, y: 1, z: 1.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &4439343543887779145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   editable: 0
+  selectable: 0
   placeBarriers: 1
   upgradeUI: {fileID: 4459310002374630928}
   infoText: {fileID: 0}
@@ -528,7 +512,6 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0.5}
   rotation: 360
   showGizmo: 0
-  isRealTower: 1
   rangeSphere: {fileID: 8354026593667487537}
   upgradeDataList:
   - main: {fileID: 4439343543607827516}

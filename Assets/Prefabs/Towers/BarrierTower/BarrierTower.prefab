@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 11
   editable: 1
+  selectable: 1
   placeBarriers: 0
   upgradeUI: {fileID: 5619731650120926349}
   infoText: {fileID: 7787973402426110300}
@@ -96,10 +97,10 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   showGizmo: 0
+  rangeSphere: {fileID: 0}
   upgradeDataList:
   - main: {fileID: 758191915756330490}
     proxy: {fileID: 3688141010969223332}
-    hightlight: {fileID: 758191915756330490}
     costToLvl: 0
   upgrade:
     m_PersistentCalls:

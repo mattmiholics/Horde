@@ -66,7 +66,7 @@ public class UpgradeManager : MonoBehaviour
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
             TowerData td = hit.transform.parent.GetComponent<TowerData>();
-            if (td.isRealTower)
+            if (td.selectable)
             {
                 if (active == true && upgradeMenu != null)
                 {
@@ -121,7 +121,7 @@ public class UpgradeManager : MonoBehaviour
         if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
         {
             TowerData td = hit.transform.GetComponentInParent<TowerData>();
-            if (td.isRealTower)
+            if (td.selectable)
             {
                 if (td != towerDataHovered)
                 {

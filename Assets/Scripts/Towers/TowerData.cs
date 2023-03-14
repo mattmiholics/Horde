@@ -16,6 +16,7 @@ public class TowerData : MonoBehaviour
 
     [Space]
     public bool editable;
+    public bool selectable = false;
     public bool placeBarriers = true;
 
     public GameObject upgradeUI;
@@ -50,8 +51,6 @@ public class TowerData : MonoBehaviour
 
     [Space]
     public bool showGizmo;
-
-    public bool isRealTower = false;
 
     public GameObject rangeSphere;
 

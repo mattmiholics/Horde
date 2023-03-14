@@ -176,6 +176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 66269392101866883}
+  - component: {fileID: 3125730407653933865}
   m_Layer: 8
   m_Name: Main_1
   m_TagString: Untagged
@@ -200,6 +201,24 @@ Transform:
   m_Father: {fileID: 330176377871088611}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3125730407653933865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316091406568799871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3611507542507849224
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   editable: 0
+  selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 0}
   infoText: {fileID: 0}
@@ -280,10 +300,14 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0.5}
   rotation: 0
   showGizmo: 0
+  rangeSphere: {fileID: 0}
   upgradeDataList:
   - main: {fileID: 3316091406568799871}
     proxy: {fileID: 5565930563410851840}
     costToLvl: 0
+  upgrade:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2855642030919889862
 MonoBehaviour:
   m_ObjectHideFlags: 0
