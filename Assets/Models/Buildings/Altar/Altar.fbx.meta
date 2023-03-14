@@ -14,6 +14,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Altar_Main
     second: {fileID: 2100000, guid: c370c691f47602849a51e8a30731b215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlatformCracks
+    second: {fileID: 2100000, guid: bc9e6dbcf9c88204395330e906061aaa, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
