@@ -1290,6 +1290,7 @@ MonoBehaviour:
   placeBarriers: 1
   upgradeUI: {fileID: 8620093245167013816}
   infoText: {fileID: 6217647579343796841}
+  upgradeInfo: Damage +100,  Range +25%, Fire Rate + 25%
   cost: 500
   level: 1
   type: Cannon

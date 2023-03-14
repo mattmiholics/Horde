@@ -1474,6 +1474,7 @@ MonoBehaviour:
   placeBarriers: 1
   upgradeUI: {fileID: 2778340600054471430}
   infoText: {fileID: 533565142160174807}
+  upgradeInfo: Inceases Damage by 25
   cost: 300
   level: 1
   type: Archer

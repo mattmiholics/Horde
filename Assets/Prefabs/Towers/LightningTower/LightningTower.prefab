@@ -688,7 +688,7 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 50
+  damage: 100
   chainAmount: 9
   chainDamage: 50
   enemyTag: Enemy
@@ -840,6 +840,7 @@ MonoBehaviour:
   placeBarriers: 1
   upgradeUI: {fileID: 8219686791443657272}
   infoText: {fileID: 6051445037018777577}
+  upgradeInfo: Damage + 25%, Chain Amount +3
   cost: 600
   level: 1
   type: Lightning

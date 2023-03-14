@@ -12,6 +12,7 @@ public class UpgradeManager : MonoBehaviour
     private int lvl;
     private string turretType;
     private GameObject target;
+    private string upgradeInfo = "";
 
     private bool active = false;
 
@@ -169,6 +170,18 @@ public class UpgradeManager : MonoBehaviour
         UpdateInfo();
     }
 
+    public void GetInfo(int cost, GameObject target, int currentLevel, string turretType, GameObject upgradeMenu, GameObject infoText, string upgInfo)
+    {
+        this.cost = cost;
+        this.lvl = currentLevel;
+        this.turretType = turretType;
+        this.target = target;
+        this.upgradeMenu = upgradeMenu;
+        this.infoText = infoText;
+        this.upgradeInfo = upgInfo;
+        UpdateInfo();
+    }
+
     /* 
     public void SetPosition(Vector3 newPos)
     {
@@ -178,7 +191,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void UpdateInfo()
     {
-        infoText.GetComponent<Text>().text = "Turret Type: " + turretType + "\nCurrent Level: " + lvl + "\n<b>Cost To Level-Up: $" + cost + " </b>";
+        infoText.GetComponent<Text>().text = "Turret Type: " + turretType + "\nCurrent Level: " + lvl +"\n"+ upgradeInfo +  "\n<b>Cost To Level-Up: $" + cost + " </b>";
     }
 
     public void UpgradeTarget()

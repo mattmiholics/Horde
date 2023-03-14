@@ -21,6 +21,7 @@ public class TowerData : MonoBehaviour
 
     public GameObject upgradeUI;
     public GameObject infoText;
+    public String upgradeInfo;
     //private GameObject cancelButton = upgradeUI.transform.GetChild(2);
 
     public int cost;
@@ -97,8 +98,7 @@ public class TowerData : MonoBehaviour
         if(level < upgradeDataList.ToArray().Length)
         {
             this.upgradeUI.SetActive(true);
-            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText);
-
+            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText, upgradeInfo);
         }
     }
 

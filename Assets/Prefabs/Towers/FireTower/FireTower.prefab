@@ -595,8 +595,8 @@ MonoBehaviour:
       m_Calls: []
   fireRate: 1.2
   fireReload: 0
-  range: 80
-  damage: 150
+  range: 60
+  damage: 75
   enemyTag: Enemy
   partToRotate: {fileID: 3345525493414881168}
   rotationSpeed: 7
@@ -651,8 +651,8 @@ MonoBehaviour:
       m_Calls: []
   fireRate: 0.8
   fireReload: 0
-  range: 55
-  damage: 100
+  range: 50
+  damage: 50
   enemyTag: Enemy
   partToRotate: {fileID: 1797692411046737718}
   rotationSpeed: 7
@@ -715,6 +715,7 @@ MonoBehaviour:
   placeBarriers: 1
   upgradeUI: {fileID: 4191196401239573293}
   infoText: {fileID: 2000480380275259132}
+  upgradeInfo: Damage +25%, Range + 25%, Fire Rate + 25%
   cost: 750
   level: 1
   type: Fire
