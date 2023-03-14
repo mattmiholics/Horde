@@ -16,6 +16,8 @@ public class TowerEditor : MonoBehaviour
     public LayerMask groundMask;
     [SerializeField]
     public LayerMask towerMask;
+    [SerializeField]
+    public LayerMask unitMask;
     [Space]
     public Transform towerParent;
     public Transform towerProxyParent;
@@ -263,7 +265,9 @@ public class TowerEditor : MonoBehaviour
 
                     selectedTower.transform.position = m_basePosition;
 
-                    if (world.GetBlockVolume(g_corner1, g_corner2, false) && world.GetBlockVolume(corner1, corner2, true)) //check ground then empty
+                    if (world.GetBlockVolume(g_corner1, g_corner2, false) 
+                        && world.GetBlockVolume(corner1, corner2, true) // Check ground then empty
+                        && !Physics.CheckBox(m_center, new Vector3(Mathf.Abs(m_center.x - m_corner1.x), Mathf.Abs(m_center.y - m_corner1.y), Mathf.Abs(m_center.z - m_corner1.z)) + Vector3.one / 2, Quaternion.identity, unitMask)) 
                     {
                         if (!materialActive)
                         {
@@ -274,11 +278,39 @@ public class TowerEditor : MonoBehaviour
                             materialActive = true;
                         }
 
-                        if (_click.WasPerformedThisFrame()) //tower placed
-                            if (td.cost <= PlayerStats.Instance.money)
-                                StartCoroutine(PlacingTower(selectedTower, m_basePosition, corner1, corner2, m_corner1, m_corner2));
+                        if (_click.WasPerformedThisFrame() && td.cost <= PlayerStats.Instance.money) //tower placed
+                        {
+                            if (td.placeBarriers)
+                                world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
+
+                            if (EnemyPathChecker.Instance != null && EnemyPathChecker.Instance.PathExists()) // Instantiate tower
+                            {
+                                GameObject newTower = Instantiate(selectedTower, m_basePosition, selectedTower.transform.rotation, towerParent);
+                                TowerData n_td = newTower.GetComponent<TowerData>();
+
+                                if (n_td.useChecker)
+                                    world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
+                                if (n_td.placeBarriers)
+                                    world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers overriding soft barriers
+
+                                tdList.Add(n_td);
+                                n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+                                n_td.Main.SetActive(true);
+                                n_td.Proxy.SetActive(false);
+
+                                //remove money from player
+                                PlayerStats.Instance.money -= n_td.cost;
+                                towerPlaced?.Invoke();
+                            }
                             else
+                            {
+                                if (td.placeBarriers)
+                                    world.SetBlockVolume(m_corner1, m_corner2, BlockType.Air); // Return to air
                                 UnableToEdit();
+                            }
+                        }
+                        else if (_click.WasPerformedThisFrame())
+                            UnableToEdit();
                     }
                     else //if space is invalid show red proxy material
                     {

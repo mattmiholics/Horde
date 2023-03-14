@@ -12,6 +12,8 @@ public class TerrainEditor : MonoBehaviour
     [SerializeField]
     public LayerMask groundMask;
     [SerializeField]
+    public LayerMask unitMask;
+    [SerializeField]
     private List<BlockType> blockModifyBlacklist = new BlockType[] { BlockType.Bedrock, BlockType.Barrier }.ToList();
     public BlockType blockType = BlockType.Dirt;
     [HideInInspector]
@@ -178,11 +180,12 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit);
                         removeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame()) //removed
-                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
-                                StartCoroutine(PlacingTerrain(hit, BlockType.Air));
-                            else
-                                UnableToEdit();
+                        if (_click.WasPerformedThisFrame() && cost <= PlayerStats.Instance.money && !Physics.CheckBox(pos + Vector3.up, Vector3.one / 2, Quaternion.identity, unitMask)) //removed
+                        {
+                            PlaceTerrain(hit, BlockType.Air);
+                        }
+                        else if (_click.WasPerformedThisFrame())
+                            UnableToEdit();
                     }
                     else
                     {
@@ -192,11 +195,12 @@ public class TerrainEditor : MonoBehaviour
                         pos = world.GetBlockPos(hit, true);
                         placeProxy.transform.position = pos;
 
-                        if (_click.WasPerformedThisFrame()) //placed
-                            if (Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
-                                StartCoroutine(PlacingTerrain(hit, playModeBlockType, true));
-                            else
-                                UnableToEdit();
+                        if (_click.WasPerformedThisFrame() && cost <= PlayerStats.Instance.money && !Physics.CheckBox(pos, Vector3.one / 2, Quaternion.identity, unitMask)) //placed
+                        {
+                            PlaceTerrain(hit, playModeBlockType, true);
+                        }
+                        else if (_click.WasPerformedThisFrame())
+                            UnableToEdit();
                     }
                 }
                 else
@@ -210,52 +214,38 @@ public class TerrainEditor : MonoBehaviour
         }
     }
 
-    // This is the workaround to make sure the navmesh will bake to check if there are still valid paths !!!!!!!THIS SHOULD BE REWORKED AFTER PATHFINDING IS CHANGED
-    private IEnumerator PlacingTerrain(RaycastHit hit, BlockType blockType, bool place = false)
+    private void PlaceTerrain(RaycastHit hit, BlockType blockType, bool place = false)
     {
         //fill with dummy
         BlockType origional = world.GetBlock(hit, place);
         Vector3Int blockPos = Vector3Int.RoundToInt(world.GetBlockPos(hit, place));
         BlockType blockAbove = WorldDataHelper.GetBlock(world, blockPos + Vector3Int.up);
 
-        if (world.IsBlockModifiable(blockPos) && !blockModifyBlacklist.Contains(world.GetBlock(hit, place)) //check if column is modifiable, if its not in the blacklist,
+        if (world.IsBlockModifiable(blockPos) //check if column is modifiable
+            && !blockModifyBlacklist.Contains(world.GetBlock(hit, place)) //if its not in the blacklist,
             && (place || (blockAbove != BlockType.Barrier && blockAbove != BlockType.Soft_Barrier)))   //and not destroying blocks below towers (barriers)
         {
-            yield return null;
             ModifyTerrain(hit, blockType, place);
-            //remove money from player
-            PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
-            if (place)
-                terrainPlaced?.Invoke();
-            else
-                terrainRemoved?.Invoke();
 
-            //Debug.Log();
-            /*ModifyTerrain(hit, BlockType.Barrier, place);
-            yield return 1;
-
-            //check if path valid
-            bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
-
-            //spawn tower
-            if (pathValid && Mathf.RoundToInt(cost) <= PlayerStats.Instance.money)
+            if (EnemyPathChecker.Instance != null && EnemyPathChecker.Instance.PathExists())
             {
-                ModifyTerrain(hit, blockType, place);
-
                 //remove money from player
-                PlayerStats.Instance.money -= Mathf.RoundToInt(cost); //update money
+                PlayerStats.Instance.money -= cost; //update money
+                if (place)
+                    terrainPlaced?.Invoke();
+                else
+                    terrainRemoved?.Invoke();
             }
-            else //otherwise remove barriers
+            else
             {
                 ModifyTerrain(hit, origional, place);
                 UnableToEdit();
-            }*/
+            }
         }
         else
         {
             UnableToEdit();
         }
-        yield return null;
     }
 
     public void UnableToEdit()

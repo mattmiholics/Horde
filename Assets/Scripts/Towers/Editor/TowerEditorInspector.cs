@@ -136,7 +136,7 @@ public class TowerEditorInspector : OdinEditor
 
                     if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt) //tower placed
                     {
-                        TowerHelper.PlaceTower(towerEditor, towerEditor.selectedTower, m_basePosition, towerEditor.td.rotation);
+                        TowerHelper.PlaceTower(towerEditor, towerEditor.selectedTower, m_basePosition, towerEditor.td.rotation, corner1, corner2, m_corner1, m_corner2);
                     }
                 }
                 else //if space is invalid show red proxy material
