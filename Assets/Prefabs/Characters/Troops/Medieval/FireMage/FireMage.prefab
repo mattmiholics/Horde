@@ -123,7 +123,7 @@ MonoBehaviour:
   range: 15
   damage: 45
   isRanged: 1
-  bullet: {fileID: 8952111980692290676, guid: 3313f54ef3fe30b4b80f0dd33e055a02, type: 3}
+  bullet: {fileID: 8952111980692290676, guid: 796f48b747767994eb2b3952e5317dfe, type: 3}
   firePoint: {fileID: 8641179442993172763}
   healthBar: {fileID: 4705668166271882760}
   damageNumberGradient:
@@ -158,7 +158,19 @@ MonoBehaviour:
   damageNumberPrefab: {fileID: 3267922150389774706, guid: f5fa6a0c262a99d4296e5ed943f0ca32, type: 3}
   Attacking:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2615214264154004850}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Attack
+          m_BoolArgument: 0
+        m_CallState: 2
   Hit:
     m_PersistentCalls:
       m_Calls: []

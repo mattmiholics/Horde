@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //Debug.Log("Attack Player Update 1");
         if (target == null)
@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
     }
 
-    void HitTarget()
+    protected virtual void HitTarget()
     {
         EnemyData e = target.GetComponentInParent<EnemyData>();
         TroopData p = target.transform.parent.gameObject.transform.parent.gameObject.GetComponent<TroopData>();
