@@ -14,13 +14,20 @@ public class TroopData : UnitData
     public LayerMask enemyLayer;
 
     // Start is called before the first frame update
+    private PurchaseTroops purchaseTroopsInstance;
     protected override void Start()
     {
         startHealth = health;
         canAttack = true;
         agent = this.gameObject.GetComponent<Agent>();
         troopPathfinding = this.gameObject.GetComponent<TroopPathfinding>();
+        purchaseTroopsInstance = PurchaseTroops.Instance;
         StartCoroutine(UpdateTarget());
+    }
+
+    public void DecreaseTroopLimit()
+    {
+        purchaseTroopsInstance.troopDeath();
     }
 
     private IEnumerator UpdateTarget()
