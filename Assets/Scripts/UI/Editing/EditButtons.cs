@@ -50,7 +50,6 @@ public class EditButtons : MonoBehaviour
         foreach (Button button in disabledDuringWave)
         {
             button.interactable = true;
-            Debug.Log(button.name);
         }
     }
 

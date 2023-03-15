@@ -13,6 +13,7 @@ public class WaveSpawner : MonoBehaviour
     public static event Action SingletonInstanced;
     public event Action WaveStarted;
     public event Action WaveEnded;
+    public event Action EnemySpawned;
 
     public Transform parent;
     public Transform effectParent;
@@ -35,6 +36,7 @@ public class WaveSpawner : MonoBehaviour
     [Space]
     public UnityEvent WaveStartedEvent;
     public UnityEvent WaveEndedEvent;
+    public UnityEvent EnemySpawnedEvent;
 
     public bool infiniteWaveSpawning = false;
     private bool infiniteStarted = false;
@@ -285,5 +287,8 @@ public class WaveSpawner : MonoBehaviour
 
         if (progressBar != null)
             UpdateProgressBar();
+
+        EnemySpawned?.Invoke();
+        EnemySpawnedEvent?.Invoke();
     }
 }
