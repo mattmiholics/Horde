@@ -299,7 +299,7 @@ MonoBehaviour:
   - playerInput: {fileID: 668968359509995568}
     actionMapString: UI
   actionMapsBlacklist: []
-  moveControl: Main/Move
+  moveControl: Move
   lookControl: Main/Look
   lookAltControl: Main/LookAlt
   rotateControl: Main/Rotate
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 7517d4fc7aae091429b5e12ee82a732e, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:

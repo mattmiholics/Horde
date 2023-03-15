@@ -342,6 +342,9 @@ public class CameraHandler : MonoBehaviour
 
     private void Update()
     {
+        if (!cameraAltActive && _activate.IsPressed())
+            EnableCameraControls(new InputAction.CallbackContext());
+
         if (!lockControls)
         {
             //screen edge moving happens first so that it is overwritten if move keys are used

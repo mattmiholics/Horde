@@ -37,12 +37,24 @@ public class EditButtons : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneLoader.SceneLoaded += EnableButtons;
+        SceneLoader.SceneLoaded += ResetButtons;
     }
 
     private void OnDisable()
     {
-        SceneLoader.SceneLoaded -= EnableButtons;
+        SceneLoader.SceneLoaded -= ResetButtons;
+    }
+
+    private void ResetButtons()
+    {
+        foreach (Button button in disabledDuringWave)
+            button.interactable = true;
+    }
+
+    public void ResetMaps()
+    {
+        if (SceneInitialize.Instance != null)
+            SceneInitialize.Instance.ResetMaps();
     }
 
     public void ToggleTerrainEditing()
