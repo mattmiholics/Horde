@@ -51,7 +51,6 @@ public class AudioOptions : MonoBehaviour
         { masterVolume.value = 50f; }
         audioMixer.SetFloat(MASTER_VOL, Mathf.Log10(masterVolume.value / 100) * 20);
 
-
         if (PlayerPrefs.HasKey(MUSIC_VOL))
             musicVolume.value = PlayerPrefs.GetFloat(MUSIC_VOL);
         else 
@@ -63,5 +62,16 @@ public class AudioOptions : MonoBehaviour
         else 
         { sfxVolume.value = 50f; }
         audioMixer.SetFloat(SFX_VOL, Mathf.Log10(sfxVolume.value / 100) * 20);
+    }
+
+    public void ResetSettings()
+    { 
+        masterVolume.value = 50f; 
+        audioMixer.SetFloat(MASTER_VOL, Mathf.Log10(masterVolume.value / 100) * 20);
+        musicVolume.value = 50f; 
+        audioMixer.SetFloat(MUSIC_VOL, Mathf.Log10(musicVolume.value / 100) * 20);
+        sfxVolume.value = 50f; 
+        audioMixer.SetFloat(SFX_VOL, Mathf.Log10(sfxVolume.value / 100) * 20);
+        SaveSettings();
     }
 }

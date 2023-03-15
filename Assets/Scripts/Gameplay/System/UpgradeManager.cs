@@ -28,7 +28,7 @@ public class UpgradeManager : MonoBehaviour
     public LayerMask towerMask;
 
     TowerData towerDataHovered;
-    TowerData towerDataSelected;
+    public TowerData towerDataSelected;
 
     public static UpgradeManager Instance { get { return _instance; } }
 
@@ -76,7 +76,6 @@ public class UpgradeManager : MonoBehaviour
                 {
                     upgradeMenu.SetActive(false);
                 }
-                active = true;
 
                 if (td != towerDataSelected)
                 {
@@ -100,6 +99,7 @@ public class UpgradeManager : MonoBehaviour
                         
                     }
                     if (towerDataSelected.rangeSphere != null)
+                        towerDataSelected.rangeSphere.transform.localScale = new Vector3(towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2);
                         towerDataSelected.rangeSphere.SetActive(true);
                 }
             }
@@ -118,6 +118,7 @@ public class UpgradeManager : MonoBehaviour
             }
             if (towerDataSelected.rangeSphere != null)
                 towerDataSelected.rangeSphere.SetActive(false);
+            towerDataSelected.cancel();
 
             towerDataSelected = null;
         }
@@ -134,7 +135,7 @@ public class UpgradeManager : MonoBehaviour
             TowerData td = hit.transform.GetComponentInParent<TowerData>();
             if (td.selectable)
             {
-                if (td != towerDataHovered)
+                if (td != towerDataHovered && td != towerDataSelected)
                 {
                     if (towerDataHovered && towerDataHovered != towerDataSelected)
                     {
@@ -204,9 +205,13 @@ public class UpgradeManager : MonoBehaviour
     {
         if (PlayerStats.Instance.money >= cost && target != null)
         {
-            target.GetComponent<TowerData>().Upgrade();
+            TowerData td = target.GetComponent<TowerData>();
+            td.Upgrade();
             PlayerStats.Instance.GetComponent<PlayerStats>().money -= cost;
-            upgradeMenu.SetActive(false);
+            if (td.rangeSphere != null)
+                td.rangeSphere.transform.localScale = new Vector3(td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2);
+            if (td.isMaxLevel) 
+                upgradeMenu.SetActive(false);
         }else if (PlayerStats.Instance.money < cost)
         {
             notEnoughGold.Invoke();
@@ -216,7 +221,8 @@ public class UpgradeManager : MonoBehaviour
     public void Cancel()
     {
         upgradeMenu.SetActive(false);
-        this.active = false;
+        
+        towerDataSelected = null;
     }
 
 }
