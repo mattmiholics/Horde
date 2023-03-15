@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: LeaveSet02
-    second: {fileID: 2100000, guid: 56b7f68737d644b40ba43887f1a4e280, type: 2}
+    second: {fileID: 2100000, guid: e2865b23b6a3e4f48aab7ecc1eef1eda, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -52,7 +52,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
