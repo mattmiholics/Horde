@@ -54,6 +54,7 @@ public class TowerData : MonoBehaviour
     public bool showGizmo;
 
     public bool isMaxLevel = false;
+    public bool isBarracks = false;
 
     public GameObject rangeSphere;
 
@@ -97,7 +98,7 @@ public class TowerData : MonoBehaviour
 
     public void BeginUpgrade()
     {
-        if (level < upgradeDataList.ToArray().Length)
+        if (level < upgradeDataList.ToArray().Length || isBarracks)
         {
             this.upgradeUI.SetActive(true);
             UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText, upgradeInfo);
