@@ -192,6 +192,8 @@ public class TowerEditor : MonoBehaviour
         if (checkPlaying && Application.isPlaying)
             return;
 
+        if (selectedTower.GetComponent<TowerData>().rangeSphere != null)
+            selectedTower.GetComponent<TowerData>().rangeSphere.SetActive(false);
         SmartDestroy(selectedTower);
 
         selectedTower = SmartInstantiate(prefab, Vector3.zero, Quaternion.identity, towerProxyParent);
@@ -201,6 +203,8 @@ public class TowerEditor : MonoBehaviour
 
         td.Main.SetActive(false);
         td.Proxy.SetActive(true);
+        if (td.rangeSphere != null)
+            td.rangeSphere.SetActive(true);
         selectedTower.SetActive(false);
         materialActive = false;
 

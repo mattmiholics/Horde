@@ -81,13 +81,7 @@ public class UpgradeManager : MonoBehaviour
                 {
                     if (towerDataSelected)
                     {
-                        if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline tdoutline))
-                        {
-                            tdoutline.OutlineColor = Color.blue;
-                            tdoutline.enabled = false;
-                        }
-                        if (towerDataSelected.rangeSphere != null)
-                            towerDataSelected.rangeSphere.SetActive(false);
+                        towerDataSelected.cancel();
                     }
 
                     towerDataSelected = td;
@@ -109,17 +103,6 @@ public class UpgradeManager : MonoBehaviour
         }
         else if (!CanvasHitDetector.Instance.IsPointerOverUI() && towerDataSelected)
         {
-            if (towerDataSelected.Main.TryGetComponent<Outline>(out Outline outline))
-            {
-                outline.OutlineColor = Color.blue;
-                outline.enabled = false;
-            }
-            if (active && upgradeMenu != null)
-            {
-                upgradeMenu.SetActive(false);
-            }
-            if (towerDataSelected.rangeSphere != null)
-                towerDataSelected.rangeSphere.SetActive(false);
             towerDataSelected.cancel();
 
             towerDataSelected = null;

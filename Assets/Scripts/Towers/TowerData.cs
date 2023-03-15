@@ -140,6 +140,6 @@ public class TowerData : MonoBehaviour
         if (rangeSphere != null)
             rangeSphere.SetActive(false);
         UpgradeManager.Instance.GetComponent<UpgradeManager>().towerDataSelected = null;
-        this.upgradeUI.SetActive(false);
+        upgradeUI.SetActive(false);
     }
 }
