@@ -389,14 +389,26 @@ MonoBehaviour:
       m_Calls: []
   Hit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3543203226564927523}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 0ee90cf8ebff3c145b0997e7466d3736, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Death:
     m_PersistentCalls:
       m_Calls: []
   deathValue: 50
   deathEffect: {fileID: 4749312584868028727, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
   aSource: {fileID: 3543203226564927523}
-  clip: {fileID: 8300000, guid: d65b81d6b848b467da29dab292d5ac66, type: 3}
+  clip: {fileID: 8300000, guid: d51f58d09307143948342cae5c3b505a, type: 3}
   animator: {fileID: 0}
 --- !u!82 &3543203226564927523
 AudioSource:
@@ -408,7 +420,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -2714683069989177368, guid: ee6871a2b730c244f864c6a4b353fdea, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d51f58d09307143948342cae5c3b505a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -416,7 +428,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 142
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
