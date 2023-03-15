@@ -7,16 +7,7 @@ using UnityEngine;
 public class FireMageTroopLogic : TroopData
 {
     private PurchaseTroops purchaseTroopsInstance;
-
-    private void Start()
-    {
-        purchaseTroopsInstance = PurchaseTroops.Instance;
-    }
-
-    public void DecreaseTroopLimit()
-    {
-        purchaseTroopsInstance.troopDeath();
-    }
+    
     // public override void Attack(UnitData unitData)
     // {
     //     if (isRanged)
