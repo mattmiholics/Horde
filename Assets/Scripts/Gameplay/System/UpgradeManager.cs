@@ -191,8 +191,8 @@ public class UpgradeManager : MonoBehaviour
         if (PlayerStats.Instance.money >= cost && target != null)
         {
             TowerData td = target.GetComponent<TowerData>();
-            td.Upgrade();
             PlayerStats.Instance.GetComponent<PlayerStats>().money -= cost;
+            td.Upgrade();
             if (td.rangeSphere != null)
                 td.rangeSphere.transform.localScale = new Vector3(td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2);
             if (td.isMaxLevel) 
