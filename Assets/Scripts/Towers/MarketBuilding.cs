@@ -16,7 +16,11 @@ public class MarketBuilding : MonoBehaviour
 
     public void PayPlayer()
     {
-        PlayerStats.Instance.money += (moneyCap - currentAmountPayed);
+        if (moneyCap - currentAmountPayed > 0)
+        {
+            PlayerStats.Instance.money += (moneyCap - currentAmountPayed);
+            payoutNumber.BeginAnimation(moneyCap - currentAmountPayed);
+        }
         currentAmountPayed = 0;
         timer = 0;
     }

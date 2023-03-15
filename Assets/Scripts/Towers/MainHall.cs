@@ -10,17 +10,14 @@ public class MainHall : MonoBehaviour
     public Image healthBar;
     public int maxHealth;
 
-    public GameObject gameManager;
-
-    public void Start()
+    private void Start()
     {
-        maxHealth = gameManager.GetComponent<PlayerStats>().startLives;
+        maxHealth = PlayerStats.Instance.startLives;
     }
 
     public void Update()
     {
-        healthBar.fillAmount = (float) gameManager.GetComponent<PlayerStats>().lives / maxHealth;
-       
+        healthBar.fillAmount = PlayerStats.Instance.lives / maxHealth;
     }
 
 
