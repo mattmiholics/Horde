@@ -53,6 +53,8 @@ public class TowerData : MonoBehaviour
     [Space]
     public bool showGizmo;
 
+    public bool isMaxLevel = false;
+
     public GameObject rangeSphere;
 
     private static TowerData _instance;
@@ -95,10 +97,15 @@ public class TowerData : MonoBehaviour
 
     public void BeginUpgrade()
     {
-        if(level < upgradeDataList.ToArray().Length)
+        if (level < upgradeDataList.ToArray().Length)
         {
             this.upgradeUI.SetActive(true);
             UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText, upgradeInfo);
+        }
+        else
+        {
+            this.upgradeUI.SetActive(false);
+            isMaxLevel = true;
         }
     }
 
@@ -109,6 +116,12 @@ public class TowerData : MonoBehaviour
         Main.SetActive(false);
         level++;
         Main.SetActive(true);
+        if (Main.TryGetComponent(out Outline outline))
+        {
+            outline.OutlineColor = Color.yellow;
+            outline.enabled = true;
+        }
+        BeginUpgrade();
 
     }
 
@@ -119,6 +132,14 @@ public class TowerData : MonoBehaviour
 
     public void cancel()
     {
+        if (Main.TryGetComponent(out Outline outline))
+        {
+            outline.OutlineColor = Color.blue;
+            outline.enabled = false;
+        }
+        if (rangeSphere != null)
+            rangeSphere.SetActive(false);
+        UpgradeManager.Instance.GetComponent<UpgradeManager>().towerDataSelected = null;
         this.upgradeUI.SetActive(false);
     }
 }
