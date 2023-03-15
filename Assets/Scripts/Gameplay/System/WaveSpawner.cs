@@ -32,6 +32,7 @@ public class WaveSpawner : MonoBehaviour
     private bool waveStarted;
     private int activeCoRoutines = 0;
     private float totalEnemyAmount = 0;
+    private List<float> bossSpawns = new List<float>();
 
     [Space]
     public UnityEvent WaveStartedEvent;
@@ -175,13 +176,16 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    
+
     private void CalcTotalEnemiesInWave (WaveData wave_data)
     {
         this.totalEnemyAmount = 0;
-
         foreach (SpawnData spawn_data in wave_data.spawnDataList)
         {
+            if (spawn_data.boss)
+            {
+                this.bossSpawns.Add(this.totalEnemyAmount);
+            }
             this.totalEnemyAmount += spawn_data.enemyCount;
         }
     }
