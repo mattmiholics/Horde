@@ -48,7 +48,10 @@ public class EditButtons : MonoBehaviour
     private void ResetButtons()
     {
         foreach (Button button in disabledDuringWave)
+        {
             button.interactable = true;
+            Debug.Log(button.name);
+        }
     }
 
     public void ResetMaps()

@@ -111,7 +111,6 @@ public class SceneInitialize : MonoBehaviour
             if (actionMaps.Contains(map))
             {
                 map.Enable();
-                Debug.Log(map.name);
             }
             else
                 map.Disable();
