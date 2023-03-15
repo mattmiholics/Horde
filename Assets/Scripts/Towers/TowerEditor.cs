@@ -301,6 +301,8 @@ public class TowerEditor : MonoBehaviour
                                 n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
                                 n_td.Main.SetActive(true);
                                 n_td.Proxy.SetActive(false);
+                                if (n_td.rangeSphere != null)
+                                    n_td.rangeSphere.SetActive(false);
 
                                 //remove money from player
                                 PlayerStats.Instance.money -= n_td.cost;
