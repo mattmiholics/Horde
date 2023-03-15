@@ -88,6 +88,19 @@ public class ControlOptions : MonoBehaviour
             borderMovment.SetIsOnWithoutNotify(false);
         ToggleBorderMovement(borderMovment.isOn);
     }
+
+    public void ResetSettings()
+    {
+        moveSense.value = 2.5f;
+        UpdateMoveSense(moveSense.value);
+        rotationSense.value = 2.5f;
+        UpdateRotationSense(rotationSense.value);
+        zoomSense.value = 2.5f;
+        UpdateZoomSense(zoomSense.value);
+        borderMovment.SetIsOnWithoutNotify(false);
+        ToggleBorderMovement(borderMovment.isOn);
+        SaveSettings();
+    }
 }
 
     

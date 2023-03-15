@@ -226,4 +226,25 @@ public class GraphicsOptions : MonoBehaviour
         { ambientOcclusion.isOn = true; }
         UpdateAmbientOcclusion(ambientOcclusion.isOn);
     }
+
+    public void ResetSettings()
+    {
+        resolution.value = 2f;
+        UpdateRenderScale(resolution.value);
+        shadowDistance.value = 50f;
+        UpdateShadowDistance(shadowDistance.value);
+        msaa = 1;
+        SetMSAA(msaa);
+        tiltShiftToggle.isOn = true;
+        UpdateTiltShift(tiltShiftToggle.isOn);
+        motionBlurToggle.isOn = true; 
+        UpdateMotionBlur(motionBlurToggle.isOn);
+        lensDistortionToggle.isOn = true; 
+        UpdateLensDistortion(lensDistortionToggle.isOn);
+        vignetteToggle.isOn = true; 
+        UpdateVignette(vignetteToggle.isOn);
+        ambientOcclusion.isOn = true; 
+        UpdateAmbientOcclusion(ambientOcclusion.isOn);
+        SaveSettings();
+    }
 }

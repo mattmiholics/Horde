@@ -202,5 +202,20 @@ public class UIDisplayOptions : MonoBehaviour
         SetFrameLimit(frameCap.value);
     }
 
+    public void ResetSettings()
+    {
+        int currentResolutionIndex = findResolutions();
+        resolutionDropdown.value = currentResolutionIndex;
+        SetResolution(resolutionDropdown.value);
+        Screen.fullScreen = true;
+        fullscreen.isOn = true;
+        SetFullscreen(fullscreen.isOn);refreshRates.value = 0;
+        SetRefreshRate(refreshRates.value); vsync.isOn = false;
+        SetVsync(vsync.isOn);
+        frameCap.value = 501;
+        SetFrameLimit(frameCap.value);
+        SaveSettings();
+    }
+
     
 }
