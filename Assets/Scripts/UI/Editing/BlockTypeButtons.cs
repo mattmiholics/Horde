@@ -6,7 +6,6 @@ using TMPro;
 
 public class BlockTypeButtons : MonoBehaviour
 {
-    private TerrainEditor terrainEditor;
     public Toggle startToggleDefault;
     public TextMeshProUGUI infoText;
     [SerializeField]
@@ -17,36 +16,48 @@ public class BlockTypeButtons : MonoBehaviour
         set { serializableButtonBlockType.CopyFrom(value); }
     }
 
+    private void Awake()
+    {
+        UpdateButtons();
+    }
+
     private void OnEnable()
     {
-        terrainEditor = TerrainEditor.Instance;
+        SceneLoader.SceneLoaded += UpdateButtons;
+    }
 
-        UpdateText();
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= UpdateButtons;
+    }
+
+    private void UpdateButtons()
+    {
+        foreach (var entry in buttonBlockType)
+        {
+            entry.Key.onValueChanged.RemoveAllListeners();
+        }
 
         foreach (var entry in buttonBlockType)
         {
             entry.Key.onValueChanged.AddListener((b) => ChangeBlockType(entry.Value));
         }
 
+        UpdateText();
+
         startToggleDefault.isOn = true;
         ChangeBlockType(buttonBlockType[startToggleDefault]);
     }
 
-    private void OnDisable()
-    {
-        foreach (var entry in buttonBlockType)
-        {
-            entry.Key.onValueChanged.RemoveAllListeners();
-        }
-    }
-
     public void ChangeBlockType(BlockType blockType)
     {
-        terrainEditor.playModeBlockType = blockType;
+        if (TerrainEditor.Instance)
+            TerrainEditor.Instance.playModeBlockType = blockType;
     }
 
     public void UpdateText()
     {
-        infoText.text = string.Format("${0} - place\n${0} - remove", terrainEditor.cost);
+        if (TerrainEditor.Instance)
+            infoText.text = string.Format("${0} - place\n${0} - remove", TerrainEditor.Instance.cost);
     }
 }

@@ -6,7 +6,7 @@ public class LBullet : MonoBehaviour
 
     public float speed = 70f;
     public GameObject impactEffect;
-    private int damage = 50;
+    private int damage = 25;
     private int chain = 0;
     private int ChainDamage = 0;
 
@@ -18,6 +18,7 @@ public class LBullet : MonoBehaviour
         target = nTarget;
         this.chain = chain;
         this.ChainDamage = chainDamage;
+        gameObject.transform.LookAt(nTarget);
     }
 
 
@@ -46,8 +47,8 @@ public class LBullet : MonoBehaviour
 
     void HitTarget()
     {
-        EnemyMovement e = target.GetComponent<EnemyMovement>();
-        MovePlayer p = target.GetComponent<MovePlayer>();
+        EnemyData e = target.GetComponentInParent<EnemyData>();
+        TroopData p = target.GetComponent<TroopData>();
 
         if (e != null)
         {

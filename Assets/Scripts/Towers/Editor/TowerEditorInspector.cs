@@ -92,7 +92,7 @@ public class TowerEditorInspector : OdinEditor
             {
                 towerEditor.proxiesActive = true;
                 List<TowerData> tdList = towerEditor.permanentTowerParent.GetComponentsInChildren<TowerData>().Concat(towerEditor.towerParent.GetComponentsInChildren<TowerData>()).ToList();
-                tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
+                tdList.ForEach(m_td => { m_td.Main.SetActive(false); m_td.Proxy.SetActive(true); });
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerEditor.towerMask))
@@ -112,7 +112,7 @@ public class TowerEditorInspector : OdinEditor
             {
                 towerEditor.proxiesActive = false;
                 List<TowerData> tdList = towerEditor.permanentTowerParent.GetComponentsInChildren<TowerData>().Concat(towerEditor.towerParent.GetComponentsInChildren<TowerData>()).ToList();
-                tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
+                tdList.ForEach(m_td => { m_td.Main.SetActive(true); m_td.Proxy.SetActive(false); });
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerEditor.groundMask))
@@ -136,7 +136,7 @@ public class TowerEditorInspector : OdinEditor
 
                     if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt) //tower placed
                     {
-                        TowerHelper.PlaceTower(towerEditor, towerEditor.selectedTower, m_basePosition, towerEditor.td.rotation);
+                        TowerHelper.PlaceTower(towerEditor, towerEditor.selectedTower, m_basePosition, towerEditor.td.rotation, corner1, corner2, m_corner1, m_corner2);
                     }
                 }
                 else //if space is invalid show red proxy material

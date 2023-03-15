@@ -68,3 +68,23 @@ ProjectSettings/EditorBuildSettings.asset
 UserSettings/EditorUserSettings.asset
 UserSettings/Layouts/default-2021.dwlt
 UserSettings/EditorUserSettings.asset
+Assets/Plugins/AmplifyShaderEditor/Examples/Built-In Samples.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/HDRP Samples 10x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/HDRP Samples 12x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/HDRP Samples 14x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/HDRP Samples.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/Sample Resources.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/URP Samples 10x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/URP Samples 12x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/URP Samples 14x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Examples/URP Samples.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 10x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 12x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 14x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 10x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 12x.unitypackage.meta
+Assets/Plugins/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 14x.unitypackage.meta
+Assets/PostProcess/SC Post Effects/Install/DemoScenes (Built-in RP).unitypackage.meta
+Assets/PostProcess/SC Post Effects/Install/Effect Scripts (Built-in RP).unitypackage.meta
+Assets/PostProcess/SC Post Effects/Install/Effect Scripts (Universal Render Pipeline).unitypackage.meta
+Assets/PostProcess/SC Post Effects/Install/SampleTextures.unitypackage.meta

@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEditor;
 using Sirenix.Utilities;
+using System;
+using UnityEngine.Events;
 
 public class TowerEditor : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class TowerEditor : MonoBehaviour
     public LayerMask groundMask;
     [SerializeField]
     public LayerMask towerMask;
+    [SerializeField]
+    public LayerMask unitMask;
     [Space]
     public Transform towerParent;
     public Transform towerProxyParent;
@@ -22,6 +26,8 @@ public class TowerEditor : MonoBehaviour
     [Space]
     public Material placeMaterial;
     public Material removeMaterial;
+    [ColorUsage(false, true)]
+    public Color unableToEditColor;
 
     [Space]
     [Required]
@@ -47,11 +53,20 @@ public class TowerEditor : MonoBehaviour
     [StringInList(typeof(PropertyDrawersHelper), "AllPlayerInputs")] public string rotateControl;
     private InputAction _rotate;
 
+    [FoldoutGroup("Events")]
+    public UnityEvent towerPlaced;
+    [FoldoutGroup("Events")]
+    public UnityEvent towerRemoved;
+    [FoldoutGroup("Events")]
+    public UnityEvent unableToEdit;
+
     [Space]
     [Header("Debug")]
     [OnInspectorDispose("DisableSelectedTower")]
     [ReadOnly]
     public GameObject selectedTower;
+    [HideInInspector]
+    public GameObject selectedTowerPrefab;
 
     private void DisableSelectedTower()
     {
@@ -75,6 +90,7 @@ public class TowerEditor : MonoBehaviour
     public bool editing;
 
     private Coroutine editCoroutine;
+    private Coroutine unableToPlaceCoroutine;
 
     private static TowerEditor _instance;
     public static TowerEditor Instance { get { return _instance; } }
@@ -96,14 +112,28 @@ public class TowerEditor : MonoBehaviour
         tdList = towerParent.GetComponentsInChildren<TowerData>(true).ToList();
 
         editing = false;
-    }
 
-    private void Start()
-    {
-        //NewSelectedTower(TowerTypeButtons.Instance.serializableButtonGameObject.Values.FirstOrDefault());
+        if (CameraHandler.Instance != null)
+            DelayedStart();
     }
 
     private void OnEnable()
+    {
+        if (CameraHandler.Instance == null)
+            CameraHandler.SingletonInstanced += DelayedStart;  
+    }
+
+    private void OnDisable()
+    {
+        CameraHandler.SingletonInstanced -= DelayedStart;
+    }
+
+    private void OnDestroy()
+    {
+        _rotate.performed -= RotateTower;
+    }
+
+    private void DelayedStart()
     {
         _playerInput = CameraHandler.Instance.playerInput;
 
@@ -112,11 +142,7 @@ public class TowerEditor : MonoBehaviour
         _rotate = _playerInput.actions[rotateControl];
 
         _rotate.performed += RotateTower;
-    }
 
-    private void OnDisable()
-    {
-        _rotate.performed -= RotateTower;
     }
 
     private void RotateTower(InputAction.CallbackContext ctx)
@@ -153,10 +179,12 @@ public class TowerEditor : MonoBehaviour
             proxiesActive = false;
             foreach (TowerData m_td in tdList)
             {
-                m_td.main.SetActive(true);
-                m_td.proxy.SetActive(false);
+                m_td.Main.SetActive(true);
+                m_td.Proxy.SetActive(false);
             }
         }
+
+        selectedTower.SetActive(false);
     }
 
     public void NewSelectedTower(GameObject prefab, bool checkPlaying = false)
@@ -164,18 +192,23 @@ public class TowerEditor : MonoBehaviour
         if (checkPlaying && Application.isPlaying)
             return;
 
+        if (selectedTower.GetComponent<TowerData>().rangeSphere != null)
+            selectedTower.GetComponent<TowerData>().rangeSphere.SetActive(false);
         SmartDestroy(selectedTower);
 
         selectedTower = SmartInstantiate(prefab, Vector3.zero, Quaternion.identity, towerProxyParent);
+        selectedTowerPrefab = prefab;
 
         td = selectedTower.GetComponent<TowerData>();
 
-        td.main.SetActive(false);
-        td.proxy.SetActive(true);
+        td.Main.SetActive(false);
+        td.Proxy.SetActive(true);
+        if (td.rangeSphere != null)
+            td.rangeSphere.SetActive(true);
         selectedTower.SetActive(false);
         materialActive = false;
 
-        renderers = td.proxy.GetComponentsInChildren<Renderer>(true);
+        renderers = td.Proxy.GetComponentsInChildren<Renderer>(true);
     }
 
     private IEnumerator Editing()
@@ -199,7 +232,7 @@ public class TowerEditor : MonoBehaviour
                 {
                     proxiesActive = true;
                     tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
-                    tdList.ForEach(m_td => { m_td.main.SetActive(false); m_td.proxy.SetActive(true); });
+                    tdList.ForEach(m_td => { m_td.Main.SetActive(false); m_td.Proxy.SetActive(true); });
                 }
 
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
@@ -213,6 +246,8 @@ public class TowerEditor : MonoBehaviour
                         PlayerStats.Instance.money += n_td.cost;
 
                         TowerHelper.RemoveTower(this, n_td);
+
+                        towerRemoved?.Invoke();
                     }
                 }
             }
@@ -222,7 +257,7 @@ public class TowerEditor : MonoBehaviour
                 {
                     proxiesActive = false;
                     tdList = tdList.Where(m_td => m_td != null).ToList(); // Remove null tower datas
-                    tdList.ForEach(m_td => { m_td.main.SetActive(true); m_td.proxy.SetActive(false); });
+                    tdList.ForEach(m_td => { m_td.Main.SetActive(true); m_td.Proxy.SetActive(false); });
                 }
                 if (!CanvasHitDetector.Instance.IsPointerOverUI() && Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
                 {
@@ -234,26 +269,67 @@ public class TowerEditor : MonoBehaviour
 
                     selectedTower.transform.position = m_basePosition;
 
-                    if (world.GetBlockVolume(g_corner1, g_corner2, false) && world.GetBlockVolume(corner1, corner2, true)) //check ground then empty
+                    if (world.GetBlockVolume(g_corner1, g_corner2, false) 
+                        && world.GetBlockVolume(corner1, corner2, true) // Check ground then empty
+                        && !Physics.CheckBox(m_center, new Vector3(Mathf.Abs(m_center.x - m_corner1.x), Mathf.Abs(m_center.y - m_corner1.y), Mathf.Abs(m_center.z - m_corner1.z)) + Vector3.one / 2, Quaternion.identity, unitMask)) 
                     {
                         if (!materialActive)
                         {
+                            if (unableToPlaceCoroutine != null)
+                                StopCoroutine(unableToPlaceCoroutine);
+
                             renderers.ForEach(r => r.materials = r.materials.Select(m => m = placeMaterial).ToArray()); //show place proxy material
                             materialActive = true;
                         }
 
                         if (_click.WasPerformedThisFrame() && td.cost <= PlayerStats.Instance.money) //tower placed
                         {
-                            StartCoroutine(PlacingTower(selectedTower, m_basePosition, corner1, corner2, m_corner1, m_corner2));
+                            if (td.placeBarriers)
+                                world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
+
+                            if (EnemyPathChecker.Instance != null && EnemyPathChecker.Instance.PathExists()) // Instantiate tower
+                            {
+                                GameObject newTower = Instantiate(selectedTower, m_basePosition, selectedTower.transform.rotation, towerParent);
+                                TowerData n_td = newTower.GetComponent<TowerData>();
+
+                                if (n_td.useChecker)
+                                    world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
+                                if (n_td.placeBarriers)
+                                    world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers overriding soft barriers
+
+                                tdList.Add(n_td);
+                                n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+                                n_td.Main.SetActive(true);
+                                n_td.Proxy.SetActive(false);
+                                if (n_td.rangeSphere != null)
+                                    n_td.rangeSphere.SetActive(false);
+
+                                //remove money from player
+                                PlayerStats.Instance.money -= n_td.cost;
+                                towerPlaced?.Invoke();
+                            }
+                            else
+                            {
+                                if (td.placeBarriers)
+                                    world.SetBlockVolume(m_corner1, m_corner2, BlockType.Air); // Return to air
+                                UnableToEdit();
+                            }
                         }
+                        else if (_click.WasPerformedThisFrame())
+                            UnableToEdit();
                     }
                     else //if space is invalid show red proxy material
                     {
                         if (materialActive)
                         {
+                            if (unableToPlaceCoroutine != null)
+                                StopCoroutine(unableToPlaceCoroutine);
+
                             renderers.ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray()); //show remove proxy material
                             materialActive = false;
                         }
+                        if (_click.WasPerformedThisFrame()) //tower tried to be placed in invalid spot
+                            UnableToEdit(false);
                     }
                 }
                 else
@@ -269,9 +345,26 @@ public class TowerEditor : MonoBehaviour
         //instantiate tower
         GameObject newTower = Instantiate(selectedTower, position, selectedTower.transform.rotation, towerParent);
         TowerData n_td = newTower.GetComponent<TowerData>();
-        n_td.main.SetActive(false);
-        n_td.proxy.SetActive(false);
-        yield return 1;
+        n_td.Main.SetActive(false);
+        n_td.Proxy.SetActive(false);
+
+        if (td.useChecker)
+            world.SetBlockVolume(corner1, corner2, BlockType.Soft_Barrier); // Spawn soft barriers
+
+        if (n_td.placeBarriers)
+            world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); //spawn barriers
+
+        tdList.Add(n_td);
+        n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+        n_td.Main.SetActive(true);
+        n_td.Proxy.SetActive(false);
+
+        //remove money from player
+        PlayerStats.Instance.money -= n_td.cost;
+        towerPlaced?.Invoke();
+
+        yield return null;
+        /*yield return 1;
 
         //check if path valid
         bool pathValid = EnemyTargetPathChecker.Instance.CheckPathFromTargetToEnemy();
@@ -286,9 +379,9 @@ public class TowerEditor : MonoBehaviour
                 world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); //spawn barriers
 
             tdList.Add(n_td);
-            n_td.proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
-            n_td.main.SetActive(true);
-            n_td.proxy.SetActive(false);
+            n_td.Proxy.GetComponentsInChildren<Renderer>().ForEach(r => r.materials = r.materials.Select(m => m = removeMaterial).ToArray());
+            n_td.Main.SetActive(true);
+            n_td.Proxy.SetActive(false);
 
             //remove money from player
             PlayerStats.Instance.money -= n_td.cost;
@@ -296,7 +389,34 @@ public class TowerEditor : MonoBehaviour
         else //otherwise remove tower
         {
             Destroy(newTower);
+        }*/
+    }
+
+    public void UnableToEdit(bool place = true)
+    {
+        unableToEdit?.Invoke();
+
+        if (unableToPlaceCoroutine != null)
+            StopCoroutine(unableToPlaceCoroutine);
+        unableToPlaceCoroutine = StartCoroutine(UnableToEditAnimation(selectedTower, place ? placeMaterial.GetColor("_Wireframe_Color") : removeMaterial.GetColor("_Wireframe_Color")));
+    }
+
+    private IEnumerator UnableToEditAnimation(GameObject proxy, Color origColor)
+    {
+        Renderer[] rs = proxy.GetComponentsInChildren<Renderer>().ToArray();
+
+        float currentTime = 0;
+
+        while (currentTime <= 0.5f)
+        {
+            rs.ForEach(r => r.materials.ForEach(m => m.SetColor("_Wireframe_Color", Color.Lerp(unableToEditColor, origColor, currentTime / 0.5f))));
+
+            currentTime += Time.deltaTime;
+
+            yield return null;
         }
+
+        rs.ForEach(r => r.materials.ForEach(m => m.SetColor("_Wireframe_Color", origColor)));
     }
 
     public void SmartDestroy(GameObject gameObject)
@@ -309,7 +429,19 @@ public class TowerEditor : MonoBehaviour
 
     public GameObject SmartInstantiate(GameObject gameObject, Vector3 position, Quaternion rotation, Transform parent)
     {
-        return Instantiate(gameObject, position, rotation, parent);
+        if (Application.isPlaying)
+            return Instantiate(gameObject, position, rotation, parent);
+        else
+        {
+#if UNITY_EDITOR
+            GameObject prefabGameObject = (GameObject)PrefabUtility.InstantiatePrefab(gameObject, parent);
+            prefabGameObject.transform.position = position;
+            prefabGameObject.transform.rotation = rotation;
+            return prefabGameObject;
+#else
+            return null;
+#endif
+        }
     }
 }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Tower
+  - uUI
   layers:
   - Default
   - TransparentFX
@@ -13,11 +14,11 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Player
+  - Troop
   - Camera
   - Tower
-  - 
-  - 
+  - Enemy
+  - Troop Ignore
   - 
   - 
   - 

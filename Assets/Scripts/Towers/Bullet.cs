@@ -2,28 +2,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Transform target;
+    protected Transform target;
 
     public float speed = 70f;
     public GameObject impactEffect;
-    public int damage = 50;
+    public float damage = 50f;
 
-
-
-    public void Seek(Transform _target, int damage)
+    public void Seek(Transform _target, float damage)
     {
+        gameObject.transform.LookAt(_target);
+        //Debug.Log("Attack Player Seek");
         this.damage = damage;
         target = _target;
-
-
     }
 
-
-
-
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
+        //Debug.Log("Attack Player Update 1");
         if (target == null)
         {
             Destroy(gameObject);
@@ -33,8 +29,11 @@ public class Bullet : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
 
+        //Debug.Log("Attack Player Update 2");
+
         if(dir.magnitude <= distanceThisFrame)
         {
+            //Debug.Log("Attack Player Hit Target 1");
             HitTarget();
             return;
         }
@@ -42,10 +41,12 @@ public class Bullet : MonoBehaviour
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
     }
 
-    void HitTarget()
+    protected virtual void HitTarget()
     {
-        EnemyMovement e = target.GetComponent<EnemyMovement>();
-        MovePlayer p = target.GetComponent<MovePlayer>();
+        EnemyData e = target.GetComponentInParent<EnemyData>();
+        TroopData p = target.transform.parent.gameObject.transform.parent.gameObject.GetComponent<TroopData>();
+        // Debug.Log("Attack Player Hit Target 2: " + p.name);
+        
 
         if(e != null)
         {
@@ -54,6 +55,7 @@ public class Bullet : MonoBehaviour
         
         if(p != null)
         {
+            //Debug.Log("Attack Player Take Damage: " + damage);
             p.TakeDamage(damage);
         }
 

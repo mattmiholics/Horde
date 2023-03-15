@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class EditButtons : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class EditButtons : MonoBehaviour
     public List<Button> disabledDuringWave;
 
     private int reactivateIndex;
+
+    [HideInInspector]
+    public GameObject currentOutline;
 
     private static EditButtons _instance;
     public static EditButtons Instance { get { return _instance; } }
@@ -29,6 +33,33 @@ public class EditButtons : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+    }
+
+    private void OnEnable()
+    {
+        SceneLoader.SceneLoaded += ResetButtons;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= ResetButtons;
+    }
+
+    private void ResetButtons()
+    {
+        foreach (Button button in disabledDuringWave)
+        {
+            button.interactable = true;
+        }
+
+        if (currentOutline)
+            currentOutline.SetActive(false);
+    }
+
+    public void ResetMaps()
+    {
+        if (SceneInitialize.Instance != null)
+            SceneInitialize.Instance.ResetMaps();
     }
 
     public void ToggleTerrainEditing()
@@ -82,6 +113,9 @@ public class EditButtons : MonoBehaviour
         foreach (Button button in disabledDuringWave)
             button.interactable = false;
 
+        if (currentOutline)
+            currentOutline.SetActive(false);
+
         if (popupHandler.currentActive == terrainEditorPopupIndex)
         {
             TerrainEditor.Instance.DisableTerrainEditing();
@@ -101,6 +135,9 @@ public class EditButtons : MonoBehaviour
         foreach (Button button in disabledDuringWave)
             button.interactable = true;
 
+        if (currentOutline)
+            currentOutline.SetActive(true);
+
         if (popupHandler.currentActive == -1) //activate the last used terrain editor if no current popup is active
         {
             popupHandler.ActivatePopup(reactivateIndex);
@@ -109,5 +146,26 @@ public class EditButtons : MonoBehaviour
             else if (reactivateIndex == towerEditorPopupIndex)
                 TowerEditor.Instance.EnableTowerEditing();
         }
+    }
+
+    public void OutlineButton(GameObject outline)
+    {
+        if (popupHandler.animating)
+            return;
+
+        if (currentOutline)
+            currentOutline.SetActive(false);
+
+        if (currentOutline != outline)
+        {
+            outline.SetActive(true);
+            currentOutline = outline;
+        }
+        else
+        {
+            currentOutline = null;
+        }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }

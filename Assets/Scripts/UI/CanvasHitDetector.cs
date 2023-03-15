@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,20 +11,23 @@ public class CanvasHitDetector : MonoBehaviour
     private GraphicRaycaster _graphicRaycaster;
 
     private static CanvasHitDetector _instance;
+    private static List<CanvasHitDetector> _allInstances;
     public static CanvasHitDetector Instance { get { return _instance; } }
+    public static List<CanvasHitDetector> AllInstances { get { return _allInstances; } }
 
     private void Awake()
     {
         // If an instance of this already exists and it isn't this one
         if (_instance != null && _instance != this)
         {
-            // We destroy this instance
-            Destroy(this.gameObject);
+            _allInstances.Add(this);
         }
         else
         {
             // Make this the instance
             _instance = this;
+            _allInstances = new List<CanvasHitDetector>();
+            _allInstances.Add(this);
         }
     }
 
@@ -47,7 +51,15 @@ public class CanvasHitDetector : MonoBehaviour
         // the pointer event hits.  If this value is greater-than zero, skip
         // further processing.
         var results = new List<RaycastResult>();
-        _graphicRaycaster.Raycast(pointerEventData, results);
-        return results.Count > 0;
+
+        _allInstances = _allInstances.Where(chd => chd._graphicRaycaster != null).ToList();
+
+        foreach (GraphicRaycaster graphicRaycaster in _allInstances.Select(chd => chd._graphicRaycaster))
+        {
+            graphicRaycaster.Raycast(pointerEventData, results);
+            if (results.Count > 0)
+                return true;
+        }
+        return false;
     }
 }

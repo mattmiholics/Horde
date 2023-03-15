@@ -75,6 +75,7 @@ public static class TowerHelper
     public static void PlaceTower(TowerEditor towerEditor, GameObject gameObject, Vector3 position, float rotation)
     {
         TowerData td = gameObject.GetComponent<TowerData>();
+        td.rotation = Mathf.RoundToInt(rotation);
 
         GetTowerVolumeCorners(towerEditor.world, td, position, VolumeType.Main, towerEditor.td.useChecker, out Vector3 basePosition, out Vector3 center, out Vector3Int corner1, out Vector3Int corner2); // Full volume check with optional checker
         GetTowerVolumeCorners(towerEditor.world, td, position, VolumeType.Main, false, out Vector3 m_basePosition, out Vector3 m_center, out Vector3Int m_corner1, out Vector3Int m_corner2); // Full volume check without checker
@@ -85,8 +86,9 @@ public static class TowerHelper
     public static void PlaceTower(TowerEditor towerEditor, GameObject gameObject, Vector3 position, float rotation, Vector3Int corner1, Vector3Int corner2, Vector3Int m_corner1, Vector3Int m_corner2)
     {
         //instantiate tower
-        GameObject newTower = towerEditor.SmartInstantiate(towerEditor.selectedTower, position, Quaternion.Euler(0, rotation, 0), gameObject.GetComponent<TowerData>().editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
+        GameObject newTower = towerEditor.SmartInstantiate(towerEditor.selectedTowerPrefab, position, Quaternion.Euler(0, rotation, 0), gameObject.GetComponent<TowerData>().editable ? towerEditor.towerParent : towerEditor.permanentTowerParent);
         TowerData td = newTower.GetComponent<TowerData>();
+        td.rotation = Mathf.RoundToInt(rotation);
 
         if (Application.isPlaying && td.editable)
             towerEditor.tdList.Add(td);
@@ -97,8 +99,8 @@ public static class TowerHelper
         if (td.placeBarriers)
             towerEditor.world.SetBlockVolume(m_corner1, m_corner2, BlockType.Barrier); // Spawn barriers
 
-        td.proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
-        td.main.SetActive(true);
-        td.proxy.SetActive(false);
+        td.Proxy.GetComponentsInChildren<Renderer>(true).ForEach(r => r.sharedMaterials = r.sharedMaterials.Select(m => m = towerEditor.removeMaterial).ToArray()); // Set material to remove mat
+        td.Main.SetActive(true);
+        td.Proxy.SetActive(false);
     }
 }

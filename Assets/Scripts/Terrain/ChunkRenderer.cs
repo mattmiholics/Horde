@@ -11,8 +11,12 @@ using Sirenix.Serialization;
 [RequireComponent(typeof(MeshCollider))]
 public class ChunkRenderer : MonoBehaviour
 {
-    MeshFilter meshFilter;
-    MeshCollider meshCollider;
+    public event Action ChunkUpdated;
+
+    [HideInInspector]
+    public MeshFilter meshFilter;
+    [HideInInspector]
+    public MeshCollider meshCollider;
     public World worldReference;
     public bool showGizmo = false;
 
@@ -67,11 +71,15 @@ public class ChunkRenderer : MonoBehaviour
     public void UpdateChunk()
     {
         RenderMesh(Chunk.GetChunkMeshData(worldReference, ChunkData));
+        
+        ChunkUpdated?.Invoke();
     }
 
     public void UpdateChunk(MeshData data)
     {
         RenderMesh(data);
+        
+        ChunkUpdated?.Invoke();
     }
 
 #if UNITY_EDITOR

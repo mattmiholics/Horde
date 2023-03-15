@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TowerTypeButtons : MonoBehaviour
 {
-    private TowerEditor towerEditor;
     public Toggle startToggleDefault;
     [SerializeField]
     public ButtonGameObjectDictionary serializableButtonGameObject;
@@ -31,35 +30,43 @@ public class TowerTypeButtons : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+
+        UpdateButtons();
     }
 
 
     private void OnEnable()
     {
-        towerEditor = TowerEditor.Instance;
+        SceneLoader.SceneLoaded += UpdateButtons;
+    }
 
-        UpdateText();
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= UpdateButtons;
+    }
+
+    private void UpdateButtons()
+    {
+        foreach (var entry in buttonGameObject)
+        {
+            entry.Key.onValueChanged.RemoveAllListeners();
+        }
 
         foreach (var entry in buttonGameObject)
         {
             entry.Key.onValueChanged.AddListener((b) => ChangeTowerType(entry.Value));
         }
 
+        UpdateText();
+
         startToggleDefault.isOn = true;
         ChangeTowerType(buttonGameObject[startToggleDefault]);
     }
 
-    private void OnDisable()
-    {
-        foreach (var entry in buttonGameObject)
-        {
-            entry.Key.onValueChanged.RemoveAllListeners();
-        }
-    }
-
     public void ChangeTowerType(GameObject tower)
     {
-        towerEditor.NewSelectedTower(tower);
+        if (TowerEditor.Instance)
+            TowerEditor.Instance.NewSelectedTower(tower);
     }
 
     public void UpdateText()

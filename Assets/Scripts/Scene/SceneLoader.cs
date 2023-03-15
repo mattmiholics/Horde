@@ -5,9 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Sirenix.OdinInspector;
+using System;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static event Action SceneLoaded;
+
     [StringInList(typeof(PropertyDrawersHelper), "AllSceneNames")] public string startingScene;
 
     [SerializeField, ReadOnly] private List<AsyncOperation> scenesLoading;
@@ -46,7 +49,7 @@ public class SceneLoader : MonoBehaviour
     {
         scenesLoading = new List<AsyncOperation>();
 
-        Load(startingScene);
+        LoadWorldScene(startingScene);
     }
 
     public void LoadMultiple(List<string> scenes, bool unloadCurrent = false)
@@ -164,6 +167,10 @@ public class SceneLoader : MonoBehaviour
 
         Time.timeScale = 1;
         loading = false;
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentScene));
+
+        SceneLoaded?.Invoke();
 
         yield return null;
     }

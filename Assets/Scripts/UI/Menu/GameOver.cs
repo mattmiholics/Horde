@@ -1,17 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameOver : MonoBehaviour
 {
-    public Text roundsText;
+    public TextMeshProUGUI roundsText;
     [StringInList(typeof(PropertyDrawersHelper), "AllSceneNames")] public string mainMenu;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        if (roundsText != null)
+        SceneLoader.SceneLoaded += RefreshText;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= RefreshText;
+    }
+
+    public void RefreshText()
+    {
+        if (roundsText != null && PlayerStats.Instance != null)
             roundsText.text = PlayerStats.Instance.rounds.ToString();
     }
 
@@ -22,7 +30,7 @@ public class GameOver : MonoBehaviour
 
     public void Menu ()
     {
-        SceneLoader.Instance.Load("MainMenu", true);
+        SceneLoader.Instance.Load(mainMenu, true);
     }
 
     public void Continue()
@@ -37,6 +45,16 @@ public class GameOver : MonoBehaviour
         Time.timeScale = 0f;
         GameObject UI = FindInActiveObjectByName("GamePausedUI");
         UI.SetActive(true);
+    }
+
+    public bool IsPaused()
+    {
+        if (Time.timeScale == 0f)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 
     GameObject FindInActiveObjectByName(string name)

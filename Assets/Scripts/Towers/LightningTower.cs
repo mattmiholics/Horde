@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LightningTower : MonoBehaviour
 {
     private Transform target;
+    public UnityEvent fire;
 
     [Header("Attributes")]
 
@@ -30,6 +32,7 @@ public class LightningTower : MonoBehaviour
     public GameObject laserStart;
 
     private List<GameObject> enemiesHit = new List<GameObject>();
+    private List<Vector3> halfwayPoints = new List<Vector3>();
 
 
     // Start is called before the first frame update
@@ -85,6 +88,7 @@ public class LightningTower : MonoBehaviour
 
         if (fireReload <= 0)
         {
+            fire.Invoke();
             Shoot();
             if (useLaser)
             {
@@ -100,42 +104,67 @@ public class LightningTower : MonoBehaviour
     void Shoot()
     {
         GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        //If a new bullet script is created, update it here
-        Bullet bulletS = bulltObj.GetComponent<Bullet>();
-        CannonBullet cBullet = bulltObj.GetComponent<CannonBullet>();
         LBullet lBullet = bulltObj.GetComponent<LBullet>();
-
-        if (bulletS != null)
-        {
-            bulletS.Seek(target, damage);
-        }
-        else if (cBullet != null)
-        {
-            cBullet.Seek(target, damage);
-        }
-        else if (lBullet != null)
-        {
-            lBullet.Seek(target, damage, chainAmount, chainDamage);
-        }
+        lBullet.Seek(target, damage, chainAmount, chainDamage);
     }
 
     private void FireLaser()
     {
         enemiesHit.Add(target.gameObject);
+
+        //Gets the travel distance of laser in each direction and divides it by 2 for the halfway distance
+        float xCord = (System.Math.Abs(gameObject.transform.position.x - target.transform.position.x) / 2);
+        float yCord = (System.Math.Abs(gameObject.transform.position.y - target.transform.position.y) / 2);
+        float zCord = (System.Math.Abs(gameObject.transform.position.z - target.transform.position.z) / 2);
+
+        //Adds the halfway distance to the samller to the coords to find the halfway point in that direction, then adds a random distance to make a 'lightning' effect
+        if(gameObject.transform.position.x <= target.transform.position.x)
+        {
+            xCord = xCord + gameObject.transform.position.x + Random.Range(-.6f,.6f);
+        }
+        else
+        {
+            xCord = xCord + target.transform.position.x + Random.Range(-.6f, .6f);
+        }
+        if (gameObject.transform.position.y <= target.transform.position.y)
+        {
+            yCord = yCord + gameObject.transform.position.y + Random.Range(-.2f, .2f);
+        }
+        else
+        {
+            yCord = yCord + target.transform.position.y + Random.Range(-.2f, .2f);
+        }
+        if (gameObject.transform.position.z <= target.transform.position.z)
+        {
+            zCord = zCord + gameObject.transform.position.z + Random.Range(-.6f, .6f);
+        }
+        else
+        {
+            zCord = zCord + target.transform.position.z + Random.Range(-.6f, .6f);
+        }
+
+        Vector3 coord = new Vector3(xCord, yCord, zCord);
+        halfwayPoints.Add(coord);
+
+
+
         HitEnemiesWithLaser(1);
         lr.enabled = true;
+        lr.positionCount = 1 + enemiesHit.ToArray().Length;
         lr.SetPosition(0, laserStart.transform.position);
         int count = 1;
+        //Debug.Log(enemiesHit.ToArray().Length);
         foreach (GameObject pos in enemiesHit.ToArray())
         {
             if (pos != null)
             {
-                lr.SetPosition(count/chainAmount, pos.transform.position);
+                lr.SetPosition(count, pos.transform.position);
                 count++;
             }
         }
-        lr.enabled = false;
+        //lr.enabled = false;
         enemiesHit.Clear();
+        halfwayPoints.Clear();
         
     }
 
@@ -157,20 +186,21 @@ public class LightningTower : MonoBehaviour
         {
             float relativeDist = float.MaxValue;
             GameObject currentTarget = null;
-            Collider[] targetsHit = Physics.OverlapSphere(prevTarget.transform.position, 10);
+            //Collider[] targetsHit = Physics.OverlapSphere(prevTarget.transform.position, 10);
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-            foreach (Collider hitCollider in targetsHit)
+            foreach (GameObject hitEnemy in enemies)
             {
-                float storeVal = Vector3.Distance(prevTarget.transform.position, hitCollider.gameObject.transform.position);
-                if (hitCollider.gameObject.tag == "Enemy" && storeVal < relativeDist && hitCollider.gameObject != prevTarget && !enemiesHit.Contains(hitCollider.gameObject))
+                float storeVal = Vector3.Distance(prevTarget.transform.position, hitEnemy.gameObject.transform.position);
+                if (hitEnemy.gameObject.tag == "Enemy" && storeVal < relativeDist && hitEnemy.gameObject != prevTarget && !enemiesHit.Contains(hitEnemy.gameObject))
                 {
                     relativeDist = storeVal;
-                    currentTarget = hitCollider.gameObject;
+                    currentTarget = hitEnemy.gameObject;
                 }
             }
             if (currentTarget != null)
             {
-                currentTarget.GetComponent<EnemyMovement>().TakeDamage(chainDamage);
+                currentTarget.GetComponentInParent<EnemyData>().TakeDamage(chainDamage);
                 enemiesHit.Add(currentTarget);
                 prevTarget= currentTarget;
             }

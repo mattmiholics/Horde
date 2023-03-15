@@ -31,4 +31,9 @@ public class TroopTypeButtons : MonoBehaviour
     {
         purchaseTroops.SpawnTroop2();
     }
+
+    public void Troop3()
+    {
+        purchaseTroops.SpawnTroop3();
+    }
 }

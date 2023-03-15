@@ -1,29 +1,77 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MarketBuilding : MonoBehaviour
 {
-    public int buildingLevel;
+    public MarketBuildingNumber payoutNumber;
+    [ReadOnly]
+    public int currentAmountPayed = 0;
+    public int payAmountPerSecond = 10;
+    public int moneyCap = 1000;
+    private bool startPayingOut = false;
 
-    private void Start()
+    private float timer = 0;
+
+    public void PayPlayer()
     {
-        buildingLevel = 1;
+        if (moneyCap - currentAmountPayed > 0)
+        {
+            PlayerStats.Instance.money += (moneyCap - currentAmountPayed);
+            payoutNumber.BeginAnimation(moneyCap - currentAmountPayed);
+        }
+        currentAmountPayed = 0;
+        timer = 0;
     }
 
-    public void PayPlayer(int level)
+    public void StartPayOut()
     {
-        if (level == 1)
+        startPayingOut = true;
+    }
+
+    public void StopPayOut()
+    {
+        startPayingOut = false;
+    }
+
+    private void Update()
+    {
+        if(startPayingOut == true)
         {
-            PlayerStats.Instance.money += 150;
+            timer += Time.deltaTime;
+            if (timer >= 1 && currentAmountPayed < moneyCap)
+            {
+                PlayerStats.Instance.money += payAmountPerSecond;
+                currentAmountPayed += payAmountPerSecond;
+                payoutNumber.BeginAnimation(payAmountPerSecond);        
+                timer = 0;
+            }
         }
-        else if (level == 2)
+    }
+
+    // This makes it so that if a tower is upgraded mid round it doesn't reset its currentAmountPayed
+    private void OnEnable()
+    {
+        MarketBuildingManager mbm = GetComponentInParent<MarketBuildingManager>();
+
+        if (mbm.tempStartPayingOut)
         {
-            PlayerStats.Instance.money += 300;
+            startPayingOut = true;
+            currentAmountPayed = mbm.tempCurrentAmountPayed;
         }
-        else
+    }
+
+    private void OnDisable()
+    {
+        if (startPayingOut)
         {
-            PlayerStats.Instance.money += 750;
+            MarketBuildingManager mbm = GetComponentInParent<MarketBuildingManager>();
+            if (mbm)
+            {
+                mbm.tempStartPayingOut = true;
+                mbm.tempCurrentAmountPayed = currentAmountPayed;
+            }
         }
     }
 }

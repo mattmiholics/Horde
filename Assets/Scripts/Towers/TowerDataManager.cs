@@ -20,11 +20,14 @@ public class TowerDataManager : SerializedMonoBehaviour
     [ValidateInput("ValidateListAsDictionary")]
     [Searchable]
     private List<TowerPrefabInspectorClass> towerPrefabInspectorClasses;
+#pragma warning disable 0414
     private bool listDictError = false;
+#pragma warning restore 0414
 
     [HideInInspector]
     public Dictionary<int, GameObject> idTowerPrefab;
 
+#if UNITY_EDITOR
     private void DictionaryToList()
     {
         if (!listDictError)
@@ -62,21 +65,13 @@ public class TowerDataManager : SerializedMonoBehaviour
                 UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(root);
                 root.GetComponent<TowerData>().id = tpic.id;
 
-                // How do I get the thing to save?
-                // This doesn't do anything
-                //EditorUtility.SetDirty(root);
-                //EditorSceneManager.MarkSceneDirty(root.scene);
-
-                // This throws ArgumentException: Can't save a Prefab instance
                 PrefabUtility.SaveAsPrefabAsset(root, path);
-
-                // This nullrefs; the root object doesn't have a prefab stage:
-                //EditorSceneManager.MarkSceneDirty(PrefabStageUtility.GetPrefabStage(root).scene);
 
                 PrefabUtility.UnloadPrefabContents(root);
             });
         }
     }
+#endif
 
     private bool ValidateListAsDictionary(List<TowerPrefabInspectorClass> towerPrefabInspectorClasses, ref string message, ref InfoMessageType? messageType)
     {

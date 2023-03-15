@@ -6,21 +6,26 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using Cinemachine;
 
 public class CameraHandler : MonoBehaviour
 {
+    public static event Action SingletonInstanced;
+
     public Camera cineCamera;
+    public CinemachineVirtualCamera cineVC;
     public Transform cameraParent;
     public Transform cameraYRotate;
     public Transform cameraXRotate;
     public Transform cameraZoom;
     [Space]
     public bool lockControls = false;
+    public bool lockZoomCollision = false;
     [Space]
     public bool lockMouseWhileRotating = true;
-    public bool lockLookX = true;
+    public bool lockLookY = true;
     [Tooltip("Only necessary if lock look X is false.")]
-    public Vector2 minMaxLookX;
+    public Vector2 minMaxLookY;
     [Space]
     public bool screenEdgeMoving = true;
     public float screenEdgeRatio = 0.05f;
@@ -188,8 +193,10 @@ public class CameraHandler : MonoBehaviour
     private Rigidbody _rigidbodyParent;
     private Rigidbody _rigidbodyYRotate;
     private Vector2 warpPosition;
-    private float zoomPosZ;
-    private float zoomTarget;
+    [HideInInspector]
+    public float zoomPosZ;
+    [HideInInspector]
+    public float zoomTarget;
     private float zoomTime;
     [Space]
     [Header("Debug")]
@@ -269,6 +276,8 @@ public class CameraHandler : MonoBehaviour
 
         //other stuff
         _rigidbodyYRotate.maxAngularVelocity = 100;
+
+        SingletonInstanced?.Invoke();
     }
 
     private void OnEnable()
@@ -333,6 +342,9 @@ public class CameraHandler : MonoBehaviour
 
     private void Update()
     {
+        if (!cameraAltActive && _activate.IsPressed())
+            EnableCameraControls(new InputAction.CallbackContext());
+
         if (!lockControls)
         {
             //screen edge moving happens first so that it is overwritten if move keys are used
@@ -387,14 +399,14 @@ public class CameraHandler : MonoBehaviour
             }
 
             //look X (optional)
-            if (!lockLookX && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
+            if (!lockLookY && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
             {
-                cameraXRotate.localEulerAngles += new Vector3(10f * -look.y * rotationSensetivity * Time.unscaledDeltaTime, 0, 0);
+                cameraXRotate.localEulerAngles += new Vector3(10f * look.y * rotationSensetivity * Time.unscaledDeltaTime, 0, 0);
 
                 //check if camera is near x limits
-                if (cameraXRotate.localEulerAngles.x > minMaxLookX.y && cameraXRotate.localEulerAngles.x < minMaxLookX.x)
+                if (cameraXRotate.localEulerAngles.x > minMaxLookY.y && cameraXRotate.localEulerAngles.x < minMaxLookY.x)
                 {
-                    float target = Mathf.Abs(minMaxLookX.y - cameraXRotate.localEulerAngles.x) > Mathf.Abs(minMaxLookX.x - cameraXRotate.localEulerAngles.x) ? minMaxLookX.x : minMaxLookX.y;
+                    float target = Mathf.Abs(minMaxLookY.y - cameraXRotate.localEulerAngles.x) > Mathf.Abs(minMaxLookY.x - cameraXRotate.localEulerAngles.x) ? minMaxLookY.x : minMaxLookY.y;
                     cameraXRotate.localEulerAngles = new Vector3(target, 0, 0);
                 }
             }
@@ -402,6 +414,7 @@ public class CameraHandler : MonoBehaviour
             //camera zoom alt
             if (_zoomAlt.IsPressed() && !_rotateAlt.IsPressed()) //if zoom is pressed and rotate isn't so that both aren't active at once
             {
+                Cursor.visible = false;
                 if (lockMouseWhileRotating)
                     Mouse.current.WarpCursorPosition(warpPosition);
 
@@ -426,7 +439,7 @@ public class CameraHandler : MonoBehaviour
 
         Vector3 GetFurthestPoint(Vector3 start, Vector3 dir, float distance)
         {
-            if (Physics.Raycast(start, dir, out RaycastHit hit, distance, clippingCollision))
+            if (Physics.Raycast(start, dir, out RaycastHit hit, distance, clippingCollision) && !lockZoomCollision)
             {
                 Vector3 point = hit.point + (dir.normalized * 0.01f);
                 return GetFurthestPoint(point, dir, distance - Vector3.Distance(start, point));
@@ -472,12 +485,13 @@ public class CameraHandler : MonoBehaviour
         //camera rotation
         if (!lockControls && (_rotateAlt.IsPressed() || _rotate.IsPressed()))
         {
+            Cursor.visible = false;
             if (lockMouseWhileRotating)
                 Mouse.current.WarpCursorPosition(warpPosition);
 
             if (look.magnitude > 0)
             {
-                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.21f * look.x * rotationSensetivity, 0); //this is main horizontal rotate
+                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.21f * look.x * (_rotateAlt.IsPressed() ? 0.21f : 1) * rotationSensetivity, 0); //this is main horizontal rotate
             }
             else
             {
@@ -492,6 +506,9 @@ public class CameraHandler : MonoBehaviour
         //rotation drag
         else
         {
+            if (!_zoomAlt.IsPressed())
+                Cursor.visible = true;
+           
             _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
         }
     }
@@ -509,5 +526,15 @@ public class CameraHandler : MonoBehaviour
     public void UpdateZoomSense(System.Single newSense)
     {
         zoomSensetivity = newSense;
+    }
+
+    public void UpdateBorderMovement(bool canMove)
+    {
+        screenEdgeMoving = canMove;
+    }
+
+    public void UpdateLockMouseRotate(bool isLocked)
+    {
+        lockMouseWhileRotating = isLocked;
     }
 }

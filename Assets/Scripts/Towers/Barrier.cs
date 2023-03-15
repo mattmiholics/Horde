@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 public class Barrier : MonoBehaviour
 {
@@ -14,36 +17,67 @@ public class Barrier : MonoBehaviour
     [SerializeField]
     private GameObject barrierTower;
     [SerializeField]
-    private float health;
+    private float hitPoints;
     [SerializeField]
-    private string enemyTag = "Enemy";
+    private LayerMask enemyLayer;
+    [FoldoutGroup("Events")]
+    public UnityEvent Hit;
+    [Header("Graphic Info")]
+    public Image healthBar;
+
+    GameObject enemyObj;
+    float enemyOriginalSpeed;
+    public float delayTime;
+    [ReadOnly]
+    public float currentTime;
+    private List<Agent> agentList;
+
+    private float startHitPoints;
 
     void Start()
     {
-        InvokeRepeating("CheckHealth", 0f, .1f);
+        //delayTime = 1f;
+        currentTime = delayTime;
+        agentList = new List<Agent>();
+        startHitPoints = hitPoints;
     }
 
-    private void CheckHealth()
+    private void OnTriggerEnter(Collider other)
     {
-        if (this.health <= 0)
+        if (enemyLayer == (enemyLayer | (1 << other.gameObject.layer)))
         {
-            TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
+            Agent agent = other.GetComponentInParent<Agent>();
+            agent.movementMultiplier = 0f;
+            agentList.Add(agent);
         }
+    }
+
+    private void OnDestroy() 
+    {
+        if (agentList != null && agentList.Count > 0)
+            agentList.ForEach(a => a.movementMultiplier = 1f);
     }
     private void OnTriggerStay(Collider other) 
     {
-        if (other.tag == enemyTag)
+        currentTime -= Time.deltaTime;
+        if (currentTime <= 0 && enemyLayer == (enemyLayer | (1 << other.gameObject.layer)))
         {
-            if (other.TryGetComponent<NavMeshAgent>(out NavMeshAgent nma))
-            {
-                nma.velocity = Vector3.zero;
-            }
             TakeDamage();
+            Hit.Invoke();
+            currentTime = delayTime;
         }
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
-        health--;
+        hitPoints--;
+
+        healthBar.fillAmount = hitPoints / startHitPoints;
+
+        if (this.hitPoints <= 0)
+        {
+            TowerHelper.RemoveTower(TowerEditor.Instance, barrierTower.GetComponent<TowerData>());
+        }
+        // Debug.Log("Health: " + health);
     }
 }
