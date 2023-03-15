@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PurchaseTroops : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class PurchaseTroops : MonoBehaviour
 
     private Transform spawnPoint;
     public float speed = 5;
+    public GameObject barracks;
+    public int troopsActive = 0;
+    public Text troops;
 
     [Space]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string unitActionMap;
@@ -49,8 +53,9 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop1()
     {
-        if(PlayerStats.Instance.money >= 200)
+        if(PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level*10)
         {
+            troopsActive++;
             troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 200;
@@ -59,8 +64,9 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop2()
     {
-        if (PlayerStats.Instance.money >= 200)
+        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10)
         {
+            troopsActive++;
             troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 200;
@@ -69,11 +75,22 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop3()
     {
-        if (PlayerStats.Instance.money >= 250)
+        if (PlayerStats.Instance.money >= 250 && troopsActive < barracks.GetComponent<TowerData>().level * 10)
         {
+            troopsActive++;
             troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
             troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
             PlayerStats.Instance.money -= 250;
         }
+    }
+
+    public void troopDeath()
+    {
+        troopsActive--;
+    }
+
+    public void Update()
+    {
+        troops.text = troopsActive + "/" + (barracks.GetComponent<TowerData>().level * 10);
     }
 }

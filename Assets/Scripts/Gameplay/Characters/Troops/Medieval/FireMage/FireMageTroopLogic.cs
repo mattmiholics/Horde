@@ -6,6 +6,17 @@ using UnityEngine;
 
 public class FireMageTroopLogic : TroopData
 {
+    private PurchaseTroops purchaseTroopsInstance;
+
+    private void Start()
+    {
+        purchaseTroopsInstance = PurchaseTroops.Instance;
+    }
+
+    public void DecreaseTroopLimit()
+    {
+        purchaseTroopsInstance.troopDeath();
+    }
     // public override void Attack(UnitData unitData)
     // {
     //     if (isRanged)
@@ -13,7 +24,7 @@ public class FireMageTroopLogic : TroopData
     //         GameObject bulletParent = GameObject.Find("World/BulletParent");
     //         GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
     //         FireMageBullet bulletS = bulletObj.GetComponent<FireMageBullet>();
-            
+
     //         if(bulletS != null)
     //         {
     //             bulletS.Seek(unitData.transform, damage);

@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class KnightTroopLogic : TroopData
 {
+    private PurchaseTroops purchaseTroopsInstance;
+
+    private void Start()
+    {
+        purchaseTroopsInstance = PurchaseTroops.Instance;
+    }
+
+    public void DecreaseTroopLimit()
+    {
+        purchaseTroopsInstance.troopDeath();
+    }
     // private Transform target;
 
     // [Header("Attributes")]

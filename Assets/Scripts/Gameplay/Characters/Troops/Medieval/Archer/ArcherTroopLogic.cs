@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class ArcherTroopLogic : TroopData
 {
+    private PurchaseTroops purchaseTroopsInstance;
+
+    private void Start()
+    {
+        purchaseTroopsInstance = PurchaseTroops.Instance;
+    }
+
+    public void DecreaseTroopLimit()
+    {
+        purchaseTroopsInstance.troopDeath();
+    }
     // private Transform target;
 
     // [Header("Attributes")]
@@ -21,7 +32,7 @@ public class ArcherTroopLogic : TroopData
 
     // public GameObject bullet;
     // public Transform firePoint;
-    
+
     // Update is called once per frame
     // void Update()
     // {
