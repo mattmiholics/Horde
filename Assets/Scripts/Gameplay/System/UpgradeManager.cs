@@ -99,8 +99,10 @@ public class UpgradeManager : MonoBehaviour
                         
                     }
                     if (towerDataSelected.rangeSphere != null)
+                    {
                         towerDataSelected.rangeSphere.transform.localScale = new Vector3(towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2);
                         towerDataSelected.rangeSphere.SetActive(true);
+                    }
                 }
             }
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
