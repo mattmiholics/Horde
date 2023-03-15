@@ -35,6 +35,16 @@ public class EditButtons : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        SceneLoader.SceneLoaded += EnableButtons;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= EnableButtons;
+    }
+
     public void ToggleTerrainEditing()
     {
         if (TerrainEditor.Instance.editing) //if it is already editing turn it off

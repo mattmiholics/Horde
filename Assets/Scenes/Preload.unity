@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3108,6 +3108,10 @@ PrefabInstance:
       propertyPath: m_UIInputModule
       value: 
       objectReference: {fileID: 503170095}
+    - target: {fileID: 668968359509995568, guid: 6ed9e7de7f4ec6548b7ee8c268c3c45d, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 668968359509995569, guid: 6ed9e7de7f4ec6548b7ee8c268c3c45d, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -16513,7 +16517,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
-  mapStartEnabled: 1
+  mapStartEnabled: 0
   unitActionMap: Unit
   destinationControl: Unit/Destination
   selectControl: Unit/Select
