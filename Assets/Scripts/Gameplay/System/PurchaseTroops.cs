@@ -19,6 +19,11 @@ public class PurchaseTroops : MonoBehaviour
     public int troopsActive = 0;
     public Text troops;
 
+    public float troopSpawnTimer = 6f;
+    private bool trainingTroop = false;
+    private List<int> troopQueue = new List<int>();
+    private int spawnQueueLimit = 5;
+
     [Space]
     [StringInList(typeof(PropertyDrawersHelper), "AllActionMaps")] public string unitActionMap;
 
@@ -53,34 +58,45 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnTroop1()
     {
-        if(PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level*10)
+        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
-            troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            troopQueue.Add(1);
             PlayerStats.Instance.money -= 200;
+            if (!trainingTroop)
+            {
+                trainingTroop = true;
+            }
         }
     }
 
     public void SpawnTroop2()
     {
-        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10)
+        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
-            troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+
+            troopQueue.Add(2);
             PlayerStats.Instance.money -= 200;
+            if (!trainingTroop)
+            {
+                trainingTroop = true;
+            }
         }
     }
 
     public void SpawnTroop3()
     {
-        if (PlayerStats.Instance.money >= 250 && troopsActive < barracks.GetComponent<TowerData>().level * 10)
+        if (PlayerStats.Instance.money >= 250 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
-            troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
-            troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+
+            troopQueue.Add(3);
             PlayerStats.Instance.money -= 250;
+            if (!trainingTroop)
+            {
+                trainingTroop = true;
+            }
         }
     }
 
@@ -92,5 +108,41 @@ public class PurchaseTroops : MonoBehaviour
     public void Update()
     {
         troops.text = troopsActive + "/" + (barracks.GetComponent<TowerData>().level * 10);
+
+        if (trainingTroop)
+        {
+            if (troopSpawnTimer <= 0)
+            {
+                switch (troopQueue[0])
+                {
+                    case 1:
+                        troopQueue.RemoveAt(0);
+                        troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+                        troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                        break;
+                    case 2:
+                        troopQueue.RemoveAt(0);
+                        troop = Instantiate(troop2Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+                        troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                        break;
+                    case 3:
+                        troopQueue.RemoveAt(0);
+                        troop = Instantiate(troop3Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+                        troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                        break;
+                };
+                troopSpawnTimer = 6f;
+                if (troopQueue.ToArray().Length <= 0)
+                {
+                    trainingTroop = false;
+                }
+            }
+            else
+            {
+                troopSpawnTimer -= Time.deltaTime;
+            }
+        }
     }
 }
+
+
