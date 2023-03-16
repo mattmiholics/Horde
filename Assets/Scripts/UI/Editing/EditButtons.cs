@@ -51,6 +51,9 @@ public class EditButtons : MonoBehaviour
         {
             button.interactable = true;
         }
+
+        if (currentOutline)
+            currentOutline.SetActive(false);
     }
 
     public void ResetMaps()
