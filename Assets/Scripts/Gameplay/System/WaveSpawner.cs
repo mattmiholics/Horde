@@ -23,6 +23,7 @@ public class WaveSpawner : MonoBehaviour
     public List<GameObject> enemies;
     [Space]
     private ProgressUI progressBar = ProgressUI.Instance;
+    private BossSlider bossSlider = BossSlider.Instance;
     public Text waveCountdownText;
 
     public float intermissionTime = 5.5f;
@@ -188,6 +189,11 @@ public class WaveSpawner : MonoBehaviour
             }
             this.totalEnemyAmount += spawn_data.enemyCount;
         }
+        for (int i = 0; i < this.bossSpawns.Count; i++) 
+        {
+            this.bossSpawns[i] = this.bossSpawns[i] / this.totalEnemyAmount;
+        }
+        this.bossSlider.createBossIcons(this.bossSpawns);
     }
 
     private void UpdateProgressBar()
