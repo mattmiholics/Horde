@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 public class ObjectPooler : MonoBehaviour
 {
     public GameObject prefab;
-    public ObjectPool<GameObject> pool;
+    private ObjectPool<GameObject> pool;
 
     // Start is called before the first frame update
     void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CannonTurret : MonoBehaviour
 {
@@ -18,10 +19,29 @@ public class CannonTurret : MonoBehaviour
     public string enemyTag = "Enemy";
     public Transform partToRotate;
     public float rotationSpeed = 7f;
+    public GameObject projectilePrefab;
+    protected ObjectPooler projectilePool;
 
     public GameObject bullet;
     public Transform firePoint;
 
+    protected void Awake()
+    {
+        if (projectilePrefab)
+        {
+            GameObject projectileTemp = GameObject.Find(projectilePrefab.name + "Parent");
+            if (!projectileTemp)
+            {
+                projectilePool = new GameObject(projectilePrefab.name + "Parent").AddComponent<ObjectPooler>();
+                projectilePool.prefab = projectilePrefab;
+                SceneManager.MoveGameObjectToScene(projectilePool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                projectilePool = projectileTemp.GetComponent<ObjectPooler>();
+            }
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -78,12 +98,17 @@ public class CannonTurret : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        CannonBullet bulletS = bulltObj.GetComponent<CannonBullet>();
-
-        if(bulletS != null)
+        if (projectilePool)
         {
-            bulletS.Seek(target, damage);
+            GameObject projectileObj = projectilePool.Create(firePoint.position, firePoint.rotation);
+            CannonProjectile cProjectile = projectileObj.GetComponent<CannonProjectile>();
+
+            cProjectile.projectilePool = projectilePool;
+
+            if(cProjectile != null)
+            {
+                cProjectile.Seek(target, damage);
+            }
         }
     }
 

@@ -23,9 +23,27 @@ public class Turret : MonoBehaviour
     public Transform partToRotate;
     public float rotationSpeed = 7f;
 
-    public GameObject bullet;
+    public GameObject projectilePrefab;
+    protected ObjectPooler projectilePool;
     public Transform firePoint;
 
+    protected void Awake()
+    {
+        if (projectilePrefab)
+        {
+            GameObject projectileTemp = GameObject.Find(projectilePrefab.name + "Parent");
+            if (!projectileTemp)
+            {
+                projectilePool = new GameObject(projectilePrefab.name + "Parent").AddComponent<ObjectPooler>();
+                projectilePool.prefab = projectilePrefab;
+                SceneManager.MoveGameObjectToScene(projectilePool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                projectilePool = projectileTemp.GetComponent<ObjectPooler>();
+            }
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -86,26 +104,25 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        // Scene targetScene = SceneManager.GetSceneByName("Level01");
-        // if (targetScene.isLoaded)
-        // {
-        GameObject bulletParent = GameObject.Find("World/BulletParent");
-        GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
-        // SceneManager.MoveGameObjectToScene(bulletObj, targetScene);
-        //If a new bullet script is created, update it here
-        Bullet bulletS = bulletObj.GetComponent<Bullet>();
-        CannonBullet cBullet = bulletObj.GetComponent<CannonBullet>();
-        LBullet lBullet = bulletObj.GetComponent<LBullet>();
+        if (projectilePool)
+        {
+            GameObject projectileObj = projectilePool.Create(firePoint.position, firePoint.rotation);
+            Projectile projectileS = projectileObj.GetComponent<Projectile>();
+            CannonProjectile cProjectile = projectileObj.GetComponent<CannonProjectile>();
+            LProjectile lProjectile = projectileObj.GetComponent<LProjectile>();
 
-        if(bulletS != null)
-        {
-            bulletS.Seek(target, damage);
+            projectileS.projectilePool = projectilePool;
+
+            if(projectileS != null)
+            {
+                projectileS.Seek(target, damage);
+            }
+            else if(cProjectile != null)
+            {
+                cProjectile.Seek(target, damage);
+            }
         }
-        else if(cBullet != null)
-        {
-            cBullet.Seek(target, damage);
-        }
-        // }
+        
     }
 
     private void OnDrawGizmosSelected()

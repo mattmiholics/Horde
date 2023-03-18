@@ -1,13 +1,34 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Bullet : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
+    [HideInInspector]
+    public ObjectPooler projectilePool;
+    [HideInInspector]
+    public ObjectPooler projectileEffectPool;
     protected Transform target;
-
     public float speed = 70f;
-    public GameObject impactEffect;
+    public GameObject projectileEffectPrefab;
     public float damage = 50f;
 
+    protected void Awake()
+    {
+        if (projectileEffectPrefab)
+        {
+            GameObject projectileEffectTemp = GameObject.Find(projectileEffectPrefab.name + "Parent");
+            if (!projectileEffectTemp)
+            {
+                projectileEffectPool = new GameObject(projectileEffectPrefab.name + "Parent").AddComponent<ObjectPooler>();
+                projectileEffectPool.prefab = projectileEffectPrefab;
+                SceneManager.MoveGameObjectToScene(projectileEffectPool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                projectileEffectPool = projectileEffectTemp.GetComponent<ObjectPooler>();
+            }
+        }
+    }
     public void Seek(Transform _target, float damage)
     {
         gameObject.transform.LookAt(_target);
@@ -22,7 +43,7 @@ public class Bullet : MonoBehaviour
         //Debug.Log("Attack Player Update 1");
         if (target == null)
         {
-            Destroy(gameObject);
+            projectilePool.Destroy(gameObject);
             return;
         }
 
@@ -59,9 +80,10 @@ public class Bullet : MonoBehaviour
             p.TakeDamage(damage);
         }
 
-        GameObject effectInst = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation, WaveSpawner.Instance.effectParent);
-        Destroy(effectInst, 2f);
-        Destroy(gameObject.gameObject);
-        //Destroy(target.gameObject);
+        // GameObject effectInst = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation, WaveSpawner.Instance.effectParent);
+        if (projectileEffectPool)
+            projectileEffectPool.Create(transform.position, transform.rotation, 2f);
+        projectilePool.Destroy(gameObject);
+        
     }
 }
