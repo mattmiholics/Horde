@@ -1,7 +1,6 @@
 using SCPE;
 using System;
 using UnityEngine;
-using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -170,7 +169,7 @@ public class GraphicsOptions : MonoBehaviour
         if (PlayerPrefs.HasKey(SHADOW_DISTANCE))
             shadowDistance.value = PlayerPrefs.GetFloat(SHADOW_DISTANCE);
         else
-            shadowDistance.value = 50f;
+            shadowDistance.value = 75f;
         UpdateShadowDistance(shadowDistance.value);
 
         if (PlayerPrefs.HasKey(MSAA))
