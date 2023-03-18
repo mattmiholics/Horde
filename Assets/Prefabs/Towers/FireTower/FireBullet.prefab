@@ -239,13 +239,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d800837e5c02c84aaaf7a0ceb7b8577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePool: {fileID: 0}
+  projectileEffectPool: {fileID: 0}
   speed: 70
-  impactEffect: {fileID: 7081970572383328169, guid: 57cd9efe0baa2f54d9e2c1dffee701eb, type: 3}
+  projectileEffectPrefab: {fileID: 7081970572383328169, guid: 57cd9efe0baa2f54d9e2c1dffee701eb, type: 3}
   enemyTag: Enemy
   splashDamageRange: 12
   damage: 25
   splashDamage: 50
-  zombieHurt: {fileID: 0}
 --- !u!82 &-8534582599656690074
 AudioSource:
   m_ObjectHideFlags: 0

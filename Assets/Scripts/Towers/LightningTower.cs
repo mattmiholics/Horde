@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LightningTower : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class LightningTower : MonoBehaviour
     public Transform partToRotate;
     public float rotationSpeed = 7f;
 
-    public GameObject bullet;
+    public GameObject projectilePrefab;
+    protected ObjectPooler projectilePool;
     public Transform firePoint;
 
     [Header("Laser Settings")]
@@ -33,6 +35,24 @@ public class LightningTower : MonoBehaviour
 
     private List<GameObject> enemiesHit = new List<GameObject>();
     private List<Vector3> halfwayPoints = new List<Vector3>();
+
+    protected void Awake()
+    {
+        if (projectilePrefab)
+        {
+            GameObject projectileTemp = GameObject.Find(projectilePrefab.name + "Parent");
+            if (!projectileTemp)
+            {
+                projectilePool = new GameObject(projectilePrefab.name + "Parent").AddComponent<ObjectPooler>();
+                projectilePool.prefab = projectilePrefab;
+                SceneManager.MoveGameObjectToScene(projectilePool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                projectilePool = projectileTemp.GetComponent<ObjectPooler>();
+            }
+        }
+    }
 
 
     // Start is called before the first frame update
@@ -103,9 +123,13 @@ public class LightningTower : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulltObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation);
-        LBullet lBullet = bulltObj.GetComponent<LBullet>();
-        lBullet.Seek(target, damage, chainAmount, chainDamage);
+        if (projectilePool)
+        {
+            GameObject projectileObj = projectilePool.Create(firePoint.position, firePoint.rotation);
+            LProjectile lProjectile = projectileObj.GetComponent<LProjectile>();
+            lProjectile.projectilePool = projectilePool;
+            lProjectile.Seek(target, damage, chainAmount, chainDamage);
+        }
     }
 
     private void FireLaser()

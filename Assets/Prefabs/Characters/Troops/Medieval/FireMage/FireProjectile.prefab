@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: -8534582599656690074}
   - component: {fileID: 7738394377221719193}
   m_Layer: 0
-  m_Name: FireBullet
+  m_Name: FireProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,8 +335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ebd260291230c4fad84c43dfc78472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePool: {fileID: 0}
+  projectileEffectPool: {fileID: 0}
   speed: 70
-  impactEffect: {fileID: 7081970572383328169, guid: eb72f03685a62df4a8229eda52aa57bb, type: 3}
+  projectileEffectPrefab: {fileID: 7081970572383328169, guid: eb72f03685a62df4a8229eda52aa57bb, type: 3}
   damage: 25
   enemyLayer:
     serializedVersion: 2

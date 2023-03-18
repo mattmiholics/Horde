@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class FireMageBullet : Bullet
+public class FireMageProjectile : Projectile
 {
     protected SphereCollider sphereCollider;
     public LayerMask enemyLayer;
@@ -28,9 +28,9 @@ public class FireMageBullet : Bullet
             AreaDamage();
         }
         Debug.Log("Hit Target!");
-        GameObject effectInst = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation, WaveSpawner.Instance.effectParent);
-        Destroy(effectInst, 2f);
-        Destroy(gameObject.gameObject);
+        if (projectileEffectPool)
+            projectileEffectPool.Create(transform.position, transform.rotation, 2f);
+        projectilePool.Destroy(gameObject);
         //Destroy(target.gameObject);
     }
 

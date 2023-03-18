@@ -99,8 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4915d892e349a1744ade551858445283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePool: {fileID: 0}
+  projectileEffectPool: {fileID: 0}
   speed: 70
-  impactEffect: {fileID: 7081970572383328169, guid: a46ed28e5776ab941bdd402af9ff5ef7, type: 3}
+  projectileEffectPrefab: {fileID: 7081970572383328169, guid: a46ed28e5776ab941bdd402af9ff5ef7, type: 3}
   damage: 100
 --- !u!82 &8619227661025673965
 AudioSource:

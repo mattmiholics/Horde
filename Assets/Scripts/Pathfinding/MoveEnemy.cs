@@ -147,7 +147,7 @@ public class MoveEnemy : MonoBehaviour
             Debug.Log("Attack Player 2");
 
             GameObject bulletObj = (GameObject)Instantiate(projectile, firePoint.position, firePoint.rotation);
-            Bullet bulletS = bulletObj.GetComponent<Bullet>();
+            Projectile bulletS = bulletObj.GetComponent<Projectile>();
             
             if(bulletS != null)
             {

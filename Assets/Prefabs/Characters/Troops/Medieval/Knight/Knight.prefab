@@ -104,7 +104,8 @@ MonoBehaviour:
   range: 2
   damage: 50
   isRanged: 0
-  bullet: {fileID: 8952111980692290676, guid: a655ca9076677e149ad72f8d8a5ee2c5, type: 3}
+  projectilePrefab: {fileID: 0}
+  projectileEffectPrefab: {fileID: 0}
   firePoint: {fileID: 8641179442993172763}
   healthBar: {fileID: 4934916599125484636}
   damageNumberGradient:

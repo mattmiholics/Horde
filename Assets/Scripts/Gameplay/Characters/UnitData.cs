@@ -25,33 +25,54 @@ public class UnitData : MonoBehaviour
 
     [Header("Ranged References")]
     [ShowIf("$isRanged")]
-    public GameObject bullet;
+    public GameObject projectilePrefab;
+    [HideInInspector]
+    protected ObjectPooler projectilePool;
+
     [ShowIf("$isRanged")]
     public Transform firePoint;
 
     [Header("Graphic Info")]
     public Image healthBar;
     public Gradient damageNumberGradient;
-    [ShowInInspector]
-    private ObjectPooler damageNumberPool;
+    [HideInInspector]
+    protected ObjectPooler damageNumberPool;
     public GameObject damageNumberPrefab;
     [Header("Unity Events")]
     public UnityEvent Attacking;
     public UnityEvent Hit;
     public UnityEvent Death;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        GameObject damageNumberTemp = GameObject.Find("DamageNumberParent");
-        if (!damageNumberTemp)
+        if (damageNumberPrefab)
         {
-            damageNumberPool = new GameObject("DamageNumberParent").AddComponent<ObjectPooler>();
-            damageNumberPool.prefab = damageNumberPrefab;
-            SceneManager.MoveGameObjectToScene(damageNumberPool.gameObject, gameObject.scene);
+            GameObject damageNumberTemp = GameObject.Find(damageNumberPrefab.name + "Parent");
+            if (!damageNumberTemp)
+            {
+                damageNumberPool = new GameObject(damageNumberPrefab.name + "Parent").AddComponent<ObjectPooler>();
+                damageNumberPool.prefab = damageNumberPrefab;
+                SceneManager.MoveGameObjectToScene(damageNumberPool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                damageNumberPool = damageNumberTemp.GetComponent<ObjectPooler>();
+            }
         }
-        else
+
+        if (projectilePrefab)
         {
-            damageNumberPool = damageNumberTemp.GetComponent<ObjectPooler>();
+            GameObject projectileTemp = GameObject.Find(projectilePrefab.name + "Parent");
+            if (!projectileTemp)
+            {
+                projectilePool = new GameObject(projectilePrefab.name + "Parent").AddComponent<ObjectPooler>();
+                projectilePool.prefab = projectilePrefab;
+                SceneManager.MoveGameObjectToScene(projectilePool.gameObject, gameObject.scene);
+            }
+            else
+            {
+                projectilePool = projectileTemp.GetComponent<ObjectPooler>();
+            }
         }
     }
 
@@ -78,13 +99,17 @@ public class UnitData : MonoBehaviour
     {
         if (isRanged)
         {
-            GameObject bulletParent = GameObject.Find("World/BulletParent");
-            GameObject bulletObj = (GameObject)Instantiate(bullet, firePoint.position, firePoint.rotation, bulletParent.transform);
-            Bullet bulletS = bulletObj.GetComponent<Bullet>();
-            
-            if(bulletS != null)
+            // GameObject projectileParent = GameObject.Find("World/BulletParent");
+            if (projectilePool)
             {
-                bulletS.Seek(unitData.transform, damage);
+                GameObject projectileObj = projectilePool.Create(firePoint.position, firePoint.rotation);
+                Projectile projectileS = projectileObj.GetComponent<Projectile>();
+                projectileS.projectilePool = projectilePool;
+                
+                if(projectileS != null)
+                {
+                    projectileS.Seek(unitData.transform, damage);
+                }
             }
         }
         else
@@ -102,9 +127,13 @@ public class UnitData : MonoBehaviour
         Hit.Invoke();
 
         // Damage number
-        GameObject damageNumber = damageNumberPool.Create(healthBar.transform.position, Quaternion.identity, 2f);
-        damageNumber.GetComponent<DamageNumber>().UpdateNumber(incomingDamage, damageNumberGradient.Evaluate(Mathf.Clamp01(incomingDamage/200)), Mathf.Clamp01(incomingDamage / 400 + 0.5f)); // 300 is max sized and furthest color
-
+        
+        if (damageNumberPool)
+        {
+            GameObject damageNumber = damageNumberPool.Create(healthBar.transform.position, Quaternion.identity, 2f);
+            damageNumber.GetComponent<DamageNumber>().UpdateNumber(incomingDamage, damageNumberGradient.Evaluate(Mathf.Clamp01(incomingDamage/200)), Mathf.Clamp01(incomingDamage / 400 + 0.5f)); // 300 is max sized and furthest color
+        }
+        
         healthBar.fillAmount = health/startHealth;
         // Debug.Log("Deal damage: " + incomingDamage);
         // Debug.Log("Health after damage: " + health);

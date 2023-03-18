@@ -415,7 +415,8 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 2372660282177081792}
   rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: 0b5b1263b634a6040bf50d7be8b66951, type: 3}
+  projectilePrefab: {fileID: 0}
+  projectileEffectPrefab: {fileID: 0}
   firePoint: {fileID: 8546666448976386822}
 --- !u!1 &2393908278401241128
 GameObject:
@@ -1236,7 +1237,8 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 1059197709588517820}
   rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: 0b5b1263b634a6040bf50d7be8b66951, type: 3}
+  projectilePrefab: {fileID: 8952111980692290676, guid: 0b5b1263b634a6040bf50d7be8b66951, type: 3}
+  projectileEffectPrefab: {fileID: 7081970572383328169, guid: 68b89d475bbab1447b674d33e28c9d64, type: 3}
   firePoint: {fileID: 2610151050243111025}
 --- !u!1 &5414258571555227699
 GameObject:
@@ -1451,7 +1453,8 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 610104628926688913}
   rotationSpeed: 7
-  bullet: {fileID: 8952111980692290676, guid: 0b5b1263b634a6040bf50d7be8b66951, type: 3}
+  projectilePrefab: {fileID: 0}
+  projectileEffectPrefab: {fileID: 0}
   firePoint: {fileID: 8445481926313606428}
 --- !u!1 &6387314077730022355
 GameObject:
@@ -1522,6 +1525,7 @@ MonoBehaviour:
   rotation: 0
   showGizmo: 0
   isMaxLevel: 0
+  isBarracks: 0
   rangeSphere: {fileID: 5457912843123187506}
   upgradeDataList:
   - main: {fileID: 4953947662352260004}
