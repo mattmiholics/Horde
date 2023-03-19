@@ -182,7 +182,8 @@ public class LightningTower : MonoBehaviour
         {
             if (pos != null)
             {
-                lr.SetPosition(count, pos.transform.position);
+                Vector3 newPos = new Vector3(pos.transform.position.x,pos.transform.position.y + 0.5f, pos.transform.position.z);
+                lr.SetPosition(count, newPos);
                 count++;
             }
         }

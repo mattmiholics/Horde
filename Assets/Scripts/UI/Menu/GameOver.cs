@@ -30,7 +30,7 @@ public class GameOver : MonoBehaviour
 
     public void Menu ()
     {
-        SceneLoader.Instance.Load(mainMenu, true);
+        SceneLoader.Instance.LoadWorldScene(mainMenu, true);
     }
 
     public void Continue()
