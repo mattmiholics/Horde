@@ -75,6 +75,9 @@ public class TowerData : MonoBehaviour
         public int costToLvl;
     }
 
+    public string description = "None";
+    public int costToLvl;
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -94,6 +97,23 @@ public class TowerData : MonoBehaviour
     }
 #endif
 
+    private void Start()
+    {
+        if (!isMaxLevel)
+        {
+            costToLvl = upgradeDataList[level].costToLvl;
+        }
+    }
+
+    private void Update()
+    {
+        if (!isMaxLevel)
+        {
+            costToLvl = upgradeDataList[level].costToLvl;
+        }
+    }
+
+
     public void BeginUpgrade()
     {
         if (level < upgradeDataList.ToArray().Length || isBarracks)
@@ -103,6 +123,10 @@ public class TowerData : MonoBehaviour
         else
         {
             this.upgradeUI.SetActive(false);
+            isMaxLevel = true;
+        }
+        if(level == upgradeDataList.ToArray().Length)
+        {
             isMaxLevel = true;
         }
     }
@@ -127,15 +151,22 @@ public class TowerData : MonoBehaviour
     {
         if (PlayerStats.Instance.money >= upgradeDataList[level].costToLvl)
         {
+            
             PlayerStats.Instance.money -= upgradeDataList[level].costToLvl;
             Main.SetActive(false);
             level++;
             Main.SetActive(true);
+            upgrade.Invoke();
+            
         }
         if(level == upgradeDataList.ToArray().Length)
         {
             this.upgradeUI.SetActive(false);
             isMaxLevel = true;
+        }
+        else
+        {
+            costToLvl = upgradeDataList[level].costToLvl;
         }
     }
 

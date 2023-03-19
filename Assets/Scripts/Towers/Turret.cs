@@ -109,16 +109,16 @@ public class Turret : MonoBehaviour
             GameObject projectileObj = projectilePool.Create(firePoint.position, firePoint.rotation);
             Projectile projectileS = projectileObj.GetComponent<Projectile>();
             CannonProjectile cProjectile = projectileObj.GetComponent<CannonProjectile>();
-            LProjectile lProjectile = projectileObj.GetComponent<LProjectile>();
 
-            projectileS.projectilePool = projectilePool;
 
             if(projectileS != null)
             {
+                projectileS.projectilePool = projectilePool;
                 projectileS.Seek(target, damage);
             }
             else if(cProjectile != null)
             {
+                cProjectile.projectilePool = projectilePool;
                 cProjectile.Seek(target, damage);
             }
         }
