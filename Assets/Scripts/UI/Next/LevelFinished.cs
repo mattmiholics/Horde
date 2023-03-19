@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LevelFinished : MonoBehaviour
 {
-    public GameObject nextLevelButton;
+    public GameObject nextWaveButton;
     [StringInList(typeof(PropertyDrawersHelper), "AllSceneNames")] public string mainMenu;
 
     // Start is called before the first frame update
@@ -31,5 +31,6 @@ public class LevelFinished : MonoBehaviour
     public void Continue()
     {
         Time.timeScale = 1f;
+        nextWaveButton.SetActive(true);
     }
 }

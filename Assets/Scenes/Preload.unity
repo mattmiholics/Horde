@@ -26407,7 +26407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e465a356be6479141a52bf2b6774d283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelButton: {fileID: 0}
+  nextWaveButton: {fileID: 995714672}
   mainMenu: Preload
 --- !u!1 &1344803946
 GameObject:
