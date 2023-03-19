@@ -17579,6 +17579,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1341561065}
+        m_TargetAssemblyTypeName: LevelFinished, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1341561063}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -26395,7 +26407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e465a356be6479141a52bf2b6774d283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelButton: {fileID: 0}
+  nextWaveButton: {fileID: 995714672}
   mainMenu: Preload
 --- !u!1 &1344803946
 GameObject:
@@ -44633,6 +44645,7 @@ MonoBehaviour:
   mainMenu: {fileID: 1796566700}
   levelSelect: {fileID: 2130390034}
   rules: {fileID: 1968928194}
+  nextLevel: {fileID: 0}
   uiActionMap: Main
   escapeControl: Main/Escape
 --- !u!1 &2137989465

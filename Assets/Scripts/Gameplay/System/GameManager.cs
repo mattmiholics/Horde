@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static bool GameIsOver;
 
+    public string levelFinishedUI;
     public string gameOverUI;
 
     private static GameManager _instance;
@@ -54,5 +55,14 @@ public class GameManager : MonoBehaviour
         GameObject UI = Root.Instance.UIGroups.Where(obj => obj.name == gameOverUI).SingleOrDefault();
         if (UI != null)
             UI.SetActive(true);
+    }
+
+    public void LevelComplete()
+    {
+        GameObject UI = Root.Instance.UIGroups.Where(obj => obj.name == levelFinishedUI).SingleOrDefault();
+        if (UI != null)
+            UI.SetActive(true);
+        Time.timeScale = 0f;
+        WaveSpawner.Instance.infiniteWaveSpawning = true;
     }
 }
