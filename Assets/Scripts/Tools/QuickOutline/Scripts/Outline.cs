@@ -129,7 +129,7 @@ public class Outline : MonoBehaviour {
     }
   }
 
-  void Update() {
+  public void Update() {
     if (needsUpdate) {
       needsUpdate = false;
 

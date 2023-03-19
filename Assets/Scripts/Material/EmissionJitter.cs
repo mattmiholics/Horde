@@ -33,14 +33,16 @@ public class EmissionJitter : MonoBehaviour
         randomOffset = Random.Range(0, 1000);
         flickerOffset = 0;
 
-        WaveSpawner.Instance.EnemySpawned += OffsetEvent;
+        if (WaveSpawner.Instance)
+            WaveSpawner.Instance.EnemySpawned += OffsetEvent;
 
         StartCoroutine(LightFlicker());
     }
 
     private void OnDestroy()
     {
-        WaveSpawner.Instance.EnemySpawned -= OffsetEvent;
+        if (WaveSpawner.Instance)
+            WaveSpawner.Instance.EnemySpawned -= OffsetEvent;
     }
 
     private IEnumerator LightFlicker()

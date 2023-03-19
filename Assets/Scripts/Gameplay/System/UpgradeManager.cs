@@ -135,6 +135,7 @@ public class UpgradeManager : MonoBehaviour
                     if (towerDataHovered.Main.TryGetComponent<Outline>(out Outline outline))
                     {
                         outline.OutlineColor = Color.blue;
+                        outline.Update();
                         outline.enabled = true;
                     }
                 }
