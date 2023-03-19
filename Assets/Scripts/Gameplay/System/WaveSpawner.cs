@@ -193,7 +193,10 @@ public class WaveSpawner : MonoBehaviour
         {
             this.bossSpawns[i] = this.bossSpawns[i] / this.totalEnemyAmount;
         }
-        this.bossSlider.createBossIcons(this.bossSpawns);
+        if (bossSlider != null)
+        {
+            this.bossSlider.createBossIcons(this.bossSpawns);
+        }
     }
 
     private void UpdateProgressBar()

@@ -706,8 +706,7 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 4597481348443422353}
   rotationSpeed: 7
-  projectilePrefab: {fileID: 0}
-  projectileEffectPrefab: {fileID: 0}
+  projectilePrefab: {fileID: 1469658334397694707, guid: 5ae14ffcd91880f489fb4292753e72fb, type: 3}
   firePoint: {fileID: 3805928983647453850}
   lr: {fileID: 1632305269818597670}
   useLaser: 1
@@ -852,8 +851,6 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 8219686791443657272}
-  infoText: {fileID: 6051445037018777577}
-  upgradeInfo: Damage + 25%, Chain Amount +3
   cost: 600
   level: 1
   type: Lightning
@@ -1070,8 +1067,7 @@ MonoBehaviour:
   enemyTag: Enemy
   partToRotate: {fileID: 1681936080990683584}
   rotationSpeed: 7
-  projectilePrefab: {fileID: 0}
-  projectileEffectPrefab: {fileID: 0}
+  projectilePrefab: {fileID: 1469658334397694707, guid: 5ae14ffcd91880f489fb4292753e72fb, type: 3}
   firePoint: {fileID: 7643884044056564301}
   lr: {fileID: 1632305269818597670}
   useLaser: 1
@@ -1260,7 +1256,6 @@ MonoBehaviour:
   partToRotate: {fileID: 1266619448044666093}
   rotationSpeed: 7
   projectilePrefab: {fileID: 1469658334397694707, guid: 5ae14ffcd91880f489fb4292753e72fb, type: 3}
-  projectileEffectPrefab: {fileID: 1469658334397694707, guid: 5ae14ffcd91880f489fb4292753e72fb, type: 3}
   firePoint: {fileID: 4258707138479232800}
   lr: {fileID: 1632305269818597670}
   useLaser: 1
@@ -2099,11 +2094,6 @@ PrefabInstance:
 --- !u!224 &4007331728646411692 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5041716919129187912, guid: 69140887403e65a45859e30d944f40dc, type: 3}
-  m_PrefabInstance: {fileID: 8244718911113311204}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6051445037018777577 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2418482588794795021, guid: 69140887403e65a45859e30d944f40dc, type: 3}
   m_PrefabInstance: {fileID: 8244718911113311204}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8219686791443657272 stripped

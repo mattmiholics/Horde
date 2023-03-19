@@ -20,8 +20,6 @@ public class TowerData : MonoBehaviour
     public bool placeBarriers = true;
 
     public GameObject upgradeUI;
-    public GameObject infoText;
-    public String upgradeInfo;
     //private GameObject cancelButton = upgradeUI.transform.GetChild(2);
 
     public int cost;
@@ -101,7 +99,6 @@ public class TowerData : MonoBehaviour
         if (level < upgradeDataList.ToArray().Length || isBarracks)
         {
             this.upgradeUI.SetActive(true);
-            UpgradeManager.Instance.GetComponent<UpgradeManager>().GetInfo(upgradeDataList[level].costToLvl, gameObject, level, type, this.upgradeUI, this.infoText, upgradeInfo);
         }
         else
         {
@@ -126,9 +123,20 @@ public class TowerData : MonoBehaviour
 
     }
 
-    public void upgradeTurret()
+    public void UpgradeTurret()
     {
-        UpgradeManager.Instance.GetComponent<UpgradeManager>().UpgradeTarget();
+        if (PlayerStats.Instance.money >= upgradeDataList[level].costToLvl)
+        {
+            PlayerStats.Instance.money -= upgradeDataList[level].costToLvl;
+            Main.SetActive(false);
+            level++;
+            Main.SetActive(true);
+        }
+        if(level == upgradeDataList.ToArray().Length)
+        {
+            this.upgradeUI.SetActive(false);
+            isMaxLevel = true;
+        }
     }
 
     public void cancel()

@@ -66,7 +66,7 @@ public class CannonProjectile : MonoBehaviour
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
     }
 
-    void HitTarget()
+    protected virtual void HitTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
