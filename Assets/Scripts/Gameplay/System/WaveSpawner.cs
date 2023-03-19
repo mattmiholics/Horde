@@ -39,6 +39,7 @@ public class WaveSpawner : MonoBehaviour
     public UnityEvent WaveStartedEvent;
     public UnityEvent WaveEndedEvent;
     public UnityEvent EnemySpawnedEvent;
+    public UnityEvent WavesFinishedEvent;
 
     public bool infiniteWaveSpawning = false;
     private bool infiniteStarted = false;
@@ -181,13 +182,21 @@ public class WaveSpawner : MonoBehaviour
             {
                 NextButtons.Instance.nextWaveButton.SetActive(true);
             }
+            else if (infiniteStarted)
+            {
+                NextButtons.Instance.nextWaveButton.SetActive(true);
+            }
             else if (infiniteWaveSpawning)
             {
+                WavesFinishedEvent.Invoke();
+                //WavesFinished?.Invoke();
                 NextButtons.Instance.nextWaveButton.SetActive(true);
                 this.infiniteStarted = true;
             }
             else
             {
+                WavesFinishedEvent.Invoke();
+                //WavesFinished?.Invoke();
                 NextButtons.Instance.nextLevelButton.SetActive(true);
             }
         }
