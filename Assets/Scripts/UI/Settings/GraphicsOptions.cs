@@ -230,7 +230,7 @@ public class GraphicsOptions : MonoBehaviour
     {
         resolution.value = 2f;
         UpdateRenderScale(resolution.value);
-        shadowDistance.value = 50f;
+        shadowDistance.value = 75f;
         UpdateShadowDistance(shadowDistance.value);
         msaa = 1;
         SetMSAA(msaa);
