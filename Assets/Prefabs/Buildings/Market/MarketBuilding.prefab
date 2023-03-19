@@ -3589,8 +3589,6 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 9124712446415710541}
-  infoText: {fileID: 6865809122857032860}
-  upgradeInfo: 
   cost: 400
   level: 1
   type: Market
@@ -3623,6 +3621,8 @@ MonoBehaviour:
   upgrade:
     m_PersistentCalls:
       m_Calls: []
+  description: Increased Gold Gain
+  costToLvl: 0
 --- !u!114 &8990264929286320694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14862,7 +14862,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 34077973902688732, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 150300710192109105, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_SizeDelta.x
@@ -14930,7 +14930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3814613057151578943, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4075643178352022058, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_AnchorMax.y
@@ -14947,6 +14947,14 @@ PrefabInstance:
     - target: {fileID: 4075643178352022058, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -103
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255143904326401155, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4698814986184808785}
+    - target: {fileID: 4255143904326401155, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpgradeTurret
       objectReference: {fileID: 0}
     - target: {fileID: 5041716919129187912, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Pivot.x
@@ -15072,6 +15080,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 6580202153947340779, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_text
+      value: Market
+      objectReference: {fileID: 0}
     - target: {fileID: 6845894266818598167, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Color.a
       value: 0.8
@@ -15152,10 +15164,42 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8689196556120129538, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8689196556120129538, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8689196556120129538, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8689196556120129538, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -139.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8934022440636957562, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9082443644560272077, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: costT
+      value: 
+      objectReference: {fileID: 7790895825924350607}
+    - target: {fileID: 9082443644560272077, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: descT
+      value: 
+      objectReference: {fileID: 9090590414045379917}
+    - target: {fileID: 9082443644560272077, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: levelT
+      value: 
+      objectReference: {fileID: 6556629686667782616}
+    - target: {fileID: 9082443644560272077, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+      propertyPath: towerData
+      value: 
+      objectReference: {fileID: 2264250996321951398}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69140887403e65a45859e30d944f40dc, type: 3}
 --- !u!224 &4264815182235471577 stripped
@@ -15163,9 +15207,19 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5041716919129187912, guid: 69140887403e65a45859e30d944f40dc, type: 3}
   m_PrefabInstance: {fileID: 9140174313797920913}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6865809122857032860 stripped
+--- !u!1 &6556629686667782616 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2418482588794795021, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2604698974242603337, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+  m_PrefabInstance: {fileID: 9140174313797920913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7790895825924350607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1352978080638454302, guid: 69140887403e65a45859e30d944f40dc, type: 3}
+  m_PrefabInstance: {fileID: 9140174313797920913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9090590414045379917 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 67606555627738588, guid: 69140887403e65a45859e30d944f40dc, type: 3}
   m_PrefabInstance: {fileID: 9140174313797920913}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &9124712446415710541 stripped

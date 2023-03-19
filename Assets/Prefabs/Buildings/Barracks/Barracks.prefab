@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8677435642441234820
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1192,8 +1192,6 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 4459310002374630928}
-  infoText: {fileID: 0}
-  upgradeInfo: 
   cost: 300
   level: 1
   type: Barracks
@@ -1217,6 +1215,8 @@ MonoBehaviour:
   upgrade:
     m_PersistentCalls:
       m_Calls: []
+  description: None
+  costToLvl: 0
 --- !u!114 &4439343543887779146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1711,7 +1711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1435345153872211431
 RectTransform:
   m_ObjectHideFlags: 0
