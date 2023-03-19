@@ -408,7 +408,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1
+  fireRate: 1.5
   fireReload: 0
   range: 15
   damage: 100
@@ -1444,7 +1444,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1
+  fireRate: 1.25
   fireReload: 0
   range: 15
   damage: 75
@@ -1559,6 +1559,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  description: +.25 Fire Rate, +25 Damage
+  costToLvl: 0
 --- !u!1 &6494605159914280216
 GameObject:
   m_ObjectHideFlags: 0
