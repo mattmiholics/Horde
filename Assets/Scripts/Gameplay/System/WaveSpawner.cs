@@ -189,14 +189,12 @@ public class WaveSpawner : MonoBehaviour
             else if (infiniteWaveSpawning)
             {
                 WavesFinishedEvent.Invoke();
-                //WavesFinished?.Invoke();
                 NextButtons.Instance.nextWaveButton.SetActive(true);
                 this.infiniteStarted = true;
             }
             else
             {
                 WavesFinishedEvent.Invoke();
-                //WavesFinished?.Invoke();
                 NextButtons.Instance.nextLevelButton.SetActive(true);
             }
         }
