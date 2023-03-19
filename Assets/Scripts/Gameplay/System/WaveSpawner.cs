@@ -43,6 +43,7 @@ public class WaveSpawner : MonoBehaviour
     public bool infiniteWaveSpawning = false;
     private bool infiniteStarted = false;
     private WaveData lastWave;
+    private int spawnIndex = 0;
 
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
@@ -231,6 +232,13 @@ public class WaveSpawner : MonoBehaviour
                 increase_amount = 1;
             }
             spawn_data.enemyCount += increase_amount;
+            spawn_data.spawn = spawns[spawnIndex];
+
+            spawnIndex++;
+            if (spawnIndex >= spawns.Count)
+            {
+                spawnIndex = 0;
+            }
         }
         return wave;
     }
