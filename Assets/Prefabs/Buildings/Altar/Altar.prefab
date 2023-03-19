@@ -353,7 +353,7 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0.5}
   rotation: 0
   showGizmo: 0
-  isMaxLevel: 0
+  isMaxLevel: 1
   isBarracks: 0
   rangeSphere: {fileID: 0}
   upgradeDataList:
@@ -375,6 +375,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  description: None
+  costToLvl: 0
 --- !u!114 &3373148012908150145
 MonoBehaviour:
   m_ObjectHideFlags: 0

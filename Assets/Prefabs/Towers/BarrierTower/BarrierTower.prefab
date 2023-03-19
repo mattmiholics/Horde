@@ -80,13 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 12
+  id: 11
   editable: 1
   selectable: 1
   placeBarriers: 0
   upgradeUI: {fileID: 0}
-  infoText: {fileID: 0}
-  upgradeInfo: 
   cost: 300
   level: 1
   type: Barrier
@@ -107,6 +105,8 @@ MonoBehaviour:
   upgrade:
     m_PersistentCalls:
       m_Calls: []
+  description: None
+  costToLvl: 0
 --- !u!1 &2044259728955026120
 GameObject:
   m_ObjectHideFlags: 0
