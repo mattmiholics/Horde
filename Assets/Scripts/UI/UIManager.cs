@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject levelSelect;
     [SerializeField] GameObject rules;
+    [SerializeField] GameObject nextLevel;
 
     /*This is a quick and dirty way for escape functionality. 
      * While it does work, should this project be continued beyond this course 

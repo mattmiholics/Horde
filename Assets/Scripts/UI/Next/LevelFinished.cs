@@ -27,4 +27,11 @@ public class LevelFinished : MonoBehaviour
     {
         SceneLoader.Instance.LoadWorldScene(mainMenu, true);
     }
+
+    public void Continue()
+    {
+        GameObject UI = GameObject.Find("GamePausedUI");
+        UI.SetActive(false);
+        Time.timeScale = 1f;
+    }
 }
