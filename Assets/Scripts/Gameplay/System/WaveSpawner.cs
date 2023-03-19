@@ -172,6 +172,8 @@ public class WaveSpawner : MonoBehaviour
         }
         else if (enemiesAlive.Length == 0 && activeCoRoutines == 0 && waveStarted) //wave ended
         {
+            bossSlider.destroyBossIcons();
+            this.bossSpawns.Clear();
             waveStarted = false;
             WaveEndedEvent.Invoke();
             WaveEnded?.Invoke();

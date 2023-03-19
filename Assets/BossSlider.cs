@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BossSlider : MonoBehaviour
 {
     public GameObject bossSliderPrefab;
+    private List<GameObject> bossSliders = new List<GameObject>();
     private static BossSlider _instance;
     public static BossSlider Instance { get { return _instance; } }
 
@@ -34,7 +35,6 @@ public class BossSlider : MonoBehaviour
     {
         foreach (float boss in bossSpawns)
         {
-            Debug.Log("boss:" + boss);
             createBossSlider(boss);
         }
     }
@@ -42,7 +42,17 @@ public class BossSlider : MonoBehaviour
     private void createBossSlider(float spawnLoc)
     {
         GameObject newBoss = Instantiate(bossSliderPrefab, this.gameObject.transform);
+        this.bossSliders.Add(newBoss);
         Slider slider = newBoss.GetComponent<Slider>();
         slider.value = spawnLoc;
+    }
+
+    public void destroyBossIcons()
+    {
+        foreach (GameObject bossSlider in this.bossSliders)
+        {
+            GameObject.Destroy(bossSlider);
+        }
+        this.bossSliders.Clear();
     }
 }
