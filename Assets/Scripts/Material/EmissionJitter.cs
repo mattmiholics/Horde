@@ -76,7 +76,7 @@ public class EmissionJitter : MonoBehaviour
         while(currentTime < flickerOffsetAnimationTime)
         {
             flickerOffset = flickerOffsetCurve.Evaluate(currentTime / flickerOffsetAnimationTime) * flickerOffsetMax;
-            Debug.Log(flickerOffset);
+
             currentTime += Time.deltaTime;
 
             yield return null;

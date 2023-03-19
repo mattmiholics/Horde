@@ -759,7 +759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flickerFrequency: 0.85
   flickerLowestIntensity: 0.1
-  flickerOffsetMax: 1
+  flickerOffsetMax: 3
   flickerOffsetAnimationTime: 1.3
   flickerOffsetCurve:
     serializedVersion: 2
