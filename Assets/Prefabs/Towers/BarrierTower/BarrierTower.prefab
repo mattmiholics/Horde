@@ -80,12 +80,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 11
+  id: 12
   editable: 1
   selectable: 1
   placeBarriers: 0
   upgradeUI: {fileID: 0}
   infoText: {fileID: 0}
+  upgradeInfo: 
   cost: 300
   level: 1
   type: Barrier
@@ -96,6 +97,8 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   showGizmo: 0
+  isMaxLevel: 0
+  isBarracks: 0
   rangeSphere: {fileID: 0}
   upgradeDataList:
   - main: {fileID: 758191915756330490}
