@@ -107,6 +107,13 @@ public class PurchaseTroops : MonoBehaviour
         troopsActive--;
     }
 
+    public void trainNoCost()
+    {
+        troopsActive++;
+        troop = Instantiate(troop1Prefab, spawnPoint.position, Quaternion.identity, troopParent);
+        troop.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+    }
+
     public void Update()
     {
         troopsText.text = troopsActive + "/" + (barracks.GetComponent<TowerData>().level * 10);

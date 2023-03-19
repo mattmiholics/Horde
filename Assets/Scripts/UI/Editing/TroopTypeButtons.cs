@@ -36,4 +36,14 @@ public class TroopTypeButtons : MonoBehaviour
     {
         purchaseTroops.SpawnTroop3();
     }
+
+    public void onRoundEnd()
+    {
+        int i = gameObject.GetComponent<TowerData>().level;
+        for(int j = 0; j < i; j++)
+        {
+            if(purchaseTroops.troopsActive < gameObject.GetComponent<TowerData>().level*10)
+                purchaseTroops.trainNoCost();
+        }
+    }
 }
