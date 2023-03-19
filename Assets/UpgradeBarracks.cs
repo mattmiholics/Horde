@@ -16,7 +16,7 @@ public class UpgradeBarracks : MonoBehaviour
         }
         else
         {
-            upgradeText.GetComponent<TMPro.TextMeshProUGUI>().text = "Upgrade for $" + barracksData.level * 1000;
+            upgradeText.GetComponent<TMPro.TextMeshProUGUI>().text = "$" + barracksData.level * 1000;
         }
     }
 
