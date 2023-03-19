@@ -3232,7 +3232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14974262b411214e8e15febe9cc9c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeText: {fileID: 8575183409667282494}
+  upgradeText: {fileID: 6864126796945992954}
   barracksData: {fileID: 4439343543887779145}
 --- !u!1 &8840754989924411476
 GameObject:
