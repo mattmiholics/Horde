@@ -21,8 +21,8 @@ public class PurchaseTroops : MonoBehaviour
     public TextMeshProUGUI troopsText;
 
     public float troopSpawnTimer = 6f;
-    private bool trainingTroop = false;
-    private List<int> troopQueue = new List<int>();
+    public bool trainingTroop = false;
+    public List<int> troopQueue = new List<int>();
     private int spawnQueueLimit = 5;
 
     [Space]
