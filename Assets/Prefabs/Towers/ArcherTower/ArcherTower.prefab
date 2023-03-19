@@ -1509,8 +1509,6 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 2778340600054471430}
-  infoText: {fileID: 533565142160174807}
-  upgradeInfo: Inceases Damage by 25
   cost: 300
   level: 1
   type: Archer
@@ -2190,7 +2188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 635205764314738932, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4226496833545768041, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
       propertyPath: m_RootOrder
@@ -2303,7 +2301,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2551,11 +2549,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69140887403e65a45859e30d944f40dc, type: 3}
---- !u!1 &533565142160174807 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2418482588794795021, guid: 69140887403e65a45859e30d944f40dc, type: 3}
-  m_PrefabInstance: {fileID: 2807914870679821018}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2778340600054471430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 34077973902688732, guid: 69140887403e65a45859e30d944f40dc, type: 3}
