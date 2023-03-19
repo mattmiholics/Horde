@@ -506,13 +506,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff9402201803b479ddfed13b5736d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
+  id: 5
   editable: 0
   selectable: 0
   placeBarriers: 1
   upgradeUI: {fileID: 0}
-  infoText: {fileID: 0}
-  upgradeInfo: 
   cost: 300
   level: 1
   type: Main Hall
@@ -523,7 +521,7 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   showGizmo: 0
-  isMaxLevel: 0
+  isMaxLevel: 1
   isBarracks: 0
   rangeSphere: {fileID: 0}
   upgradeDataList:
@@ -533,6 +531,8 @@ MonoBehaviour:
   upgrade:
     m_PersistentCalls:
       m_Calls: []
+  description: None
+  costToLvl: 0
 --- !u!114 &138547339522853192
 MonoBehaviour:
   m_ObjectHideFlags: 0

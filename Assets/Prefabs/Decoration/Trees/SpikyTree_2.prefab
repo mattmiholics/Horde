@@ -129,8 +129,6 @@ MonoBehaviour:
   selectable: 0
   placeBarriers: 1
   upgradeUI: {fileID: 0}
-  infoText: {fileID: 0}
-  upgradeInfo: 
   cost: 300
   level: 1
   type: Spiky Tree 2
@@ -141,6 +139,8 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   showGizmo: 0
+  isMaxLevel: 1
+  isBarracks: 0
   rangeSphere: {fileID: 0}
   upgradeDataList:
   - main: {fileID: 6186075403012120623}
@@ -149,6 +149,8 @@ MonoBehaviour:
   upgrade:
     m_PersistentCalls:
       m_Calls: []
+  description: None
+  costToLvl: 0
 --- !u!1 &6186075403012120623
 GameObject:
   m_ObjectHideFlags: 0
