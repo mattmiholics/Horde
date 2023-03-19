@@ -30,8 +30,6 @@ public class LevelFinished : MonoBehaviour
 
     public void Continue()
     {
-        GameObject UI = GameObject.Find("GamePausedUI");
-        UI.SetActive(false);
         Time.timeScale = 1f;
     }
 }
