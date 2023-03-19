@@ -132,6 +132,21 @@ public class WaveSpawner : MonoBehaviour
         SingletonInstanced?.Invoke();
     }
 
+    private void OnEnable()
+    {
+        SceneLoader.SceneLoaded += ResetSlider;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.SceneLoaded -= ResetSlider;
+    }
+
+    private void ResetSlider()
+    {
+        // What to put here to reset the slider
+    }
+
     private void Start()
     {
         NextButtons.Instance.nextLevelButton.SetActive(false);
