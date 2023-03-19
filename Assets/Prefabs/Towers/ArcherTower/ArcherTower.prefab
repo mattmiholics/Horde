@@ -416,7 +416,6 @@ MonoBehaviour:
   partToRotate: {fileID: 2372660282177081792}
   rotationSpeed: 7
   projectilePrefab: {fileID: 0}
-  projectileEffectPrefab: {fileID: 0}
   firePoint: {fileID: 8546666448976386822}
 --- !u!1 &2393908278401241128
 GameObject:
@@ -1238,7 +1237,6 @@ MonoBehaviour:
   partToRotate: {fileID: 1059197709588517820}
   rotationSpeed: 7
   projectilePrefab: {fileID: 8952111980692290676, guid: 0b5b1263b634a6040bf50d7be8b66951, type: 3}
-  projectileEffectPrefab: {fileID: 7081970572383328169, guid: 68b89d475bbab1447b674d33e28c9d64, type: 3}
   firePoint: {fileID: 2610151050243111025}
 --- !u!1 &5414258571555227699
 GameObject:
@@ -1454,7 +1452,6 @@ MonoBehaviour:
   partToRotate: {fileID: 610104628926688913}
   rotationSpeed: 7
   projectilePrefab: {fileID: 0}
-  projectileEffectPrefab: {fileID: 0}
   firePoint: {fileID: 8445481926313606428}
 --- !u!1 &6387314077730022355
 GameObject:
@@ -2190,6 +2187,10 @@ PrefabInstance:
     - target: {fileID: 566134402534599427, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
       propertyPath: m_Name
       value: BuildEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 635205764314738932, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4226496833545768041, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
       propertyPath: m_RootOrder

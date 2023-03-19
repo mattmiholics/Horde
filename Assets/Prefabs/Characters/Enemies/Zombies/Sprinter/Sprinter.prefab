@@ -136,7 +136,7 @@ MonoBehaviour:
   range: 15
   damage: 50
   isRanged: 0
-  bullet: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
   healthBar: {fileID: 2827955095543940960}
   damageNumberGradient:
@@ -275,7 +275,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
