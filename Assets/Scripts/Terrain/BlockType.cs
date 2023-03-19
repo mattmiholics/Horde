@@ -8,12 +8,13 @@ public enum BlockType
     Air,
     Grass_Dirt,
     Dirt,
-    Grass_Stone,
+    Cobblestone,
     Stone,
     Water,
     Sand,
     Bedrock,
     Barrier,
     Soft_Barrier,
-    Wood
+    Wood,
+    Snow_Dirt
 }

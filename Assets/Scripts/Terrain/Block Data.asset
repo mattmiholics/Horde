@@ -34,9 +34,9 @@ MonoBehaviour:
     isSolid: 1
     generatesCollider: 1
   - blockType: 4
-    up: {x: 6, y: 8}
-    down: {x: 3, y: 5}
-    side: {x: 2, y: 5}
+    up: {x: 4, y: 5}
+    down: {x: 4, y: 5}
+    side: {x: 4, y: 5}
     isSolid: 1
     generatesCollider: 1
   - blockType: 5
@@ -87,3 +87,9 @@ MonoBehaviour:
     side: {x: 8, y: 0}
     isSolid: 0
     generatesCollider: 0
+  - blockType: 12
+    up: {x: 3, y: 4}
+    down: {x: 7, y: 4}
+    side: {x: 7, y: 7}
+    isSolid: 1
+    generatesCollider: 1

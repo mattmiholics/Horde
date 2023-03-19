@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PurchaseTroops : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PurchaseTroops : MonoBehaviour
     public float speed = 5;
     public GameObject barracks;
     public int troopsActive = 0;
-    public Text troops;
+    public TextMeshProUGUI troopsText;
 
     public float troopSpawnTimer = 6f;
     private bool trainingTroop = false;
@@ -52,8 +53,9 @@ public class PurchaseTroops : MonoBehaviour
     private void Start()
     {
         _playerInput = CameraHandler.Instance.playerInput;
-
-        spawnPoint = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Barracks>().spawnPoint;
+        barracks = TowerEditor.Instance.permanentTowerParent.GetComponentInChildren<Barracks>().GetComponentInParent<TowerData>().gameObject;
+        spawnPoint = barracks.GetComponentInChildren<Barracks>().spawnPoint;
+        troopsText = barracks.GetComponentInChildren<Barracks>().troopText;
     }
 
     public void SpawnTroop1()
@@ -107,7 +109,7 @@ public class PurchaseTroops : MonoBehaviour
 
     public void Update()
     {
-        troops.text = troopsActive + "/" + (barracks.GetComponent<TowerData>().level * 10);
+        troopsText.text = troopsActive + "/" + (barracks.GetComponent<TowerData>().level * 10);
 
         if (trainingTroop)
         {
