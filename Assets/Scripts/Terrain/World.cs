@@ -71,8 +71,8 @@ public class World : MonoBehaviour
     }
 
     [PropertySpace(15, 0)]
-    [Button(Icon = SdfIconType.XSquare, DisplayParameters = false)]
-    private void DeleteBarriers(bool update = true)
+    [Button(Icon = SdfIconType.XSquare, DisplayParameters = true)]
+    private void ReplaceWith(BlockType oldBlock, BlockType newBlock, bool update = true)
     {
         HashSet<ChunkRenderer> updateChunks = new HashSet<ChunkRenderer>();
 
@@ -82,9 +82,9 @@ public class World : MonoBehaviour
                                             .LoopThroughTheBlocks(cd, (x, y, z) =>
                                             {
                                                 BlockType block = Chunk.GetBlockFromChunkCoordinates(this, cd, x, y, z);
-                                                if (block == BlockType.Barrier || block == BlockType.Soft_Barrier)
+                                                if (block == oldBlock)
                                                 {
-                                                    Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), BlockType.Air);
+                                                    Chunk.SetBlock(this, cd, new Vector3Int(x, y, z), newBlock);
                                                     ChunkRenderer chunkToUpdate = WorldDataHelper.GetChunk(this, cd.worldPosition);
                                                     if (chunkToUpdate != null)
                                                         updateChunks.Add(chunkToUpdate);
@@ -96,7 +96,6 @@ public class World : MonoBehaviour
             foreach (ChunkRenderer cr in updateChunks)
                 cr.UpdateChunk();
             ChunkUpdated?.Invoke(updateChunks);
-            Debug.Log(updateChunks.Count);
         }
     }
 
