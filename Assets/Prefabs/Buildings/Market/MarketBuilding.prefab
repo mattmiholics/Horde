@@ -3688,7 +3688,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   description: Increased Gold Gain
-  costToLvl: 0
 --- !u!114 &8990264929286320694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15156,15 +15155,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6845894266818598167, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.9019608
       objectReference: {fileID: 0}
     - target: {fileID: 6845894266818598167, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 0.9019608
       objectReference: {fileID: 0}
     - target: {fileID: 6845894266818598167, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7358234344430793386, guid: 69140887403e65a45859e30d944f40dc, type: 3}
       propertyPath: m_AnchorMax.y
