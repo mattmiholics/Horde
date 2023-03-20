@@ -94,7 +94,7 @@ MonoBehaviour:
   checkerOffset: {x: 0, y: 0, z: 0}
   rotation: 0
   showGizmo: 0
-  isMaxLevel: 0
+  isMaxLevel: 1
   isBarracks: 0
   rangeSphere: {fileID: 0}
   upgradeDataList:
