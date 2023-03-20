@@ -13,7 +13,7 @@ public class WaveSpawner : MonoBehaviour
     public static event Action SingletonInstanced;
     public event Action WaveStarted;
     public event Action WaveEnded;
-    public event Action EnemySpawned;
+    public event Action<Altar> EnemySpawned;
 
     public Transform parent;
     public Transform effectParent;
@@ -336,7 +336,7 @@ public class WaveSpawner : MonoBehaviour
         if (progressBar != null)
             UpdateProgressBar();
 
-        EnemySpawned?.Invoke();
+        EnemySpawned?.Invoke(altar);
         EnemySpawnedEvent?.Invoke();
     }
 }

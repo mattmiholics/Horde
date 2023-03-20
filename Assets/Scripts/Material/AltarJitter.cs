@@ -6,8 +6,10 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Renderer))]
-public class EmissionJitter : MonoBehaviour
+public class AltarJitter : MonoBehaviour
 {
+    [SerializeField] private Altar altarParent;
+    [SerializeField] private string propertyName;
     [SerializeField] private float flickerFrequency = 1;
     [SerializeField] private float flickerLowestIntensity = 0.3f;
     [SerializeField] private float flickerOffsetMax = 1f;
@@ -28,7 +30,7 @@ public class EmissionJitter : MonoBehaviour
     void Start()
     {
         _renderer = GetComponent<Renderer>();
-        _originalColor = _renderer.materials.Select(m => m.GetColor("_EmissionColor")).ToArray();
+        _originalColor = _renderer.materials.Select(m => m.GetColor(propertyName)).ToArray();
 
         randomOffset = Random.Range(0, 1000);
         flickerOffset = 0;
@@ -52,15 +54,17 @@ public class EmissionJitter : MonoBehaviour
             int count = _renderer.materials.Length;
             for(int i = 0; i < count; i++)
             {
-                _renderer.materials[i].SetColor("_EmissionColor", _originalColor[i] * flicker);
+                _renderer.materials[i].SetColor(propertyName, _originalColor[i] * flicker);
             }
 
             yield return null;
         }
     }
 
-    public void OffsetEvent()
+    public void OffsetEvent(Altar altar)
     {
+        if (altar != altarParent)
+            return;
         if (offsetCoroutine != null)
             StopCoroutine(offsetCoroutine);
         offsetCoroutine = StartCoroutine(OffsetValue());
