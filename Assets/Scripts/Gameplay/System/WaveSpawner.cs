@@ -49,7 +49,7 @@ public class WaveSpawner : MonoBehaviour
     private static WaveSpawner _instance;
     public static WaveSpawner Instance { get { return _instance; } }
 
-    [OnCollectionChanged("@RefreshSpawnData()")]
+    [OnStateUpdate("@RefreshSpawnData()")]
     [OnInspectorDispose("@RefreshSpawnData()")]
     [OnInspectorInit("@RefreshSpawnData()")]
     [SerializeField]
@@ -57,13 +57,16 @@ public class WaveSpawner : MonoBehaviour
 
     private void RefreshSpawnData()
     {
-        waveDataList.ForEach(wd => wd.spawnDataList.ForEach(sd => { 
-            sd.waveSpawner = this; 
-            if (sd.spawn == null) 
+        waveDataList.ForEach(wd => 
+        { if (wd.spawnDataList != null) wd.spawnDataList.ForEach(sd =>
+            {
+            sd.waveSpawner = this;
+            if (sd.spawn == null)
                 sd.spawn = spawns.FirstOrDefault();
             if (sd.enemyType == null)
                 sd.enemyType = enemies.FirstOrDefault();
-            }));
+            });
+        });
     }
 
     [Serializable]
@@ -97,7 +100,9 @@ public class WaveSpawner : MonoBehaviour
 
         private IEnumerable GetEnemyTypes()
         {
-            return waveSpawner.enemies.Select(enemy => new ValueDropdownItem(enemy.name, enemy));
+            if (waveSpawner)
+                return waveSpawner.enemies.Select(enemy => new ValueDropdownItem(enemy.name, enemy));
+            return null;
         }
 
         private bool HasEnemyMovementComponent(GameObject obj)
@@ -110,7 +115,9 @@ public class WaveSpawner : MonoBehaviour
 
         private IEnumerable GetAltars()
         {
-            return waveSpawner.spawns.Select((spawn, index) => new ValueDropdownItem($"{index + 1}. Altar", spawn));
+            if (waveSpawner)
+                return waveSpawner.spawns.Select((spawn, index) => new ValueDropdownItem($"{index + 1}. Altar", spawn));
+            return null;
         }
     }
 
