@@ -120,7 +120,7 @@ public static class WorldDataHelper
     internal static List<Vector3Int> GetUnnededChunks(World worldReference, WorldData worldData, List<Vector3Int> allChunkPositionsNeeded)
     {
         List<Vector3Int> positionToRemove = new List<Vector3Int>();
-        foreach (var pos in worldReference.chunkDictionary.Keys
+        foreach (var pos in worldData.chunkDataDictionary.Keys
             .Where(pos => allChunkPositionsNeeded.Contains(pos) == false))
         {
             if (worldReference.chunkDictionary.ContainsKey(pos))
@@ -136,7 +136,7 @@ public static class WorldDataHelper
     internal static List<Vector3Int> SelectPositonsToCreate(World worldReference, WorldData worldData, List<Vector3Int> allChunkPositionsNeeded, Vector3Int center)
     {
         return allChunkPositionsNeeded
-            .Where(pos => worldReference.chunkDictionary.ContainsKey(pos) == false)
+            .Where(pos => worldData.chunkDataDictionary.ContainsKey(pos) == false)
             .OrderBy(pos => Vector3.Distance(center, pos))
             .ToList();
     }

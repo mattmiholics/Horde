@@ -93,3 +93,9 @@ MonoBehaviour:
     side: {x: 7, y: 7}
     isSolid: 1
     generatesCollider: 1
+  - blockType: 13
+    up: {x: 5, y: 8}
+    down: {x: 7, y: 4}
+    side: {x: 7, y: 6}
+    isSolid: 1
+    generatesCollider: 1

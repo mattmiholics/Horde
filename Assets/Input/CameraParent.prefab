@@ -282,7 +282,7 @@ MonoBehaviour:
   rotationDrag: 30
   zoomSensetivity: 2.5
   zoomDrag: 40
-  zoomMinMax: {x: 4, y: 50}
+  zoomMinMax: {x: 4, y: 60}
   clippingCollision:
     serializedVersion: 2
     m_Bits: 8
@@ -340,10 +340,114 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1fa1180-0373-4676-b004-e3575e7b9975
+    m_ActionName: Main/ActivateCamera[/Keyboard/leftAlt]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5c13069-82b2-40c8-a3a1-6c0d4975c8a4
+    m_ActionName: Main/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aa52bdf2-f1e1-4717-a117-1e0244773752
+    m_ActionName: Main/LookAlt[/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c65e85a2-9d67-4ef2-8aac-504be75a807e
+    m_ActionName: Main/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7f99ce8-fcf5-448f-ab51-d4687cc08e92
+    m_ActionName: Main/Zoom[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a18748cd-c1b0-42ae-9fba-6ad425f888ee
+    m_ActionName: Main/Rotate[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 121f085d-4f14-42ab-b5ec-683be118eb7f
+    m_ActionName: Main/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f9e574ca-139e-404f-81af-8da480c4ad5d
+    m_ActionName: Unit/UnionSelect[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a263663c-c4a7-4f10-94aa-8a568afffa59
+    m_ActionName: Unit/Destination[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cba494b2-dd94-469a-98cd-52eb5cbfb3de
+    m_ActionName: Unit/Select[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1749a8fa-ee14-4b2f-aceb-450500aab184
+    m_ActionName: Camera/Zoom[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 683a8216-e382-4542-b1d7-8339093aea33
+    m_ActionName: Camera/Rotate[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c30740c6-d42c-42ae-81a8-e3ea948ab0b9
+    m_ActionName: Camera/DeactivateCamera
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 59563b11-b492-4886-bfd8-0850944d8037
+    m_ActionName: Editing/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94b6c32f-3672-4a63-9c16-c298cdb42f6b
+    m_ActionName: Editing/Remove[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a11d118e-f968-4037-9dda-4b2d20842b74
+    m_ActionName: Editing/Rotate[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 68494cc0-0697-41e4-b75a-309b062bdab4
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dc022f93-68d3-40e9-bba4-6b9fc415a570
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0f7ab8e9-68ae-4904-a198-a51e06dcd35b
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ed95e9f0-a4b7-4ab1-acb7-2cec2eb13745
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a337f29-365b-4173-a7d1-1a439b03eede
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ad822614-9aa2-423d-90df-df5999e09947
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 155d39ac-c9c7-4261-a5c9-01eecc2a8d96
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7cc677ae-f5fb-4db7-aba8-35573ec60997
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 226bae54-968f-4153-a098-ac4704a1b09d
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 719058d9-bd83-4bea-abb1-8e5e598e87f7
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Main
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!54 &668968359509995575

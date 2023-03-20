@@ -16,5 +16,6 @@ public enum BlockType
     Barrier,
     Soft_Barrier,
     Wood,
-    Snow_Dirt
+    Snow_Dirt,
+    DarkGrass_Dirt
 }

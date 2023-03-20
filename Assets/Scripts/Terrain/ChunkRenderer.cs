@@ -71,14 +71,14 @@ public class ChunkRenderer : MonoBehaviour
     public void UpdateChunk()
     {
         RenderMesh(Chunk.GetChunkMeshData(worldReference, ChunkData));
-        
+
         ChunkUpdated?.Invoke();
     }
 
     public void UpdateChunk(MeshData data)
     {
         RenderMesh(data);
-        
+
         ChunkUpdated?.Invoke();
     }
 

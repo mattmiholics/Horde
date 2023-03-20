@@ -124,7 +124,9 @@ public class TerrainEditorInspector : OdinEditor
 
 
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && !Event.current.alt && terrainEditor.world.GetBlock(hit, true) != BlockType.Bedrock)
+                {
                     terrainEditor.ModifyTerrain(hit, terrainEditor.blockType, true);
+                }
             }
         }
         else

@@ -96,6 +96,7 @@ public class World : MonoBehaviour
             foreach (ChunkRenderer cr in updateChunks)
                 cr.UpdateChunk();
             ChunkUpdated?.Invoke(updateChunks);
+            Debug.Log(updateChunks.Count);
         }
     }
 
@@ -170,10 +171,6 @@ public class World : MonoBehaviour
 
         if (!loadOnly)
         {
-            worldRenderer.chunkPool.Clear();
-            worldRenderer.DeleteRenderers();
-            chunkDictionary = new Dictionary<Vector3Int, ChunkRenderer>();
-
             worldData = new WorldData
             {
                 chunkHeight = this.chunkHeight,
@@ -184,6 +181,10 @@ public class World : MonoBehaviour
                 chunkDataDictionary = new Dictionary<Vector3Int, ChunkData>(),
             };
         }
+
+        worldRenderer.chunkPool.Clear();
+        worldRenderer.DeleteRenderers();
+        chunkDictionary = new Dictionary<Vector3Int, ChunkRenderer>();
 
         await GenerateWorld(Vector3Int.zero, loadOnly);
     }
@@ -334,7 +335,7 @@ public class World : MonoBehaviour
     private void CreateChunk(WorldData worldData, Vector3Int position, MeshData meshData, bool loadOnly)
     {
         ChunkRenderer chunkRenderer = worldRenderer.RenderChunk(this, worldData, position, meshData);
-        if (!loadOnly)
+        //if (!loadOnly)
             chunkDictionary.Add(position, chunkRenderer);
 
     }
@@ -403,6 +404,7 @@ public class World : MonoBehaviour
         Vector3Int chunkPos = Chunk.ChunkPositionFromBlockCoords(this, pos.x, pos.y, pos.z);
 
         ChunkRenderer chunk = WorldDataHelper.GetChunk(this, chunkPos);
+;
         if (chunk == null)
             return false;
 
@@ -750,11 +752,6 @@ public class World : MonoBehaviour
 
         byte[] bytes = Resources.Load<TextAsset>(assetDir.Replace(Application.dataPath + "/Resources/", "") + assetName).bytes;
         worldData = Sirenix.Serialization.SerializationUtility.DeserializeValue<WorldData>(bytes, DataFormat.Binary);
-
-        worldRenderer.chunkPool.Clear();
-        worldRenderer.DeleteRenderers();
-        worldRenderer.LoadRenderersFromChunkData(this, ref chunkDictionary, ref worldData.chunkDataDictionary);
-
 
         //DeleteBarriers(false);
 
