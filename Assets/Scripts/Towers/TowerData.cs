@@ -76,7 +76,7 @@ public class TowerData : MonoBehaviour
     }
 
     public string description = "None";
-    public int costToLvl { get { return upgradeDataList[level] != null ? upgradeDataList[level].costToLvl : 0; } }
+    public int costToLvl { get { return level > 0 && level < upgradeDataList.Count ? upgradeDataList[level].costToLvl : 0; } }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
