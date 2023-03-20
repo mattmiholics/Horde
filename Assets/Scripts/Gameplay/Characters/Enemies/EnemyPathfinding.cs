@@ -67,7 +67,6 @@ public class EnemyPathfinding : MonoBehaviour
             troopInSightRange = Physics.CheckSphere(transform.position, sightRange, troopLayer);
             if (troopInSightRange) 
             {
-                Debug.Log("Check troops");
                 troopInAttackRange = Physics.CheckSphere(transform.position, attackRange, troopLayer);
                 hasDeviatedFromMainPath = true;
             }

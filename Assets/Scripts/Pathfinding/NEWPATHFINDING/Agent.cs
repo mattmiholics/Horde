@@ -64,7 +64,6 @@ public class Agent : SerializedMonoBehaviour
     private void ChunksUpdatePath(HashSet<ChunkRenderer> updatedChunks)
     {
         // SetTarget(currentTarget, latestMaxNodes);
-        Debug.Log("Current Target: " + currentTarget);
         SetTarget(currentTarget);
     }
 
