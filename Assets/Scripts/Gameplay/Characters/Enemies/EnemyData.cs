@@ -31,7 +31,6 @@ public class EnemyData : UnitData
         if (health <= 0)
         {
             PlayerStats.Instance.money += deathValue;
-            Debug.Log("Enemy killed!");
             GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity, WaveSpawner.Instance.effectParent);
             Destroy(effect, 5f);
 

@@ -76,7 +76,7 @@ public class TowerData : MonoBehaviour
     }
 
     public string description = "None";
-    public int costToLvl;
+    public int costToLvl { get { return upgradeDataList[level] != null ? upgradeDataList[level].costToLvl : 0; } }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -97,22 +97,6 @@ public class TowerData : MonoBehaviour
     }
 #endif
 
-    private void Start()
-    {
-        if (!isMaxLevel)
-        {
-            costToLvl = upgradeDataList[level].costToLvl;
-        }
-    }
-
-    private void Update()
-    {
-        if (!isMaxLevel)
-        {
-            costToLvl = upgradeDataList[level].costToLvl;
-        }
-    }
-
 
     public void BeginUpgrade()
     {
@@ -120,7 +104,7 @@ public class TowerData : MonoBehaviour
         {
             this.upgradeUI.SetActive(true);
         }
-        else
+        else if (upgradeUI != null)
         {
             this.upgradeUI.SetActive(false);
             isMaxLevel = true;
@@ -163,10 +147,6 @@ public class TowerData : MonoBehaviour
         {
             this.upgradeUI.SetActive(false);
             isMaxLevel = true;
-        }
-        else
-        {
-            costToLvl = upgradeDataList[level].costToLvl;
         }
     }
 
