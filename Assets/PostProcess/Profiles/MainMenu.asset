@@ -66,13 +66,13 @@ MonoBehaviour:
     m_Value: 1
   focusDistance:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 4.3
   aperture:
-    m_OverrideState: 0
-    m_Value: 5.6
+    m_OverrideState: 1
+    m_Value: 4.5
   focalLength:
-    m_OverrideState: 0
-    m_Value: 50
+    m_OverrideState: 1
+    m_Value: 126
   bladeCount:
     m_OverrideState: 0
     m_Value: 5
@@ -118,7 +118,7 @@ MonoBehaviour:
     m_Value: 0
   fogColor:
     m_OverrideState: 1
-    m_Value: {r: 0.054289766, g: 0.06467306, b: 0.14150941, a: 1}
+    m_Value: {r: 0.02278391, g: 0.025858443, b: 0.05660379, a: 1}
   fogColorGradient:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -134,13 +134,13 @@ MonoBehaviour:
     m_Value: 1
   distanceDensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.18
   useRadialDistance:
     m_OverrideState: 0
     m_Value: 1
   skyboxInfluence:
-    m_OverrideState: 1
-    m_Value: 0.1
+    m_OverrideState: 0
+    m_Value: 0
   enableDirectionalLight:
     m_OverrideState: 1
     m_Value: 1
@@ -170,7 +170,7 @@ MonoBehaviour:
     m_Value: 5.5
   heightDensity:
     m_OverrideState: 1
-    m_Value: 184.38
+    m_Value: 93.2
   heightFogNoise:
     m_OverrideState: 1
     m_Value: 1
