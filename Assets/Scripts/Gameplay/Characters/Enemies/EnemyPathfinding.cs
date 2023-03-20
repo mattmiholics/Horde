@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
-
+using Sirenix.OdinInspector;
 
 public class EnemyPathfinding : MonoBehaviour
 {
@@ -17,11 +17,8 @@ public class EnemyPathfinding : MonoBehaviour
     public float attackRange;
     public bool troopInSightRange, troopInAttackRange;
 
-    [Header("Animation")]
-    public Animator animator;
-
     Transform target;
-    bool hasDeviatedFromMainPath;
+    [ReadOnly] public bool hasDeviatedFromMainPath;
     EnemyData enemyData;
 
     private void Start()
@@ -70,17 +67,17 @@ public class EnemyPathfinding : MonoBehaviour
             troopInSightRange = Physics.CheckSphere(transform.position, sightRange, troopLayer);
             if (troopInSightRange) 
             {
-                // Debug.Log("Check troops");
+                Debug.Log("Check troops");
                 troopInAttackRange = Physics.CheckSphere(transform.position, attackRange, troopLayer);
                 hasDeviatedFromMainPath = true;
             }
             else troopInAttackRange = false;
             if (hasDeviatedFromMainPath && PathfindNearestTroop())
             {
-                if (troopInSightRange && troopInAttackRange && enemyData.canAttack) enemyData.Attack(GetNearestTroop()); // Then attacking troop (probably need to prioritize this later on)
-            }
-                
-            else
+                if (troopInSightRange && troopInAttackRange && enemyData.canAttack) 
+                    enemyData.Attack(GetNearestTroop()); // Then attacking troop (probably need to prioritize this later on)
+            } 
+            else if (hasDeviatedFromMainPath)
                 MoveToTarget();
             yield return new WaitForSeconds(0.2f);
         }

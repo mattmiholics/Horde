@@ -24,10 +24,10 @@ public class FireMageProjectile : Projectile
         EnemyData e = target.GetComponentInParent<EnemyData>();
         if(e != null)
         {
-            Debug.Log("Hit Enemy and prepare to create damage field");
+            //Debug.Log("Hit Enemy and prepare to create damage field");
             AreaDamage();
         }
-        Debug.Log("Hit Target!");
+        //Debug.Log("Hit Target!");
         if (projectileEffectPool)
             projectileEffectPool.Create(transform.position, transform.rotation, 2f);
         projectilePool.Destroy(gameObject);

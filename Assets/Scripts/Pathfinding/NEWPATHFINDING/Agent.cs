@@ -40,7 +40,7 @@ public class Agent : SerializedMonoBehaviour
 
     private const float jumpHeightMultiplier = 1.75f;
     private const float jumpHeightOffset = 6f;
-    private const float rotateSpeed = 3f;
+    private const float rotateSpeed = 2.5f;
     private float gravity = 20;
     private float jumpCooldown = 0.6f;
     private bool jumpReady;
@@ -165,9 +165,9 @@ public class Agent : SerializedMonoBehaviour
         for (; ; )
         {
             // Check if close enough to a node to either remove or if at final node
-            if (Vector3.Distance(new Vector3(transform.position.x, pathPoints.Last().point.y, transform.position.z), pathPoints.Last().point) < 0.05f)
+            if (Vector3.Distance(new Vector3(transform.position.x, pathPoints.Last().point.y, transform.position.z), pathPoints.Last().point) < 0.08f)
             {
-                if (pathPoints.Count <= 1 && Vector3.Distance(transform.position + Vector3.up * 0.5f, pathPoints.Last().point) < 0.05f)
+                if (pathPoints.Count <= 1 && Vector3.Distance(transform.position + Vector3.up * 0.5f, pathPoints.Last().point) < 0.08f)
                     break;
                 else if (pathPoints.Count > 1)
                     pathPoints.RemoveAt(pathPoints.Count - 1);
