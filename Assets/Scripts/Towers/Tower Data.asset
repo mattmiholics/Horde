@@ -1,0 +1,476 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e388a76f6542ebe4ab3de105ca5ecfad, type: 3}
+  m_Name: Tower Data
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 6387314077730022355, guid: cb74d334800261c47990391d15c97fc1, type: 3}
+    - {fileID: 1629769728814458253, guid: 2821b786de31a1f42b968f92b4875de3, type: 3}
+    - {fileID: 6387314077730022355, guid: 974733cac0f31eb418c7ed5c3e912ac9, type: 3}
+    - {fileID: 6387314077730022355, guid: 0ee02ea0467c6204b93fea78067b4d22, type: 3}
+    - {fileID: 5153425665882639490, guid: 362077f1bc504c04db4b05a1ed29e9bc, type: 3}
+    - {fileID: 8416032064001218017, guid: 10064379a6c675a4fb9a666d2326f4f4, type: 3}
+    - {fileID: 4439343543887779140, guid: 4dd39a1db879dbc49be09002672824ef, type: 3}
+    - {fileID: 4641421237146828904, guid: 4eb2f22a6e56562479172bd76592b2b8, type: 3}
+    - {fileID: 2264250996321951398, guid: d4dd68b66bb39a94e90218cb934558e9, type: 3}
+    - {fileID: 5315060807854233688, guid: 2b548d873b1b9b94e827d7180c63cd54, type: 3}
+    - {fileID: 5315060807854233688, guid: d74a52d34e761d14f8e7a066fedc934c, type: 3}
+    - {fileID: 5315060807854233688, guid: f300a4845c19acd4896b02d33fb7fc80, type: 3}
+    - {fileID: 5315060807854233688, guid: aa47a95a8dd6d8e4fa124eefa14b3c8f, type: 3}
+    - {fileID: 5315060807854233688, guid: 8531ffe54d865fa42a4837e689ef62c2, type: 3}
+    - {fileID: 4546311437133525577, guid: d6c9661808d1c6748b6991c965e2f39f, type: 3}
+    - {fileID: 4546311437133525577, guid: 8ac3dde611472f14aaf1f3e8c9888197, type: 3}
+    - {fileID: 5315060807854233688, guid: 44bfef3dbc26cf9449134383d2b97fbc, type: 3}
+    - {fileID: 5315060807854233688, guid: a8073dbf5a54dd24e8b8475ac874ef3e, type: 3}
+    - {fileID: 4107565940607476681, guid: 277a2c15cdbb35042a02c0b7f74ac0fe, type: 3}
+    - {fileID: 4107565940607476681, guid: bc48bce262909fd468616719c2133497, type: 3}
+    - {fileID: 5315060807854233688, guid: 45d9a18dd106c6a4fa459f24e9c02d63, type: 3}
+    - {fileID: 5315060807854233688, guid: 011ba532a79cf41438ada10c03e22b63, type: 3}
+    - {fileID: 5315060807854233688, guid: b536f8a961f804a42bea38b02150e5bf, type: 3}
+    - {fileID: 5315060807854233688, guid: cc381b98aa4a4504e856f0acc2e36b3f, type: 3}
+    - {fileID: 5315060807854233688, guid: 7e01dde372be3db42b3212a502a21e74, type: 3}
+    - {fileID: 5315060807854233688, guid: 1dd0085c084ab154db0ef6676a9ebb49, type: 3}
+    - {fileID: 5813273380568415987, guid: 046961f8991a00a4ab07d8f6decc38a8, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: idTowerPrefab
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.GameObject,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 27
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 7
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 8
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 9
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 10
+    - Name: $v
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 11
+    - Name: $v
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 12
+    - Name: $v
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 13
+    - Name: $v
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 14
+    - Name: $v
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 15
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 16
+    - Name: $v
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 17
+    - Name: $v
+      Entry: 10
+      Data: 16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 18
+    - Name: $v
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 19
+    - Name: $v
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 20
+    - Name: $v
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 21
+    - Name: $v
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 22
+    - Name: $v
+      Entry: 10
+      Data: 21
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 23
+    - Name: $v
+      Entry: 10
+      Data: 22
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 24
+    - Name: $v
+      Entry: 10
+      Data: 23
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 25
+    - Name: $v
+      Entry: 10
+      Data: 24
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 26
+    - Name: $v
+      Entry: 10
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 27
+    - Name: $v
+      Entry: 10
+      Data: 26
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  towerPrefabInspectorClasses:
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 1
+    towerPrefab: {fileID: 6387314077730022355, guid: cb74d334800261c47990391d15c97fc1, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 2
+    towerPrefab: {fileID: 1629769728814458253, guid: 2821b786de31a1f42b968f92b4875de3, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 3
+    towerPrefab: {fileID: 6387314077730022355, guid: 974733cac0f31eb418c7ed5c3e912ac9, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 4
+    towerPrefab: {fileID: 6387314077730022355, guid: 0ee02ea0467c6204b93fea78067b4d22, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 5
+    towerPrefab: {fileID: 5153425665882639490, guid: 362077f1bc504c04db4b05a1ed29e9bc, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 6
+    towerPrefab: {fileID: 8416032064001218017, guid: 10064379a6c675a4fb9a666d2326f4f4, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 7
+    towerPrefab: {fileID: 4439343543887779140, guid: 4dd39a1db879dbc49be09002672824ef, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 8
+    towerPrefab: {fileID: 4641421237146828904, guid: 4eb2f22a6e56562479172bd76592b2b8, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 9
+    towerPrefab: {fileID: 2264250996321951398, guid: d4dd68b66bb39a94e90218cb934558e9, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 10
+    towerPrefab: {fileID: 5315060807854233688, guid: 2b548d873b1b9b94e827d7180c63cd54, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 11
+    towerPrefab: {fileID: 5315060807854233688, guid: d74a52d34e761d14f8e7a066fedc934c, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 12
+    towerPrefab: {fileID: 5315060807854233688, guid: f300a4845c19acd4896b02d33fb7fc80, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 13
+    towerPrefab: {fileID: 5315060807854233688, guid: aa47a95a8dd6d8e4fa124eefa14b3c8f, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 14
+    towerPrefab: {fileID: 5315060807854233688, guid: 8531ffe54d865fa42a4837e689ef62c2, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 15
+    towerPrefab: {fileID: 4546311437133525577, guid: d6c9661808d1c6748b6991c965e2f39f, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 16
+    towerPrefab: {fileID: 4546311437133525577, guid: 8ac3dde611472f14aaf1f3e8c9888197, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 17
+    towerPrefab: {fileID: 5315060807854233688, guid: 44bfef3dbc26cf9449134383d2b97fbc, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 18
+    towerPrefab: {fileID: 5315060807854233688, guid: a8073dbf5a54dd24e8b8475ac874ef3e, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 19
+    towerPrefab: {fileID: 4107565940607476681, guid: 277a2c15cdbb35042a02c0b7f74ac0fe, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 20
+    towerPrefab: {fileID: 4107565940607476681, guid: bc48bce262909fd468616719c2133497, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 21
+    towerPrefab: {fileID: 5315060807854233688, guid: 45d9a18dd106c6a4fa459f24e9c02d63, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 22
+    towerPrefab: {fileID: 5315060807854233688, guid: 011ba532a79cf41438ada10c03e22b63, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 23
+    towerPrefab: {fileID: 5315060807854233688, guid: b536f8a961f804a42bea38b02150e5bf, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 24
+    towerPrefab: {fileID: 5315060807854233688, guid: cc381b98aa4a4504e856f0acc2e36b3f, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 25
+    towerPrefab: {fileID: 5315060807854233688, guid: 7e01dde372be3db42b3212a502a21e74, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 26
+    towerPrefab: {fileID: 5315060807854233688, guid: 1dd0085c084ab154db0ef6676a9ebb49, type: 3}
+  - idColor: {r: 1, g: 1, b: 1, a: 1}
+    id: 27
+    towerPrefab: {fileID: 5813273380568415987, guid: 046961f8991a00a4ab07d8f6decc38a8, type: 3}

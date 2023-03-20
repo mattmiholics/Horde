@@ -39,7 +39,7 @@ public class TowerEditor : MonoBehaviour
 
     private IEnumerable GetTowerTypes()
     {
-        return towerDataManager.idTowerPrefab.Select(keyval => new ValueDropdownItem(keyval.Value.GetComponent<TowerData>().type, keyval.Value)); // Just pull the string name because otherwise if we grab a copy it won't work
+        return towerDataManager.towerDataSO.idTowerPrefab.Select(keyval => new ValueDropdownItem(keyval.Value.GetComponent<TowerData>().type, keyval.Value)); // Just pull the string name because otherwise if we grab a copy it won't work
     }
 
     private PlayerInput _playerInput;
