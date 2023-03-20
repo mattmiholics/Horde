@@ -81,7 +81,7 @@ MonoBehaviour:
   fire:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6651706606665685776}
+      - m_Target: {fileID: 8963640078650863224}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -1529,7 +1529,7 @@ MonoBehaviour:
   fire:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6651706606665685776}
+      - m_Target: {fileID: 8963640078650863224}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -2777,7 +2777,7 @@ MonoBehaviour:
   fire:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6651706606665685776}
+      - m_Target: {fileID: 8963640078650863224}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -2992,6 +2992,11 @@ AudioSource:
 --- !u!4 &7942282482360051597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4226496833545768041, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
+  m_PrefabInstance: {fileID: 6097644837693025252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &8963640078650863224 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2952690667691672988, guid: 3144380ea1e6943409f061501d4e180a, type: 3}
   m_PrefabInstance: {fileID: 6097644837693025252}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8636119157987741284
