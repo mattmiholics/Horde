@@ -58,7 +58,7 @@ public class PurchaseTroops : MonoBehaviour
         troopsText = barracks.GetComponentInChildren<Barracks>().troopText;
     }
 
-    public void SpawnTroop1()
+    public void SpawnArcher()
     {
         if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
@@ -72,14 +72,14 @@ public class PurchaseTroops : MonoBehaviour
         }
     }
 
-    public void SpawnTroop2()
+    public void SpawnKnight()
     {
-        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
+        if (PlayerStats.Instance.money >= 150 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
 
             troopQueue.Add(2);
-            PlayerStats.Instance.money -= 200;
+            PlayerStats.Instance.money -= 150;
             if (!trainingTroop)
             {
                 trainingTroop = true;
@@ -87,7 +87,7 @@ public class PurchaseTroops : MonoBehaviour
         }
     }
 
-    public void SpawnTroop3()
+    public void SpawnFireMage()
     {
         if (PlayerStats.Instance.money >= 250 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {

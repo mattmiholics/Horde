@@ -25,15 +25,15 @@ public class BarracksButtons : MonoBehaviour
 
     public void Troop1()
     {
-        purchaseTroops.SpawnTroop1();
+        purchaseTroops.SpawnArcher();
     }
     public void Troop2()
     {
-        purchaseTroops.SpawnTroop2();
+        purchaseTroops.SpawnKnight();
     }
 
     public void Troop3()
     {
-        purchaseTroops.SpawnTroop3();
+        purchaseTroops.SpawnFireMage();
     }
 }
