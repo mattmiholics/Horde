@@ -211,7 +211,7 @@ public class CameraHandler : MonoBehaviour
     [HideInInspector]
     public InputActionMap[] disabledActionMaps;
 
-    float defaultDrag = 0.95f;
+    float defaultDrag = 0.05f;
 
     bool IsMouseOverGameWindow { get { return !(0 > Mouse.current.position.ReadValue().x || 0 > Mouse.current.position.ReadValue().y || Screen.width < Mouse.current.position.ReadValue().x || Screen.height < Mouse.current.position.ReadValue().y); } }
 
@@ -474,12 +474,12 @@ public class CameraHandler : MonoBehaviour
 
         if (!lockControls && p_move.magnitude > 0)
         {
-            _rigidbodyParent.AddForce(movementSensetivity * 6f * new Vector3(p_move.x, 0, p_move.y), ForceMode.Impulse);
-            _rigidbodyParent.velocity *= defaultDrag;
+            _rigidbodyParent.AddForce(movementSensetivity * 6f * new Vector3(p_move.x, 0, p_move.y) / Time.timeScale, ForceMode.Impulse);
+            _rigidbodyParent.velocity *= 1 - defaultDrag;
         }
         else
         {
-            _rigidbodyParent.velocity *= (1f - (movementDrag / 100));
+            _rigidbodyParent.velocity *= (1f - (movementDrag / (100 * Time.timeScale)));
         }
 
         //camera rotation
@@ -491,17 +491,17 @@ public class CameraHandler : MonoBehaviour
 
             if (look.magnitude > 0)
             {
-                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.05f * look.x * rotationSensetivity, 0); //this is main horizontal rotate
+                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.07f * look.x * rotationSensetivity, 0) / Time.timeScale; //this is main horizontal rotate
             }
             else
             {
-                _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
+                _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / (100 * Time.timeScale)));
             }
         }
         else if (!lockControls && lookAlt != 0)
         {
-            _rigidbodyYRotate.AddRelativeTorque(new Vector3(0, 0.06f * lookAlt * rotationSensetivity, 0), ForceMode.Impulse);
-            _rigidbodyYRotate.angularVelocity *= defaultDrag;
+            _rigidbodyYRotate.AddRelativeTorque(new Vector3(0, 0.06f * lookAlt * rotationSensetivity, 0) / Time.timeScale, ForceMode.Impulse);
+            _rigidbodyYRotate.angularVelocity *= 1 - defaultDrag;
         }
         //rotation drag
         else
@@ -509,7 +509,7 @@ public class CameraHandler : MonoBehaviour
             if (!_zoomAlt.IsPressed())
                 Cursor.visible = true;
            
-            _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / 100));
+            _rigidbodyYRotate.angularVelocity *= (1f - (rotationDrag / (100 * Time.timeScale)));
         }
     }
 

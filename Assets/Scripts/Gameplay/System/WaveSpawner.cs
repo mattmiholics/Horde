@@ -152,7 +152,8 @@ public class WaveSpawner : MonoBehaviour
 
     private void ResetSlider()
     {
-        // What to put here to reset the slider
+        progressBar.slider.value = 0;
+        bossSlider.destroyBossIcons();
     }
 
     private void Start()
