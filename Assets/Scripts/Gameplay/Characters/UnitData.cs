@@ -131,7 +131,7 @@ public class UnitData : MonoBehaviour
         if (damageNumberPool)
         {
             GameObject damageNumber = damageNumberPool.Create(healthBar.transform.position, Quaternion.identity, 2f);
-            damageNumber.GetComponent<DamageNumber>().UpdateNumber(incomingDamage, damageNumberGradient.Evaluate(Mathf.Clamp01(incomingDamage/200)), Mathf.Clamp01(incomingDamage / 400 + 0.5f)); // 300 is max sized and furthest color
+            damageNumber.GetComponent<DamageNumber>().UpdateNumber(incomingDamage, damageNumberGradient.Evaluate(Mathf.Clamp01(incomingDamage/100)), Mathf.Clamp01(incomingDamage / 200 + 0.5f)); // 300 is max sized and furthest color
         }
         
         healthBar.fillAmount = health/startHealth;
