@@ -102,6 +102,13 @@ public class UpgradeManager : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                if (towerDataSelected)
+                {
+                    towerDataSelected.cancel();
+                }
+            }
             hit.transform.parent.GetComponent<TowerData>().BeginUpgrade();
         }
         else if (!CanvasHitDetector.Instance.IsPointerOverUI() && towerDataSelected)
@@ -141,6 +148,13 @@ public class UpgradeManager : MonoBehaviour
                         outline.Update();
                         outline.enabled = true;
                     }
+                }
+            }
+            else
+            {
+                if (towerDataHovered && towerDataHovered != towerDataSelected && towerDataHovered.Main.TryGetComponent<Outline>(out Outline tdoutline))
+                {
+                    tdoutline.enabled = false;
                 }
             }
         }

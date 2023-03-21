@@ -60,4 +60,12 @@ public class MarketBuildingManager : MonoBehaviour
         tempStartPayingOut = false;
         tempCurrentAmountPayed = 0;
     }
+
+    public void CheckMaxLevelAndDisableSelectable()
+    {
+        if (gameObject.GetComponent<TowerData>().isMaxLevel)
+        {
+            gameObject.GetComponent<TowerData>().selectable = false;
+        }
+    }
 }
