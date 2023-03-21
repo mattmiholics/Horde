@@ -42,7 +42,7 @@ public class WaveSpawner : MonoBehaviour
     public UnityEvent WavesFinishedEvent;
 
     public bool infiniteWaveSpawning = false;
-    private bool infiniteStarted = false;
+    public bool infiniteStarted = false;
     private WaveData lastWave;
     private int spawnIndex = 0;
 

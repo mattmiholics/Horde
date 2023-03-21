@@ -64,5 +64,6 @@ public class GameManager : MonoBehaviour
             UI.SetActive(true);
         Time.timeScale = 0f;
         WaveSpawner.Instance.infiniteWaveSpawning = true;
+        WaveSpawner.Instance.infiniteStarted = true;
     }
 }
