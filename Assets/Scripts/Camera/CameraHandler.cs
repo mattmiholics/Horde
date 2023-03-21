@@ -491,7 +491,7 @@ public class CameraHandler : MonoBehaviour
 
             if (look.magnitude > 0)
             {
-                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.21f * look.x * (_rotateAlt.IsPressed() ? 0.21f : 1) * rotationSensetivity, 0); //this is main horizontal rotate
+                _rigidbodyYRotate.angularVelocity = new Vector3(0, 0.05f * look.x * rotationSensetivity, 0); //this is main horizontal rotate
             }
             else
             {
