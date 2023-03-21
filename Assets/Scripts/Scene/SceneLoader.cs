@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField, ReadOnly] private List<AsyncOperation> scenesLoading;
     [Space]
     public GameObject loadScreen;
+    public LoadingScreenImages loadingScreenImages;
     public Slider progressBar;
     public TextMeshProUGUI progressText;
 
@@ -65,6 +66,9 @@ public class SceneLoader : MonoBehaviour
 
         if (_loadingProgress != null) { StopCoroutine(_loadingProgress); }
         _loadingProgress = StartCoroutine(SceneLoadProgress());
+
+        if (loadingScreenImages)
+            loadingScreenImages.SetImage(currentScene);
     }
 
     public void LoadScreenless(string scene, bool unloadCurrent = false)
@@ -87,6 +91,9 @@ public class SceneLoader : MonoBehaviour
 
         if (_loadingProgress != null) { StopCoroutine(_loadingProgress); }
         _loadingProgress = StartCoroutine(SceneLoadProgress());
+
+        if (loadingScreenImages)
+            loadingScreenImages.SetImage(currentScene);
     }
 
     public void LoadWorldScene(string scene, bool unloadCurrent = false)
@@ -101,6 +108,9 @@ public class SceneLoader : MonoBehaviour
 
         if (_loadingProgress != null) { StopCoroutine(_loadingProgress); }
         _loadingProgress = StartCoroutine(SceneLoadProgress());
+
+        if (loadingScreenImages)
+            loadingScreenImages.SetImage(currentScene);
     }
 
     public void Unload(string scene)
