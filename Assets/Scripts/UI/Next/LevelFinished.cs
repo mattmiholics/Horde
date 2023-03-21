@@ -32,5 +32,6 @@ public class LevelFinished : MonoBehaviour
     {
         Time.timeScale = 1f;
         nextWaveButton.SetActive(true);
+        WaveSpawner.Instance.infiniteWaveSpawning = true;
     }
 }
