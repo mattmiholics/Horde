@@ -163,7 +163,7 @@ public class GraphicsOptions : MonoBehaviour
         if (PlayerPrefs.HasKey(RESOLUTION))
             resolution.value = PlayerPrefs.GetFloat(RESOLUTION);
         else
-            resolution.value = 2f;
+            resolution.value = 1f;
         UpdateRenderScale(resolution.value);
 
         if (PlayerPrefs.HasKey(SHADOW_DISTANCE))
@@ -228,7 +228,7 @@ public class GraphicsOptions : MonoBehaviour
 
     public void ResetSettings()
     {
-        resolution.value = 2f;
+        resolution.value = 1f;
         UpdateRenderScale(resolution.value);
         shadowDistance.value = 75f;
         UpdateShadowDistance(shadowDistance.value);

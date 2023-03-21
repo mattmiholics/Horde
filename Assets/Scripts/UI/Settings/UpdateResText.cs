@@ -11,6 +11,6 @@ public class UpdateResText : MonoBehaviour
     }
     public void UpdateResScale(float newValue)
     {
-        numberText.text = (Mathf.Round(newValue * 50)).ToString();
+        numberText.text = (Mathf.Round(newValue * 100)).ToString();
     }
 }

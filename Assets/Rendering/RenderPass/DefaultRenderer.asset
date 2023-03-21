@@ -208,12 +208,12 @@ MonoBehaviour:
     UseDeferredRendering: 1
     RenderPassEvent: 500
     SSGIRangeMin: 35
-    SSGIRangeMax: 80
+    SSGIRangeMax: 75
     ShadowMinDistace: 35
     ShadowMaxDistace: 50
     ScanDepth2DRangeFactor: 0.14
     Orthographic2DRangeFactor: 0.15
-    Quality: {fileID: 11400000, guid: 3d85b0f53f6c88a428cf27af4b910554, type: 2}
+    Quality: {fileID: 11400000, guid: eebfd7413cfac6c4cbe43f5a0b1f27b1, type: 2}
     Lighting: {fileID: 11400000, guid: 87a3603b30103244b85aa87abba306d3, type: 2}
     Advanced: {fileID: 11400000, guid: e3eaae48796cb794287872d89fae0cfd, type: 2}
     Raymarch: {fileID: 11400000, guid: 331462db27454714d9c0f2058a8e42b1, type: 2}
