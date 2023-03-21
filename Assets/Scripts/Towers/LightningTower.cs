@@ -217,7 +217,7 @@ public class LightningTower : MonoBehaviour
             foreach (GameObject hitEnemy in enemies)
             {
                 float storeVal = Vector3.Distance(prevTarget.transform.position, hitEnemy.gameObject.transform.position);
-                if (hitEnemy.gameObject.tag == "Enemy" && storeVal < relativeDist && hitEnemy.gameObject != prevTarget && !enemiesHit.Contains(hitEnemy.gameObject))
+                if (hitEnemy.gameObject.tag == "Enemy" && storeVal < relativeDist && hitEnemy.gameObject != prevTarget && !enemiesHit.Contains(hitEnemy.gameObject) && storeVal <= 15)
                 {
                     relativeDist = storeVal;
                     currentTarget = hitEnemy.gameObject;

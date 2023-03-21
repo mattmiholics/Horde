@@ -10390,9 +10390,9 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 100
+  damage: 50
   chainAmount: 9
-  chainDamage: 50
+  chainDamage: 35
   enemyTag: Enemy
   partToRotate: {fileID: 4597481348443422353}
   rotationSpeed: 7
@@ -10592,7 +10592,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  description: x2 Damage, +3 Bounces
+  description: +3 Bounces
 --- !u!120 &1632305269818597670
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -10755,7 +10755,7 @@ MonoBehaviour:
   range: 20
   damage: 50
   chainAmount: 6
-  chainDamage: 50
+  chainDamage: 35
   enemyTag: Enemy
   partToRotate: {fileID: 1681936080990683584}
   rotationSpeed: 7
@@ -15753,9 +15753,9 @@ MonoBehaviour:
   fireRate: 0.7
   fireReload: 0
   range: 20
-  damage: 25
+  damage: 50
   chainAmount: 3
-  chainDamage: 50
+  chainDamage: 30
   enemyTag: Enemy
   partToRotate: {fileID: 1266619448044666093}
   rotationSpeed: 7

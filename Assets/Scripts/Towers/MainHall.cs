@@ -17,7 +17,7 @@ public class MainHall : MonoBehaviour
 
     public void Update()
     {
-        healthBar.fillAmount = PlayerStats.Instance.lives / maxHealth;
+        healthBar.fillAmount = (float) PlayerStats.Instance.lives / maxHealth;
     }
 
 
