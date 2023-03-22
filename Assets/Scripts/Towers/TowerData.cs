@@ -140,6 +140,19 @@ public class TowerData : MonoBehaviour
             Main.SetActive(false);
             level++;
             Main.SetActive(true);
+            if (rangeSphere != null)
+            {
+                if (Main.GetComponentInChildren<Turret>() != null)
+                    rangeSphere.transform.localScale = new Vector3(Main.GetComponentInChildren<Turret>().range * 2, Main.GetComponentInChildren<Turret>().range * 2, Main.GetComponentInChildren<Turret>().range * 2);
+                else
+                    rangeSphere.transform.localScale = new Vector3(Main.GetComponentInChildren<LightningTower>().range * 2, Main.GetComponentInChildren<LightningTower>().range * 2, Main.GetComponentInChildren<LightningTower>().range * 2);
+                rangeSphere.SetActive(true);
+            }
+            if (Main.TryGetComponent(out Outline outline))
+            {
+                outline.OutlineColor = Color.yellow;
+                outline.enabled = true;
+            }
             upgrade.Invoke();
             
         }
