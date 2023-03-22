@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Sirenix.OdinInspector.Editor.Drawers;
 
 public class UpgradeBarracks : MonoBehaviour
 {
