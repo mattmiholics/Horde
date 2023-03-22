@@ -113,6 +113,9 @@ public class EditButtons : MonoBehaviour
     }
     public void ToggleDefault()
     {
+        if (popupHandler.animating)
+            return;
+
         reactivateIndex = -1;
 
         //disable other editors

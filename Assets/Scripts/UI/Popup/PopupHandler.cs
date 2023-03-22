@@ -22,13 +22,17 @@ public class PopupHandler : MonoBehaviour
     public UnityEvent PopupEnabled;
     [FoldoutGroup("Events")]
     public UnityEvent PopupDisabled;
+    [FoldoutGroup("Events")]
+    public UnityEvent PopupStartAnimating;
+    [FoldoutGroup("Events")]
+    public UnityEvent PopupStopAnimating;
 
     [HideInInspector]
     public InputActionMap[] disabledActionMaps;
 
     [ReadOnly] public int currentActive;
     [ReadOnly] public bool animating;
-    private bool activating;
+    [ReadOnly] public bool activating;
 
     private void Start()
     {
@@ -102,6 +106,8 @@ public class PopupHandler : MonoBehaviour
     private IEnumerator AwaitAnimation(int index)
     {
         activating = true;
+        PopupStartAnimating?.Invoke();
+
         if (index == currentActive) //if selected active needs to be deactivated
         {
             LoadSavedControls();
@@ -173,6 +179,7 @@ public class PopupHandler : MonoBehaviour
             return popupMovementTarget;
         }
 
+        PopupStopAnimating?.Invoke();
         activating = false;
 
         yield return null;

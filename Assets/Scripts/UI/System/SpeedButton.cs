@@ -52,7 +52,6 @@ public class SpeedButton : SerializedMonoBehaviour
 
     private void ResetTimeSpeed()
     {
-        Debug.Log("reset");
         speedsIndex = 0;
 
         Time.timeScale = currentTimeSpeed;
