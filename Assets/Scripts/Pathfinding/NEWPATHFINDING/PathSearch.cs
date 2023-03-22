@@ -148,7 +148,7 @@ public static class PathSearch
         if (SizeCheck(ref lastPoint, pfType, world, ignoreVerticalCheck))
         {
             // ---------------------------------------------------------------//north//   /|\//    |// 
-            if (SizeCheck(ref north, pfType, world)
+            if (SizeCheck(ref north, lastPoint.point, pfType, world)
             && !closedPoints.Any(point => point.point == north)
             && !newOpenPoints.Any(point => point.point == north))
             {
@@ -160,7 +160,7 @@ public static class PathSearch
             }
 
             // south//    |//   \|///
-            if (SizeCheck(ref south, pfType, world)
+            if (SizeCheck(ref south, lastPoint.point, pfType, world)
             && !closedPoints.Any(point => point.point == south)
             && !newOpenPoints.Any(point => point.point == south))
             {
@@ -171,7 +171,7 @@ public static class PathSearch
                 , lastPoint));
             }
             // east//    ---->//   //
-            if (SizeCheck(ref east, pfType, world)
+            if (SizeCheck(ref east, lastPoint.point, pfType, world)
             && !closedPoints.Any(point => point.point == east)
             && !newOpenPoints.Any(point => point.point == east))
             {
@@ -182,7 +182,7 @@ public static class PathSearch
                 , lastPoint));
             }
             // west//    <----//   //
-            if (SizeCheck(ref west, pfType, world)
+            if (SizeCheck(ref west, lastPoint.point, pfType, world)
             && !closedPoints.Any(point => point.point == west)
             && !newOpenPoints.Any(point => point.point == west))
             {
@@ -198,14 +198,14 @@ public static class PathSearch
         return newOpenPoints;
     }
 
-    private static bool SizeCheck(ref Vector3Int point, SPathFinderType type, World world, bool ignoreVerticalCheck = false)
+    private static bool SizeCheck(ref Vector3Int point, Vector3Int pointRel, SPathFinderType type, World world, bool ignoreVerticalCheck = false)
     {
-        if (!ignoreVerticalCheck && !VerticalCheck(ref point, type, world))
+        if (!ignoreVerticalCheck && !VerticalCheck(ref point, pointRel, type, world))
             return false;
 
         for (int i = 0; i < type.characterHeight; i++)
         {
-            BlockType blockType = WorldDataHelper.GetBlock(world, point);
+            BlockType blockType = WorldDataHelper.GetBlock(world, point + new Vector3Int(0, i, 0));
             if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier)
             {
                 return false;
@@ -217,7 +217,7 @@ public static class PathSearch
     private static bool SizeCheck(ref PathPoint pathpoint, SPathFinderType type, World world, bool ignoreVerticalCheck = false)
     {
         Vector3Int point = pathpoint.point;
-        bool sizeCheckBool = SizeCheck(ref point, type, world, ignoreVerticalCheck);
+        bool sizeCheckBool = SizeCheck(ref point, Vector3Int.zero, type, world, ignoreVerticalCheck); //Relative point doesn't matter here since we only ever use this function to check the current point and not neighbor points
         pathpoint.point = point;
 
         // Need to update hueristics here too
@@ -225,9 +225,10 @@ public static class PathSearch
         return sizeCheckBool;
     }
 
-    private static bool VerticalCheck(ref Vector3Int point, SPathFinderType type, World world)
+    private static bool VerticalCheck(ref Vector3Int point, Vector3Int pointRel, SPathFinderType type, World world)
     {
         BlockType blockType = WorldDataHelper.GetBlock(world, point);
+        BlockType blockTypeRel = BlockType.Air;
 
         if (blockType != BlockType.Air && blockType != BlockType.Soft_Barrier) // Current block is filled so check for jump height
         {
@@ -236,8 +237,18 @@ public static class PathSearch
                 blockType = WorldDataHelper.GetBlock(world, point + new Vector3Int(0, i, 0));
                 if (blockType == BlockType.Air || blockType == BlockType.Soft_Barrier)
                 {
+                    bool freeSpace = true; // Need to check if the block that they are jumping from is also free
+
+                    for(int y = 1; y <= i + type.characterHeight - 1; y++)
+                    {
+                        blockTypeRel = WorldDataHelper.GetBlock(world, pointRel + new Vector3Int(0, y, 0));
+                        if (blockTypeRel != BlockType.Air && blockTypeRel != BlockType.Soft_Barrier)
+                            freeSpace = false;
+                    }
+
                     point += new Vector3Int(0, i, 0);
-                    return true;
+
+                    return freeSpace;
                 }
             }
         }

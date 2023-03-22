@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class EnemyPathChecker : MonoBehaviour
 {
-    [ReadOnly] Transform target;
+    [ReadOnly, SerializeField] Transform target;
+    [SerializeField] int maxNodes = 1500;
 
     private static EnemyPathChecker _instance;
     public static EnemyPathChecker Instance { get { return _instance; } }
@@ -40,7 +41,7 @@ public class EnemyPathChecker : MonoBehaviour
 
         foreach(StaticAgent staticAgent in WaveSpawner.Instance.spawns.Select(a => a.GetComponent<StaticAgent>()).ToList())
         {
-            if (!staticAgent.SetTarget(staticAgent.currentTarget))
+            if (!staticAgent.SetTarget(staticAgent.currentTarget, maxNodes))
                 pathExists = false;
         }
 

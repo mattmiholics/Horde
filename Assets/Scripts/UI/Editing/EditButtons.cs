@@ -52,8 +52,23 @@ public class EditButtons : MonoBehaviour
             button.interactable = true;
         }
 
+        if (popupHandler.currentActive == terrainEditorPopupIndex)
+        {
+            TerrainEditor.Instance.DisableTerrainEditing();
+            reactivateIndex = terrainEditorPopupIndex;
+            popupHandler.ActivatePopup(popupHandler.currentActive);
+        }
+        if (popupHandler.currentActive == towerEditorPopupIndex)
+        {
+            TowerEditor.Instance.DisableTowerEditing();
+            reactivateIndex = towerEditorPopupIndex;
+            popupHandler.ActivatePopup(popupHandler.currentActive);
+        }
+
         if (currentOutline)
             currentOutline.SetActive(false);
+
+        currentOutline = null;
     }
 
     public void ResetMaps()
