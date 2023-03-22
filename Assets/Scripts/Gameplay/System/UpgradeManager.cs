@@ -212,7 +212,12 @@ public class UpgradeManager : MonoBehaviour
             PlayerStats.Instance.GetComponent<PlayerStats>().money -= cost;
             td.Upgrade();
             if (td.rangeSphere != null)
-                td.rangeSphere.transform.localScale = new Vector3(td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2);
+            {
+                if (towerDataSelected.Main.GetComponentInChildren<Turret>() != null)
+                    towerDataSelected.rangeSphere.transform.localScale = new Vector3(towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2, towerDataSelected.Main.GetComponentInChildren<Turret>().range * 2);
+                else
+                    towerDataSelected.rangeSphere.transform.localScale = new Vector3(towerDataSelected.Main.GetComponentInChildren<LightningTower>().range * 2, towerDataSelected.Main.GetComponentInChildren<LightningTower>().range * 2, towerDataSelected.Main.GetComponentInChildren<LightningTower>().range * 2);
+            }
             if (td.isMaxLevel) 
                 upgradeMenu.SetActive(false);
         }else if (PlayerStats.Instance.money < cost)

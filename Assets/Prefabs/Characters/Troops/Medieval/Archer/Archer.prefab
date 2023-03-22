@@ -56,7 +56,7 @@ MonoBehaviour:
   canAttack: 0
   health: 100
   attackCooldown: 1
-  range: 15
+  range: 10
   damage: 35
   isRanged: 1
   projectilePrefab: {fileID: 8952111980692290676, guid: 58698e2c35cf3524784a534a8ed2351a, type: 3}

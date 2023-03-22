@@ -10392,7 +10392,7 @@ MonoBehaviour:
   range: 20
   damage: 50
   chainAmount: 9
-  chainDamage: 35
+  chainDamage: 30
   enemyTag: Enemy
   partToRotate: {fileID: 4597481348443422353}
   rotationSpeed: 7
@@ -10542,7 +10542,7 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 8219686791443657272}
-  cost: 600
+  cost: 750
   level: 1
   type: Lightning
   size: {x: 2, y: 3, z: 2}
@@ -10561,10 +10561,10 @@ MonoBehaviour:
     costToLvl: 650
   - main: {fileID: 1697962925787256790}
     proxy: {fileID: 8667962083683961650}
-    costToLvl: 1000
+    costToLvl: 1350
   - main: {fileID: 7764855213982527556}
     proxy: {fileID: 5616121398132585574}
-    costToLvl: 1500
+    costToLvl: 2000
   upgrade:
     m_PersistentCalls:
       m_Calls:
@@ -10592,7 +10592,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  description: +3 Bounces
+  description: +3 Bounces, +Range, +Damage
 --- !u!120 &1632305269818597670
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -10752,10 +10752,10 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 0.7
   fireReload: 0
-  range: 20
+  range: 17
   damage: 50
   chainAmount: 6
-  chainDamage: 35
+  chainDamage: 20
   enemyTag: Enemy
   partToRotate: {fileID: 1681936080990683584}
   rotationSpeed: 7
@@ -15752,10 +15752,10 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 0.7
   fireReload: 0
-  range: 20
+  range: 15
   damage: 50
   chainAmount: 3
-  chainDamage: 30
+  chainDamage: 15
   enemyTag: Enemy
   partToRotate: {fileID: 1266619448044666093}
   rotationSpeed: 7

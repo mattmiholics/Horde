@@ -93,9 +93,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1
+  fireRate: 0.8
   fireReload: 0
-  range: 25
+  range: 15
   damage: 300
   enemyTag: Enemy
   partToRotate: {fileID: 117567090681730931}
@@ -1543,7 +1543,7 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 0.5
   fireReload: 0
-  range: 15
+  range: 10
   damage: 100
   enemyTag: Enemy
   partToRotate: {fileID: 1059197709588517820}
@@ -2191,7 +2191,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  description: +.25 Rate of Fire, +5 Range, +100 Damage
+  description: +Rate of Fire, +Range, +Damage
 --- !u!1 &6850438629435063811
 GameObject:
   m_ObjectHideFlags: 0
@@ -2789,9 +2789,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 0.75
+  fireRate: 0.65
   fireReload: 0
-  range: 20
+  range: 12
   damage: 200
   enemyTag: Enemy
   partToRotate: {fileID: 6194113013883389052}

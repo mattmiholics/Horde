@@ -38,10 +38,10 @@ public class GameManager : MonoBehaviour
         if (GameIsOver)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Backslash))
-        {
-            EndGame();
-        }
+        //if (Input.GetKeyDown(KeyCode.Backslash))
+        //{
+        //    EndGame();
+        //}
 
         if (PlayerStats.Instance.lives <= 0)
         {

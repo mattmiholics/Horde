@@ -408,9 +408,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1.5
+  fireRate: 1.8
   fireReload: 0
-  range: 15
+  range: 20
   damage: 100
   enemyTag: Enemy
   partToRotate: {fileID: 2372660282177081792}
@@ -1229,9 +1229,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1
+  fireRate: 1.25
   fireReload: 0
-  range: 15
+  range: 12
   damage: 50
   enemyTag: Enemy
   partToRotate: {fileID: 1059197709588517820}
@@ -1444,7 +1444,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fireRate: 1.25
+  fireRate: 1.5
   fireReload: 0
   range: 15
   damage: 75
@@ -1510,7 +1510,7 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 2778340600054471430}
-  cost: 300
+  cost: 400
   level: 1
   type: Archer
   size: {x: 2, y: 3, z: 2}
@@ -1526,7 +1526,7 @@ MonoBehaviour:
   upgradeDataList:
   - main: {fileID: 4953947662352260004}
     proxy: {fileID: 2393908278401241128}
-    costToLvl: 350
+    costToLvl: 400
   - main: {fileID: 626151332578261127}
     proxy: {fileID: 7451804328704762979}
     costToLvl: 700
@@ -1560,7 +1560,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  description: +.25 Fire Rate, +25 Damage
+  description: +Fire Rate, +Damage, +Range
 --- !u!1 &6494605159914280216
 GameObject:
   m_ObjectHideFlags: 0

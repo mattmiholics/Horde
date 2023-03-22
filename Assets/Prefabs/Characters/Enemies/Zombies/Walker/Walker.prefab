@@ -405,7 +405,7 @@ MonoBehaviour:
   Death:
     m_PersistentCalls:
       m_Calls: []
-  deathValue: 50
+  deathValue: 10
   deathEffect: {fileID: 4749312584868028727, guid: 2f8c91569cacfc34fa95ade5ae60b790, type: 3}
   aSource: {fileID: 3543203226564927523}
   clip: {fileID: 8300000, guid: d51f58d09307143948342cae5c3b505a, type: 3}

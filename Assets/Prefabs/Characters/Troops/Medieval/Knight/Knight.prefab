@@ -54,7 +54,7 @@ MonoBehaviour:
   debug: 0
   drawGizmos: 0
   canAttack: 0
-  health: 250
+  health: 300
   attackCooldown: 1
   range: 2
   damage: 50

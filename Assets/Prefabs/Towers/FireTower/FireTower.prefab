@@ -616,7 +616,7 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 0.5
   fireReload: 0
-  range: 40
+  range: 10
   damage: 25
   enemyTag: Enemy
   partToRotate: {fileID: 1059197709588517820}
@@ -684,7 +684,7 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 1.1
   fireReload: 0
-  range: 60
+  range: 15
   damage: 75
   enemyTag: Enemy
   partToRotate: {fileID: 3345525493414881168}
@@ -752,7 +752,7 @@ MonoBehaviour:
         m_CallState: 2
   fireRate: 0.8
   fireReload: 0
-  range: 50
+  range: 13
   damage: 50
   enemyTag: Enemy
   partToRotate: {fileID: 1797692411046737718}
@@ -816,7 +816,7 @@ MonoBehaviour:
   selectable: 1
   placeBarriers: 1
   upgradeUI: {fileID: 4191196401239573293}
-  cost: 750
+  cost: 600
   level: 1
   type: Fire
   size: {x: 2, y: 3, z: 2}
@@ -866,7 +866,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  description: +.3 Fire Rate, +10 Range, +25 Damage
+  description: +Fire Rate, +Range, +Damage
 --- !u!1 &6850486324523920190
 GameObject:
   m_ObjectHideFlags: 0

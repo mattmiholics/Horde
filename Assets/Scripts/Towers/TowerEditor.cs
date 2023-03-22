@@ -204,7 +204,13 @@ public class TowerEditor : MonoBehaviour
         td.Main.SetActive(false);
         td.Proxy.SetActive(true);
         if (td.rangeSphere != null)
+        {
+            if (td.Main.GetComponentInChildren<Turret>() != null)
+                td.rangeSphere.transform.localScale = new Vector3(td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2, td.Main.GetComponentInChildren<Turret>().range * 2);
+            else
+                td.rangeSphere.transform.localScale = new Vector3(td.Main.GetComponentInChildren<LightningTower>().range * 2, td.Main.GetComponentInChildren<LightningTower>().range * 2, td.Main.GetComponentInChildren<LightningTower>().range * 2);
             td.rangeSphere.SetActive(true);
+        }
         selectedTower.SetActive(false);
         materialActive = false;
 
