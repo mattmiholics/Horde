@@ -96,7 +96,7 @@ MonoBehaviour:
   fireRate: 0.8
   fireReload: 0
   range: 15
-  damage: 300
+  damage: 250
   enemyTag: Enemy
   partToRotate: {fileID: 117567090681730931}
   rotationSpeed: 7
@@ -2160,10 +2160,10 @@ MonoBehaviour:
     costToLvl: 500
   - main: {fileID: 4576380417986668235}
     proxy: {fileID: 1866555019348762128}
-    costToLvl: 1000
+    costToLvl: 400
   - main: {fileID: 4976240661349888383}
     proxy: {fileID: 4858220897988740334}
-    costToLvl: 1500
+    costToLvl: 650
   upgrade:
     m_PersistentCalls:
       m_Calls:
@@ -2792,7 +2792,7 @@ MonoBehaviour:
   fireRate: 0.65
   fireReload: 0
   range: 12
-  damage: 200
+  damage: 175
   enemyTag: Enemy
   partToRotate: {fileID: 6194113013883389052}
   rotationSpeed: 7

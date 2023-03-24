@@ -9,18 +9,13 @@ public class GameOver : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneLoader.SceneLoaded += RefreshText;
-    }
-
-    private void OnDisable()
-    {
-        SceneLoader.SceneLoaded -= RefreshText;
+        RefreshText();
     }
 
     public void RefreshText()
     {
         if (roundsText != null && PlayerStats.Instance != null)
-            roundsText.text = PlayerStats.Instance.rounds.ToString();
+            roundsText.text = (PlayerStats.Instance.rounds - 1).ToString();
     }
 
     public void Retry ()

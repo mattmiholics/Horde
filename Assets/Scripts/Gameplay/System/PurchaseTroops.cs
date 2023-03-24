@@ -60,11 +60,11 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnArcher()
     {
-        if (PlayerStats.Instance.money >= 200 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
+        if (PlayerStats.Instance.money >= 65 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
             troopQueue.Add(1);
-            PlayerStats.Instance.money -= 200;
+            PlayerStats.Instance.money -= 65;
             if (!trainingTroop)
             {
                 trainingTroop = true;
@@ -74,12 +74,12 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnKnight()
     {
-        if (PlayerStats.Instance.money >= 150 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
+        if (PlayerStats.Instance.money >= 50 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
 
             troopQueue.Add(2);
-            PlayerStats.Instance.money -= 150;
+            PlayerStats.Instance.money -= 50;
             if (!trainingTroop)
             {
                 trainingTroop = true;
@@ -89,12 +89,12 @@ public class PurchaseTroops : MonoBehaviour
 
     public void SpawnFireMage()
     {
-        if (PlayerStats.Instance.money >= 250 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
+        if (PlayerStats.Instance.money >= 80 && troopsActive < barracks.GetComponent<TowerData>().level * 10 && troopQueue.ToArray().Length < spawnQueueLimit)
         {
             troopsActive++;
 
             troopQueue.Add(3);
-            PlayerStats.Instance.money -= 250;
+            PlayerStats.Instance.money -= 80;
             if (!trainingTroop)
             {
                 trainingTroop = true;

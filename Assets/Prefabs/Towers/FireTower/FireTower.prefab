@@ -835,10 +835,10 @@ MonoBehaviour:
     costToLvl: 750
   - main: {fileID: 6909883108600440316}
     proxy: {fileID: 7719116132146860059}
-    costToLvl: 1200
+    costToLvl: 500
   - main: {fileID: 3560213310364313134}
     proxy: {fileID: 6850486324523920190}
-    costToLvl: 1750
+    costToLvl: 750
   upgrade:
     m_PersistentCalls:
       m_Calls:

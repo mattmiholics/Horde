@@ -3675,16 +3675,16 @@ MonoBehaviour:
     costToLvl: 0
   - main: {fileID: 8100170478254408496}
     proxy: {fileID: 4894028205403527938}
-    costToLvl: 700
+    costToLvl: 500
   - main: {fileID: 4015789766595179221}
     proxy: {fileID: 8576697640079408478}
-    costToLvl: 1500
+    costToLvl: 1100
   - main: {fileID: 8277979361321232828}
     proxy: {fileID: 3275363072556089656}
-    costToLvl: 2500
+    costToLvl: 1750
   - main: {fileID: 3214472055103129626}
     proxy: {fileID: 2547418533209860528}
-    costToLvl: 3700
+    costToLvl: 2500
   upgrade:
     m_PersistentCalls:
       m_Calls:
