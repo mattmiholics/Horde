@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class EditButtons : MonoBehaviour
 {
     public PopupHandler popupHandler;
+    public List<Button> editorButtons;
     public int towerEditorPopupIndex;
     public int terrainEditorPopupIndex;
     public List<Button> disabledDuringWave;
@@ -16,6 +17,8 @@ public class EditButtons : MonoBehaviour
 
     [HideInInspector]
     public GameObject currentOutline;
+
+    private bool currentlyDisabled;
 
     private static EditButtons _instance;
     public static EditButtons Instance { get { return _instance; } }
@@ -33,6 +36,8 @@ public class EditButtons : MonoBehaviour
             // Make this the instance
             _instance = this;
         }
+
+        currentlyDisabled = false;
     }
 
     private void OnEnable()
@@ -47,6 +52,8 @@ public class EditButtons : MonoBehaviour
 
     private void ResetButtons()
     {
+        currentlyDisabled = false;
+
         foreach (Button button in disabledDuringWave)
         {
             button.interactable = true;
@@ -75,6 +82,26 @@ public class EditButtons : MonoBehaviour
     {
         if (SceneInitialize.Instance != null)
             SceneInitialize.Instance.ResetMaps();
+    }
+
+    public void InteractableCheck(bool interactable)
+    {
+        foreach (Button button in editorButtons)
+        {
+            if (interactable)
+            {
+                if (disabledDuringWave.Contains(button))
+                {
+                    button.interactable = !currentlyDisabled;
+                }
+                else
+                    button.interactable = true;
+            }
+            else
+            {
+                button.interactable = false;
+            }
+        }
     }
 
     public void ToggleTerrainEditing()
@@ -113,9 +140,6 @@ public class EditButtons : MonoBehaviour
     }
     public void ToggleDefault()
     {
-        if (popupHandler.animating)
-            return;
-
         reactivateIndex = -1;
 
         //disable other editors
@@ -128,6 +152,8 @@ public class EditButtons : MonoBehaviour
 
     public void DisableButtons()
     {
+        currentlyDisabled = true;
+
         foreach (Button button in disabledDuringWave)
             button.interactable = false;
 
@@ -150,6 +176,8 @@ public class EditButtons : MonoBehaviour
 
     public void EnableButtons()
     {
+        currentlyDisabled = false;
+
         foreach (Button button in disabledDuringWave)
             button.interactable = true;
 
@@ -168,9 +196,6 @@ public class EditButtons : MonoBehaviour
 
     public void OutlineButton(GameObject outline)
     {
-        if (popupHandler.animating)
-            return;
-
         if (currentOutline)
             currentOutline.SetActive(false);
 
